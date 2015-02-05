@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Low-Level Renderer">
+      <UniqueIdentifier>{6db1e369-c88d-47bc-a4ac-50ae2a7d07fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core Systems">
+      <UniqueIdentifier>{decb073e-8a8f-4960-aa99-8029500da884}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{9791a14e-88fa-4d68-8e4f-994a7f36e93a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Profiling and Debugging">
+      <UniqueIdentifier>{39dac88e-4acc-48e3-8b75-13bb3fa4b158}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Human Interfaces">
+      <UniqueIdentifier>{ef83b0c7-988b-4a3d-9f6a-7dfa02a50ee2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision &amp; Physics">
+      <UniqueIdentifier>{ea55826e-28b6-4a18-870e-3ec8a10374af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene Graph">
+      <UniqueIdentifier>{13b1841d-c660-4861-b5a0-453ae8274e17}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="graphics_device_interface.h">
+      <Filter>Low-Level Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="EmawEngine.h">
+      <Filter>Core Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Core Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Core Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Core Systems</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="graphics_device_interface.cpp">
+      <Filter>Low-Level Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="EmawEngine.cpp">
+      <Filter>Core Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Core Systems</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="EmawEngine.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="EmawEngine.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
