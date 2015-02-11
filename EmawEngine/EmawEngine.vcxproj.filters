@@ -8,9 +8,6 @@
     <ClCompile Include="EmawEngine.cpp">
       <Filter>Core Systems</Filter>
     </ClCompile>
-    <ClCompile Include="FrameCounter.cpp">
-      <Filter>Debugging and Profiling</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -21,9 +18,6 @@
     </ClInclude>
     <ClInclude Include="EmawEngine.h">
       <Filter>Core Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="FrameCounter.h">
-      <Filter>Debugging and Profiling</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
