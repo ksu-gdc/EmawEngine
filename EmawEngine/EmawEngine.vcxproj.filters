@@ -8,6 +8,7 @@
     <ClCompile Include="EmawEngine.cpp">
       <Filter>Core Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Asset.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -19,6 +20,7 @@
     <ClInclude Include="EmawEngine.h">
       <Filter>Core Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Asset.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
