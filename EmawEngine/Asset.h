@@ -7,6 +7,8 @@
 class Asset{
 private:
 public:
+	Asset();
+	~Asset();
 	virtual void* load(char*);
 
 };
