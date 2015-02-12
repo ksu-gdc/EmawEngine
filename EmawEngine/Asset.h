@@ -9,6 +9,6 @@ private:
 public:
 	Asset();
 	~Asset();
-	virtual void* load(char*);
+	virtual void* load(char*)  =0;
 
 };
