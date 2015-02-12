@@ -10,5 +10,5 @@ public:
 	Asset();
 	~Asset();
 	virtual void* load(char*) = 0;
-	virtual void unload() = 0;
+	virtual bool unload() = 0;
 };
