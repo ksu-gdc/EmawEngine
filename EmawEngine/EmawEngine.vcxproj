@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Asset.h" />
+    <ClInclude Include="AssetManager.h" />
     <ClInclude Include="EmawEngine.h" />
     <ClInclude Include="graphics_device_interface.h" />
     <ClInclude Include="Resource.h" />
@@ -87,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset.cpp" />
+    <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="EmawEngine.cpp" />
     <ClCompile Include="graphics_device_interface.cpp" />
     <ClCompile Include="stdafx.cpp">

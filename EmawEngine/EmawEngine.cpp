@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "EmawEngine.h"
+#include "AssetManager.h"
 
 #define MAX_LOADSTRING 100
 
@@ -46,6 +47,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		return FALSE;
 	}
 
+	AssetManager *pAssetManager = AssetManager::getInstance();
+	
 	
 	// Main game loop:
 	while(true)
