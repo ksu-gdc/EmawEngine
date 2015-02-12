@@ -7,11 +7,10 @@
 AssetManager::AssetManager()
 {
 	typedef std::pair< std::string, std::string > AssetPair;
-	stdext::hash_map< std::string, std::string > Dictionary;
 
-	Dictionary.insert(AssetPair("Test", "1"));
-	Dictionary.insert(AssetPair("Testt", "2"));
-	Dictionary.insert(AssetPair("Testtt", "3"));
+	dictionary.insert(AssetPair("Test", "1"));
+	dictionary.insert(AssetPair("Testt", "2"));
+	dictionary.insert(AssetPair("Testtt", "3"));
 }
 
 
@@ -32,6 +31,12 @@ AssetManager* AssetManager::getInstance()
 	return instance;
 }
 
+// Print out our dictionary into the std::cout
 void AssetManager::printDictionary() {
-
+	stdext::hash_map< std::string, std::string  >::iterator iter;
+	for (iter = dictionary.begin(); iter != dictionary.end(); iter++)
+	{
+		std::string test = iter->first;
+		std::string test1 = iter->second;
+	}
 }

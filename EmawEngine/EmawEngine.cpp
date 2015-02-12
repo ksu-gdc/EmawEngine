@@ -48,7 +48,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	AssetManager *pAssetManager = AssetManager::getInstance();
-	
+	pAssetManager->printDictionary();
 	
 	// Main game loop:
 	while(true)
