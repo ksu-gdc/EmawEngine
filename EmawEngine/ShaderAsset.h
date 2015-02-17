@@ -1,13 +1,18 @@
 #pragma once
 #include "Asset.h"
-class ShaderAsset :
-	public Asset
+#include "graphics_device_interface.h"
+#include "EmawEngine.h"
+class ShaderAsset : public Asset
 {
 private:
 
 public:
-	ShaderAsset();
+	ShaderStruct Shaders;
+	ShaderAsset(GraphicsDeviceInterface*);
 	~ShaderAsset();
+	void* load(char*);
+	void* getData();
+	bool unload();
 
 };
 

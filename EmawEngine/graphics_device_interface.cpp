@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "graphics_device_interface.h"
 
-GraphicsDeviceInterface::GraphicsDeviceInterface() {}
+GraphicsDeviceInterface::GraphicsDeviceInterface() {
+}
 
 GraphicsDeviceInterface::~GraphicsDeviceInterface() {}
 
@@ -71,6 +72,41 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd) {
 	return TRUE;
 }
 
+void GraphicsDeviceInterface::InitPipeline()
+{
+	//load shaders
+	ShaderStruct *blah = (ShaderStruct*)shdrs.load("shaders.shader");
+
+	m_Context->VSSetShader(blah->VertShader, 0, 0);
+	m_Context->PSSetShader(blah->PixShader, 0, 0);
+
+	m_Context->IASetInputLayout(blah->InputLayout);
+}
+
+void GraphicsDeviceInterface::InitGraphics(void)
+{
+	//the triangle
+	VERTEX OurVertices[] = {
+			{ 0.0f, 0.5f, 0.0f, D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) },
+			{ 0.45f, -0.5f, 0.0f, D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f) },
+			{ -0.45f, -0.5f, 0.0f, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f) }
+	};
+
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+
+	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
+	bd.ByteWidth = sizeof(VERTEX) * 3;             // size is the VERTEX struct * 3
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
+
+	m_Device->CreateBuffer(&bd, NULL, &m_VertBuffer);       // create the buffer
+
+	D3D11_MAPPED_SUBRESOURCE ms;
+	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
+	memcpy(ms.pData, OurVertices, sizeof(OurVertices));                // copy the data
+	m_Context->Unmap(m_VertBuffer, NULL);
+}
 
 //
 // FUNCTION: GraphicsDeviceInterface::Shutdown()
