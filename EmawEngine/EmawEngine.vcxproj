@@ -42,6 +42,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);E:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);E:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -81,6 +83,7 @@
     <ClInclude Include="Asset.h" />
     <ClInclude Include="EmawEngine.h" />
     <ClInclude Include="graphics_device_interface.h" />
+    <ClInclude Include="HelperStructs.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ShaderAsset.h" />
     <ClInclude Include="stdafx.h" />

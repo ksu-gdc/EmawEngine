@@ -23,6 +23,7 @@
     </ClInclude>
     <ClInclude Include="Asset.h" />
     <ClInclude Include="ShaderAsset.h" />
+    <ClInclude Include="HelperStructs.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
