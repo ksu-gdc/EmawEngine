@@ -75,7 +75,7 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd) {
 void GraphicsDeviceInterface::InitPipeline()
 {
 	//load shaders
-	ShaderStruct *blah = (ShaderStruct*)shdrs.load("shaders.shader");
+	ShaderStruct *blah = (ShaderStruct*)shdrs->load("shaders.shader");
 
 	m_Context->VSSetShader(blah->VertShader, 0, 0);
 	m_Context->PSSetShader(blah->PixShader, 0, 0);

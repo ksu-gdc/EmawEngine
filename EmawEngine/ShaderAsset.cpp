@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "ShaderAsset.h"
+#include "graphics_device_interface.h"
 
-
-ShaderAsset::ShaderAsset(GraphicsDeviceInterface* const gdi)
+ShaderAsset::ShaderAsset(GraphicsDeviceInterface *gdi)
 {
 	gInterface = gdi;
 	ZeroMemory(&Shaders, sizeof(Shaders));
@@ -25,11 +25,8 @@ void* ShaderAsset::load(char* filename)
 	D3DX11CompileFromFile(wcstring, 0, 0, "VShader", "vs_4_0", 0, 0, 0, &VS, 0, 0);
 	D3DX11CompileFromFile(wcstring, 0, 0, "PShader", "ps_4_0", 0, 0, 0, &PS, 0, 0);
 
-}
 
-bool ShaderAsset::Asset::unload()
-{
-
+//	GraphicsDeviceInterface* gInterface = (GraphicsDeviceInterface*)gInterface;
 	gInterface->m_Device->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &Shaders.VertShader);
 	gInterface->m_Device->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &Shaders.PixShader);
 
