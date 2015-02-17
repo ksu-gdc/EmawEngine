@@ -3,6 +3,8 @@
 
 #include "stdafx.h"
 #include "EmawEngine.h"
+#include <string>
+#include <atlstr.h>
 
 #define MAX_LOADSTRING 100
 
@@ -12,6 +14,7 @@ HWND hWnd;										// window handle
 TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
 GraphicsDeviceInterface gdi;					// the Graphics Device Inteface
+WindowSize wind;								// window size object
 
 // Forward declarations of functions included in this code module:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
@@ -45,8 +48,11 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	{
 		return FALSE;
 	}
-
 	
+	int test = wind.getHeight();
+	OutputDebugString(CString(std::to_string(test).c_str()));
+	OutputDebugString(CString("\n"));
+
 	// Main game loop:
 	while(true)
 	{
@@ -112,8 +118,18 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // Store instance handle in our global variable
 
-   hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+   hWnd = CreateWindow(
+	   szWindowClass,
+	   szTitle,
+	   WS_OVERLAPPEDWINDOW,
+	   CW_USEDEFAULT,
+	   0,
+	   CW_USEDEFAULT,
+	   0,
+	   NULL,
+	   NULL,
+	   hInstance,
+	   NULL);
 
    if (!hWnd)
    {
