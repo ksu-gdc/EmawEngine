@@ -1,14 +1,18 @@
 #pragma once
-#include <hash_map>;
+#include <map>;
+#include "Asset.h"
 class AssetManager
 {
 private:
 	static bool instanceFlag;
 	static AssetManager *instance;
-	stdext::hash_map< std::string, std::string > dictionary;
+
+	std::map <std::string, Asset*> assets;
+	std::string rootAssetFolder;
 	AssetManager();
 public:
 	static AssetManager* getInstance();
-	void printDictionary();
+	void setRootFolder(std::string path);
+	Asset* getAsset(std::string name);
 	~AssetManager();
 };
