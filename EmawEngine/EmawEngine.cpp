@@ -158,6 +158,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	// Handles keydown messages - currently used for testing resolution changes
+#pragma region KEYDOWN message
 	case WM_KEYDOWN:
 		switch (wParam)
 		{
@@ -185,6 +186,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			OutputDebugString(CString((std::to_string(wParam) + "\n").c_str()));
 			break;
 		}
+		break;
+#pragma endregion
 	case WM_COMMAND:
 		wmId    = LOWORD(wParam);
 		wmEvent = HIWORD(wParam);
