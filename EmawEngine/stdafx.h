@@ -20,5 +20,7 @@
 
 // TODO: reference additional headers your program requires here
 #include <d3d11.h>
+#include <string>
+#include <atlstr.h>
 
 #pragma comment(lib, "d3d11.lib")

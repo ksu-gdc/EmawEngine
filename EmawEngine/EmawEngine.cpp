@@ -3,8 +3,6 @@
 
 #include "stdafx.h"
 #include "EmawEngine.h"
-#include <string>
-#include <atlstr.h>
 
 #define MAX_LOADSTRING 100
 
