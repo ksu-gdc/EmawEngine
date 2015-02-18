@@ -3,6 +3,7 @@
 #define GRAPHICS_DEVICE_INTERFACE_H
 
 #include <d3d11.h>
+#include "WindowSize.h"
 
 /* Globals */
 
@@ -13,7 +14,7 @@ public:
 	GraphicsDeviceInterface();
 	~GraphicsDeviceInterface();
 
-	bool Initialize(HWND);
+	bool Initialize(HWND, WindowSize*);
 	void Shutdown();
 	void NextFrame();
 

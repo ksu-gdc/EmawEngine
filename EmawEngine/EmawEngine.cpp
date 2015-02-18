@@ -42,7 +42,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	// Perform graphics initialization
-	if (!gdi.Initialize(hWnd))
+	if (!gdi.Initialize(hWnd, &wind))
 	{
 		return FALSE;
 	}
@@ -112,14 +112,17 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // Store instance handle in our global variable
 
+   RECT wr = { 0, 0, wind.getWidth(), wind.getHeight() };
+   AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
+
    hWnd = CreateWindow(
 	   szWindowClass,
 	   szTitle,
 	   WS_OVERLAPPEDWINDOW,
 	   CW_USEDEFAULT,
 	   0,
-	   CW_USEDEFAULT,
-	   0,
+	   wr.right - wr.left,
+	   wr.bottom - wr.top,
 	   NULL,
 	   NULL,
 	   hInstance,

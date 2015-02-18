@@ -10,7 +10,7 @@ GraphicsDeviceInterface::~GraphicsDeviceInterface() {}
 //
 // PURPOSE: Initializes Direct3D
 // 
-bool GraphicsDeviceInterface::Initialize(HWND hWnd) {
+bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 	HRESULT hResult;
 
 	// Create swap chain info struct
@@ -22,6 +22,8 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd) {
 	// Set the swap chain values
 	scd.BufferCount = 1;								// one back buffer
 	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;	// use 32 bit color
+	scd.BufferDesc.Width = wind->getWidth();
+	scd.BufferDesc.Height = wind->getHeight();
 	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;	// swap chain is output
 	scd.OutputWindow = hWnd;							// window to render into
 	scd.SampleDesc.Count = 4;							// use 4 multisamples for antialiasing
@@ -63,8 +65,8 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd) {
 
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
-	viewport.Width = 800;
-	viewport.Height = 600;
+	viewport.Width = wind->getWidth();
+	viewport.Height = wind->getHeight();
 
 	m_Context->RSSetViewports(1, &viewport);
 
