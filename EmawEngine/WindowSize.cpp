@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "WindowSize.h"
 
-const int WindowSize::wResolution[] = { 800,	1280,	1024,	1600 };
-const int WindowSize::hResolution[] = { 600,	960,	576,	900 };
+const int WindowSize::wResolution[] = { 800, 1280,	1024,	1600 };
+const int WindowSize::hResolution[] = { 600, 960,	576,	900 };
 
 WindowSize::WindowSize()
 {
@@ -28,15 +28,20 @@ RES WindowSize::getResolution()
 
 void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution)
 {
+	// Check to see resolution needs to be changed
 	if (this->resolution != resolution)
 	{
+		// changes width and height
 		forceSize(resolution);
 
+		// release old gdi resources
 		gdi->Shutdown();
 
+		// create adjusted rectangle for window sizing
 		RECT wr = { 0, 0, width, height };
-		AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
+		AdjustWindowRect(&wr, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX, FALSE);
 
+		// change window size
 		SetWindowPos(hWnd,
 			NULL,
 			0, 0,
@@ -44,6 +49,7 @@ void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution
 			wr.bottom - wr.top,
 			SWP_NOMOVE);
 
+		// reinitialize resources
 		gdi->Initialize(hWnd, this);
 	}
 }

@@ -157,7 +157,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	switch (message)
 	{
-	// Handles keydown messages
+	// Handles keydown messages - currently used for testing resolution changes
 	case WM_KEYDOWN:
 		switch (wParam)
 		{
