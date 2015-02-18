@@ -2,11 +2,15 @@
 #include "WindowSize.h"
 
 
+const int WindowSize::wResolution[] = { 800,	1280,	1024,	1600 };
+const int WindowSize::hResolution[] = { 600,	960,	576,	900 };
+
 WindowSize::WindowSize()
 {
-	this->setSize(800, 600);
+	this->forceSize(LOW_4_3);
 }
 
+#pragma region getters
 int WindowSize::getWidth()
 {
 	return width;
@@ -17,10 +21,25 @@ int WindowSize::getHeight()
 	return height;
 }
 
-void WindowSize::setSize(int width, int height)
+RES WindowSize::getResolution()
 {
-	this->width = width;
-	this->height = height;
+	return resolution;
+}
+#pragma endregion contains get functions for variables
+
+void WindowSize::setSize(RES resolution)
+{
+	if (this->resolution != resolution)
+	{
+		forceSize(resolution);
+	}
+}
+
+void WindowSize::forceSize(RES resolution)
+{
+	this->width = wResolution[resolution];
+	this->height = hResolution[resolution];
+	this->resolution = resolution;
 }
 
 WindowSize::~WindowSize()

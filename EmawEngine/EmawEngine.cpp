@@ -159,19 +159,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case 96: // Num-0
+			wind.setSize(LOW_4_3);
 			OutputDebugString(CString("0\n"));
 			break;
 		case 97: // Num-1
+			wind.setSize(HIGH_4_3);
 			OutputDebugString(CString("1\n"));
 			break;
 		case 98: // Num-2
+			wind.setSize(LOW_16_9);
 			OutputDebugString(CString("2\n"));
 			break;
 		case 99: // Num-3
-			OutputDebugString(CString("3\n"));
+			OutputDebugString(CString((std::to_string(wind.getWidth()) + "\n").c_str()));
 			break;
 		case 100: // Num-4
-			OutputDebugString(CString("4\n"));
+			OutputDebugString(CString((std::to_string(wind.getHeight()) + "\n").c_str()));
 			break;
 		default:
 			OutputDebugString(CString((std::to_string(wParam) + "\n").c_str()));
