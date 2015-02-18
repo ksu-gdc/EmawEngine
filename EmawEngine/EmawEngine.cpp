@@ -29,7 +29,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// TODO: Place code here.
 	MSG msg;
-
+	
 	// Initialize global strings
 	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
 	LoadString(hInstance, IDC_EMAW_ENGINE, szWindowClass, MAX_LOADSTRING);
@@ -113,12 +113,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // Store instance handle in our global variable
 
    RECT wr = { 0, 0, wind.getWidth(), wind.getHeight() };
-   AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
+   AdjustWindowRect(&wr, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX, FALSE);
 
    hWnd = CreateWindow(
 	   szWindowClass,
 	   szTitle,
-	   WS_OVERLAPPEDWINDOW,
+	   WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,
 	   CW_USEDEFAULT,
 	   0,
 	   wr.right - wr.left,
@@ -162,22 +162,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (wParam)
 		{
 		case 96: // Num-0
-			wind.setSize(LOW_4_3);
 			OutputDebugString(CString("0\n"));
+			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
 			break;
 		case 97: // Num-1
-			wind.setSize(HIGH_4_3);
-			OutputDebugString(CString("1\n"));
+			wind.setSize(hWnd, &gdi, LOW_4_3);
+			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
 			break;
 		case 98: // Num-2
-			wind.setSize(LOW_16_9);
-			OutputDebugString(CString("2\n"));
+			wind.setSize(hWnd, &gdi, HIGH_4_3);
+			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
 			break;
 		case 99: // Num-3
-			OutputDebugString(CString((std::to_string(wind.getWidth()) + "\n").c_str()));
+			wind.setSize(hWnd, &gdi, LOW_16_9);
+			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
 			break;
 		case 100: // Num-4
-			OutputDebugString(CString((std::to_string(wind.getHeight()) + "\n").c_str()));
+			wind.setSize(hWnd, &gdi, HIGH_16_9);
+			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
 			break;
 		default:
 			OutputDebugString(CString((std::to_string(wParam) + "\n").c_str()));

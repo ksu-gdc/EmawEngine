@@ -2,6 +2,9 @@
 #ifndef WINDOW_SIZE_H
 #define WINDOW_SIZE_H
 
+/* forward declaractions */
+class GraphicsDeviceInterface;
+
 /* Globals */
 enum RES { LOW_4_3, HIGH_4_3, LOW_16_9, HIGH_16_9 };
 
@@ -15,10 +18,10 @@ public:
 	int getWidth();
 	int getHeight();
 	RES getResolution();
-	void setSize(RES resolution);
+	void setSize(HWND, GraphicsDeviceInterface*, RES);
 
 private:
-	void forceSize(RES resolution);
+	void forceSize(RES);
 
 	int width;
 	int height;

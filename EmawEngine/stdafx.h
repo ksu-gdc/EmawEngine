@@ -22,5 +22,7 @@
 #include <d3d11.h>
 #include <string>
 #include <atlstr.h>
+#include "WindowSize.h"
+#include "graphics_device_interface.h"
 
 #pragma comment(lib, "d3d11.lib")

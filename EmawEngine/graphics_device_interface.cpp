@@ -65,8 +65,8 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
-	viewport.Width = wind->getWidth();
-	viewport.Height = wind->getHeight();
+	viewport.Width = (float)wind->getWidth();
+	viewport.Height = (float)wind->getHeight();
 
 	m_Context->RSSetViewports(1, &viewport);
 

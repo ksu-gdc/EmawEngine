@@ -3,7 +3,6 @@
 #define GRAPHICS_DEVICE_INTERFACE_H
 
 #include <d3d11.h>
-#include "WindowSize.h"
 
 /* Globals */
 
