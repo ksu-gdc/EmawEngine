@@ -48,10 +48,6 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	{
 		return FALSE;
 	}
-	
-	int test = wind.getHeight();
-	OutputDebugString(CString(std::to_string(test).c_str()));
-	OutputDebugString(CString("\n"));
 
 	// Main game loop:
 	while(true)
@@ -160,6 +156,29 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	switch (message)
 	{
+	// Handles keydown messages
+	case WM_KEYDOWN:
+		switch (wParam)
+		{
+		case 96: // Num-0
+			OutputDebugString(CString("0\n"));
+			break;
+		case 97: // Num-1
+			OutputDebugString(CString("1\n"));
+			break;
+		case 98: // Num-2
+			OutputDebugString(CString("2\n"));
+			break;
+		case 99: // Num-3
+			OutputDebugString(CString("3\n"));
+			break;
+		case 100: // Num-4
+			OutputDebugString(CString("4\n"));
+			break;
+		default:
+			OutputDebugString(CString((std::to_string(wParam) + "\n").c_str()));
+			break;
+		}
 	case WM_COMMAND:
 		wmId    = LOWORD(wParam);
 		wmEvent = HIWORD(wParam);
