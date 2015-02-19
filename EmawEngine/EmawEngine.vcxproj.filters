@@ -9,6 +9,21 @@
       <Filter>Core Systems</Filter>
     </ClCompile>
     <ClCompile Include="Asset.cpp" />
+    <ClCompile Include="Sound.cpp">
+      <Filter>AudioRenderer\Sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>AudioRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>AudioRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioRenderer.cpp">
+      <Filter>AudioRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <Filter>AudioRenderer\Test</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -21,6 +36,24 @@
       <Filter>Core Systems</Filter>
     </ClInclude>
     <ClInclude Include="Asset.h" />
+    <ClInclude Include="Music.h">
+      <Filter>AudioRenderer\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>AudioRenderer\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>AudioRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>AudioRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioRenderer.h">
+      <Filter>AudioRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="SFX.h">
+      <Filter>AudioRenderer\Sounds</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
@@ -47,6 +80,15 @@
     </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{7cb0be83-89c8-4854-831f-8a7b140301f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AudioRenderer">
+      <UniqueIdentifier>{48c453cf-f857-40bb-bd14-897b3c400f85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AudioRenderer\Sounds">
+      <UniqueIdentifier>{cfc91d84-e3d4-4377-8444-6201f9f4ff22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AudioRenderer\Test">
+      <UniqueIdentifier>{d90f7724-5e5c-4fa8-a8a0-d8bb0b592cb3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
