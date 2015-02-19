@@ -8,6 +8,7 @@ AssetManager* AssetManager::instance = NULL;
 
 AssetManager::AssetManager()
 {
+	rootAssetFolder = "C:\\Users";
 }
 
 
@@ -46,7 +47,7 @@ Asset* AssetManager::load(std::string name) {
 // Checks for and then loads a file
 Asset* AssetManager::loadFromFile(std::string name) {
 	Asset* asset = NULL;
-
+	name = rootAssetFolder + "\\" + name;
 	// Check if the file exists
 	if (std::ifstream(name).good()) {
 		// Get the extension and call the appropraite method
@@ -67,61 +68,61 @@ Asset* AssetManager::loadFromFile(std::string name) {
 }
 
 // Textures ====================================
-Asset* AssetManager::loadTexture(std::string) {
+Asset* AssetManager::loadTexture(std::string name) {
 	Asset* asset = NULL;
 	//TODO: Load asset
 	return asset;
 }
-void AssetManager::unloadTexture(std::string) {
+void AssetManager::unloadTexture(std::string name) {
 	//TODO: Unload asset
 }
 
 // Shaders ====================================
-Asset* AssetManager::loadShader(std::string) {
+Asset* AssetManager::loadShader(std::string name) {
 	Asset* asset = NULL;
 	//TODO: Load asset
 	return asset;
 }
-void AssetManager::unloadShader(std::string) {
+void AssetManager::unloadShader(std::string name) {
 	//TODO: Unload asset
 }
 
 // Music ====================================
-Asset* AssetManager::loadMusic(std::string) {
+Asset* AssetManager::loadMusic(std::string name) {
 	Asset* asset = NULL;
 	//TODO: Load asset
 	return asset;
 }
-void AssetManager::unloadMusic(std::string) {
+void AssetManager::unloadMusic(std::string name) {
 	//TODO: Unload asset
 }
 
 // SoundFX ====================================
-Asset* AssetManager::loadSoundFX(std::string) {
+Asset* AssetManager::loadSoundFX(std::string name) {
 	Asset* asset = NULL;
 	//TODO: Load asset
 	return asset;
 }
-void AssetManager::unloadSoundFX(std::string) {
+void AssetManager::unloadSoundFX(std::string name) {
 	//TODO: Unload asset
 }
 
 // VoxelMap ====================================
-Asset* AssetManager::loadVoxelMap(std::string) {
+Asset* AssetManager::loadVoxelMap(std::string name) {
 	Asset* asset = NULL;
 	//TODO: Load asset
 	return asset;
 }
-void AssetManager::unloadVoxelMap(std::string) {
+void AssetManager::unloadVoxelMap(std::string name) {
 	//TODO: Unload asset
 }
 
 // BSPMap ====================================
-Asset* AssetManager::loadBSPMap(std::string) {
+Asset* AssetManager::loadBSPMap(std::string name) {
 	Asset* asset = NULL;
 	//TODO: Load asset
 	return asset;
 }
-void AssetManager::unloadBSPMap(std::string) {
+void AssetManager::unloadBSPMap(std::string name) {
 	//TODO: Unload asset
 }

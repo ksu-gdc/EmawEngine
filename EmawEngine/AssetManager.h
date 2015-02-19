@@ -4,9 +4,13 @@
 class AssetManager
 {
 private:
+	AssetManager();
+	~AssetManager();
+	// Statics
 	static bool instanceFlag;
 	static AssetManager *instance;
 
+	// Storage
 	std::map <std::string, Asset*> assets;
 	std::string rootAssetFolder;
 
@@ -27,11 +31,9 @@ private:
 	void unloadVoxelMap(std::string);
 	void unloadBSPMap(std::string);
 
-	AssetManager();
 public:
 	static AssetManager* getInstance();
 	void setRootFolder(std::string path);
 	Asset* load(std::string name);
 	void unloadAsset(std::string name);
-	~AssetManager();
 };
