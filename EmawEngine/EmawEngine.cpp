@@ -70,7 +70,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 			// Update frame counter
 			fc.Update();
 			std::wstring test = fc.GetFps();
-			SetWindowText(hWnd, (LPCWSTR)&test);
+			SetWindowText(hWnd, (LPCWSTR)&test[0]);
 			//SetWindowText(hWnd, L"Test");
 		}
 	}
