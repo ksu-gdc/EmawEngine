@@ -13,9 +13,9 @@ public:
 	std::wstring GetFps();
 
 private:
-	unsigned int _fps;
-	unsigned int _numFrames;
-	DWORD _currentTime;
-	DWORD _lastTime;
-	DWORD _elapsedTime;
+	unsigned int fps;
+	unsigned int numFrames;
+	DWORD currentTime;
+	DWORD lastTime;
+	DWORD elapsedTime;
 };

@@ -7,31 +7,31 @@
 
 // Default Constructor
 FrameCounter::FrameCounter() {
-	_fps = 0;
-	_numFrames = 0;
-	_currentTime = 0;
-	_lastTime = 0;
-	_elapsedTime = 0;
+	fps = 0;
+	numFrames = 0;
+	currentTime = 0;
+	lastTime = 0;
+	elapsedTime = 0;
 }
 
 // Update runs each loop, adding the new frame to the number of frames and resets every second
 void FrameCounter::Update() {
 	// Increment the number of frames
-	_numFrames++;
+	numFrames++;
 	// Get our elapsed time since the last call
-	_currentTime = GetTickCount();
-	_elapsedTime = _currentTime - _lastTime;
+	currentTime = GetTickCount();
+	elapsedTime = currentTime - lastTime;
 	// Store and reset our values for the next second
-	if (_elapsedTime >= 1000) {
-		_fps = _numFrames;
-		_lastTime = _currentTime;
-		_numFrames = 0;
+	if (elapsedTime >= 1000) {
+		fps = numFrames;
+		lastTime = currentTime;
+		numFrames = 0;
 	}
 }
 
 // Get the fps value
 std::wstring FrameCounter::GetFps() {
-	std::string s = std::to_string(_fps);
+	std::string s = std::to_string(fps);
 	std::wstring stemp = std::wstring(s.begin(), s.end());
 	return stemp;
 }
