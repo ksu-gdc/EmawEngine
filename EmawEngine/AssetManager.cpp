@@ -37,7 +37,7 @@ Asset* AssetManager::load(std::string name) {
 		return assets[name];
 	}
 	else {
-		Asset *asset;
+		Asset *asset = NULL;
 		assets[name] = loadFromFile(name);
 		return asset;
 	}
@@ -45,7 +45,7 @@ Asset* AssetManager::load(std::string name) {
 
 // Checks for and then loads a file
 Asset* AssetManager::loadFromFile(std::string name) {
-	Asset* asset;
+	Asset* asset = NULL;
 
 	// Check if the file exists
 	if (std::ifstream(name).good()) {
@@ -68,7 +68,7 @@ Asset* AssetManager::loadFromFile(std::string name) {
 
 // Textures ====================================
 Asset* AssetManager::loadTexture(std::string) {
-	Asset* asset;
+	Asset* asset = NULL;
 	//TODO: Load asset
 	return asset;
 }
@@ -78,7 +78,7 @@ void AssetManager::unloadTexture(std::string) {
 
 // Shaders ====================================
 Asset* AssetManager::loadShader(std::string) {
-	Asset* asset;
+	Asset* asset = NULL;
 	//TODO: Load asset
 	return asset;
 }
@@ -88,7 +88,7 @@ void AssetManager::unloadShader(std::string) {
 
 // Music ====================================
 Asset* AssetManager::loadMusic(std::string) {
-	Asset* asset;
+	Asset* asset = NULL;
 	//TODO: Load asset
 	return asset;
 }
@@ -98,7 +98,7 @@ void AssetManager::unloadMusic(std::string) {
 
 // SoundFX ====================================
 Asset* AssetManager::loadSoundFX(std::string) {
-	Asset* asset;
+	Asset* asset = NULL;
 	//TODO: Load asset
 	return asset;
 }
@@ -108,7 +108,7 @@ void AssetManager::unloadSoundFX(std::string) {
 
 // VoxelMap ====================================
 Asset* AssetManager::loadVoxelMap(std::string) {
-	Asset* asset;
+	Asset* asset = NULL;
 	//TODO: Load asset
 	return asset;
 }
@@ -118,7 +118,7 @@ void AssetManager::unloadVoxelMap(std::string) {
 
 // BSPMap ====================================
 Asset* AssetManager::loadBSPMap(std::string) {
-	Asset* asset;
+	Asset* asset = NULL;
 	//TODO: Load asset
 	return asset;
 }
