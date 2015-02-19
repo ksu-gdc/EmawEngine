@@ -12,6 +12,7 @@
     <ClCompile Include="TextureManager.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
+    <ClCompile Include="DDSTextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -27,6 +28,7 @@
     <ClInclude Include="TextureManager.h">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="DDSTextureLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
