@@ -69,12 +69,16 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd) {
 
 	m_Context->RSSetViewports(1, &viewport);
 
+	InitPipeline();
+	InitGraphics();
+
 	return TRUE;
 }
 
 void GraphicsDeviceInterface::InitPipeline()
 {
 	//load shaders
+	shdrs = new ShaderAsset(this);
 	ShaderStruct *blah = (ShaderStruct*)shdrs->load("shaders.shader");
 
 	m_Context->VSSetShader(blah->VertShader, 0, 0);
@@ -120,6 +124,7 @@ void GraphicsDeviceInterface::Shutdown() {
 	m_BackBuffer->Release();
 	m_Device->Release();
 	m_Context->Release();
+	m_VertBuffer->Release();
 }
 
 
@@ -146,12 +151,22 @@ bool GraphicsDeviceInterface::Render()
 	// Clear the back buffer
 	m_Context->ClearRenderTargetView(m_BackBuffer, color);
 
+	UINT stride = sizeof(VERTEX);
+	UINT offset = 0;
+	m_Context->IASetVertexBuffers(0, 1, &m_VertBuffer, &stride, &offset);
+
+	// select which primtive type we are using
+	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	// draw the vertex buffer to the back buffer
+	m_Context->Draw(3, 0);
+
 	// TODO: Clear the depth buffer
 
 	// TODO: Render game world
 
 	// Swap buffers
-	m_Swapchain->Present(1, 0);
+	m_Swapchain->Present(0, 0);
 
 	return true;
 }

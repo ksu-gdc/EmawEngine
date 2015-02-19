@@ -8,13 +8,13 @@ class ShaderAsset : public Asset
 {
 public:
 	ShaderStruct Shaders;
-	ShaderAsset(GraphicsDeviceInterface* gdi);
+	ShaderAsset(void* gdi);
 	~ShaderAsset();
 	void* load(char*);
 	void* getData();
 	bool unload();
 
 private:
-	GraphicsDeviceInterface* gInterface;
+	void* gInterface;
 };
 
