@@ -48,7 +48,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	AssetManager *pAssetManager = AssetManager::getInstance();
-	pAssetManager->getAsset("Test.txt");
+	pAssetManager->load("Test.txt");
 	
 	// Main game loop:
 	while(true)

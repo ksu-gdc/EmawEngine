@@ -31,7 +31,8 @@ void AssetManager::setRootFolder(std::string path) {
 }
 
 // Checks for an asset (loads if not found) and then returns a pointer to it
-Asset* AssetManager::getAsset(std::string name) {
+Asset* AssetManager::load(std::string name) {
+
 	if (assets[name] != nullptr) {
 		return assets[name];
 	}
@@ -50,7 +51,7 @@ Asset* AssetManager::loadFromFile(std::string name) {
 	if (std::ifstream(name).good()) {
 		// Get the extension and call the appropraite method
 		std::string ext = name.substr(name.size() - 3);
-		
+
 		if (ext == "pmg" || ext == "jpeg")
 			loadTexture(name);
 		else if (ext == "wav" || ext == "mp3")
@@ -65,38 +66,62 @@ Asset* AssetManager::loadFromFile(std::string name) {
 	return asset;
 }
 
+// Textures ====================================
 Asset* AssetManager::loadTexture(std::string) {
 	Asset* asset;
 	//TODO: Load asset
 	return asset;
 }
+void AssetManager::unloadTexture(std::string) {
+	//TODO: Unload asset
+}
 
+// Shaders ====================================
 Asset* AssetManager::loadShader(std::string) {
 	Asset* asset;
 	//TODO: Load asset
 	return asset;
 }
+void AssetManager::unloadShader(std::string) {
+	//TODO: Unload asset
+}
 
+// Music ====================================
 Asset* AssetManager::loadMusic(std::string) {
 	Asset* asset;
 	//TODO: Load asset
 	return asset;
 }
+void AssetManager::unloadMusic(std::string) {
+	//TODO: Unload asset
+}
 
+// SoundFX ====================================
 Asset* AssetManager::loadSoundFX(std::string) {
 	Asset* asset;
 	//TODO: Load asset
 	return asset;
 }
+void AssetManager::unloadSoundFX(std::string) {
+	//TODO: Unload asset
+}
 
+// VoxelMap ====================================
 Asset* AssetManager::loadVoxelMap(std::string) {
 	Asset* asset;
 	//TODO: Load asset
 	return asset;
 }
+void AssetManager::unloadVoxelMap(std::string) {
+	//TODO: Unload asset
+}
 
+// BSPMap ====================================
 Asset* AssetManager::loadBSPMap(std::string) {
 	Asset* asset;
 	//TODO: Load asset
 	return asset;
+}
+void AssetManager::unloadBSPMap(std::string) {
+	//TODO: Unload asset
 }

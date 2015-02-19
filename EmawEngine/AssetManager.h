@@ -10,6 +10,7 @@ private:
 	std::map <std::string, Asset*> assets;
 	std::string rootAssetFolder;
 
+	// Loading
 	Asset* loadFromFile(std::string);
 	Asset* loadTexture(std::string);
 	Asset* loadShader(std::string);
@@ -18,10 +19,19 @@ private:
 	Asset* loadVoxelMap(std::string);
 	Asset* loadBSPMap(std::string);
 
+	// Unloading
+	void unloadTexture(std::string);
+	void unloadShader(std::string);
+	void unloadMusic(std::string);
+	void unloadSoundFX(std::string);
+	void unloadVoxelMap(std::string);
+	void unloadBSPMap(std::string);
+
 	AssetManager();
 public:
 	static AssetManager* getInstance();
 	void setRootFolder(std::string path);
-	Asset* getAsset(std::string name);
+	Asset* load(std::string name);
+	void unloadAsset(std::string name);
 	~AssetManager();
 };
