@@ -4,6 +4,12 @@
 #include "stdafx.h"
 #include "EmawEngine.h"
 
+// REMOVE
+// TEST CODE!!!
+#include "FontManager.h"
+// TEST CODE!!!
+// REMOVE
+
 #define MAX_LOADSTRING 100
 
 // Global Variables:
@@ -46,6 +52,16 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		return FALSE;
 	}
 
+
+	// REMOVE
+	// TEST CODE!!!
+
+	FontManager* fontManager = new FontManager();
+
+	fontManager->loadFont("B://consolas.fnt");
+
+	// TEST CODE!!!
+	// REMOVE
 	
 	// Main game loop:
 	while(true)

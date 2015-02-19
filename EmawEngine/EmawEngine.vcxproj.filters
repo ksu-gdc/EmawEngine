@@ -9,6 +9,9 @@
       <Filter>Core Systems</Filter>
     </ClCompile>
     <ClCompile Include="Asset.cpp" />
+    <ClCompile Include="Font.cpp" />
+    <ClCompile Include="FontManager.cpp" />
+    <ClCompile Include="FontChar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -21,6 +24,9 @@
       <Filter>Core Systems</Filter>
     </ClInclude>
     <ClInclude Include="Asset.h" />
+    <ClInclude Include="Font.h" />
+    <ClInclude Include="FontManager.h" />
+    <ClInclude Include="FontChar.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
@@ -28,6 +34,9 @@
   <ItemGroup>
     <Image Include="EmawEngine.ico" />
     <Image Include="small.ico" />
+    <Image Include="C:\Users\Chris\Desktop\consolas_0.png">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -48,5 +57,10 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{7cb0be83-89c8-4854-831f-8a7b140301f5}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\Chris\Desktop\consolas.fnt">
+      <Filter>Resources</Filter>
+    </None>
   </ItemGroup>
 </Project>
