@@ -9,6 +9,15 @@ private:
 
 	std::map <std::string, Asset*> assets;
 	std::string rootAssetFolder;
+
+	Asset* loadFromFile(std::string);
+	Asset* loadTexture(std::string);
+	Asset* loadShader(std::string);
+	Asset* loadMusic(std::string);
+	Asset* loadSoundFX(std::string);
+	Asset* loadVoxelMap(std::string);
+	Asset* loadBSPMap(std::string);
+
 	AssetManager();
 public:
 	static AssetManager* getInstance();
