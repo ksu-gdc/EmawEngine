@@ -2,6 +2,9 @@
 #include "ShaderAsset.h"
 #include "graphics_device_interface.h"
 
+/*
+ * Construtor requires the GraphicsDeviceInterface to be passed in as it's required for loading the shader.
+ */
 ShaderAsset::ShaderAsset(void *gdi)
 {
 	gInterface = gdi;
@@ -13,6 +16,11 @@ ShaderAsset::~ShaderAsset()
 {
 }
 
+/*
+ * Parameters: the file name of the text file that contains the shader to be loaded.
+ * Output: A ShaderStruct contaning a vertex shader, a pixel shader, and the input layout for the Graphics Card.
+ * What it does: loads a vertex shader and a pixel shader and returns them in a struct.
+ */
 void* ShaderAsset::load(char* filename)
 {
 	//convert to wchar
@@ -21,9 +29,9 @@ void* ShaderAsset::load(char* filename)
 	wchar_t wcstring[100];
 	mbstowcs_s(&convertedChars, wcstring, size, filename, size-1);
 	//load shaders
-	ID3D10Blob *VS, *PS;
-	D3DX11CompileFromFile(wcstring, 0, 0, "VShader", "vs_4_0", 0, 0, 0, &VS, 0, 0);
-	D3DX11CompileFromFile(wcstring, 0, 0, "PShader", "ps_4_0", 0, 0, 0, &PS, 0, 0);
+	ID3DBlob *VS, *PS;
+	D3DCompileFromFile(wcstring, 0, 0, "VShader", "vs_4_0", 0, 0, &VS, 0);
+	D3DCompileFromFile(wcstring, 0, 0, "PShader", "ps_4_0", 0, 0, &PS, 0);
 
 
 	GraphicsDeviceInterface* Interface = (GraphicsDeviceInterface*)gInterface;
@@ -39,11 +47,13 @@ void* ShaderAsset::load(char* filename)
 	return &Shaders;
 }
 
+//take a guess.
 void* ShaderAsset::getData()
 {
 	return &Shaders;
 }
 
+//guess.
 bool ShaderAsset::unload()
 {
 	Shaders.InputLayout->Release();

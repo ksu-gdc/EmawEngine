@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "graphics_device_interface.h"
 
+#include <DirectXColors.h>
+#include <DirectXMath.h>
+
 GraphicsDeviceInterface::GraphicsDeviceInterface() {
 }
 
@@ -75,6 +78,7 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd) {
 	return TRUE;
 }
 
+//Placeholder used for testing, loads the shaders into the Graphics Device Context.
 void GraphicsDeviceInterface::InitPipeline()
 {
 	//load shaders
@@ -87,13 +91,14 @@ void GraphicsDeviceInterface::InitPipeline()
 	m_Context->IASetInputLayout(blah->InputLayout);
 }
 
+//Placeholder used for testing, manually creates a triangle and sends the vertices for the Graphics Device for rendering.
 void GraphicsDeviceInterface::InitGraphics(void)
 {
 	//the triangle
 	VERTEX OurVertices[] = {
-			{ 0.0f, 0.5f, 0.0f, D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f) },
-			{ 0.45f, -0.5f, 0.0f, D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f) },
-			{ -0.45f, -0.5f, 0.0f, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f) }
+			{ 0.0f, 0.5f, 0.0f, DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f) },
+			{ 0.45f, -0.5f, 0.0f, DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f) },
+			{ -0.45f, -0.5f, 0.0f, DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f) }
 	};
 
 	D3D11_BUFFER_DESC bd;

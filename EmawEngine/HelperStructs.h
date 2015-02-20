@@ -2,6 +2,8 @@
 #define Helper
 #include "resource.h"
 #include "stdafx.h"
+#include <DirectXMath.h>
+
 struct ShaderStruct{
 	ID3D11VertexShader *VertShader;
 	ID3D11PixelShader *PixShader;
@@ -11,7 +13,7 @@ struct ShaderStruct{
 struct VERTEX
 {
 	FLOAT X, Y, Z;
-	D3DXCOLOR Color;
+	DirectX::XMFLOAT4 Color;
 };
 
 #endif
