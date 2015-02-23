@@ -84,7 +84,10 @@
   <ItemGroup>
     <ClInclude Include="Asset.h" />
     <ClInclude Include="AssetManager.h" />
+<<<<<<< HEAD
     <ClInclude Include="AudioRenderer.h" />
+=======
+>>>>>>> origin/assetmanager
     <ClInclude Include="EmawEngine.h" />
     <ClInclude Include="graphics_device_interface.h" />
     <ClInclude Include="Music.h" />
@@ -98,7 +101,10 @@
   <ItemGroup>
     <ClCompile Include="Asset.cpp" />
     <ClCompile Include="AssetManager.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="AudioRenderer.cpp" />
+=======
+>>>>>>> origin/assetmanager
     <ClCompile Include="EmawEngine.cpp" />
     <ClCompile Include="graphics_device_interface.cpp" />
     <ClCompile Include="Sound.cpp" />
