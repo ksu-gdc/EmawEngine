@@ -11,10 +11,10 @@ class TextureShader
 {
 public:
 	TextureShader();
-	TextureShader(const TextureShader&);
+	//TextureShader(const TextureShader&);
 	~TextureShader();
 
-	bool initialize(ID3D11Device*, HWND);
+	bool initialize(ID3D11Device*, HWND, WCHAR*, WCHAR*);
 	void unload();
 	bool Render(ID3D11DeviceContext*, int, D3DXMATRIX, D3DXMATRIX, D3DXMATRIX,
 		ID3D11ShaderResourceView*);

@@ -1,3 +1,9 @@
+/*
+* The Texture class encapsulates the loading, unloading, and accessing
+* of a single texture resource.  For each texture needed an object of this class
+* must be instantiated.
+*/
+
 #include "stdafx.h"
 #include "Texture.h"
 #include <d3d11.h>
