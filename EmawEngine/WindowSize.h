@@ -6,7 +6,7 @@
 class GraphicsDeviceInterface;
 
 /* Globals */
-enum RES { LOW_4_3, HIGH_4_3, LOW_16_9, HIGH_16_9 };
+enum RES { LOW_4_3, HIGH_4_3, LOW_16_9, HIGH_16_9 }; // holds supported resolutions
 
 /* WindowSize */
 class WindowSize
