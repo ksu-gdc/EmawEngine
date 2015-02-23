@@ -8,6 +8,7 @@
     <ClCompile Include="EmawEngine.cpp">
       <Filter>Core Systems</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Asset.cpp" />
     <ClCompile Include="Sound.cpp">
       <Filter>AudioRenderer\Sounds</Filter>
@@ -23,6 +24,13 @@
     </ClCompile>
     <ClCompile Include="Test.cpp">
       <Filter>AudioRenderer\Test</Filter>
+=======
+    <ClCompile Include="Asset.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>Resources</Filter>
+>>>>>>> origin/assetmanager
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -35,6 +43,7 @@
     <ClInclude Include="EmawEngine.h">
       <Filter>Core Systems</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Asset.h" />
     <ClInclude Include="Music.h">
       <Filter>AudioRenderer\Sounds</Filter>
@@ -53,6 +62,13 @@
     </ClInclude>
     <ClInclude Include="SFX.h">
       <Filter>AudioRenderer\Sounds</Filter>
+=======
+    <ClInclude Include="Asset.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>Resources</Filter>
+>>>>>>> origin/assetmanager
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
