@@ -3,7 +3,6 @@
 
 #include "stdafx.h"
 #include "EmawEngine.h"
-#include "AssetManager.h"
 
 #define MAX_LOADSTRING 100
 
@@ -47,8 +46,6 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		return FALSE;
 	}
 
-	AssetManager *pAssetManager = AssetManager::getInstance();
-	pAssetManager->load("Test.txt");
 	
 	// Main game loop:
 	while(true)
@@ -137,7 +134,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_COMMAND	- process the application menu
 //  WM_PAINT	- Paint the main window
 //  WM_DESTROY	- post a quit message and return
-// 
+//
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
