@@ -46,11 +46,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	{
 		return FALSE;
 	}
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> origin/master
 	// Main game loop:
 	while(true)
 	{
