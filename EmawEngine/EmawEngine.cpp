@@ -6,7 +6,7 @@
 
 // REMOVE
 // TEST CODE!!!
-#include "FontManager.h"
+#include "Font.h"
 // TEST CODE!!!
 // REMOVE
 
@@ -56,9 +56,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// REMOVE
 	// TEST CODE!!!
 
-	FontManager* fontManager = new FontManager();
+	Font* font = new Font();
 
-	fontManager->loadFont("B://consolas.fnt");
+	font->loadFont("B://consolas.fnt");
 
 	// TEST CODE!!!
 	// REMOVE
