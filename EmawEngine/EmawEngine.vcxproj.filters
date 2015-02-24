@@ -11,6 +11,10 @@
     <ClCompile Include="Asset.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FontChar.cpp" />
+    <ClCompile Include="ShaderAsset.cpp" />
+    <ClCompile Include="WindowSize.cpp">
+      <Filter>Low-Level Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -25,6 +29,11 @@
     <ClInclude Include="Asset.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FontChar.h" />
+    <ClInclude Include="ShaderAsset.h" />
+    <ClInclude Include="HelperStructs.h" />
+    <ClInclude Include="WindowSize.h">
+      <Filter>Low-Level Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
@@ -60,5 +69,6 @@
     <None Include="C:\Users\Chris\Desktop\consolas.fnt">
       <Filter>Resources</Filter>
     </None>
+    <None Include="Shaders.shader" />
   </ItemGroup>
 </Project>
