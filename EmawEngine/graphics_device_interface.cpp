@@ -173,7 +173,7 @@ bool GraphicsDeviceInterface::Render()
 	// TODO: Render game world
 
 	// Swap buffers
-	m_Swapchain->Present(0, 0);
+	m_Swapchain->Present(1, 0);
 
 	return true;
 }
