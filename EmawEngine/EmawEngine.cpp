@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "EmawEngine.h"
+#include "Texture.h"
 
 #define MAX_LOADSTRING 100
 
@@ -46,6 +47,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		return FALSE;
 	}
 
+	
 	
 	// Main game loop:
 	while(true)
