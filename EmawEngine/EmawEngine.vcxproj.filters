@@ -8,6 +8,8 @@
     <ClCompile Include="EmawEngine.cpp">
       <Filter>Core Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Asset.cpp" />
+    <ClCompile Include="ShaderAsset.cpp" />
     <ClCompile Include="WindowSize.cpp">
       <Filter>Low-Level Renderer</Filter>
     </ClCompile>
@@ -22,6 +24,9 @@
     <ClInclude Include="EmawEngine.h">
       <Filter>Core Systems</Filter>
     </ClInclude>
+    <ClInclude Include="Asset.h" />
+    <ClInclude Include="ShaderAsset.h" />
+    <ClInclude Include="HelperStructs.h" />
     <ClInclude Include="WindowSize.h">
       <Filter>Low-Level Renderer</Filter>
     </ClInclude>
