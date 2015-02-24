@@ -58,4 +58,7 @@
       <UniqueIdentifier>{7cb0be83-89c8-4854-831f-8a7b140301f5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders.shader" />
+  </ItemGroup>
 </Project>
