@@ -82,7 +82,6 @@
     <ClInclude Include="EmawEngine.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FontChar.h" />
-    <ClInclude Include="FontManager.h" />
     <ClInclude Include="graphics_device_interface.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -93,7 +92,6 @@
     <ClCompile Include="EmawEngine.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FontChar.cpp" />
-    <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="graphics_device_interface.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

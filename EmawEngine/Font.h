@@ -19,6 +19,7 @@ public:
 	~Font();
 
 	void loadFont(std::string);
-	pair<int, int>* Font::textSize(string line)
+	std::pair<int, int>* Font::textSize(std::string line);
+	std::string Font::createTextBlock(std::string text, int width);
 	
 };

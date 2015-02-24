@@ -7,6 +7,8 @@
 // REMOVE
 // TEST CODE!!!
 #include "Font.h"
+#include <string>
+#include <map>
 // TEST CODE!!!
 // REMOVE
 
@@ -59,6 +61,10 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	Font* font = new Font();
 
 	font->loadFont("B://consolas.fnt");
+
+	std::string textBlock = font->createTextBlock("\n\n\nHello, this is a test to see if I can created a block of text of a particular width. Hope it works. Wow.", 200);
+
+	std::pair<int, int>* block = font->textSize(textBlock);
 
 	// TEST CODE!!!
 	// REMOVE

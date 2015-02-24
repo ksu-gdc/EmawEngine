@@ -119,7 +119,7 @@ pair<int, int>* Font::textSize(string text){
 	for(char& c : text){
 
 		// If the first character exists, then we have atleast 1 line.
-		if (line == 0 && fontCharacters.count(c) == 1){
+		if (line == 0){
 			line = 1;
 		}
 
@@ -133,16 +133,89 @@ pair<int, int>* Font::textSize(string text){
 			if (curWidth > maxWidth){
 				maxWidth = curWidth;
 			}
+
+			curWidth = 0;
 		}
 		else{
 
-			if (fontCharacters.count(c) == 1){
-				// Add the character's width to the current width.
-				curWidth += fontCharacters.at(c)->width;
+			// If a character does not exist then the string size cannot be calculated.
+			if (fontCharacters.count(c) != 1){
+				return new pair<int, int>(-1, -1);
 			}
+
+			// Add the character's width to the current width.
+			curWidth += fontCharacters.at(c)->width;
+
 		}
 	}
 
 	return new pair<int, int>(maxWidth, line * lineHeight);
+
+}
+
+// ---------------------------------------------------------------------
+// Creates a text block of a certain width.
+// ---------------------------------------------------------------------
+// text:		The text to turn into a block.
+// width:		The width the block needs to be.
+// ---------------------------------------------------------------------
+// returns:		Returns a string with new lines placed so that the
+//				the block of text is of the proper width.
+// ---------------------------------------------------------------------
+string Font::createTextBlock(string text, int width){
+	
+	// Index pointing to the first letter of a word.
+	string::size_type firstLetterIndex = 0;
+
+	string newTextBlock;
+	int curWidthAvailable = width;
+	int wordWidth = 0;
+	string curWord;
+
+	for (string::size_type i = 0; i < text.size(); ++i){
+
+		if (text[i] == ' '){
+				
+			if (curWidthAvailable - wordWidth >= 0){
+				newTextBlock.append(curWord + " ");
+				curWidthAvailable -= (wordWidth + fontCharacters.at(text[i])->width);
+				curWord = "";
+				wordWidth = 0;
+			}
+			else{
+				newTextBlock.append("\n");
+				curWidthAvailable = width;
+				curWord.append(" ");
+			}
+		}
+		else if (text[i] == '\n'){
+			newTextBlock.append("\n");
+			curWidthAvailable = width;
+		}
+		else{
+
+			// If a character does not exist then the string size cannot be calculated.
+			if (fontCharacters.count(text[i]) != 1){
+				return "Error: Bad character in text";
+			}
+
+			string s(1, text[i]);
+			curWord.append(s);
+			wordWidth += fontCharacters.at(text[i])->width;
+		}
+
+		if (i == text.size() - 1){
+
+			if (curWidthAvailable - wordWidth >= 0){
+				newTextBlock.append(curWord + " ");
+			}
+			else{
+				newTextBlock.append("\n");
+				newTextBlock.append(curWord + " ");
+			}
+		}
+	}
+
+	return newTextBlock;
 
 }
