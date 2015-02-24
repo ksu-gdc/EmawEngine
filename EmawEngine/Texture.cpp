@@ -18,11 +18,12 @@ Texture::Texture()
 	m_texture = 0;
 }
 
+/*
 Texture::Texture(const Texture& other)
 {
 
 }
-
+*/
 
 Texture::~Texture()
 {
@@ -42,7 +43,7 @@ Texture::~Texture()
 */
 bool Texture::initialize(ID3D11Device* device, WCHAR* filename)
 {
-	HRESULT result;
+	HRESULT result; 
 
 	//Load texture
 	result = D3DX11CreateShaderResourceViewFromFile(device, filename, NULL, NULL, &m_texture, NULL);

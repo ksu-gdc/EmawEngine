@@ -10,7 +10,7 @@ class Texture
 {
 public:
 	Texture();
-	Texture(const Texture&);
+	//Texture(const Texture&);
 	~Texture();
 	bool initialize(ID3D11Device*, WCHAR*);
 	void unload();
