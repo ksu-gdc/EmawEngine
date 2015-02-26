@@ -27,6 +27,7 @@
 #include "WindowSize.h"
 #include "graphics_device_interface.h"
 #include "HelperStructs.h"
+#include "Model.h"
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
