@@ -15,6 +15,7 @@
     <ClCompile Include="WindowSize.cpp">
       <Filter>Low-Level Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -34,6 +35,7 @@
     <ClInclude Include="WindowSize.h">
       <Filter>Low-Level Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="Model.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
