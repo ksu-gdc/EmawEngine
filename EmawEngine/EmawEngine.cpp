@@ -47,17 +47,6 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		return FALSE;
 	}
 
-	// temporary model testing
-	{
-		OutputDebugString(L"creating model\n");
-		Model* m;
-		m = new Model();
-		m->load("models/cube.fbx");
-		std::vector<Vertex> v = m->getVertexBuffer();
-		std::vector<Triangle> t = m->getTriangleList();
-	}
-	
-
 	// Main game loop:
 	while(true)
 	{
