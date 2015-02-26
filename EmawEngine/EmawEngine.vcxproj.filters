@@ -9,6 +9,7 @@
       <Filter>Core Systems</Filter>
     </ClCompile>
     <ClCompile Include="Asset.cpp" />
+    <ClCompile Include="VoxelMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -21,6 +22,7 @@
       <Filter>Core Systems</Filter>
     </ClInclude>
     <ClInclude Include="Asset.h" />
+    <ClInclude Include="VoxelMap.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
