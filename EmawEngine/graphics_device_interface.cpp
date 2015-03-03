@@ -114,8 +114,11 @@ bool GraphicsDeviceInterface::Render()
 
 	// TODO: Render game world
 
-	// Swap buffers
-	m_Swapchain->Present(1, 0);
+	// Swap buffers - waits for vsync
+	//m_Swapchain->Present(1, 0);
+
+	// Swap buffers - unlocked framerate
+	m_Swapchain->Present(0, 0);
 
 	return true;
 }
