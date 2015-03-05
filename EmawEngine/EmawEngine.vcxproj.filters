@@ -20,6 +20,7 @@
     <ClCompile Include="FrameCounter.cpp">
       <Filter>Debugging and Profiling</Filter>
     </ClCompile>
+    <ClCompile Include="Entity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -44,6 +45,7 @@
     <ClInclude Include="FrameCounter.h">
       <Filter>Debugging and Profiling</Filter>
     </ClInclude>
+    <ClInclude Include="Entity.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />

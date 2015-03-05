@@ -77,36 +77,19 @@ void* Model::load(char* filename) {
 				}
 				for (int k = 0; k < numVerticies; k++) {
 					int controlPointIndex = mesh->GetPolygonVertex(j, k);
-					Vertex vertex;
-					vertex.x = (float)verticies[controlPointIndex].mData[0];
-					vertex.y = (float)verticies[controlPointIndex].mData[1];
-					vertex.z = (float)verticies[controlPointIndex].mData[2];
+					VERTEX vertex;
+					vertex.X = (float)verticies[controlPointIndex].mData[0];
+					vertex.Y = (float)verticies[controlPointIndex].mData[1];
+					vertex.Z = (float)verticies[controlPointIndex].mData[2];
+					//vertex.Color = DirectX::XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f); // grey
+					// generate random color
+					float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+					float g = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+					float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+					vertex.Color = DirectX::XMFLOAT4(r,g, b, 1.0f);
 
-					// search for this vertex in the vertex buffer
-					bool found = false;
-					int index = -1;
-					for (int m = 0; m < vertexBuffer.size(); m++) {
-						if (vertex.x == vertexBuffer[m].x && vertex.y == vertexBuffer[m].y && vertex.z == vertexBuffer[m].z) {
-							found = true;
-							index = m;
-							break;
-						}
-					}
-					if (!found) {
-						index = vertexBuffer.size();
-						vertexBuffer.push_back(vertex);
-					}
 
-					if (k == 0) {
-						triangleList.push_back(Triangle());
-						triangleList[triangleList.size() - 1].a = index;
-					}
-					else if (k == 1) {
-						triangleList[triangleList.size() - 1].b = index;
-					}
-					else if (k == 2) {
-						triangleList[triangleList.size() - 1].c = index;
-					}
+					vertexBuffer.push_back(vertex);
 				}
 			}
 		}
@@ -121,14 +104,9 @@ void* Model::getData() {
 
 bool Model::unload() {
 	vertexBuffer.clear();
-	triangleList.clear();
 	return true;
 }
 
-std::vector<Vertex> Model::getVertexBuffer() {
+std::vector<VERTEX> Model::getVertexBuffer() {
 	return vertexBuffer;
-}
-
-std::vector<Triangle> Model::getTriangleList() {
-	return triangleList;
 }
