@@ -17,6 +17,7 @@
     </ClCompile>
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="VoxelMap.cpp" />
+    <ClCompile Include="Entity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -38,6 +39,7 @@
     </ClInclude>
     <ClInclude Include="Model.h" />
     <ClInclude Include="VoxelMap.h" />
+    <ClInclude Include="Entity.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />

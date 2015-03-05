@@ -3,12 +3,6 @@
 #include <fbxsdk.h>
 #include <vector>
 
-struct Vertex {
-	float x;
-	float y;
-	float z;
-};
-
 class Model :
 	public Asset
 {
@@ -18,8 +12,8 @@ public:
 	void* load(char*);
 	void* getData();
 	bool unload();
-	std::vector<Vertex> getVertexBuffer();
+	std::vector<VERTEX> getVertexBuffer();
 private:
-	std::vector<Vertex> vertexBuffer;
+	std::vector<VERTEX> vertexBuffer;
 };
 

@@ -96,18 +96,19 @@ void GraphicsDeviceInterface::InitPipeline()
 //Placeholder used for testing, manually creates a triangle and sends the vertices for the Graphics Device for rendering.
 void GraphicsDeviceInterface::InitGraphics(void)
 {
-	//the triangle
-	VERTEX OurVertices[] = {
-			{ 0.0f, 0.5f, 0.0f, DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f) },
-			{ 0.45f, -0.5f, 0.0f, DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f) },
-			{ -0.45f, -0.5f, 0.0f, DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f) }
-	};
+	
+
+	Entity* e = new Entity();
+
+	Model* m = e->getModel();
+
+	std::vector<VERTEX> vertices = m->getVertexBuffer();
 
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 
 	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-	bd.ByteWidth = sizeof(VERTEX) * 3;             // size is the VERTEX struct * 3
+	bd.ByteWidth = sizeof(VERTEX) * vertices.size();             // size is the VERTEX struct * 3
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
 	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
 
@@ -115,7 +116,9 @@ void GraphicsDeviceInterface::InitGraphics(void)
 
 	D3D11_MAPPED_SUBRESOURCE ms;
 	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
-	memcpy(ms.pData, OurVertices, sizeof(OurVertices));                // copy the data
+	//memcpy(ms.pData, OurVertices, sizeof(OurVertices));
+	memcpy(ms.pData, vertices.data(), vertices.size() * sizeof(VERTEX));                // copy the data
+	//std::copy(verticies.begin(), verticies.end(), ms.pData);
 	m_Context->Unmap(m_VertBuffer, NULL);
 }
 
@@ -166,7 +169,7 @@ bool GraphicsDeviceInterface::Render()
 	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// draw the vertex buffer to the back buffer
-	m_Context->Draw(3, 0);
+	m_Context->Draw(36, 0);
 
 	// TODO: Clear the depth buffer
 

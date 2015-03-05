@@ -77,10 +77,17 @@ void* Model::load(char* filename) {
 				}
 				for (int k = 0; k < numVerticies; k++) {
 					int controlPointIndex = mesh->GetPolygonVertex(j, k);
-					Vertex vertex;
-					vertex.x = (float)verticies[controlPointIndex].mData[0];
-					vertex.y = (float)verticies[controlPointIndex].mData[1];
-					vertex.z = (float)verticies[controlPointIndex].mData[2];
+					VERTEX vertex;
+					vertex.X = (float)verticies[controlPointIndex].mData[0];
+					vertex.Y = (float)verticies[controlPointIndex].mData[1];
+					vertex.Z = (float)verticies[controlPointIndex].mData[2];
+					//vertex.Color = DirectX::XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f); // grey
+					// generate random color
+					float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+					float g = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+					float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+					vertex.Color = DirectX::XMFLOAT4(r,g, b, 1.0f);
+
 
 					vertexBuffer.push_back(vertex);
 				}
@@ -100,6 +107,6 @@ bool Model::unload() {
 	return true;
 }
 
-std::vector<Vertex> Model::getVertexBuffer() {
+std::vector<VERTEX> Model::getVertexBuffer() {
 	return vertexBuffer;
 }
