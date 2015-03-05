@@ -14,6 +14,7 @@ ShaderAsset::ShaderAsset(void *gdi)
 
 ShaderAsset::~ShaderAsset()
 {
+	unload();
 }
 
 /*

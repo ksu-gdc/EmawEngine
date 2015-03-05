@@ -15,6 +15,8 @@
     <ClCompile Include="WindowSize.cpp">
       <Filter>Low-Level Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="VoxelMap.cpp" />
     <ClCompile Include="FrameCounter.cpp">
       <Filter>Debugging and Profiling</Filter>
     </ClCompile>
@@ -37,6 +39,8 @@
     <ClInclude Include="WindowSize.h">
       <Filter>Low-Level Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="VoxelMap.h" />
     <ClInclude Include="FrameCounter.h">
       <Filter>Debugging and Profiling</Filter>
     </ClInclude>

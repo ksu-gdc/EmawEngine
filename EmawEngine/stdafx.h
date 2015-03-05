@@ -17,7 +17,7 @@
 #include <memory.h>
 #include <tchar.h>
 
-
+using namespace std;
 // TODO: reference additional headers your program requires here
 #include <d3d11.h>
 #include <d3dcompiler.h>
@@ -27,6 +27,7 @@
 #include "WindowSize.h"
 #include "graphics_device_interface.h"
 #include "HelperStructs.h"
+#include "Model.h"
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
