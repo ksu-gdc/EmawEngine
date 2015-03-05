@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "graphics_device_interface.h"
 
-#include <DirectXColors.h>
+//#include <DirectXColors.h>
 #include <DirectXMath.h>
+
+#define _XM_NO_INTRINSICS_
 
 GraphicsDeviceInterface::GraphicsDeviceInterface() {
 }
@@ -96,13 +98,9 @@ void GraphicsDeviceInterface::InitPipeline()
 //Placeholder used for testing, manually creates a triangle and sends the vertices for the Graphics Device for rendering.
 void GraphicsDeviceInterface::InitGraphics(void)
 {
-	
-
 	Entity* e = new Entity();
 
-	Model* m = e->getModel();
-
-	std::vector<VERTEX> vertices = m->getVertexBuffer();
+	std::vector<VERTEX> vertices = e->getModel()->getVertexBuffer();
 
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
@@ -116,9 +114,7 @@ void GraphicsDeviceInterface::InitGraphics(void)
 
 	D3D11_MAPPED_SUBRESOURCE ms;
 	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
-	//memcpy(ms.pData, OurVertices, sizeof(OurVertices));
 	memcpy(ms.pData, vertices.data(), vertices.size() * sizeof(VERTEX));                // copy the data
-	//std::copy(verticies.begin(), verticies.end(), ms.pData);
 	m_Context->Unmap(m_VertBuffer, NULL);
 }
 
