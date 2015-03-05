@@ -35,7 +35,11 @@ AudioRenderer::AudioRenderer(){
 
 	checkProblem(result);
 
-	result = system->init(32, FMOD_INIT_NORMAL, extradriverdata);
+	result = system->init(CHANNELS_COUNT, FMOD_INIT_NORMAL, extradriverdata);
+
+	checkProblem(result);
+
+	result = system->set3DSettings(DOPPLER_SCALE, DISTANCE_FACTOR, ROLLOFF_SCALE);
 
 	checkProblem(result);
 }
@@ -290,4 +294,46 @@ bool AudioRenderer::muteSFX(){
 	}
 
 	return updateSystem();
+}
+
+//Method for retrieving 3D Channel
+FMOD::Channel* AudioRenderer::getChannel(float x, float y, float z){
+	FMOD_VECTOR position = {x, y, z};
+	FMOD_RESULT result;
+
+	if (TDChannels.find(position) == TDChannels.end()){
+		FMOD::Channel *channel = 0;
+
+		result = channel->set3DAttributes(&position, &TD_VELOCITY);
+		
+		checkProblem(result);
+
+		result = channel->setPaused(false);
+
+		checkProblem(result);
+
+		TDChannels[position] = channel;
+	}
+	return TDChannels.find(position)->second;
+}
+
+//Method for playing 3D SFX
+bool AudioRenderer::playTDSFX(TDSFX *tdsfx){
+	FMOD_RESULT result;
+
+	FMOD::Channel* channel = getChannel(tdsfx->x, tdsfx->y, tdsfx->z);
+
+	result = system->playSound(tdsfx->sound, 0, false, &channel);
+
+	if (!checkResult(result)){
+		return false;
+	}
+
+	return updateSystem();
+}
+
+//Method for loading and playing 3D SFX
+void AudioRenderer::loadAndPlayTDSFX(string name, AssetManager* am){
+	TDSFX *tdsfx = (TDSFX*)load(name, am);
+	playTDSFX(tdsfx);
 }

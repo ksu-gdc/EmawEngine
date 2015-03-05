@@ -24,6 +24,9 @@
     <ClCompile Include="Test.cpp">
       <Filter>AudioRenderer\Test</Filter>
     </ClCompile>
+    <ClCompile Include="TDSFX.cpp">
+      <Filter>AudioRenderer\Sounds</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -52,6 +55,9 @@
       <Filter>AudioRenderer</Filter>
     </ClInclude>
     <ClInclude Include="SFX.h">
+      <Filter>AudioRenderer\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="TDSFX.h">
       <Filter>AudioRenderer\Sounds</Filter>
     </ClInclude>
   </ItemGroup>

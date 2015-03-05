@@ -1,3 +1,5 @@
+//Class for 3D SFX
+//Author: Ondrej Kuzela
 #pragma once
 #include "Sound.h"
 #pragma once

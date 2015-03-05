@@ -4,6 +4,7 @@
 #pragma once
 #include "Music.h"
 #include "SFX.h"
+#include "TDSFX.h"
 #include "fmod/fmod.hpp"
 #include "AssetManager.h"
 #include "Utils.h"
@@ -22,6 +23,8 @@ private:
 	//FMOD channel for playing SFX
 	FMOD::Channel    *SFXChannel = 0;
 
+	//Map position -> channel
+	map<FMOD_VECTOR, FMOD::Channel*> TDChannels;
 public:
 	//Method for getting an instance
 	static AudioRenderer* Instance();
@@ -86,4 +89,13 @@ public:
 
 	//Method for setting the volume of SFX to default value
 	bool SFXVolumeReset();
+
+	//Method for retrieving 3D Channel
+	FMOD::Channel* getChannel(float x, float y, float z);
+
+	//Method for playing 3D SFX
+	bool playTDSFX(TDSFX *tdsfx);
+
+	//Method for loading and playing 3D SFX
+	void loadAndPlayTDSFX(string name, AssetManager* am);
 };
