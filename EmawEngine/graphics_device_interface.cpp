@@ -99,7 +99,7 @@ void GraphicsDeviceInterface::InitGraphics(void)
 {
 	//the triangle
 	VERTEX OurVertices[] = {
-			{ 0.0f, 0.0f, 0.5f, 0.5f, DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f) },
+			{ 0.0f, 0.0f, 1.5f, 0.5f, DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f) },
 //			{ 0.45f, -0.5f, 0.0f, DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f) },
 //			{ -0.45f, -0.5f, 0.0f, DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f) }
 	};
