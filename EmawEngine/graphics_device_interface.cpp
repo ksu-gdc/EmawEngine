@@ -85,10 +85,11 @@ void GraphicsDeviceInterface::InitPipeline()
 {
 	//load shaders
 	shdrs = new ShaderAsset(this);
-	ShaderStruct *blah = (ShaderStruct*)shdrs->load("shaders.shader");
+	ShaderStruct *blah = (ShaderStruct*)shdrs->load("Shaders.geo");
 
 	m_Context->VSSetShader(blah->VertShader, 0, 0);
 	m_Context->PSSetShader(blah->PixShader, 0, 0);
+	m_Context->GSSetShader(blah->GeoShader, 0, 0);
 
 	m_Context->IASetInputLayout(blah->InputLayout);
 }
@@ -98,9 +99,9 @@ void GraphicsDeviceInterface::InitGraphics(void)
 {
 	//the triangle
 	VERTEX OurVertices[] = {
-			{ 0.0f, 0.5f, 0.0f, DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f) },
-			{ 0.45f, -0.5f, 0.0f, DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f) },
-			{ -0.45f, -0.5f, 0.0f, DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f) }
+			{ 0.0f, 0.0f, 0.5f, 0.5f, DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f) },
+//			{ 0.45f, -0.5f, 0.0f, DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f) },
+//			{ -0.45f, -0.5f, 0.0f, DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f) }
 	};
 
 	D3D11_BUFFER_DESC bd;
@@ -163,7 +164,7 @@ bool GraphicsDeviceInterface::Render()
 	m_Context->IASetVertexBuffers(0, 1, &m_VertBuffer, &stride, &offset);
 
 	// select which primtive type we are using
-	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 	// draw the vertex buffer to the back buffer
 	m_Context->Draw(3, 0);

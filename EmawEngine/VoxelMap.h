@@ -11,7 +11,7 @@
 struct VoxRegion {
 	int coord_X, coord_Y;
 	int width = 16, length = 16, height = 256;
-	short region[16][16][256] = {};
+	short region[16][16][256];
 };
 
 struct VoxMap {

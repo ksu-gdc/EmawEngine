@@ -73,6 +73,7 @@
     <None Include="C:\Users\Chris\Desktop\consolas.fnt">
       <Filter>Resources</Filter>
     </None>
-    <None Include="Shaders.shader" />
+    <None Include="Shaders.col" />
+    <None Include="Shaders.geo" />
   </ItemGroup>
 </Project>

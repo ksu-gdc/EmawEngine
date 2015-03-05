@@ -15,6 +15,7 @@ public:
 	bool unload();
 
 private:
+	int	getShaderType(char*);
 	void* gInterface;
 };
 
