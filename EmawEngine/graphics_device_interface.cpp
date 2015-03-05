@@ -152,7 +152,7 @@ void GraphicsDeviceInterface::NextFrame()
 bool GraphicsDeviceInterface::Render()
 {
 	// Default color
-	float color[4] = { 0.5, 0, 0.5, 1.0 };
+	float color[4] = { 0.2, 0.11, 0.34, 1.0 };
 	
 	// Clear the back buffer
 	m_Context->ClearRenderTargetView(m_BackBuffer, color);
