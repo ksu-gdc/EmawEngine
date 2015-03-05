@@ -3,8 +3,14 @@
 #include "stdafx.h"
 #include "TDSFX.h"
 
-TDSFX::TDSFX(float tX, float tY, float tZ){
-	x = tX;
-	y = tY;
-	z = tZ;
+TDSFX::TDSFX(string name, FMOD::Sound *s, Position* p):SFX(name, s){
+	position = new Position(p);
+}
+
+TDSFX::~TDSFX(){
+	delete position;
+}
+
+Position* TDSFX::getPosition(){
+	return position;
 }

@@ -8,6 +8,7 @@
 #include "fmod/fmod.hpp"
 #include "AssetManager.h"
 #include "Utils.h"
+#include "Position.h"
 
 class AudioRenderer {
 private:
@@ -24,7 +25,7 @@ private:
 	FMOD::Channel    *SFXChannel = 0;
 
 	//Map position -> channel
-	map<FMOD_VECTOR, FMOD::Channel*> TDChannels;
+	map<Position*, FMOD::Channel*> TDChannels;
 public:
 	//Method for getting an instance
 	static AudioRenderer* Instance();
@@ -90,12 +91,15 @@ public:
 	//Method for setting the volume of SFX to default value
 	bool SFXVolumeReset();
 
-	//Method for retrieving 3D Channel
-	FMOD::Channel* getChannel(float x, float y, float z);
+	//Method for playing SFX on 3D Channel
+	void playOn3DChannel(float x, float y, float z, TDSFX *tdsfx);
 
 	//Method for playing 3D SFX
 	bool playTDSFX(TDSFX *tdsfx);
 
 	//Method for loading and playing 3D SFX
-	void loadAndPlayTDSFX(string name, AssetManager* am);
+	void loadAndPlayTDSFX(string name, AssetManager* am, Position* p);
+
+	//Set sound system
+	bool setSoundSystem(AssetManager* am);
 };

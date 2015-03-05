@@ -7,6 +7,8 @@
 #include "Sound.h"
 #include "fmod/fmod.hpp"
 #include "Utils.h"
+#include "TDSFX.h"
+#include "Position.h"
 
 class AssetManager {
 private:
@@ -20,10 +22,8 @@ private:
 	FMOD::System *soundSystem = NULL;
 
 	//character's position
-	FMOD_VECTOR actualPos = { 0.0f, 0.0f, 0.0f };
-	FMOD_VECTOR lastPos = { 0.0f, 0.0f, 0.0f };
-
-	//
+	Position* actualPos = NULL;
+	Position* lastPos = NULL;
 
 public:
 	~AssetManager();
@@ -32,16 +32,19 @@ public:
 	Sound* load(string name, FMOD::System *system);
 
 	//Method for loading 3D SFX
-	Sound* load3D(string name, FMOD::System *system);
+	TDSFX* load3D(string name, Position* position, FMOD::System *system);
+
+	//Method for loading 3D SFX with looping
+	TDSFX* load3DLoop(string name, Position* position, FMOD::System *system);
 
 	//Method for adding filename to filename's map
 	bool add(string name, string filename);
 
 	//Get character's actual position
-	FMOD_VECTOR getCharactersActualPosition();
+	Position* getCharactersActualPosition();
 	
 	//Get character's last position
-	FMOD_VECTOR getCharactersLastPosition();
+	Position* getCharactersLastPosition();
 
 	//Set character's actual position
 	bool setCharactersActualPosition(float x, float y, float z);

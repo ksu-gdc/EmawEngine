@@ -6,4 +6,6 @@
 #include "Sound.h"
 
 class Music : public Sound{
+public:
+	virtual ~Music();
 };

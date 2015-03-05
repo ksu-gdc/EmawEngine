@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "EmawEngine.h"
+#include "Test.h"
 
 #define MAX_LOADSTRING 100
 
@@ -46,10 +47,33 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		return FALSE;
 	}
 
-	
-	// Main game loop:
+	AssetManager* am = new AssetManager();
+	(AudioRenderer::Instance())->setSoundSystem(am);
+
+	//Adding music to filename's map
+	am->add("drum", "drumloop.wav");
+	am->setCharactersActualPosition(0.0f, 0.0f, 0.0f);
+
+	Position* p = new Position(0.0f, 0.0f, 0.0f);
+	(AudioRenderer::Instance())->loadAndPlayTDSFX("drum", am, p);
+	delete p;
+	char c = 0;
+	Position* pos;
+	float i = 0.0f;
+
+	//Main game loop:
 	while(true)
 	{
+		if (GetAsyncKeyState(VK_UP) & 0x8000)
+		{
+			pos = am->getCharactersActualPosition();
+			am->setCharactersActualPosition(pos->getX() + 1, pos->getY(), pos->getZ());
+		}
+		if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+		{
+			pos = am->getCharactersActualPosition();
+			am->setCharactersActualPosition(pos->getX() - 1, pos->getY(), pos->getZ());
+		}
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);

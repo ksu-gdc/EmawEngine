@@ -6,4 +6,8 @@
 
 
 class SFX : public Sound{
+public:
+	SFX(string name, FMOD::Sound *s) :Sound(name, s){
+
+	}
 };

@@ -51,8 +51,7 @@ AssetManager::~AssetManager(){
 }
 
 //Method for loading 3D SFX
-Sound* AssetManager::load3D(string name, FMOD::System *system){
-	name = "3d_" + name;
+TDSFX* AssetManager::load3D(string name, Position* position, FMOD::System *system){
 	if (sounds.find(name) == sounds.end()){
 		FMOD::Sound *sound;
 
@@ -73,20 +72,21 @@ Sound* AssetManager::load3D(string name, FMOD::System *system){
 
 		checkProblem(result);
 
-		Sound *sound2 = new Sound(name, sound);
+		name = "3d_" + name;
+		TDSFX *sound2 = new TDSFX(name, sound, position);
 		sounds[name] = sound2;
 	}
 
-	return sounds.find(name)->second;
+	return (TDSFX*)sounds.find(name)->second;
 }
 
 //Get character's actual position
-FMOD_VECTOR AssetManager::getCharactersActualPosition(){
+Position* AssetManager::getCharactersActualPosition(){
 	return actualPos;
 }
 
 //Get character's last position
-FMOD_VECTOR AssetManager::getCharactersLastPosition(){
+Position* AssetManager::getCharactersLastPosition(){
 	return lastPos;
 }
 
@@ -94,20 +94,27 @@ FMOD_VECTOR AssetManager::getCharactersLastPosition(){
 bool AssetManager::setCharactersActualPosition(float x, float y, float z){
 	FMOD_VECTOR vel;
 
-	lastPos = actualPos;
-
-	actualPos = {x, y, z};
+	if (actualPos == NULL){
+		actualPos = new Position(x,y,z);
+		lastPos = new Position(x, y, z);
+	}
+	else {
+		delete lastPos;
+		lastPos = actualPos;
+		actualPos = new Position(x, y, z);
+	}
 
 	// vel tells how far we moved during last FRAME (m/f) with time-compensated to SECONDS (m/s).
-	vel.x = (actualPos.x - lastPos.x) * (1000 / getUpdateTime());
-	vel.y = (actualPos.y - lastPos.y) * (1000 / getUpdateTime());
-	vel.z = (actualPos.z - lastPos.z) * (1000 / getUpdateTime());
+	vel.x = (actualPos->getX() - lastPos->getX()) * (1000 / getUpdateTime());
+	vel.y = (actualPos->getY() - lastPos->getY()) * (1000 / getUpdateTime());
+	vel.z = (actualPos->getZ() - lastPos->getZ()) * (1000 / getUpdateTime());
 
 	if (soundSystem == NULL){
 		throw fmodex;
 	}
 
-	FMOD_RESULT result = soundSystem->set3DListenerAttributes(0, &actualPos, &vel, &getCharactersForwardsOrientation(), &getCharactersUpwardsOrientation());
+
+	FMOD_RESULT result = soundSystem->set3DListenerAttributes(0, &(actualPos->getVector()), &vel, &getCharactersForwardsOrientation(), &getCharactersUpwardsOrientation());
 
 	checkProblem(result);
 
@@ -140,4 +147,15 @@ int AssetManager::getUpdateTime(){
 bool AssetManager::setSoundSystem(FMOD::System *system){
 	soundSystem = system;
 	return true;
+}
+
+//Loading of 3D SFX with looping
+TDSFX* AssetManager::load3DLoop(string name, Position* position, FMOD::System *system){
+	TDSFX * sound = load3D(name, position, system);
+
+	FMOD_RESULT result = sound->sound->setMode(FMOD_LOOP_NORMAL);
+
+	checkProblem(result);
+
+	return sound;
 }

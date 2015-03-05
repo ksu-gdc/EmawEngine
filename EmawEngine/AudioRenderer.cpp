@@ -46,13 +46,12 @@ AudioRenderer::AudioRenderer(){
 
 //Shutting down the system
 AudioRenderer::~AudioRenderer(){
-	FMOD_RESULT result1, result2;
-	result1 = system->close();
+	for (map<Position*, FMOD::Channel*>::iterator it = TDChannels.begin(); it != TDChannels.end(); ++it){
+		delete it->first;
+	}
 
-	result2 = system->release();
-
-	checkProblem(result1);
-	checkProblem(result2);
+	system->close();
+	system->release();
 }
 
 //Method for playing music
@@ -296,15 +295,19 @@ bool AudioRenderer::muteSFX(){
 	return updateSystem();
 }
 
-//Method for retrieving 3D Channel
-FMOD::Channel* AudioRenderer::getChannel(float x, float y, float z){
-	FMOD_VECTOR position = {x, y, z};
+//Method for playing SFX on 3D Channel
+void AudioRenderer::playOn3DChannel(float x, float y, float z, TDSFX *tdsfx){
+
+	Position* position = new Position(x, y, z);
 	FMOD_RESULT result;
 
 	if (TDChannels.find(position) == TDChannels.end()){
 		FMOD::Channel *channel = 0;
 
-		result = channel->set3DAttributes(&position, &TD_VELOCITY);
+		FMOD_VECTOR vel = { 0.0f, 0.0f, 0.0f };
+		system->playSound(tdsfx->sound, 0, true, &channel);
+		result = channel->set3DAttributes(&(position->getVector()), &vel);
+		channel->setPaused(false);
 		
 		checkProblem(result);
 
@@ -314,26 +317,27 @@ FMOD::Channel* AudioRenderer::getChannel(float x, float y, float z){
 
 		TDChannels[position] = channel;
 	}
-	return TDChannels.find(position)->second;
+	else {
+		FMOD::Channel *channel = TDChannels.find(position)->second;
+		FMOD_VECTOR vel = { 0.0f, 0.0f, 0.0f };
+		system->playSound(tdsfx->sound, 0, false, &channel);
+	}
 }
 
 //Method for playing 3D SFX
 bool AudioRenderer::playTDSFX(TDSFX *tdsfx){
-	FMOD_RESULT result;
-
-	FMOD::Channel* channel = getChannel(tdsfx->x, tdsfx->y, tdsfx->z);
-
-	result = system->playSound(tdsfx->sound, 0, false, &channel);
-
-	if (!checkResult(result)){
-		return false;
-	}
+	playOn3DChannel(tdsfx->getPosition()->getX(), tdsfx->getPosition()->getY(), tdsfx->getPosition()->getZ(), tdsfx);
 
 	return updateSystem();
 }
 
 //Method for loading and playing 3D SFX
-void AudioRenderer::loadAndPlayTDSFX(string name, AssetManager* am){
-	TDSFX *tdsfx = (TDSFX*)load(name, am);
+void AudioRenderer::loadAndPlayTDSFX(string name, AssetManager* am, Position* p){
+	TDSFX *tdsfx = am->load3DLoop(name, p, system);
 	playTDSFX(tdsfx);
+}
+
+//Set sound system
+bool AudioRenderer::setSoundSystem(AssetManager* am){
+	return am->setSoundSystem(system);
 }

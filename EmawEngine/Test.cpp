@@ -2,15 +2,7 @@
 //Author: Ondrej Kuzela
 
 #include "stdafx.h"
-#include <iostream>
-#include <cstdlib>
-#include <string>
-#include "AssetManager.h"
-#include "AudioRenderer.h"
-#include "Sound.h"
-#include "Music.h"
-#include <conio.h>
-
+#include "Test.h"
 
 void test(){
 	AssetManager* am = new AssetManager();
@@ -60,6 +52,55 @@ void test(){
 		case 'r':
 		case 'R':
 			(AudioRenderer::Instance())->musicVolumeReset();
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+
+void TDtest(){
+	AssetManager* am = new AssetManager();
+
+	//Adding music to filename's map
+	am->add("drum", "drumloop.wav");
+
+
+	Position* p = new Position(0, 0, 0);
+	(AudioRenderer::Instance())->loadAndPlayTDSFX("drum", am, p);
+	delete p;
+
+	am->setCharactersActualPosition(0, 0, 0);
+
+	char c = 0;
+	Position* pos;
+
+	//Testing based on user input
+	while (42){
+		c = _getch();
+		cout << (int)c << endl;
+		switch (c){
+		case 'c':
+		case 'C':
+			delete am;
+			AudioRenderer::destroy();
+			return;
+		case 'w':
+			pos = am->getCharactersActualPosition();
+			am->setCharactersActualPosition(pos->getX(), pos->getY() + 1, pos->getZ());
+			break;
+		case 's':
+			pos = am->getCharactersActualPosition();
+			am->setCharactersActualPosition(pos->getX(), pos->getY() - 1, pos->getZ());
+			break;
+		case 'd':
+			pos = am->getCharactersActualPosition();
+			am->setCharactersActualPosition(pos->getX() + 1, pos->getY(), pos->getZ());
+			break;
+		case 'a':
+			pos = am->getCharactersActualPosition();
+			am->setCharactersActualPosition(pos->getX() - 1, pos->getY(), pos->getZ());
 			break;
 		default:
 			break;

@@ -8,6 +8,21 @@
 //Sound exception object
 fmodexception fmodex;
 
+//3D channel velocity
+FMOD_VECTOR TD_VELOCITY = { 0.0f, 0.0f, 0.0f };
+
+//3D channel forward vector
+//Test constant
+FMOD_VECTOR FORWARD_ORIENTATION = { 0.0f, 0.0f, 1.0f };
+
+//3D channel up vector
+//Test constant
+FMOD_VECTOR UP_ORIENTATION = { 0.0f, 1.0f, 0.0f };
+
+//Update time
+//Test constant
+int UPDATE_TIME = 50;
+
 //Checking the result value of FMOD methods
 bool checkResult(FMOD_RESULT result){
 	return (result == FMOD_OK);

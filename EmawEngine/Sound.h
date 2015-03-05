@@ -18,5 +18,5 @@ public:
 	//FMOD Sound class
 	FMOD::Sound *sound;
 	Sound(string i, FMOD::Sound *s);
-	~Sound();
+	virtual ~Sound();
 };

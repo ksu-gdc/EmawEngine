@@ -1,12 +1,15 @@
+//Class for 3D SFX
+//Author: Ondrej Kuzela
 #pragma once
 #include "SFX.h"
-#pragma once
+#include "Position.h"
 
 
 class TDSFX : public SFX{
+private:
+	Position* position;
 public:
-	float x;
-	float y;
-	float z;
-	TDSFX(float tX, float tY, float tZ);
+	TDSFX(string name, FMOD::Sound *s, Position* p);
+	~TDSFX();
+	Position* getPosition();
 };
