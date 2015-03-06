@@ -9,3 +9,8 @@ FontChar::FontChar()
 FontChar::~FontChar()
 {
 }
+
+bool FontChar::unload(void){
+
+	return true;
+}

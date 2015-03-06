@@ -22,7 +22,7 @@ Font::~Font()
 // ---------------------------------------------------------------------
 // returns:		none.
 // ---------------------------------------------------------------------
-void Font::loadFont(string fontPath){
+void Font::load(string fontPath){
 
 	try{
 
@@ -218,4 +218,29 @@ string Font::createTextBlock(string text, int width){
 
 	return newTextBlock;
 
+}
+
+// ---------------------------------------------------------------------
+// Unloads the Font asset.
+// ---------------------------------------------------------------------
+// returns:		Returns true if Font asset was successfully unloaded.
+// ---------------------------------------------------------------------
+bool Font::unload(){
+
+	try{
+
+		// Delete all the FontChars/
+		for (map<int, FontChar*>::iterator i = fontCharacters.begin(); i != fontCharacters.end(); ++i){
+			delete i->second;
+		}
+
+		// Delete the map.
+		delete &fontCharacters;
+	}
+	catch (exception e){
+		OutputDebugString(L"Error unloading font asset");
+		return false;
+	}
+
+	return true;
 }
