@@ -74,6 +74,6 @@
       <Filter>Resources</Filter>
     </None>
     <None Include="Shaders.col" />
-    <None Include="Shaders.geo" />
+    <None Include="VoxShader.geo" />
   </ItemGroup>
 </Project>

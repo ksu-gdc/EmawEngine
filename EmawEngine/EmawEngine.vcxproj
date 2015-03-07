@@ -126,7 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="C:\Users\Chris\Desktop\consolas.fnt" />
-    <None Include="Shaders.geo" />
+    <None Include="VoxShader.geo" />
     <None Include="Shaders.col" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

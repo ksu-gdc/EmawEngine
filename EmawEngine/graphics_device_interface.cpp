@@ -85,7 +85,7 @@ void GraphicsDeviceInterface::InitPipeline()
 {
 	//load shaders
 	shdrs = new ShaderAsset(this);
-	ShaderStruct *blah = (ShaderStruct*)shdrs->load("Shaders.geo");
+	ShaderStruct *blah = (ShaderStruct*)shdrs->load("VoxShader.geo");
 
 	m_Context->VSSetShader(blah->VertShader, 0, 0);
 	m_Context->PSSetShader(blah->PixShader, 0, 0);
@@ -99,16 +99,16 @@ void GraphicsDeviceInterface::InitGraphics(void)
 {
 	//the triangle
 	VERTEX OurVertices[] = {
-			{ 0.0f, 0.0f, 1.5f, 0.5f, DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f) },
-//			{ 0.45f, -0.5f, 0.0f, DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f) },
-//			{ -0.45f, -0.5f, 0.0f, DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f) }
+			{ 0.0f, 0.0f, 1.0f, 0.5f, DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f) },
+			{ 1.0f, 0.0f, 1.0f, 0.5f, DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f) },
+			{ -1.0f, 0.0f, 1.0f, 0.5f, DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f) },
 	};
 
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 
 	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-	bd.ByteWidth = sizeof(VERTEX) * 3;             // size is the VERTEX struct * 3
+	bd.ByteWidth = sizeof(VERTEX) * 4;             // size is the VERTEX struct * 3
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
 	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
 
@@ -167,7 +167,7 @@ bool GraphicsDeviceInterface::Render()
 	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 	// draw the vertex buffer to the back buffer
-	m_Context->Draw(3, 0);
+	m_Context->Draw(4, 0);
 
 	// TODO: Clear the depth buffer
 

@@ -1,4 +1,12 @@
+//globals
+cbuffer MatrixBuffer
+{
+	matrix worldMatrix;
+	matrix viewMatrix;
+	matrix projectionMatrix;
+}
 
+//structs
 struct VIn
 {
 	float4 position : POSITION;
