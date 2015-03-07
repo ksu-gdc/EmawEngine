@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "EmawEngine.h"
+#include "FrameCounter.h"
 
 #define MAX_LOADSTRING 100
 
@@ -29,7 +30,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// TODO: Place code here.
 	MSG msg;
-	
+
 	// Initialize global strings
 	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
 	LoadString(hInstance, IDC_EMAW_ENGINE, szWindowClass, MAX_LOADSTRING);
@@ -47,8 +48,13 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		return FALSE;
 	}
 
+	// Perform frame count initialization
+	FrameCounter fc;
+	unsigned int fps = 0;
+
+
 	// Main game loop:
-	while(true)
+	while (true)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
@@ -61,6 +67,11 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		{
 			// TODO: Update
 			gdi.NextFrame();
+
+			// Update frame counter
+			fc.Update();
+			std::wstring test = fc.GetFps();
+			SetWindowText(hWnd, (LPCWSTR)&test[0]);
 		}
 	}
 

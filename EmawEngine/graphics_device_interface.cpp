@@ -1,8 +1,10 @@
 #include "stdafx.h"
 #include "graphics_device_interface.h"
 
-#include <DirectXColors.h>
+//#include <DirectXColors.h>
 #include <DirectXMath.h>
+
+#define _XM_NO_INTRINSICS_
 
 GraphicsDeviceInterface::GraphicsDeviceInterface() {
 }
@@ -97,18 +99,28 @@ void GraphicsDeviceInterface::InitPipeline()
 //Placeholder used for testing, manually creates a triangle and sends the vertices for the Graphics Device for rendering.
 void GraphicsDeviceInterface::InitGraphics(void)
 {
+<<<<<<< HEAD
 	//the triangle
 	VERTEX OurVertices[] = {
 			{ 0.0f, 0.0f, 1.0f, 0.5f, DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f) },
 			{ 1.0f, 0.0f, 1.0f, 0.5f, DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f) },
 			{ -1.0f, 0.0f, 1.0f, 0.5f, DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f) },
 	};
+=======
+	Entity* e = new Entity();
+
+	std::vector<VERTEX> vertices = e->getModel()->getVertexBuffer();
+>>>>>>> origin/master
 
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 
 	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
+<<<<<<< HEAD
 	bd.ByteWidth = sizeof(VERTEX) * 4;             // size is the VERTEX struct * 3
+=======
+	bd.ByteWidth = sizeof(VERTEX) * vertices.size();             // size is the VERTEX struct * 3
+>>>>>>> origin/master
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
 	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
 
@@ -116,7 +128,7 @@ void GraphicsDeviceInterface::InitGraphics(void)
 
 	D3D11_MAPPED_SUBRESOURCE ms;
 	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
-	memcpy(ms.pData, OurVertices, sizeof(OurVertices));                // copy the data
+	memcpy(ms.pData, vertices.data(), vertices.size() * sizeof(VERTEX));                // copy the data
 	m_Context->Unmap(m_VertBuffer, NULL);
 }
 
@@ -154,7 +166,7 @@ void GraphicsDeviceInterface::NextFrame()
 bool GraphicsDeviceInterface::Render()
 {
 	// Default color
-	float color[4] = { 0.5, 0, 0.5, 1.0 };
+	float color[4] = { 0.2, 0.11, 0.34, 1.0 };
 	
 	// Clear the back buffer
 	m_Context->ClearRenderTargetView(m_BackBuffer, color);
@@ -167,14 +179,21 @@ bool GraphicsDeviceInterface::Render()
 	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 	// draw the vertex buffer to the back buffer
+<<<<<<< HEAD
 	m_Context->Draw(4, 0);
+=======
+	m_Context->Draw(36, 0);
+>>>>>>> origin/master
 
 	// TODO: Clear the depth buffer
 
 	// TODO: Render game world
 
-	// Swap buffers
-	m_Swapchain->Present(1, 0);
+	// Swap buffers - waits for vsync
+	//m_Swapchain->Present(1, 0);
+
+	// Swap buffers - unlocked framerate
+	m_Swapchain->Present(0, 0);
 
 	return true;
 }

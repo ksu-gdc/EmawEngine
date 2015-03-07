@@ -3,19 +3,6 @@
 #include <fbxsdk.h>
 #include <vector>
 
-struct Vertex {
-	float x;
-	float y;
-	float z;
-};
-
-// a, b, and c are indicies in the vertex buffer
-struct Triangle {
-	int a;
-	int b;
-	int c;
-};
-
 class Model :
 	public Asset
 {
@@ -25,10 +12,8 @@ public:
 	void* load(char*);
 	void* getData();
 	bool unload();
-	std::vector<Vertex> getVertexBuffer();
-	std::vector<Triangle> getTriangleList();
+	std::vector<VERTEX> getVertexBuffer();
 private:
-	std::vector<Vertex> vertexBuffer;
-	std::vector<Triangle> triangleList;
+	std::vector<VERTEX> vertexBuffer;
 };
 
