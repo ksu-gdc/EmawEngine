@@ -87,11 +87,11 @@ void GraphicsDeviceInterface::InitPipeline()
 {
 	//load shaders
 	shdrs = new ShaderAsset(this);
-	ShaderStruct *blah = (ShaderStruct*)shdrs->load("VoxShader.geo");
+	ShaderStruct *blah = (ShaderStruct*)shdrs->load("Shaders.col");
 
 	m_Context->VSSetShader(blah->VertShader, 0, 0);
 	m_Context->PSSetShader(blah->PixShader, 0, 0);
-	m_Context->GSSetShader(blah->GeoShader, 0, 0);
+//	m_Context->GSSetShader(blah->GeoShader, 0, 0);
 
 	m_Context->IASetInputLayout(blah->InputLayout);
 }
@@ -169,7 +169,7 @@ bool GraphicsDeviceInterface::Render()
 	m_Context->IASetVertexBuffers(0, 1, &m_VertBuffer, &stride, &offset);
 
 	// select which primtive type we are using
-	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	// draw the vertex buffer to the back buffer
 	m_Context->Draw(36, 0);
