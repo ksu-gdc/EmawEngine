@@ -81,6 +81,7 @@ void* Model::load(char* filename) {
 					vertex.X = (float)verticies[controlPointIndex].mData[0];
 					vertex.Y = (float)verticies[controlPointIndex].mData[1];
 					vertex.Z = (float)verticies[controlPointIndex].mData[2];
+					vertex.W = 1.0f;
 					//vertex.Color = DirectX::XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f); // grey
 					// generate random color
 					float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
