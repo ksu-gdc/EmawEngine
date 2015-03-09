@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "EmawEngine.h"
 #include "Texture.h"
+#include "FrameCounter.h"
 
 #define MAX_LOADSTRING 100
 
@@ -13,6 +14,7 @@ HWND hWnd;										// window handle
 TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
 GraphicsDeviceInterface gdi;					// the Graphics Device Inteface
+WindowSize wind;								// window size object
 
 // Forward declarations of functions included in this code module:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
@@ -42,15 +44,18 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	// Perform graphics initialization
-	if (!gdi.Initialize(hWnd))
+	if (!gdi.Initialize(hWnd, &wind))
 	{
 		return FALSE;
 	}
 
-	
-	
+	// Perform frame count initialization
+	FrameCounter fc;
+	unsigned int fps = 0;
+
+
 	// Main game loop:
-	while(true)
+	while (true)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
@@ -63,6 +68,11 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		{
 			// TODO: Update
 			gdi.NextFrame();
+
+			// Update frame counter
+			fc.Update();
+			std::wstring test = fc.GetFps();
+			SetWindowText(hWnd, (LPCWSTR)&test[0]);
 		}
 	}
 
@@ -114,8 +124,23 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // Store instance handle in our global variable
 
-   hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+   // using windows size object to create correctly sized window
+   // removed thick frame so window is not resizable
+   RECT wr = { 0, 0, wind.getWidth(), wind.getHeight() };
+   AdjustWindowRect(&wr, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX, FALSE);
+
+   hWnd = CreateWindow(
+	   szWindowClass,
+	   szTitle,
+	   WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,
+	   CW_USEDEFAULT,
+	   0,
+	   wr.right - wr.left,
+	   wr.bottom - wr.top,
+	   NULL,
+	   NULL,
+	   hInstance,
+	   NULL);
 
    if (!hWnd)
    {
@@ -136,6 +161,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_COMMAND	- process the application menu
 //  WM_PAINT	- Paint the main window
 //  WM_DESTROY	- post a quit message and return
+//	WM_KEYDOWN	- process keydown events
 //
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -146,6 +172,37 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	switch (message)
 	{
+	// Handles keydown messages - currently used for testing resolution changes
+#pragma region KEYDOWN message
+	case WM_KEYDOWN:
+		switch (wParam)
+		{
+		case 96: // Num-0
+			OutputDebugString(CString("0\n"));
+			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
+			break;
+		case 97: // Num-1
+			wind.setSize(hWnd, &gdi, LOW_4_3);
+			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
+			break;
+		case 98: // Num-2
+			wind.setSize(hWnd, &gdi, HIGH_4_3);
+			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
+			break;
+		case 99: // Num-3
+			wind.setSize(hWnd, &gdi, LOW_16_9);
+			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
+			break;
+		case 100: // Num-4
+			wind.setSize(hWnd, &gdi, HIGH_16_9);
+			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
+			break;
+		default:
+			OutputDebugString(CString((std::to_string(wParam) + "\n").c_str()));
+			break;
+		}
+		break;
+#pragma endregion
 	case WM_COMMAND:
 		wmId    = LOWORD(wParam);
 		wmEvent = HIWORD(wParam);

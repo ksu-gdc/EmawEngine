@@ -15,6 +15,18 @@
     <ClCompile Include="TextureShader.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
+    <ClCompile Include="Font.cpp" />
+    <ClCompile Include="FontChar.cpp" />
+    <ClCompile Include="ShaderAsset.cpp" />
+    <ClCompile Include="WindowSize.cpp">
+      <Filter>Low-Level Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="VoxelMap.cpp" />
+    <ClCompile Include="FrameCounter.cpp">
+      <Filter>Debugging and Profiling</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -33,6 +45,19 @@
     <ClInclude Include="TextureShader.h">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="Font.h" />
+    <ClInclude Include="FontChar.h" />
+    <ClInclude Include="ShaderAsset.h" />
+    <ClInclude Include="HelperStructs.h" />
+    <ClInclude Include="WindowSize.h">
+      <Filter>Low-Level Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="VoxelMap.h" />
+    <ClInclude Include="FrameCounter.h">
+      <Filter>Debugging and Profiling</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
@@ -40,6 +65,9 @@
   <ItemGroup>
     <Image Include="EmawEngine.ico" />
     <Image Include="small.ico" />
+    <Image Include="C:\Users\Chris\Desktop\consolas_0.png">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -60,5 +88,12 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{7cb0be83-89c8-4854-831f-8a7b140301f5}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\Chris\Desktop\consolas.fnt">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="Shaders.col" />
+    <None Include="VoxShader.geo" />
   </ItemGroup>
 </Project>
