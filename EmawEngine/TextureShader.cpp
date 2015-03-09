@@ -304,7 +304,7 @@ bool TextureShader::setShaderParameters(ID3D11DeviceContext* deviceContext, D3DX
 
 
 /*
-* Calls the sahder technique to render the polygons
+* Calls the shader technique to render the polygons
 */
 void TextureShader::RenderShader(ID3D11DeviceContext* deviceContext, int indexCount)
 {
