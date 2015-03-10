@@ -6,7 +6,7 @@
 #include "SFX.h"
 #include "TDSFX.h"
 #include "fmod/fmod.hpp"
-#include "AssetManager.h"
+#include "AudioManager.h"
 #include "Utils.h"
 #include "Position.h"
 
@@ -47,13 +47,13 @@ public:
 	bool stopMusic();
 
 	//Method for loading and playing music
-	void loadAndPlayMusic(string name, AssetManager* am);
+	void loadAndPlayMusic(string name, AudioManager* am);
 
 	//Method for playing SFX
 	bool playSFX(SFX *sfx);
 
 	//Method for loading music
-	Sound* load(string name, AssetManager* am);
+	Sound* load(string name, AudioManager* am);
 
 	//Method for destroying the instance and shutting down her system
 	static void destroy();
@@ -74,7 +74,7 @@ public:
 	bool updateSystem();
 
 	//Method for loading and playing SFX
-	void loadAndPlaySFX(string name, AssetManager* am);
+	void loadAndPlaySFX(string name, AudioManager* am);
 
 	//Method for mute/unmute SFX
 	bool muteSFX();
@@ -98,8 +98,8 @@ public:
 	bool playTDSFX(TDSFX *tdsfx);
 
 	//Method for loading and playing 3D SFX
-	void loadAndPlayTDSFX(string name, AssetManager* am, Position* p);
+	void loadAndPlayTDSFX(string name, AudioManager* am, Position* p);
 
 	//Set sound system
-	bool setSoundSystem(AssetManager* am);
+	bool setSoundSystem(AudioManager* am);
 };

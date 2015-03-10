@@ -64,6 +64,9 @@
     <ClCompile Include="Position.cpp">
       <Filter>AudioRenderer</Filter>
     </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>AudioRenderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -143,6 +146,9 @@
       <Filter>AudioRenderer\Test</Filter>
     </ClInclude>
     <ClInclude Include="Position.h">
+      <Filter>AudioRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
       <Filter>AudioRenderer</Filter>
     </ClInclude>
   </ItemGroup>

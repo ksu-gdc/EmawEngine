@@ -61,7 +61,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	//Main game loop:
 	while(true)
 	{
-		AssetManager* am = new AssetManager();
+		AudioManager* am = AudioManager::getInstance();
 		(AudioRenderer::Instance())->setSoundSystem(am);
 
 		//Adding music to filename's map

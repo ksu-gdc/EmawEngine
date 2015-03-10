@@ -3,9 +3,10 @@
 
 #include "stdafx.h"
 #include "Test.h"
+#include "AudioManager.h"
 
 void test(){
-	AssetManager* am = new AssetManager();
+	AudioManager* am = AudioManager::getInstance();
 
 	//Adding music to filename's map
 	am->add("1", "FileName1.mp3");
@@ -61,7 +62,7 @@ void test(){
 
 
 void TDtest(){
-	AssetManager* am = new AssetManager();
+	AudioManager* am = AudioManager::getInstance();
 
 	//Adding music to filename's map
 	am->add("drum", "drumloop.wav");

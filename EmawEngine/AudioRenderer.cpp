@@ -124,12 +124,12 @@ bool AudioRenderer::playSFX(SFX *sfx){
 }
 
 //Method for loading music
-Sound* AudioRenderer::load(string name, AssetManager* am){
+Sound* AudioRenderer::load(string name, AudioManager* am){
 	return am->load(name, system);
 }
 
 //Method for loading and playing music
-void AudioRenderer::loadAndPlayMusic(string name, AssetManager* am){
+void AudioRenderer::loadAndPlayMusic(string name, AudioManager* am){
 	Music * m = (Music*)load(name, am);
 	playMusic(m);
 }
@@ -269,7 +269,7 @@ bool AudioRenderer::SFXVolumeReset(){
 }
 
 //Method for loading and playing SFX
-void AudioRenderer::loadAndPlaySFX(string name, AssetManager* am){
+void AudioRenderer::loadAndPlaySFX(string name, AudioManager* am){
 	SFX * s = (SFX*)load(name, am);
 	playSFX(s);
 }
@@ -332,12 +332,12 @@ bool AudioRenderer::playTDSFX(TDSFX *tdsfx){
 }
 
 //Method for loading and playing 3D SFX
-void AudioRenderer::loadAndPlayTDSFX(string name, AssetManager* am, Position* p){
+void AudioRenderer::loadAndPlayTDSFX(string name, AudioManager* am, Position* p){
 	TDSFX *tdsfx = am->load3DLoop(name, p, system);
 	playTDSFX(tdsfx);
 }
 
 //Set sound system
-bool AudioRenderer::setSoundSystem(AssetManager* am){
+bool AudioRenderer::setSoundSystem(AudioManager* am){
 	return am->setSoundSystem(system);
 }
