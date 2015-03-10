@@ -20,10 +20,12 @@ public:
 	Font();
 	~Font();
 
-	void load(std::string);
+	void* load(char*);
+	void* load(std::string);
+	void* getData();
 	bool unload(void);
 	std::pair<int, int>* Font::textSize(std::string);
 	std::string Font::createTextBlock(std::string, int);
-	Model* Font::createFontModel(std::string, float, float, float, float*);
+	Model* Font::createFontModel(std::string, float, float, float, float*, float);
 	
 };

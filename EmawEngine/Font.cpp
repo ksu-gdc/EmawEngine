@@ -15,6 +15,14 @@ Font::~Font()
 {
 }
 
+void* Font::load(string fontPath){
+	return NULL;
+}
+
+void* Font::getData(){
+	return NULL;
+}
+
 // ---------------------------------------------------------------------
 // Loads a font asset by reading in a font file.
 // ---------------------------------------------------------------------
@@ -22,7 +30,7 @@ Font::~Font()
 // ---------------------------------------------------------------------
 // returns:		none.
 // ---------------------------------------------------------------------
-void Font::load(string fontPath){
+void* Font::load(char* fontPath){
 
 	try{
 
@@ -41,6 +49,8 @@ void Font::load(string fontPath){
 	catch (exception e){
 		OutputDebugString(L"Error loading font asset.");
 	}
+
+	return NULL;
 }
 
 // ---------------------------------------------------------------------
@@ -149,6 +159,12 @@ pair<int, int>* Font::textSize(string text){
 		}
 	}
 
+	// If the width of the current line is bigger than the max
+	// width, then set the max width to the current lines width.
+	if (curWidth > maxWidth){
+		maxWidth = curWidth;
+	}
+
 	return new pair<int, int>(maxWidth, line * lineHeight);
 
 }
@@ -220,7 +236,7 @@ string Font::createTextBlock(string text, int width){
 
 }
 
-Model* Font::createFontModel(std::string text, float x, float y, float z, float* optional_z){
+Model* Font::createFontModel(std::string text, float x, float y, float z, float* optional_z, float scale){
 
 	pair<int, int>* size = textSize(text);
 
@@ -231,10 +247,10 @@ Model* Font::createFontModel(std::string text, float x, float y, float z, float*
 	topLeft.Y = y;
 	topLeft.Z = z;
 
-	topLeft.Color = { 0.0, 0.0, 0.0, 0.0 };
+	topLeft.Color = { 1.0, 0.0, 0.0, 0.0 };
 
 	VERTEX topRight;
-	topRight.X = x + size->first;
+	topRight.X = x + (size->first * scale);
 	topRight.Y = y;
 
 	if (optional_z == NULL){
@@ -244,18 +260,18 @@ Model* Font::createFontModel(std::string text, float x, float y, float z, float*
 		topRight.Z = *optional_z;
 	}
 
-	topRight.Color = { 0.0, 0.0, 0.0, 0.0 };
+	topRight.Color = { 0.0, 0.0, 1.0, 0.0 };
 
 	VERTEX bottomLeft;
 	bottomLeft.X = x;
-	bottomLeft.Y = y + size->second;
+	bottomLeft.Y = y - (size->second * scale);
 	bottomLeft.Z = z;
 
-	bottomLeft.Color = { 0.0, 0.0, 0.0, 0.0 };
+	bottomLeft.Color = { 1.0, 0.0, 1.0, 0.0 };
 
 	VERTEX bottomRight;
-	bottomRight.X = x + size->first;
-	bottomRight.Y = y + size->second;
+	bottomRight.X = x + (size->first * scale);
+	bottomRight.Y = y - (size->second * scale);
 
 	if (optional_z == NULL){
 		bottomRight.Z = z;
@@ -264,11 +280,11 @@ Model* Font::createFontModel(std::string text, float x, float y, float z, float*
 		bottomRight.Z = *optional_z;
 	}
 
-	bottomRight.Color = { 0.0, 0.0, 0.0, 0.0 };
+	bottomRight.Color = { 0.0, 1.0, 0.0, 0.0 };
 
 	// Create left triangle in quad.
-	verticies.push_back(topLeft);
 	verticies.push_back(bottomLeft);
+	verticies.push_back(topLeft);
 	verticies.push_back(bottomRight);
 
 	// Create right triangle in quad.
