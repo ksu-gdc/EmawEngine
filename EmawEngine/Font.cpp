@@ -220,6 +220,66 @@ string Font::createTextBlock(string text, int width){
 
 }
 
+Model* Font::createFontModel(std::string text, float x, float y, float z, float* optional_z){
+
+	pair<int, int>* size = textSize(text);
+
+	vector<VERTEX> verticies;
+	
+	VERTEX topLeft;
+	topLeft.X = x;
+	topLeft.Y = y;
+	topLeft.Z = z;
+
+	topLeft.Color = { 0.0, 0.0, 0.0, 0.0 };
+
+	VERTEX topRight;
+	topRight.X = x + size->first;
+	topRight.Y = y;
+
+	if (optional_z == NULL){
+		topRight.Z = z;
+	}
+	else{
+		topRight.Z = *optional_z;
+	}
+
+	topRight.Color = { 0.0, 0.0, 0.0, 0.0 };
+
+	VERTEX bottomLeft;
+	bottomLeft.X = x;
+	bottomLeft.Y = y + size->second;
+	bottomLeft.Z = z;
+
+	bottomLeft.Color = { 0.0, 0.0, 0.0, 0.0 };
+
+	VERTEX bottomRight;
+	bottomRight.X = x + size->first;
+	bottomRight.Y = y + size->second;
+
+	if (optional_z == NULL){
+		bottomRight.Z = z;
+	}
+	else{
+		bottomRight.Z = *optional_z;
+	}
+
+	bottomRight.Color = { 0.0, 0.0, 0.0, 0.0 };
+
+	// Create left triangle in quad.
+	verticies.push_back(topLeft);
+	verticies.push_back(bottomLeft);
+	verticies.push_back(bottomRight);
+
+	// Create right triangle in quad.
+	verticies.push_back(topLeft);
+	verticies.push_back(topRight);
+	verticies.push_back(bottomRight);
+
+	return new Model(verticies);
+
+}
+
 // ---------------------------------------------------------------------
 // Unloads the Font asset.
 // ---------------------------------------------------------------------

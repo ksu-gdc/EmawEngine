@@ -22,7 +22,8 @@ public:
 
 	void load(std::string);
 	bool unload(void);
-	std::pair<int, int>* Font::textSize(std::string line);
-	std::string Font::createTextBlock(std::string text, int width);
+	std::pair<int, int>* Font::textSize(std::string);
+	std::string Font::createTextBlock(std::string, int);
+	Model* Font::createFontModel(std::string, float, float, float, float*);
 	
 };

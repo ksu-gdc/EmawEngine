@@ -5,7 +5,6 @@ FontChar::FontChar()
 {
 }
 
-
 FontChar::~FontChar()
 {
 }
