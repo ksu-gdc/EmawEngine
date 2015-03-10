@@ -160,4 +160,5 @@ Asset* AssetManager::loadBSPMap(std::string name) {
 }
 void AssetManager::unloadBSPMap(std::string name) {
 	//TODO: Unload asset
+
 }
