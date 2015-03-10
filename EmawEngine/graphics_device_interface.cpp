@@ -87,11 +87,11 @@ void GraphicsDeviceInterface::InitPipeline()
 {
 	//load shaders
 	shdrs = new ShaderAsset(this);
-	ShaderStruct *blah = (ShaderStruct*)shdrs->load("Shaders.col");
+	ShaderStruct *blah = (ShaderStruct*)shdrs->load("VoxShader.geo");
 
 	m_Context->VSSetShader(blah->VertShader, 0, 0);
 	m_Context->PSSetShader(blah->PixShader, 0, 0);
-//	m_Context->GSSetShader(blah->GeoShader, 0, 0);
+	m_Context->GSSetShader(blah->GeoShader, 0, 0);
 
 	m_Context->IASetInputLayout(blah->InputLayout);
 }
@@ -113,7 +113,7 @@ void GraphicsDeviceInterface::InitGraphics(void)
 	ZeroMemory(&bd, sizeof(bd));
 
 	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-	bd.ByteWidth = sizeof(VERTEX) * vertices.size();             // size is the VERTEX struct * 3
+	bd.ByteWidth = sizeof(VERTEX) * 3;             // size is the VERTEX struct * 3
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
 	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
 
@@ -121,7 +121,7 @@ void GraphicsDeviceInterface::InitGraphics(void)
 
 	D3D11_MAPPED_SUBRESOURCE ms;
 	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
-	memcpy(ms.pData, vertices.data(), vertices.size() * sizeof(VERTEX));                // copy the data
+	memcpy(ms.pData, OurVertices, 3 * sizeof(VERTEX));                // copy the data
 	m_Context->Unmap(m_VertBuffer, NULL);
 }
 
@@ -169,7 +169,7 @@ bool GraphicsDeviceInterface::Render()
 	m_Context->IASetVertexBuffers(0, 1, &m_VertBuffer, &stride, &offset);
 
 	// select which primtive type we are using
-	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	// draw the vertex buffer to the back buffer
 	m_Context->Draw(36, 0);
