@@ -10,11 +10,12 @@ public:
 	ShaderStruct Shaders;
 	ShaderAsset(void* gdi);
 	~ShaderAsset();
-	void* load(char*);
+	void* load(std::string);
 	void* getData();
 	bool unload();
 
 private:
+	int	getShaderType(char*);
 	void* gInterface;
 };
 

@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "EmawEngine.h"
+#include "Texture.h"
 #include "FrameCounter.h"
 
 #define MAX_LOADSTRING 100
