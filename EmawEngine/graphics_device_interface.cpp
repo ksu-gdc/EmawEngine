@@ -133,7 +133,7 @@ void GraphicsDeviceInterface::InitGraphics(void)
 // 
 void GraphicsDeviceInterface::Shutdown() {
 
-	m_Swapchain->SetFullscreenState(FALSE, NULL);	// switch to windowed mode
+	SetFullScreenState(FALSE);	// switch to windowed mode
 
 	// close and release all COM objects
 	m_Swapchain->Release();
@@ -155,16 +155,26 @@ void GraphicsDeviceInterface::NextFrame()
 }
 
 //
-// FUNCTION: IsFullScreen()
+// FUNCTION: GraphicsDeviceInterface::IsFullScreen()
 //
 // PURPOSE: returns true if fullscreen, false if windowed;
 //
-bool GraphicsDeviceInterface::IsFullScreen()
+BOOL GraphicsDeviceInterface::IsFullScreen()
 {
 	BOOL fullscreen;
 	m_Swapchain->GetFullscreenState(&fullscreen, NULL);
 
 	return fullscreen;
+}
+
+//
+// FUNCTION: GraphicsDeviceInterface::SetFullScreenState()
+//
+// PURPOSE: changes fullscreen state of GDI
+//
+void GraphicsDeviceInterface::SetFullScreenState(BOOL state)
+{
+	m_Swapchain->SetFullscreenState(state, NULL);
 }
 
 //

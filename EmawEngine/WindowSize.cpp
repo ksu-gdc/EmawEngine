@@ -38,6 +38,8 @@ void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution
 	// Check to see resolution needs to be changed
 	if (this->resolution != resolution)
 	{
+		// save fullscreen state
+		BOOL fullscreen = gdi->IsFullScreen();
 		
 		// changes width and height
 		forceSize(resolution);
@@ -59,6 +61,10 @@ void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution
 
 		// reinitialize resources
 		gdi->Initialize(hWnd, this);
+
+		// switch to fullscreen if needed
+		if (fullscreen)
+			gdi->SetFullScreenState(fullscreen);
 	}
 }
 

@@ -181,19 +181,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			OutputDebugString(CString("0\n"));
 			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
 			break;
-		case 97: // Num-1
+		case 49: // Num-1
 			wind.setSize(hWnd, &gdi, LOW_4_3);
 			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
 			break;
-		case 98: // Num-2
+		case 50: // Num-2
 			wind.setSize(hWnd, &gdi, HIGH_4_3);
 			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
 			break;
-		case 99: // Num-3
+		case 51: // Num-3
 			wind.setSize(hWnd, &gdi, LOW_16_9);
 			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
 			break;
-		case 100: // Num-4
+		case 52: // Num-4
 			wind.setSize(hWnd, &gdi, HIGH_16_9);
 			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
 			break;

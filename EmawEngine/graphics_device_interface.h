@@ -20,7 +20,8 @@ public:
 	void NextFrame();
 	void InitPipeline();
 	void InitGraphics();
-	bool IsFullScreen();
+	BOOL IsFullScreen();
+	void SetFullScreenState(BOOL);
 
 private:
 	bool Render();
