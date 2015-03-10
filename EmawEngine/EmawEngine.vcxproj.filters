@@ -8,20 +8,15 @@
     <ClCompile Include="EmawEngine.cpp">
       <Filter>Core Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Asset.cpp" />
     <ClCompile Include="Texture.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
     <ClCompile Include="TextureShader.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="Font.cpp" />
-    <ClCompile Include="FontChar.cpp" />
-    <ClCompile Include="ShaderAsset.cpp" />
     <ClCompile Include="WindowSize.cpp">
       <Filter>Low-Level Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp" />
     <ClCompile Include="VoxelMap.cpp" />
     <ClCompile Include="FrameCounter.cpp">
       <Filter>Debugging and Profiling</Filter>
@@ -42,6 +37,21 @@
     <ClCompile Include="Font.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
+    <ClCompile Include="Asset.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="FontChar.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderAsset.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -53,21 +63,16 @@
     <ClInclude Include="EmawEngine.h">
       <Filter>Core Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Asset.h" />
     <ClInclude Include="Texture.h">
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="TextureShader.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Font.h" />
-    <ClInclude Include="FontChar.h" />
-    <ClInclude Include="ShaderAsset.h" />
     <ClInclude Include="HelperStructs.h" />
     <ClInclude Include="WindowSize.h">
       <Filter>Low-Level Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h" />
     <ClInclude Include="VoxelMap.h" />
     <ClInclude Include="FrameCounter.h">
       <Filter>Debugging and Profiling</Filter>
@@ -86,6 +91,21 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="FontChar.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="FontChar.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderAsset.h">
       <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>

@@ -75,12 +75,14 @@ Asset* AssetManager::loadFromFile(std::string name) {
 
 // Textures ====================================
 Asset* AssetManager::loadTexture(std::string name) {
-	Asset* asset = NULL;
-	//TODO: Load asset
-	return asset;
+	Texture texture(NULL); // TODO: figure out what parameter should go in here
+	texture.load(name);
+	return &texture;
 }
 void AssetManager::unloadTexture(std::string name) {
-	//TODO: Unload asset
+	char *cstr = &name[0u];
+	Texture* model = (Texture*)assets[cstr];
+	model->unload();
 }
 
 // Models ======================================

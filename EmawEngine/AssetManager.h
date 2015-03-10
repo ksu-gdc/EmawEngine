@@ -2,6 +2,7 @@
 #include <map>
 #include "Asset.h"
 #include "Font.h"
+#include "Texture.h"
 class AssetManager
 {
 private:

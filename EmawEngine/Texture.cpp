@@ -13,9 +13,10 @@
 using namespace std;
 
 
-Texture::Texture()
+Texture::Texture(ID3D11Device* device)
 {
 	m_texture = 0;
+	m_device = device;
 }
 
 /*
@@ -48,15 +49,18 @@ Texture::~Texture()
 *
 * @return true if the file loaded, false otherwise
 */
-bool Texture::initialize(ID3D11Device* device, WCHAR* filename)
+void* Texture::load(std::string str)
 {
 	HRESULT result; 
-
+	std::wstring stemp = std::wstring(str.begin(), str.end());
+	LPCWSTR filename = (LPCWSTR)&stemp[0];
 	//Load texture
-	result = D3DX11CreateShaderResourceViewFromFile(device, filename, NULL, NULL, &m_texture, NULL);
-	if (FAILED(result))
-		return false;
-	return true;
+	result = D3DX11CreateShaderResourceViewFromFile(m_device, filename, NULL, NULL, &m_texture, NULL);
+	// Removed to return void
+	//if (FAILED(result))
+	//	return false;
+	//return true;
+	return NULL;
 }
 
 
@@ -64,7 +68,7 @@ bool Texture::initialize(ID3D11Device* device, WCHAR* filename)
 * The unload function releases the texture resource if it has been loaded and then 
 * sets the pointer to null (0)
 */
-void Texture::unload()
+bool Texture::unload()
 {
 	//Release the texture resource
 	if (m_texture)
@@ -72,7 +76,7 @@ void Texture::unload()
 		m_texture->Release();
 		m_texture = 0;
 	}
-	return;
+	return true;
 }
 
 
