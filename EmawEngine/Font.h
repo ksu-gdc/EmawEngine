@@ -22,6 +22,7 @@ public:
 	void* load(char*);
 	void* load(std::string);
 	void* getData();
+	string getFontPngPath();
 	bool unload(void);
 	std::pair<int, int>* Font::textSize(std::string);
 	std::string Font::createTextBlock(std::string, int);

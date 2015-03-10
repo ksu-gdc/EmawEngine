@@ -15,7 +15,7 @@ Font::~Font()
 {
 }
 
-void* Font::load(string fontPath){
+void* Font::load(char* fontPath){
 	return NULL;
 }
 
@@ -30,7 +30,7 @@ void* Font::getData(){
 // ---------------------------------------------------------------------
 // returns:		none.
 // ---------------------------------------------------------------------
-void* Font::load(char* fontPath){
+void* Font::load(string fontPath){
 
 	try{
 
@@ -52,6 +52,11 @@ void* Font::load(char* fontPath){
 
 	return NULL;
 }
+
+string Font::getFontPngPath(){
+	return pngPath;
+}
+
 
 // ---------------------------------------------------------------------
 // Parses the font file, extracting all the information needed.
