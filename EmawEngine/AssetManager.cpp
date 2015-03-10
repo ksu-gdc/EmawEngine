@@ -7,15 +7,19 @@ bool AssetManager::instanceFlag = false;
 AssetManager* AssetManager::instance = NULL;
 GraphicsDeviceInterface* AssetManager::graphicsDevice = NULL;
 
-AssetManager::AssetManager(GraphicsDeviceInterface *device)
+AssetManager::AssetManager()
 {
 	rootAssetFolder = "C:\\Users";
-	graphicsDevice = device;
 }
 
 
 AssetManager::~AssetManager()
 {
+}
+
+// Sets the asset managers reference to the graphics device.  This needs to happen during initialization
+void AssetManager::setGraphicsDevice(GraphicsDeviceInterface *device) {
+	graphicsDevice = device;
 }
 
 // Returns the instance of our AssetManager
@@ -55,7 +59,7 @@ Asset* AssetManager::loadFromFile(std::string name) {
 		// Get the extension and call the appropraite method
 		std::string ext = name.substr(name.size() - 3);
 
-		if (ext == "pmg" || ext == "jpeg")
+		if (ext == "png" || ext == "jpeg")
 			loadTexture(name);
 		else if (ext == "wav" || ext == "mp3")
 			loadMusic(name);
@@ -79,16 +83,41 @@ void AssetManager::unloadTexture(std::string name) {
 	//TODO: Unload asset
 }
 
+// Models ======================================
+Asset* AssetManager::loadModel(std::string name) {
+	Model model;
+	model.load(name);
+	return &model;
+}
+void AssetManager::unloadModel(std::string name) {
+	char *cstr = &name[0u];
+	Model* model = (Model*)assets[cstr];
+	model->unload();
+}
+
 // Shaders ====================================
 Asset* AssetManager::loadShader(std::string name) {
 	// Shaders require a reference to the graphics device
 	ShaderAsset shader(graphicsDevice);
-	shader.load(name.c_str);
+	shader.load(name);
 	return &shader;
 }
 void AssetManager::unloadShader(std::string name) {
-	ShaderAsset* shader = assets[name.c_str];
+	char *cstr = &name[0u];
+	ShaderAsset* shader = (ShaderAsset*)assets[cstr];
 	shader->unload();
+}
+
+// Fonts ======================================
+Asset* AssetManager::loadFont(std::string name) {
+	Font font;
+	font.load(name);
+	return &font;
+}
+void AssetManager::unloadFont(std::string name) {
+	char *cstr = &name[0u];
+	Font* font = (Font*)assets[cstr];
+	font->unload();
 }
 
 // Music ====================================

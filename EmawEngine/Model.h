@@ -3,13 +3,12 @@
 #include <fbxsdk.h>
 #include <vector>
 
-class Model :
-	public Asset
+class Model : public Asset
 {
 public:
 	Model();
 	~Model();
-	void* load(char*);
+	void* load(std::string);
 	void* getData();
 	bool unload();
 	std::vector<VERTEX> getVertexBuffer();

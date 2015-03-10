@@ -15,6 +15,11 @@ Font::~Font()
 {
 }
 
+bool Font::unload() {
+	// TODO: do anything you need to do to unload this from memory
+	return false;
+}
+
 // ---------------------------------------------------------------------
 // Loads a font asset by reading in a font file.
 // ---------------------------------------------------------------------
@@ -22,7 +27,7 @@ Font::~Font()
 // ---------------------------------------------------------------------
 // returns:		none.
 // ---------------------------------------------------------------------
-void Font::loadFont(string fontPath){
+void* Font::load(string fontPath){
 
 	try{
 
@@ -41,6 +46,8 @@ void Font::loadFont(string fontPath){
 	catch (exception e){
 		OutputDebugString(L"Error loading font asset.");
 	}
+
+	return NULL;
 }
 
 // ---------------------------------------------------------------------

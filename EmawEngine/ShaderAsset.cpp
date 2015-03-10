@@ -22,8 +22,10 @@ ShaderAsset::~ShaderAsset()
  * Output: A ShaderStruct contaning a vertex shader, a pixel shader, and the input layout for the Graphics Card.
  * What it does: loads a vertex shader and a pixel shader and returns them in a struct.
  */
-void* ShaderAsset::load(char* filename)
+void* ShaderAsset::load(std::string str)
 {
+	char *filename = &str[0u];
+
 	//get filetype
 	int type = getShaderType(filename);
 	//convert to wchar

@@ -8,9 +8,6 @@
     <ClCompile Include="EmawEngine.cpp">
       <Filter>Core Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Font.cpp" />
-    <ClCompile Include="FontChar.cpp" />
-    <ClCompile Include="ShaderAsset.cpp" />
     <ClCompile Include="WindowSize.cpp">
       <Filter>Low-Level Renderer</Filter>
     </ClCompile>
@@ -26,6 +23,15 @@
     <ClCompile Include="AssetManager.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
+    <ClCompile Include="ShaderAsset.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="FontChar.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -37,9 +43,6 @@
     <ClInclude Include="EmawEngine.h">
       <Filter>Core Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Font.h" />
-    <ClInclude Include="FontChar.h" />
-    <ClInclude Include="ShaderAsset.h" />
     <ClInclude Include="HelperStructs.h" />
     <ClInclude Include="WindowSize.h">
       <Filter>Low-Level Renderer</Filter>
@@ -54,6 +57,15 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="AssetManager.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderAsset.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Font.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="FontChar.h">
       <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
@@ -91,7 +103,9 @@
     <None Include="C:\Users\Chris\Desktop\consolas.fnt">
       <Filter>Resources</Filter>
     </None>
-    <None Include="Shaders.col" />
     <None Include="VoxShader.geo" />
+    <None Include="Shaders.col">
+      <Filter>Resources</Filter>
+    </None>
   </ItemGroup>
 </Project>

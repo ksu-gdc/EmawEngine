@@ -5,7 +5,7 @@
 #include <string>
 #include "FontChar.h"
 
-class Font{
+class Font : public Asset {
 private:
 	std::map<int, FontChar*> fontCharacters;
 	void ParseFontFile(std::string line);
@@ -18,8 +18,9 @@ public:
 	Font();
 	~Font();
 
-	void loadFont(std::string);
 	std::pair<int, int>* Font::textSize(std::string line);
 	std::string Font::createTextBlock(std::string text, int width);
 	
+	void* load(std::string);
+	bool unload();
 };

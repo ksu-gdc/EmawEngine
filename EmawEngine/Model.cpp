@@ -9,10 +9,11 @@ Model::Model()
 
 Model::~Model()
 {
-	this->unload();
 }
 
-void* Model::load(char* filename) {
+void* Model::load(std::string str) {
+	char *filename = &str[0u];
+
 	if (strlen(filename) <= 4) {
 		OutputDebugString(L"file is of incorrect length\n");
 		return NULL;
