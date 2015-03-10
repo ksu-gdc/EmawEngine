@@ -8,7 +8,6 @@
     <ClCompile Include="EmawEngine.cpp">
       <Filter>Core Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Asset.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FontChar.cpp" />
     <ClCompile Include="ShaderAsset.cpp" />
@@ -21,6 +20,12 @@
       <Filter>Debugging and Profiling</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Asset.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="AssetManager.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -32,7 +37,6 @@
     <ClInclude Include="EmawEngine.h">
       <Filter>Core Systems</Filter>
     </ClInclude>
-    <ClInclude Include="Asset.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FontChar.h" />
     <ClInclude Include="ShaderAsset.h" />
@@ -46,6 +50,12 @@
       <Filter>Debugging and Profiling</Filter>
     </ClInclude>
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Asset.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
