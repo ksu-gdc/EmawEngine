@@ -20,6 +20,7 @@ public:
 	void NextFrame();
 	void InitPipeline();
 	void InitGraphics();
+	bool IsFullScreen();
 
 private:
 	bool Render();

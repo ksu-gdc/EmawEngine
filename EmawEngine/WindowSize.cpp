@@ -38,6 +38,7 @@ void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution
 	// Check to see resolution needs to be changed
 	if (this->resolution != resolution)
 	{
+		
 		// changes width and height
 		forceSize(resolution);
 
