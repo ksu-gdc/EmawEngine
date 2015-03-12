@@ -58,12 +58,12 @@ void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution
 		AdjustWindowRect(&wr, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX, FALSE);
 
 		// change window size
-		SetWindowPos(hWnd,
+		/*SetWindowPos(hWnd,
 			NULL,
 			0, 0,
 			wr.right - wr.left,
 			wr.bottom - wr.top,
-			SWP_NOMOVE);
+			SWP_NOMOVE);*/
 
 		// reinitialize resources
 		gdi->Initialize(hWnd, this);

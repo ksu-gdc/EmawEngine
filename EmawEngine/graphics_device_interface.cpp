@@ -19,9 +19,6 @@ GraphicsDeviceInterface::~GraphicsDeviceInterface() {}
 bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 	HRESULT hResult;
 
-	// Create swap chain info struct
-	DXGI_SWAP_CHAIN_DESC scd;
-
 	// Clear the struct
 	ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
 

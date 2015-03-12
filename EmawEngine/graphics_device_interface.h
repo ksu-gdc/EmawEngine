@@ -26,6 +26,7 @@ public:
 private:
 	bool Render();
 
+	DXGI_SWAP_CHAIN_DESC	scd;
 	ShaderAsset				*shdrs;
 	IDXGISwapChain			*m_Swapchain;
 	ID3D11Device			*m_Device;
