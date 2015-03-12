@@ -31,7 +31,7 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 	scd.OutputWindow = hWnd;							// window to render into
 	scd.SampleDesc.Count = 4;							// use 4 multisamples for antialiasing
 	scd.Windowed = wind->getWindowed();					// Sets windowed mode
-	scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;	// Allow full-screen switching
+	//scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;	// Allow full-screen switching
 
 	// Create the device, context, and swap chain
 	hResult = D3D11CreateDeviceAndSwapChain(NULL,
@@ -130,7 +130,7 @@ void GraphicsDeviceInterface::InitGraphics(void)
 // 
 void GraphicsDeviceInterface::Shutdown() {
 
-	SetFullScreenState(FALSE);	// switch to windowed mode
+	m_Swapchain->SetFullscreenState(FALSE, NULL);	// switch to windowed mode
 
 	// close and release all COM objects
 	m_Swapchain->Release();
@@ -152,16 +152,19 @@ void GraphicsDeviceInterface::NextFrame()
 }
 
 //
-// FUNCTION: GraphicsDeviceInterface::IsFullScreen()
+// FUNCTION: GraphicsDeviceInterface::IsWindowed()
 //
-// PURPOSE: returns true if fullscreen, false if windowed;
+// PURPOSE: returns false if fullscreen, true if windowed;
 //
-BOOL GraphicsDeviceInterface::IsFullScreen()
+BOOL GraphicsDeviceInterface::IsWindowed()
 {
+	if (m_Swapchain == NULL) // this occurs when program is starting up
+		return TRUE;
+
 	BOOL fullscreen;
 	m_Swapchain->GetFullscreenState(&fullscreen, NULL);
 
-	return fullscreen;
+	return !fullscreen;
 }
 
 //

@@ -42,10 +42,10 @@ BOOL WindowSize::getWindowed()
 void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution)
 {
 	// Check to see resolution needs to be changed
-	if (this->resolution != resolution)
+	if (this->resolution != resolution || this->windowed != gdi->IsWindowed())
 	{
 		// save fullscreen state
-		BOOL fullscreen = gdi->IsFullScreen();
+		BOOL fullscreen = !gdi->IsWindowed();
 		
 		// changes width and height
 		forceSize(resolution);

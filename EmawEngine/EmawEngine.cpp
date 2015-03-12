@@ -162,7 +162,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_PAINT	- Paint the main window
 //  WM_DESTROY	- post a quit message and return
 //	WM_KEYDOWN	- process keydown events
-//
+//	WM_SIZE		- resizes window - used when switching fullscreen/windowed
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -223,6 +223,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
+		break;
+	case WM_SIZE:
+		wind.setSize(hWnd, &gdi, wind.getResolution());
 		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);

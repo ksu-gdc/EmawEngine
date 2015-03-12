@@ -20,7 +20,7 @@ public:
 	void NextFrame();
 	void InitPipeline();
 	void InitGraphics();
-	BOOL IsFullScreen();
+	BOOL IsWindowed();
 	void SetFullScreenState(BOOL);
 
 private:
