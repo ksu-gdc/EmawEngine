@@ -114,8 +114,8 @@ void GraphicsDeviceInterface::InitGraphics(void)
 
 	Model *m = f->createFontModel("Hello!", 0, 0, 0, NULL, 0.005);
 
-	std::vector<VERTEX> vertices = e->getModel()->getVertexBuffer();
-	vertices = m->getVertexBuffer();
+	//std::vector<VERTEX> vertices = e->getModel()->getVertexBuffer();
+	std::vector<VERTEX> vertices = m->getVertexBuffer();
 
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
