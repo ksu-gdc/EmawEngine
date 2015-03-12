@@ -17,6 +17,7 @@
     <ClCompile Include="WindowSize.cpp">
       <Filter>Low-Level Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="VoxelMap.cpp" />
     <ClCompile Include="FrameCounter.cpp">
       <Filter>Debugging and Profiling</Filter>
     </ClCompile>
@@ -51,9 +52,6 @@
     <ClCompile Include="ShaderAsset.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="VoxelMap.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -75,6 +73,7 @@
     <ClInclude Include="WindowSize.h">
       <Filter>Low-Level Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="VoxelMap.h" />
     <ClInclude Include="FrameCounter.h">
       <Filter>Debugging and Profiling</Filter>
     </ClInclude>
@@ -107,9 +106,6 @@
       <Filter>Resources</Filter>
     </ClInclude>
     <ClInclude Include="ShaderAsset.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="VoxelMap.h">
       <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
