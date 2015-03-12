@@ -7,7 +7,7 @@ const int WindowSize::hResolution[] = { 600, 960,	576,	900 };
 
 WindowSize::WindowSize()
 {
-	this->forceSize(LOW_4_3);
+	this->forceSize(HIGH_16_9);
 	windowed = TRUE;
 }
 

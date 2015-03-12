@@ -225,7 +225,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		PostQuitMessage(0);
 		break;
 	case WM_SIZE:
-		wind.setSize(hWnd, &gdi, wind.getResolution());
+		//wind.setSize(hWnd, &gdi, wind.getResolution());
 		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
