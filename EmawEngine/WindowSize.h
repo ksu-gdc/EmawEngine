@@ -17,6 +17,7 @@ public:
 
 	int getWidth();
 	int getHeight();
+	BOOL getWindowed();
 	RES getResolution();
 	void setSize(HWND, GraphicsDeviceInterface*, RES);
 
@@ -25,6 +26,7 @@ private:
 
 	int width;
 	int height;
+	BOOL windowed;
 	RES resolution;
 	static const int wResolution[];
 	static const int hResolution[];

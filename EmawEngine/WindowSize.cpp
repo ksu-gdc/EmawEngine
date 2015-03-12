@@ -8,9 +8,10 @@ const int WindowSize::hResolution[] = { 600, 960,	576,	900 };
 WindowSize::WindowSize()
 {
 	this->forceSize(LOW_4_3);
+	windowed = TRUE;
 }
 
-#pragma region getters
+#pragma region getters/setters
 int WindowSize::getWidth()
 {
 	return width;
@@ -25,7 +26,12 @@ RES WindowSize::getResolution()
 {
 	return resolution;
 }
-#pragma endregion contains get functions for variables
+
+BOOL WindowSize::getWindowed()
+{
+	return windowed;
+}
+#pragma endregion contains get/set functions for variables
 
 
 //
