@@ -76,9 +76,9 @@ void* Model::load(std::string str) {
 						break;
 					}
 					OutputDebugString(L" given; make sure your model only has triangles.\n");
-					manager->Destroy();
-					mesh->Destroy();
 					node->Destroy();
+					mesh->Destroy();
+					manager->Destroy();
 					return NULL;
 				}
 				for (int k = 0; k < numVerticies; k++) {
@@ -102,8 +102,9 @@ void* Model::load(std::string str) {
 		}
 	}
 
-	manager->Destroy();
 	node->Destroy();
+	manager->Destroy();
+	
 	return NULL;
 }
 
