@@ -142,7 +142,7 @@ void GraphicsDeviceInterface::InitGraphics(void)
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f);
+		1.0f, 0.0f, 0.0f, 1.0f);
 	DirectX::XMMATRIX* view = new DirectX::XMMATRIX(
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
