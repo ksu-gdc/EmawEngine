@@ -73,6 +73,8 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 	viewport.TopLeftY = 0;
 	viewport.Width = (float)wind->getWidth();
 	viewport.Height = (float)wind->getHeight();
+	viewport.MaxDepth = 1;
+	viewport.MinDepth = 0;
 
 	m_Context->RSSetViewports(1, &viewport);
 
@@ -96,12 +98,74 @@ void GraphicsDeviceInterface::InitPipeline()
 	m_Context->IASetInputLayout(blah->InputLayout);
 }
 
+struct MatrixBuffer {
+	DirectX::XMMATRIX world;
+	DirectX::XMMATRIX view;
+	DirectX::XMMATRIX projection;
+};
+
 //Placeholder used for testing, manually creates a triangle and sends the vertices for the Graphics Device for rendering.
 void GraphicsDeviceInterface::InitGraphics(void)
 {
 	Entity* e = new Entity();
 
 	std::vector<VERTEX> vertices = e->getModel()->getVertexBuffer();
+
+	
+
+	D3D11_BUFFER_DESC matrixBufferDesc;
+	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	matrixBufferDesc.ByteWidth = sizeof(MatrixBuffer);
+	matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	matrixBufferDesc.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
+	matrixBufferDesc.MiscFlags = 0;
+	matrixBufferDesc.StructureByteStride = 0;
+
+	ID3D11Buffer* m_matrixBuffer;
+
+	HRESULT result = m_Device->CreateBuffer(&matrixBufferDesc, NULL, &m_matrixBuffer);
+	if (FAILED(result)) {
+		OutputDebugString(L"failed to create transform matrix buffer\n");
+		return;
+	}
+
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	result = m_Context->Map(m_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	if (FAILED(result)) {
+		OutputDebugString(L"failed to map transform matrix buffer\n");
+		return;
+	}
+
+	MatrixBuffer* mb = (MatrixBuffer*)mappedResource.pData;
+
+	DirectX::XMMATRIX* world = new DirectX::XMMATRIX(
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+	DirectX::XMMATRIX* view = new DirectX::XMMATRIX(
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+	DirectX::XMMATRIX* proj = new DirectX::XMMATRIX(
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+
+	mb->world = *world;
+	mb->view = *view;
+	mb->projection = *proj;
+
+	m_Context->Unmap(m_matrixBuffer, 0);
+
+	m_Context->VSSetConstantBuffers(0, 1, &m_matrixBuffer);
+
+
+	for (int i = 0; i < 36; i++) {
+		//DirectX::XMMATRIX* n = new DirectX::XMMATRIX(vertices[i]);
+	}
 
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
