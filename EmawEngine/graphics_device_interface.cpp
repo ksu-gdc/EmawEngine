@@ -6,6 +6,8 @@
 
 #define _XM_NO_INTRINSICS_
 
+Entity* entities[100];
+
 GraphicsDeviceInterface::GraphicsDeviceInterface() {
 }
 
@@ -107,9 +109,10 @@ struct MatrixBuffer {
 //Placeholder used for testing, manually creates a triangle and sends the vertices for the Graphics Device for rendering.
 void GraphicsDeviceInterface::InitGraphics(void)
 {
-	Entity* e = new Entity();
+	entities[0] = new Entity();
 
-	std::vector<VERTEX> vertices = e->getModel()->getVertexBuffer();
+	
+	std::vector<VERTEX> vertices = entities[0]->getModel()->getVertexBuffer();
 
 	
 
@@ -142,7 +145,7 @@ void GraphicsDeviceInterface::InitGraphics(void)
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
-		1.0f, 0.0f, 0.0f, 1.0f);
+		entities[0]->getPosition()->x, entities[0]->getPosition()->y, entities[0]->getPosition()->z, 1.0f);
 	DirectX::XMMATRIX* view = new DirectX::XMMATRIX(
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
