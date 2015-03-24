@@ -24,6 +24,7 @@ public:
 	void SetFullScreenState(BOOL);
 
 	BOOL isInitialized;
+	BOOL bResize;
 
 private:
 	bool Render();

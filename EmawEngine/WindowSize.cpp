@@ -8,7 +8,7 @@ const int WindowSize::hResolution[] = { 600, 960,	576,	900 };
 WindowSize::WindowSize()
 {
 	this->forceSize(HIGH_16_9);
-	windowed = FALSE;
+	windowed = TRUE;
 }
 
 #pragma region getters/setters
@@ -78,9 +78,12 @@ void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution
 	
 	forceSize(resolution);
 
+	//gdi->bResize = FALSE;
+
 	gdi->Shutdown();
 	gdi->Initialize(hWnd, this);
 	
+	gdi->bResize = TRUE;
 }
 
 //

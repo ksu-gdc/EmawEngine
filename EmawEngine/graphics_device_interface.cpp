@@ -8,6 +8,7 @@
 
 GraphicsDeviceInterface::GraphicsDeviceInterface() {
 	this->isInitialized = FALSE;
+	this->bResize = TRUE;
 }
 
 GraphicsDeviceInterface::~GraphicsDeviceInterface() {}
