@@ -110,6 +110,7 @@ struct MatrixBuffer {
 void GraphicsDeviceInterface::InitGraphics(void)
 {
 	entities[0] = new Entity();
+	entities[0]->position.x = 1;
 
 	entities[0]->update();
 	std::vector<VERTEX> vertices = entities[0]->getModel()->getVertexBuffer();
@@ -147,11 +148,14 @@ void GraphicsDeviceInterface::InitGraphics(void)
 		0.0f, 1.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f);
+
+	Entity* camera = new Entity();
 	DirectX::XMMATRIX* proj = new DirectX::XMMATRIX(
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f);
+
 
 	mb->world = *world;
 	mb->view = *view;

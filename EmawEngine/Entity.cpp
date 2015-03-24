@@ -8,7 +8,7 @@ Entity::Entity()
 	model->load("models/cube-above-rot-2.fbx");
 	//model->load("models/bell.fbx");
 
-	position = { 1, 0, 0 };
+	position = { 0, 0, 0 };
 	orientation = { 0, 0, 0 };
 	worldMatrix = new DirectX::XMMATRIX(
 		1.0f, 0.0f, 0.0f, 0.0f,
@@ -25,10 +25,6 @@ Entity::~Entity()
 
 Model* Entity::getModel() {
 	return model;
-}
-
-Vector* Entity::getPosition() {
-	return &position;
 }
 
 DirectX::XMMATRIX* Entity::getMatrix()
