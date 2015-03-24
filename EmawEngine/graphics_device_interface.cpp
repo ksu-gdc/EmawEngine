@@ -111,7 +111,7 @@ void GraphicsDeviceInterface::InitGraphics(void)
 {
 	entities[0] = new Entity();
 
-	
+	entities[0]->update();
 	std::vector<VERTEX> vertices = entities[0]->getModel()->getVertexBuffer();
 
 	
@@ -141,11 +141,7 @@ void GraphicsDeviceInterface::InitGraphics(void)
 
 	MatrixBuffer* mb = (MatrixBuffer*)mappedResource.pData;
 
-	DirectX::XMMATRIX* world = new DirectX::XMMATRIX(
-		1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f, 0.0f,
-		entities[0]->getPosition()->x, entities[0]->getPosition()->y, entities[0]->getPosition()->z, 1.0f);
+	DirectX::XMMATRIX* world = entities[0]->getMatrix();
 	DirectX::XMMATRIX* view = new DirectX::XMMATRIX(
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
