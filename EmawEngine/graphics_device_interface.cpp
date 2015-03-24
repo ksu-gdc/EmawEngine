@@ -32,7 +32,7 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 	scd.OutputWindow = hWnd;							// window to render into
 	scd.SampleDesc.Count = 4;							// use 4 multisamples for antialiasing
 	scd.Windowed = wind->getWindowed();					// Sets windowed mode
-	//scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;	// Allow full-screen switching
+	scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;	// Allow full-screen switching
 
 	// Create the device, context, and swap chain
 	hResult = D3D11CreateDeviceAndSwapChain(NULL,
@@ -52,6 +52,9 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 	{
 		return FALSE;
 	}
+
+	m_Swapchain->ResizeTarget(&scd.BufferDesc);
+	m_Swapchain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, scd.Flags);
 
 	// Get the back buffer address
 	ID3D11Texture1D *pBackBuffer;

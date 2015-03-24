@@ -8,7 +8,7 @@ const int WindowSize::hResolution[] = { 600, 960,	576,	900 };
 WindowSize::WindowSize()
 {
 	this->forceSize(HIGH_16_9);
-	windowed = TRUE;
+	windowed = FALSE;
 }
 
 #pragma region getters/setters
@@ -41,6 +41,7 @@ BOOL WindowSize::getWindowed()
 //
 void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution)
 {
+	/*
 	// Check to see resolution needs to be changed
 	if (this->resolution != resolution || this->windowed != gdi->IsWindowed())
 	{
@@ -58,12 +59,12 @@ void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution
 		AdjustWindowRect(&wr, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX, FALSE);
 
 		// change window size
-		/*SetWindowPos(hWnd,
+		SetWindowPos(hWnd,
 			NULL,
 			0, 0,
 			wr.right - wr.left,
 			wr.bottom - wr.top,
-			SWP_NOMOVE);*/
+			SWP_NOMOVE);
 
 		// reinitialize resources
 		gdi->Initialize(hWnd, this);
@@ -72,6 +73,14 @@ void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution
 		if (fullscreen)
 			gdi->SetFullScreenState(fullscreen);
 	}
+	*/
+	this->windowed = gdi->IsWindowed();
+	
+	forceSize(resolution);
+
+	gdi->Shutdown();
+	gdi->Initialize(hWnd, this);
+	
 }
 
 //
