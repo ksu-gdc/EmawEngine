@@ -23,9 +23,6 @@ public:
 	BOOL IsWindowed();
 	void SetFullScreenState(BOOL);
 
-	BOOL isInitialized;
-	BOOL bResize;
-
 private:
 	bool Render();
 

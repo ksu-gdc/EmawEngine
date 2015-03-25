@@ -7,8 +7,6 @@
 #define _XM_NO_INTRINSICS_
 
 GraphicsDeviceInterface::GraphicsDeviceInterface() {
-	this->isInitialized = FALSE;
-	this->bResize = TRUE;
 }
 
 GraphicsDeviceInterface::~GraphicsDeviceInterface() {}
@@ -81,9 +79,6 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 
 	InitPipeline();
 	InitGraphics();
-
-	// completed GDI initialization
-	isInitialized = TRUE;
 
 	return TRUE;
 }

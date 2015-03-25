@@ -78,12 +78,11 @@ void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution
 	
 	forceSize(resolution);
 
-	//gdi->bResize = FALSE;
-
 	gdi->Shutdown();
-	gdi->Initialize(hWnd, this);
-	
-	gdi->bResize = TRUE;
+
+	int tries = 5;
+	while (!gdi->Initialize(hWnd, this) && tries > 0)
+		tries--;
 }
 
 //
