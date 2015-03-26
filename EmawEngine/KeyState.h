@@ -1,6 +1,5 @@
 #pragma once
-
-#define NUM_KEYS 74
+#define NUM_KEYS 256
 
 enum Key {
 	Esc,
@@ -97,8 +96,6 @@ public:
 private:
 	bool _currentState[NUM_KEYS];
 	bool _oldState[NUM_KEYS];
-
-	void swapState();
 };
 
 

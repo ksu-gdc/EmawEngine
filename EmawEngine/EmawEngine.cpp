@@ -65,7 +65,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	//Main game loop:
 	while(true)
 	{
-		AudioManager* am = AudioManager::getInstance();
+		/*AudioManager* am = AudioManager::getInstance();
 		(AudioRenderer::Instance())->setSoundSystem(am);
 
 		//Adding music to filename's map
@@ -88,7 +88,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		{
 			pos = am->getCharactersActualPosition();
 			am->setCharactersActualPosition(pos->getX() - 1, pos->getY(), pos->getZ());
-		}
+		}*/
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -101,29 +101,29 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 				switch (msg.message) {
 					// Keyboard messages
 					case WM_KEYDOWN:
-						inputManager->getInstance.handleKeyDownMessage(msg.wParam);
+						inputManager->handleKeyDownMessage(msg.wParam);
 						break;
 					case WM_KEYUP:
-						inputManager->getInstance.handleKeyUpMessage(msg.wParam);
+						inputManager->handleKeyUpMessage(msg.wParam);
 						break;
 					// Mouse button messages
 					case WM_LBUTTONDOWN:
-						inputManager->getInstance.handleMouseDownMessage(msg.wParam, MOUSEID_LEFT);
+						inputManager->handleMouseDownMessage(msg.wParam, MOUSEBUTTON_LEFT);
 						break;
 					case WM_LBUTTONUP:
-						inputManager->getInstance.handleMouseUpMessage(msg.wParam, MOUSEID_LEFT);
+						inputManager->handleMouseUpMessage(msg.wParam, MOUSEBUTTON_LEFT);
 						break;
 					case WM_MBUTTONDOWN:
-						inputManager->getInstance.handleMouseDownMessage(msg.wParam, MOUSEID_MID);
+						inputManager->handleMouseDownMessage(msg.wParam, MOUSEBUTTON_MID);
 						break;
 					case WM_MBUTTONUP:
-						inputManager->getInstance.handleMouseUpMessage(msg.wParam, MOUSEID_MID);
+						inputManager->handleMouseUpMessage(msg.wParam, MOUSEBUTTON_MID);
 						break;
 					case WM_RBUTTONDOWN:
-						inputManager->getInstance.handleMouseDownMessage(msg.wParam, MOUSEID_RIGHT);
+						inputManager->handleMouseDownMessage(msg.wParam, MOUSEBUTTON_RIGHT);
 						break;
 					case WM_RBUTTONUP:
-						inputManager->getInstance.handleMouseUpMessage(msg.wParam, MOUSEID_RIGHT);
+						inputManager->handleMouseUpMessage(msg.wParam, MOUSEBUTTON_RIGHT);
 						break;
 				}
 			}
