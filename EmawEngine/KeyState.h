@@ -2,8 +2,11 @@
 #define NUM_KEYS 256
 
 enum Key {
-	Esc,
-	F1,
+	// Escape
+	Esc = 0x1B,
+
+	// Function keys
+	F1 = 0x70,
 	F2,
 	F3,
 	F4,
@@ -15,12 +18,18 @@ enum Key {
 	F10,
 	F11,
 	F12,
-	PrintScreen,
+
+	// PrintScreen
+	PrintScreen = 0x2C,
+
+	// Arrow Keys
+	Left = 0x25,
 	Up,
-	Left,
-	Down,
 	Right,
-	Tilda,
+	Down,
+
+	// Number row
+	Num_0 = 0x30,
 	Num_1,
 	Num_2,
 	Num_3,
@@ -30,52 +39,86 @@ enum Key {
 	Num_7,
 	Num_8,
 	Num_9,
-	Num_0,
-	Dash,
-	Equals,
-	BackSpace,
+
+	// Numpad
+	NumPad_0 = 0x60,
+	Numpad_1,
+	Numpad_2,
+	Numpad_3,
+	Numpad_4,
+	Numpad_5,
+	Numpad_6,
+	Numpad_7,
+	Numpad_8,
+	Numpad_9,
+
+	// Enter
+	Enter = 0x0D,
+
+	// Backspace/Tab
+	BackSpace = 0x08,
 	Tab,
-	CapsLock,
-	LShift,
-	LCtrl,
-	Q,
-	W,
-	E,
-	R,
-	T,
-	Y,
-	U,
-	I,
-	O,
-	P,
-	LeftSquareBracket,
-	RightSquareBracket,
-	Backslash,
-	A,
-	S,
+
+	// CapsLock
+	CapsLock = 0x14,
+
+	// Shift/Ctrl/Alt
+	Shift = 0x10,
+	Ctrl,
+	Alt,
+
+	// Letters
+	A = 0x41,
+	B,
+	C,
 	D,
+	E,
 	F,
 	G,
 	H,
+	I,
+	J,
 	K,
 	L,
-	Semicolon,
-	Apostrophe,
-	Z,
-	X,
-	C,
-	V,
-	B,
-	N,
 	M,
+	N,
+	O,
+	P,
+	Q,
+	R,
+	S,
+	T,
+	U,
+	V,
+	W,
+	X,
+	Y,
+	Z,
+
+	// Windows Keys
+	LWin = 0x5B,
+	RWin,
+
+	// OEM
+	Semicolon = 0xBA,
+	Plus,
 	Comma,
+	Minus,
 	Period,
 	Slash,
+	Tilda,
+
+	// More OEM
+	LeftSquareBracket = 0xDB,
+	Backslash,
+	RightSquareBracket,
+
+	// Shifts
+	LShift = 0xA0,
 	RShift,
-	Windows,
-	LAlt,
-	RAlt,
-	RControl
+
+	// Space
+	Space = 0x20,
 };
 
 class KeyState
