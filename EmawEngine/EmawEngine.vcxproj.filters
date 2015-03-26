@@ -52,6 +52,7 @@
     <ClCompile Include="ShaderAsset.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -108,6 +109,7 @@
     <ClInclude Include="ShaderAsset.h">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
