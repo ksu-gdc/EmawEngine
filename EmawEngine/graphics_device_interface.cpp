@@ -6,7 +6,9 @@
 
 #define _XM_NO_INTRINSICS_
 
-Entity* entities[100];
+const int maxEntities = 100;
+Entity* entities[maxEntities];
+Camera* camera = new Camera();
 
 GraphicsDeviceInterface::GraphicsDeviceInterface() {
 }
@@ -98,88 +100,18 @@ void GraphicsDeviceInterface::InitPipeline()
 //	m_Context->GSSetShader(blah->GeoShader, 0, 0);
 
 	m_Context->IASetInputLayout(blah->InputLayout);
-	entities[0] = new Entity();
 }
 
-struct MatrixBuffer {
-	DirectX::XMMATRIX world;
-	DirectX::XMMATRIX view;
-	DirectX::XMMATRIX projection;
-};
-
-//Placeholder used for testing, manually creates a triangle and sends the vertices for the Graphics Device for rendering.
+//Placeholder used for testing, manually creates an entity and sends the vertices for the Graphics Device for rendering.
 void GraphicsDeviceInterface::InitGraphics(void)
 {
-
-	entities[0]->update();
-	std::vector<VERTEX> vertices = entities[0]->getModel()->getVertexBuffer();
+	// temporary
+	entities[0] = new Entity();
 
 	
+	
 
-	D3D11_BUFFER_DESC matrixBufferDesc;
-	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	matrixBufferDesc.ByteWidth = sizeof(MatrixBuffer);
-	matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	matrixBufferDesc.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
-	matrixBufferDesc.MiscFlags = 0;
-	matrixBufferDesc.StructureByteStride = 0;
-
-	ID3D11Buffer* m_matrixBuffer;
-
-	HRESULT result = m_Device->CreateBuffer(&matrixBufferDesc, NULL, &m_matrixBuffer);
-	if (FAILED(result)) {
-		OutputDebugString(L"failed to create transform matrix buffer\n");
-		return;
-	}
-
-	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	result = m_Context->Map(m_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	if (FAILED(result)) {
-		OutputDebugString(L"failed to map transform matrix buffer\n");
-		return;
-	}
-
-	MatrixBuffer* mb = (MatrixBuffer*)mappedResource.pData;
-
-	DirectX::XMMATRIX* world = entities[0]->getMatrix();
-	DirectX::XMMATRIX* view = new DirectX::XMMATRIX(
-		1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f);
-	DirectX::XMMATRIX* proj = new DirectX::XMMATRIX(
-		1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f);
-
-	mb->world = *world;
-	mb->view = *view;
-	mb->projection = *proj;
-
-	m_Context->Unmap(m_matrixBuffer, 0);
-
-	m_Context->VSSetConstantBuffers(0, 1, &m_matrixBuffer);
-
-
-	for (int i = 0; i < 36; i++) {
-		//DirectX::XMMATRIX* n = new DirectX::XMMATRIX(vertices[i]);
-	}
-
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-
-	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-	bd.ByteWidth = sizeof(VERTEX) * vertices.size();             // size is the VERTEX struct * 3
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
-	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
-
-	m_Device->CreateBuffer(&bd, NULL, &m_VertBuffer);       // create the buffer
-
-	D3D11_MAPPED_SUBRESOURCE ms;
-	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
-	memcpy(ms.pData, vertices.data(), vertices.size() * sizeof(VERTEX));                // copy the data
-	m_Context->Unmap(m_VertBuffer, NULL);
+	
 }
 
 //
@@ -198,6 +130,7 @@ void GraphicsDeviceInterface::Shutdown() {
 }
 
 
+
 //
 // FUNCTION: GraphicsDeviceInterface::NextFrame()
 //
@@ -208,7 +141,6 @@ void GraphicsDeviceInterface::NextFrame()
 	if (entities[0]->orientation.y < 6.28)
 		entities[0]->orientation.y += .001;
 	else entities[0]->orientation.y = 0;
-	InitGraphics();
 	Render();
 }
 
@@ -232,8 +164,81 @@ bool GraphicsDeviceInterface::Render()
 	// select which primtive type we are using
 	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	for (int i = 0; i < maxEntities; i++) {
+
+	}
+	// now we set up the vertex buffer
+	entities[0]->update();
+	// create a buffer in graphics memory to transfer the transformation matricies to the vertex shader
+	D3D11_BUFFER_DESC matrixBufferDesc;
+	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	matrixBufferDesc.ByteWidth = sizeof(MatrixBuffer);
+	matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	matrixBufferDesc.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
+	matrixBufferDesc.MiscFlags = 0;
+	matrixBufferDesc.StructureByteStride = 0;
+
+	ID3D11Buffer* m_matrixBuffer;
+
+	HRESULT result = m_Device->CreateBuffer(&matrixBufferDesc, NULL, &m_matrixBuffer);
+	if (FAILED(result)) {
+		OutputDebugString(L"failed to create transform matrix buffer\n");
+		return false;
+	}
+
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	result = m_Context->Map(m_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	if (FAILED(result)) {
+		OutputDebugString(L"failed to map transform matrix buffer\n");
+		return false;
+	}
+
+	MatrixBuffer* mb = (MatrixBuffer*)mappedResource.pData;
+
+	DirectX::XMMATRIX* world = entities[0]->getMatrix();
+	DirectX::XMMATRIX* view = new DirectX::XMMATRIX(
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+
+
+	//view = camera->getViewTransform();
+
+
+
+	DirectX::XMMATRIX* proj = camera->getProjTransform();
+
+
+	mb->world = *world;
+	mb->view = *view;
+	mb->projection = *proj;
+
+	m_Context->Unmap(m_matrixBuffer, 0);
+
+	m_Context->VSSetConstantBuffers(0, 1, &m_matrixBuffer);
+
+	// done passing transform matricies
+
+	std::vector<VERTEX> vertices = entities[0]->getModel()->getVertexBuffer();
+
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+
+	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
+	bd.ByteWidth = sizeof(VERTEX) * vertices.size();             // size is the VERTEX struct * 3
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
+
+	m_Device->CreateBuffer(&bd, NULL, &m_VertBuffer);       // create the buffer
+
+	D3D11_MAPPED_SUBRESOURCE ms;
+	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
+	memcpy(ms.pData, vertices.data(), vertices.size() * sizeof(VERTEX));                // copy the data
+	m_Context->Unmap(m_VertBuffer, NULL);
+
 	// draw the vertex buffer to the back buffer
-	m_Context->Draw(36, 0);
+	m_Context->Draw(vertices.size(), 0);
 
 	// TODO: Clear the depth buffer
 

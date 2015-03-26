@@ -28,10 +28,6 @@ Model* Entity::getModel() {
 	return model;
 }
 
-Vector* Entity::getPosition() {
-	return &position;
-}
-
 DirectX::XMMATRIX* Entity::getMatrix()
 {
 	return &worldMatrix;
@@ -39,6 +35,7 @@ DirectX::XMMATRIX* Entity::getMatrix()
 
 void Entity::update()
 {
+	//position.z += 0.0001;
 	updateMatrix();
 }
 

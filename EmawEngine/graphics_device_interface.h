@@ -8,6 +8,14 @@
 /* Globals */
 
 /* GraphicsDeviceInterface */
+
+struct MatrixBuffer {
+	DirectX::XMMATRIX world;
+	DirectX::XMMATRIX view;
+	DirectX::XMMATRIX projection;
+};
+
+
 class GraphicsDeviceInterface
 {
 	friend class ShaderAsset;

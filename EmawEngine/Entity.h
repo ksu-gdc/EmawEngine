@@ -13,15 +13,15 @@ public:
 	~Entity();
 	Vector orientation;
 	Model* getModel();
-	Vector* getPosition();
+	Vector position;
 	DirectX::XMMATRIX* getMatrix();
 	void update();
 private:
-	Model* model;
-	Vector position;
 	
 	Vector scale;
 	DirectX::XMMATRIX worldMatrix;
 	void updateMatrix();
+protected:
+	Model* model;
 };
 
