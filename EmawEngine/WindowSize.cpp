@@ -41,48 +41,12 @@ BOOL WindowSize::getWindowed()
 //
 void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution)
 {
-	/*
-	// Check to see resolution needs to be changed
-	if (this->resolution != resolution || this->windowed != gdi->IsWindowed())
-	{
-		// save fullscreen state
-		BOOL fullscreen = !gdi->IsWindowed();
-		
-		// changes width and height
-		forceSize(resolution);
-
-		// release old gdi resources
-		gdi->Shutdown();
-
-		// create adjusted rectangle for window sizing
-		RECT wr = { 0, 0, width, height };
-		AdjustWindowRect(&wr, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX, FALSE);
-
-		// change window size
-		SetWindowPos(hWnd,
-			NULL,
-			0, 0,
-			wr.right - wr.left,
-			wr.bottom - wr.top,
-			SWP_NOMOVE);
-
-		// reinitialize resources
-		gdi->Initialize(hWnd, this);
-
-		// switch to fullscreen if needed
-		if (fullscreen)
-			gdi->SetFullScreenState(fullscreen);
-	}
-	*/
-	this->windowed = gdi->IsWindowed();
-	
+	// Update resolution width and height
 	forceSize(resolution);
 
+	// Shutdown and reinitialize graphics device interface
 	gdi->Shutdown();
-
-	int tries = 5;
-	while (!gdi->Initialize(hWnd, this) && tries > 0)
-		tries--;
+	gdi->Initialize(hWnd, this);
 }
 
 //
