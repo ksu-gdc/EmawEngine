@@ -52,6 +52,18 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 		return FALSE;
 	}
 
+	// Retrieves the IDXGIFactory that created "m_Device"
+	IDXGIDevice *pDXGIDevice;
+	m_Device->QueryInterface(__uuidof(IDXGIDevice), (void **)&pDXGIDevice);
+	IDXGIAdapter *pDXGIAdapter;
+	pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void **)&pDXGIAdapter);
+	IDXGIFactory *pDXGIFactory;
+	pDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void **)&pDXGIFactory);
+
+	// Disables the use of Alt-Enter to switch between fullscreen/windowed
+	pDXGIFactory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_ALT_ENTER);
+	
+	// Resized the target (window or screen resolution) and back buffers
 	m_Swapchain->ResizeTarget(&scd.BufferDesc);
 	m_Swapchain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, scd.Flags);
 
