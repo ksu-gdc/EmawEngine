@@ -11,6 +11,7 @@ class Entity
 public:
 	Entity();
 	~Entity();
+	Vector orientation;
 	Model* getModel();
 	Vector* getPosition();
 	DirectX::XMMATRIX* getMatrix();
@@ -18,8 +19,9 @@ public:
 private:
 	Model* model;
 	Vector position;
-	Vector orientation;
-	DirectX::XMMATRIX* worldMatrix;
+	
+	Vector scale;
+	DirectX::XMMATRIX worldMatrix;
 	void updateMatrix();
 };
 

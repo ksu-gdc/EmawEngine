@@ -2,15 +2,17 @@
 #include "Entity.h"
 
 
+
 Entity::Entity()
 {
 	model = new Model();
 	model->load("models/cube-above-rot-2.fbx");
 	//model->load("models/bell.fbx");
 
-	position = { 1, 0, 0 };
+	position = { 0, 0, 0 };
 	orientation = { 0, 0, 0 };
-	worldMatrix = new DirectX::XMMATRIX(
+	scale = { 1, 1, 1 };
+	worldMatrix = DirectX::XMMATRIX(
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
@@ -20,7 +22,6 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-	delete worldMatrix;
 }
 
 Model* Entity::getModel() {
@@ -33,7 +34,7 @@ Vector* Entity::getPosition() {
 
 DirectX::XMMATRIX* Entity::getMatrix()
 {
-	return worldMatrix;
+	return &worldMatrix;
 }
 
 void Entity::update()
@@ -43,7 +44,11 @@ void Entity::update()
 
 void Entity::updateMatrix()
 {
-	worldMatrix->r[3] = DirectX::XMVectorSetByIndex(worldMatrix->r[3], position.x, 0);
-	worldMatrix->r[3] = DirectX::XMVectorSetByIndex(worldMatrix->r[3], position.y, 1);
-	worldMatrix->r[3] = DirectX::XMVectorSetByIndex(worldMatrix->r[3], position.z, 2);
+	DirectX::XMVECTOR quaternion = DirectX::XMQuaternionRotationRollPitchYaw(orientation.x, orientation.y, orientation.z);
+	worldMatrix = DirectX::XMMatrixAffineTransformation(
+		DirectX::XMVectorSet(scale.x, scale.y, scale.z, 1),
+		DirectX::XMVectorSet(0, 0, 0, 0),
+		quaternion,
+		DirectX::XMVectorSet(position.x, position.y, position.z, 1)
+		);
 }

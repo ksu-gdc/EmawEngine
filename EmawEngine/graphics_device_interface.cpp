@@ -98,6 +98,7 @@ void GraphicsDeviceInterface::InitPipeline()
 //	m_Context->GSSetShader(blah->GeoShader, 0, 0);
 
 	m_Context->IASetInputLayout(blah->InputLayout);
+	entities[0] = new Entity();
 }
 
 struct MatrixBuffer {
@@ -109,7 +110,6 @@ struct MatrixBuffer {
 //Placeholder used for testing, manually creates a triangle and sends the vertices for the Graphics Device for rendering.
 void GraphicsDeviceInterface::InitGraphics(void)
 {
-	entities[0] = new Entity();
 
 	entities[0]->update();
 	std::vector<VERTEX> vertices = entities[0]->getModel()->getVertexBuffer();
@@ -205,6 +205,10 @@ void GraphicsDeviceInterface::Shutdown() {
 //
 void GraphicsDeviceInterface::NextFrame()
 {
+	if (entities[0]->orientation.y < 6.28)
+		entities[0]->orientation.y += .001;
+	else entities[0]->orientation.y = 0;
+	InitGraphics();
 	Render();
 }
 
