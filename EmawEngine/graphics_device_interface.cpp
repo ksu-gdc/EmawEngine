@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "graphics_device_interface.h"
+#include "Font.h"
 
 //#include <DirectXColors.h>
 #include <DirectXMath.h>
@@ -107,7 +108,14 @@ void GraphicsDeviceInterface::InitGraphics(void)
 	};
 	Entity* e = new Entity();
 
+	//TEST CODE
+	Font* f = new Font();
+	f->load("B:/consolas.fnt");
+
+	Model *m = f->createFontModel("Hello!", 0, 0, 0, NULL, 0.005);
+
 	std::vector<VERTEX> vertices = e->getModel()->getVertexBuffer();
+	vertices = m->getVertexBuffer();
 
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));

@@ -15,9 +15,12 @@ Font::~Font()
 {
 }
 
-bool Font::unload() {
-	// TODO: do anything you need to do to unload this from memory
-	return false;
+void* Font::load(char* fontPath){
+	return NULL;
+}
+
+void* Font::getData(){
+	return NULL;
 }
 
 // ---------------------------------------------------------------------
@@ -49,6 +52,11 @@ void* Font::load(string fontPath){
 
 	return NULL;
 }
+
+string Font::getFontPngPath(){
+	return pngPath;
+}
+
 
 // ---------------------------------------------------------------------
 // Parses the font file, extracting all the information needed.
@@ -156,6 +164,12 @@ pair<int, int>* Font::textSize(string text){
 		}
 	}
 
+	// If the width of the current line is bigger than the max
+	// width, then set the max width to the current lines width.
+	if (curWidth > maxWidth){
+		maxWidth = curWidth;
+	}
+
 	return new pair<int, int>(maxWidth, line * lineHeight);
 
 }
@@ -225,4 +239,89 @@ string Font::createTextBlock(string text, int width){
 
 	return newTextBlock;
 
+}
+
+Model* Font::createFontModel(std::string text, float x, float y, float z, float* optional_z, float scale){
+
+	pair<int, int>* size = textSize(text);
+
+	vector<VERTEX> verticies;
+	
+	VERTEX topLeft;
+	topLeft.X = x;
+	topLeft.Y = y;
+	topLeft.Z = z;
+
+	topLeft.Color = { 1.0, 0.0, 0.0, 0.0 };
+
+	VERTEX topRight;
+	topRight.X = x + (size->first * scale);
+	topRight.Y = y;
+
+	if (optional_z == NULL){
+		topRight.Z = z;
+	}
+	else{
+		topRight.Z = *optional_z;
+	}
+
+	topRight.Color = { 0.0, 0.0, 1.0, 0.0 };
+
+	VERTEX bottomLeft;
+	bottomLeft.X = x;
+	bottomLeft.Y = y - (size->second * scale);
+	bottomLeft.Z = z;
+
+	bottomLeft.Color = { 1.0, 0.0, 1.0, 0.0 };
+
+	VERTEX bottomRight;
+	bottomRight.X = x + (size->first * scale);
+	bottomRight.Y = y - (size->second * scale);
+
+	if (optional_z == NULL){
+		bottomRight.Z = z;
+	}
+	else{
+		bottomRight.Z = *optional_z;
+	}
+
+	bottomRight.Color = { 0.0, 1.0, 0.0, 0.0 };
+
+	// Create left triangle in quad.
+	verticies.push_back(bottomLeft);
+	verticies.push_back(topLeft);
+	verticies.push_back(bottomRight);
+
+	// Create right triangle in quad.
+	verticies.push_back(topLeft);
+	verticies.push_back(topRight);
+	verticies.push_back(bottomRight);
+
+	return new Model(verticies);
+
+}
+
+// ---------------------------------------------------------------------
+// Unloads the Font asset.
+// ---------------------------------------------------------------------
+// returns:		Returns true if Font asset was successfully unloaded.
+// ---------------------------------------------------------------------
+bool Font::unload(){
+
+	try{
+
+		// Delete all the FontChars/
+		for (map<int, FontChar*>::iterator i = fontCharacters.begin(); i != fontCharacters.end(); ++i){
+			delete i->second;
+		}
+
+		// Delete the map.
+		delete &fontCharacters;
+	}
+	catch (exception e){
+		OutputDebugString(L"Error unloading font asset");
+		return false;
+	}
+
+	return true;
 }

@@ -17,6 +17,8 @@ VoxelMap::VoxelMap(string dir)
 		string line;
 		VoxRegion blank;
 
+		memset(blank.region, 0, sizeof(blank.region));
+
 		while (getline(file, line))
 		{
 			vector<string> tokens = Parse(line, '=');
@@ -70,6 +72,8 @@ VoxelMap::VoxelMap(string dir)
 VoxelMap::VoxelMap(string dir, string seed, int width, int height)
 {
 	VoxRegion blank;
+
+	memset(blank.region, 0, sizeof(blank.region));
 
 	if ((width % 2) != 1 && width > 0) width += 1;
 	if ((height % 2) != 1 && height > 0) height += 1;
@@ -135,10 +139,13 @@ bool VoxelMap::LoadRegion(int coord_x, int coord_y)
 
 	if (coords.first < map.width && coords.second < map.height)
 	{
-		VoxRegion vr = map.grid[coords.first][coords.second];
 		string name = "r." + to_string(coord_x) + "." + to_string(coord_y) + ".dat";
 		ifstream file(directory + "Regions/" + name);
+		VoxRegion vr = map.grid[coords.first][coords.second];
 
+		memset(vr.region, 0, sizeof(vr.region));
+
+		//If the region files exists in the directory. 
 		if (file.good())
 		{
 			string line;
@@ -157,20 +164,19 @@ bool VoxelMap::LoadRegion(int coord_x, int coord_y)
 					row = atoi(tmp[0].c_str());
 					vector<string> cols = Parse(tmp[1], ',');
 
-					for (int a = 0; a < cols.size(); a++)
+					for (size_t a = 0; a < cols.size(); a++)
 					{
 						vr.region[row][a][palette] = (short)atoi(cols[a].c_str());
 					}
 				}
 			}
-
-			map.grid[coords.first][coords.second] = vr;
-			file.close();
-
-			return true;
 		}
-	}
 
+		map.grid[coords.first][coords.second] = vr;
+		file.close();
+
+		return true;
+	}
 	return false;
 }
 

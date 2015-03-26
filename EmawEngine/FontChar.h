@@ -16,4 +16,6 @@ public:
 	int xoffset;
 	int yoffset;
 
+
+	bool unload(void);
 };

@@ -6,6 +6,9 @@ Model::Model()
 {
 }
 
+Model::Model(std::vector<VERTEX> vBuffer){
+	this->vertexBuffer = vBuffer;
+}
 
 Model::~Model()
 {
