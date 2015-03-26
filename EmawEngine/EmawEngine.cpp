@@ -7,6 +7,8 @@
 #include "FrameCounter.h"
 #include "Test.h"
 #include "AssetManager.h"
+#include "GameNode.h"
+#include "BaseShip.h"
 
 #define MAX_LOADSTRING 100
 
@@ -58,10 +60,19 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// Perform AssetManager initialization
 	AssetManager* assetManager = AssetManager::getInstance();
 
+	// TEST CODE!!!
+	// =========================================================================
+	GameNode* root = new GameNode();
+	Entity* e = new Entity();
+	BaseShip* base = new BaseShip(&e->getModel()->getVertexBuffer());
+	root->addChild(base);
+	// =========================================================================
+	// TEST CODE!!!
+
 	//Main game loop:
 	while(true)
 	{
-		AudioManager* am = AudioManager::getInstance();
+		/*AudioManager* am = AudioManager::getInstance();
 		(AudioRenderer::Instance())->setSoundSystem(am);
 
 		//Adding music to filename's map
@@ -84,7 +95,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		{
 			pos = am->getCharactersActualPosition();
 			am->setCharactersActualPosition(pos->getX() - 1, pos->getY(), pos->getZ());
-		}
+		}*/
+
+
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -94,6 +107,10 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
+			std::vector<VERTEX>* verticies = root->update(NULL);
+			root->render();
+			gdi.Update(verticies);
+
 			// TODO: Update
 			gdi.NextFrame();
 

@@ -92,7 +92,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="BaseShip.h" />
+    <ClInclude Include="GameNode.h" />
     <ClInclude Include="Position.h" />
+    <ClInclude Include="GameObjectNode.h" />
     <ClInclude Include="TDSFX.h" />
     <ClInclude Include="Asset.h" />
     <ClInclude Include="AssetManager.h" />
@@ -107,6 +110,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ShaderAsset.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="WindowSize.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureShader.h" />
@@ -124,14 +128,17 @@
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="AudioRenderer.cpp" />
+    <ClCompile Include="BaseShip.cpp" />
     <ClCompile Include="EmawEngine.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FontChar.cpp" />
     <ClCompile Include="FrameCounter.cpp" />
+    <ClCompile Include="GameNode.cpp" />
     <ClCompile Include="graphics_device_interface.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ShaderAsset.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="WindowSize.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Position.cpp" />

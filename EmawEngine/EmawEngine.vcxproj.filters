@@ -65,9 +65,18 @@
     </ClCompile>
     <ClCompile Include="AudioManager.cpp">
       <Filter>AudioRenderer</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="VoxelMap.cpp">
       <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Core Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseShip.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameNode.cpp">
+      <Filter>Core Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,9 +160,21 @@
     </ClInclude>
     <ClInclude Include="AudioManager.h">
       <Filter>AudioRenderer</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="VoxelMap.h">
       <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectNode.h">
+      <Filter>Core Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Core Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseShip.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameNode.h">
+      <Filter>Core Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +214,9 @@
     </Filter>
     <Filter Include="AudioRenderer\Test">
       <UniqueIdentifier>{d90f7724-5e5c-4fa8-a8a0-d8bb0b592cb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{0f2ebe6a-3d21-4ae3-ae21-e49b6e93fdc9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

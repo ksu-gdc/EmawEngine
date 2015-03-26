@@ -115,7 +115,7 @@ void GraphicsDeviceInterface::InitGraphics(void)
 	Model *m = f->createFontModel("Hello!", 0, 0, 0, NULL, 0.005);
 
 	std::vector<VERTEX> vertices = e->getModel()->getVertexBuffer();
-	vertices = m->getVertexBuffer();
+	//vertices = m->getVertexBuffer();
 
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
@@ -186,11 +186,33 @@ bool GraphicsDeviceInterface::Render()
 
 	// TODO: Render game world
 
+
+
 	// Swap buffers - waits for vsync
 	//m_Swapchain->Present(1, 0);
 
 	// Swap buffers - unlocked framerate
 	m_Swapchain->Present(0, 0);
+
+	return true;
+}
+
+bool GraphicsDeviceInterface::Update(std::vector<VERTEX>* vertices){
+
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+
+	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
+	bd.ByteWidth = sizeof(VERTEX) * vertices->size();             // size is the VERTEX struct * 3
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
+
+	m_Device->CreateBuffer(&bd, NULL, &m_VertBuffer);       // create the buffer
+
+	D3D11_MAPPED_SUBRESOURCE ms;
+	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
+	memcpy(ms.pData, vertices->data(), vertices->size() * sizeof(VERTEX));                // copy the data
+	m_Context->Unmap(m_VertBuffer, NULL);
 
 	return true;
 }

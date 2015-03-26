@@ -20,6 +20,7 @@ public:
 	void NextFrame();
 	void InitPipeline();
 	void InitGraphics();
+	bool Update(std::vector<VERTEX>*);
 
 private:
 	bool Render();
