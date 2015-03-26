@@ -99,8 +99,31 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 			}
 			else {
 				switch (msg.message) {
+					// Keyboard messages
 					case WM_KEYDOWN:
 						inputManager->getInstance.handleKeyDownMessage(msg.wParam);
+						break;
+					case WM_KEYUP:
+						inputManager->getInstance.handleKeyUpMessage(msg.wParam);
+						break;
+					// Mouse button messages
+					case WM_LBUTTONDOWN:
+						inputManager->getInstance.handleMouseDownMessage(msg.wParam, MOUSEID_LEFT);
+						break;
+					case WM_LBUTTONUP:
+						inputManager->getInstance.handleMouseUpMessage(msg.wParam, MOUSEID_LEFT);
+						break;
+					case WM_MBUTTONDOWN:
+						inputManager->getInstance.handleMouseDownMessage(msg.wParam, MOUSEID_MID);
+						break;
+					case WM_MBUTTONUP:
+						inputManager->getInstance.handleMouseUpMessage(msg.wParam, MOUSEID_MID);
+						break;
+					case WM_RBUTTONDOWN:
+						inputManager->getInstance.handleMouseDownMessage(msg.wParam, MOUSEID_RIGHT);
+						break;
+					case WM_RBUTTONUP:
+						inputManager->getInstance.handleMouseUpMessage(msg.wParam, MOUSEID_RIGHT);
 						break;
 				}
 			}
