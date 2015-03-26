@@ -9,7 +9,7 @@ Entity::Entity()
 	//model->load("models/bell.fbx");
 
 	position = { 0, 0, 0 };
-	orientation = DirectX::XMLoadFloat4(new DirectX::XMFLOAT4(0, 0, 0, 0));
+	orientation = DirectX::XMVectorSet(0, 0, 0, 0);
 	worldMatrix = new DirectX::XMMATRIX(
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,

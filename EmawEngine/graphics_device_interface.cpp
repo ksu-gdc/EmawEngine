@@ -107,11 +107,6 @@ void GraphicsDeviceInterface::InitGraphics(void)
 {
 	// temporary
 	entities[0] = new Entity();
-
-	
-	
-
-	
 }
 
 //
@@ -160,11 +155,9 @@ bool GraphicsDeviceInterface::Render()
 	// select which primtive type we are using
 	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	for (int i = 0; i < maxEntities; i++) {
-
-	}
 	// now we set up the vertex buffer
 	entities[0]->update();
+
 	// create a buffer in graphics memory to transfer the transformation matricies to the vertex shader
 	D3D11_BUFFER_DESC matrixBufferDesc;
 	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
@@ -190,32 +183,26 @@ bool GraphicsDeviceInterface::Render()
 	}
 
 	MatrixBuffer* mb = (MatrixBuffer*)mappedResource.pData;
-
+	
+	// now we get the three matricies into the buffer
 	DirectX::XMMATRIX* world = entities[0]->getMatrix();
 	DirectX::XMMATRIX* view = new DirectX::XMMATRIX(
 		1.0f, 0.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f, 0.0f,
 		0.0f, 0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 0.0f, 1.0f);
-
-
 	//view = camera->getViewTransform();
-
-
-
 	DirectX::XMMATRIX* proj = camera->getProjTransform();
-
 
 	mb->world = *world;
 	mb->view = *view;
 	mb->projection = *proj;
 
 	m_Context->Unmap(m_matrixBuffer, 0);
-
 	m_Context->VSSetConstantBuffers(0, 1, &m_matrixBuffer);
-
 	// done passing transform matricies
 
+	// put entity verticies into a buffer to pass them to the shader
 	std::vector<VERTEX> vertices = entities[0]->getModel()->getVertexBuffer();
 
 	D3D11_BUFFER_DESC bd;
@@ -232,6 +219,7 @@ bool GraphicsDeviceInterface::Render()
 	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
 	memcpy(ms.pData, vertices.data(), vertices.size() * sizeof(VERTEX));                // copy the data
 	m_Context->Unmap(m_VertBuffer, NULL);
+
 	// draw the vertex buffer to the back buffer
 	m_Context->Draw(vertices.size(), 0);
 
