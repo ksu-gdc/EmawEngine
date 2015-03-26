@@ -44,8 +44,8 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>..\DirectX_SDK\Include;$(IncludePath)</IncludePath>
     <LibraryPath>..\DirectX_SDK\Lib\x86;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)/libraries/FBX SDK/2015.1/include;..\DirectX_SDK\Include</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);..\DirectX_SDK\Lib\x86;..\libraries\FBX SDK\2015.1\lib\vs2013\x86\debug-noignore</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)/libraries/FBX SDK/2015.1/include;..\DirectX_SDK\Include;$(SolutionDir)/EmawEngine/fmod</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);..\DirectX_SDK\Lib\x86;..\libraries\FBX SDK\2015.1\lib\vs2013\x86\debug-noignore;$(SolutionDir)/EmawEngine/fmod</LibraryPath>
     <ExecutablePath>$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -66,6 +66,7 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(SolutionDir)libraries\FBX SDK\2015.1\lib\vs2013\x86\debug-noignore\libfbxsdk.dll" $(OutDir)</Command>
+      <Command>xcopy /y /d "$(SolutionDir)EmawEngine\fmod\fmod.dll" $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
