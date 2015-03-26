@@ -125,6 +125,7 @@ void GraphicsDeviceInterface::Shutdown() {
 }
 
 
+
 //
 // FUNCTION: GraphicsDeviceInterface::NextFrame()
 //
@@ -132,6 +133,7 @@ void GraphicsDeviceInterface::Shutdown() {
 //
 void GraphicsDeviceInterface::NextFrame()
 {
+	entities[0]->update();
 	Render();
 }
 
