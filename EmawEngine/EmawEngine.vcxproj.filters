@@ -65,9 +65,18 @@
     </ClCompile>
     <ClCompile Include="AudioManager.cpp">
       <Filter>AudioRenderer</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="VoxelMap.cpp">
       <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Human Interface Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyState.cpp">
+      <Filter>Human Interface Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseState.cpp">
+      <Filter>Human Interface Devices</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,9 +160,18 @@
     </ClInclude>
     <ClInclude Include="AudioManager.h">
       <Filter>AudioRenderer</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="VoxelMap.h">
       <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Human Interface Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyState.h">
+      <Filter>Human Interface Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseState.h">
+      <Filter>Human Interface Devices</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -92,6 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="KeyState.h" />
+    <ClInclude Include="MouseState.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="TDSFX.h" />
     <ClInclude Include="Asset.h" />
@@ -130,7 +133,10 @@
     <ClCompile Include="FontChar.cpp" />
     <ClCompile Include="FrameCounter.cpp" />
     <ClCompile Include="graphics_device_interface.cpp" />
+    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="KeyState.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="MouseState.cpp" />
     <ClCompile Include="ShaderAsset.cpp" />
     <ClCompile Include="WindowSize.cpp" />
     <ClCompile Include="Sound.cpp" />

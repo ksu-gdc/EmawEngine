@@ -7,6 +7,7 @@
 #include "FrameCounter.h"
 #include "Test.h"
 #include "AssetManager.h"
+#include "InputManager.h"
 
 #define MAX_LOADSTRING 100
 
@@ -58,6 +59,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// Perform AssetManager initialization
 	AssetManager* assetManager = AssetManager::getInstance();
 
+	// Perform InputManager initialization
+	InputManager* inputManager = InputManager::getInstance();
+
 	//Main game loop:
 	while(true)
 	{
@@ -90,7 +94,16 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 
-			if (msg.message == WM_QUIT) break;
+			if (msg.message == WM_QUIT) {
+				break;
+			}
+			else {
+				switch (msg.message) {
+					case WM_KEYDOWN:
+						inputManager->getInstance.handleKeyDownMessage(msg.wParam);
+						break;
+				}
+			}
 		}
 		else
 		{
