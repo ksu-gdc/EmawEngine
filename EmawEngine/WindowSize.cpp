@@ -50,6 +50,24 @@ void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution
 }
 
 //
+//   FUNCTION: setWindowed(HWND hWnd, GraphicsDeviceInterface *gdi, BOOL windowed)
+//
+//   PURPOSE: public function that switches between fullscreen and windowed modes when needed
+//
+void WindowSize::setWindowed(HWND hWnd, GraphicsDeviceInterface *gdi, BOOL windowed)
+{
+	// return if mode change is unneeded
+	if (windowed == gdi->IsWindowed())
+		return;
+
+	// Update windowed field in WindowSize object
+	this->windowed = windowed;
+
+	// Uses the setSize method to recreate the GDI
+	this->setSize(hWnd, gdi, this->resolution);
+}
+
+//
 //   FUNCTION: forceSize(RES resolution)
 //
 //   PURPOSE: private function that changes the object fields when needed.

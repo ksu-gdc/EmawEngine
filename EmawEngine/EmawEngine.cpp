@@ -197,6 +197,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			wind.setSize(hWnd, &gdi, HIGH_16_9);
 			OutputDebugString(CString((to_string(wind.getWidth()) + " " + to_string(wind.getHeight()) + "\n").c_str()));
 			break;
+		case 70: // 'f' keypress
+			wind.setWindowed(hWnd, &gdi, FALSE);
+			OutputDebugString(CString("fullscreen mode\n"));
+			break;
+		case 87: // 'w' keypress
+			wind.setWindowed(hWnd, &gdi, TRUE);
+			OutputDebugString(CString("windowed mode\n"));
+			break;
 		default:
 			OutputDebugString(CString((to_string(wParam) + "\n").c_str()));
 			break;
