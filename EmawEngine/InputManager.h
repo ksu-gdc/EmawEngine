@@ -11,14 +11,20 @@ class InputManager
 {
 public:
 	static InputManager* getInstance();
-	// State accessors
-	KeyState* getKeyState();
-	MouseState* getMouseState();
+
 	// Windows Message handlers
 	void handleKeyDownMessage(WPARAM wParam);
 	void handleKeyUpMessage(WPARAM wParam);
 	void handleMouseDownMessage(WPARAM wParam, int id);
 	void handleMouseUpMessage(WPARAM wParam, int id);
+
+	// State checking
+	bool mouseButtonDown(int button);
+	bool mouseButtonClicked(int button);
+	bool mouseButtonReleased(int button);
+	bool keyDown(Key k);
+	bool keyPressed(Key k);
+	bool keyReleased(Key k);
 
 	void update();
 

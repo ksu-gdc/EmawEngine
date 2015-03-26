@@ -130,8 +130,14 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
+			// Update the input
+			inputManager->update();
+
 			// TODO: Update
 			gdi.NextFrame();
+
+			// Test the input manager
+			if (inputManager->keyPressed(A)) OutputDebugString(L"A down\n");
 
 			// Update frame counter
 			fc.Update();

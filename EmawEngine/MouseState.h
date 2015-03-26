@@ -1,6 +1,7 @@
 #pragma once
 #define NUM_BUTTONS 3
 
+// MouseState represents the current state of the mouse buttons
 class MouseState
 {
 public:
@@ -11,14 +12,14 @@ public:
 	void handleMouseUpMessage(WPARAM wParam, int button);
 	void update();
 	// Methods that get the state
-	bool mouseButtonClicked(int button);
 	bool mouseButtonDown(int button);
-	bool mouseButtonUp(int button);
+	bool mouseButtonClicked(int button);
+	bool mouseButtonReleased(int button);
 
 
 private:
-	bool _currentState[NUM_BUTTONS];
-	bool _oldState[NUM_BUTTONS];
+	bool *_currentState;
+	bool *_oldState;
 };
 
 

@@ -1,6 +1,7 @@
 #pragma once
 #define NUM_KEYS 256
 
+// Key stores all of the Keys as an enum based on their Virtual Key Code
 enum Key {
 	// Escape
 	Esc = 0x1B,
@@ -121,6 +122,7 @@ enum Key {
 	Space = 0x20,
 };
 
+// KeyState represents the current state of the keyboard
 class KeyState
 {
 public:
@@ -131,14 +133,13 @@ public:
 	void handleKeyUpMessage(WPARAM wParam);
 	void update();
 	// Methods that get the state
-	bool keyPressed(Key k);
 	bool keyDown(Key k);
-	bool keyUp(Key k);
-
+	bool keyPressed(Key k);
+	bool keyReleased(Key k);
 
 private:
-	bool _currentState[NUM_KEYS];
-	bool _oldState[NUM_KEYS];
+	bool *_currentState;
+	bool *_oldState;
 };
 
 

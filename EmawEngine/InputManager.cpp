@@ -16,8 +16,8 @@ InputManager* InputManager::getInstance() {
 // Default constructor
 InputManager::InputManager() 
 {
-	_keyState = &(KeyState());
-	_mouseState = &(MouseState());
+	_keyState = new KeyState();
+	_mouseState = new MouseState();
 }
 
 // Default destructor
@@ -46,17 +46,37 @@ void InputManager::handleMouseDownMessage(WPARAM wParam, int id) {
 	_mouseState->handleMouseDownMessage(wParam, id);
 }
 
-// Handles a windoes mouse up message
+// Handles a windows mouse up message
 void InputManager::handleMouseUpMessage(WPARAM wParam, int id) {
-	_mouseState->handleMouseUpMessage(wParam, id);
+	return _mouseState->handleMouseUpMessage(wParam, id);
 }
 
-// Returns the current key state
-KeyState* InputManager::getKeyState() {
-	return _keyState;
+
+bool InputManager::mouseButtonDown(int button) {
+	return _mouseState->mouseButtonDown(button);
 }
 
-// Returns the current mouse state
-MouseState* InputManager::getMouseState() {
-	return _mouseState;
+
+bool InputManager::mouseButtonClicked(int button) {
+	return _mouseState->mouseButtonClicked(button);
+}
+
+
+bool InputManager::mouseButtonReleased(int button) {
+	return _mouseState->mouseButtonReleased(button);
+}
+
+
+bool InputManager::keyDown(Key k) {
+	return _keyState->keyDown(k);
+}
+
+
+bool InputManager::keyPressed(Key k) {
+	return _keyState->keyPressed(k);
+}
+
+
+bool InputManager::keyReleased(Key k) {
+	return _keyState->keyReleased(k);
 }
