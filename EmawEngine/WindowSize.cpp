@@ -7,7 +7,7 @@ const int WindowSize::hResolution[] = { 600, 960,	576,	900 };
 
 WindowSize::WindowSize()
 {
-	this->forceSize(HIGH_16_9);
+	this->forceSize(LOW_4_3);
 	windowed = TRUE;
 }
 
@@ -41,6 +41,10 @@ BOOL WindowSize::getWindowed()
 //
 void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution)
 {
+	// return if restarting the gdi is not needed
+	if (this->resolution == resolution && this->windowed == gdi->IsWindowed())
+		return;
+
 	// Update resolution width and height
 	forceSize(resolution);
 
@@ -56,7 +60,7 @@ void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution
 //
 void WindowSize::setWindowed(HWND hWnd, GraphicsDeviceInterface *gdi, BOOL windowed)
 {
-	// return if mode change is unneeded
+	// return if mode change is not needed
 	if (windowed == gdi->IsWindowed())
 		return;
 
