@@ -183,16 +183,6 @@ BOOL GraphicsDeviceInterface::IsWindowed()
 }
 
 //
-// FUNCTION: GraphicsDeviceInterface::SetFullScreenState()
-//
-// PURPOSE: changes fullscreen state of GDI
-//
-void GraphicsDeviceInterface::SetFullScreenState(BOOL state)
-{
-	m_Swapchain->SetFullscreenState(state, NULL);
-}
-
-//
 // FUNCTION: GraphicsDeviceInterface::Render()
 //
 // PURPOSE: Renders the next frame

@@ -21,7 +21,6 @@ public:
 	void InitPipeline();
 	void InitGraphics();
 	BOOL IsWindowed();
-	void SetFullScreenState(BOOL);
 
 private:
 	bool Render();
