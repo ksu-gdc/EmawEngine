@@ -4,8 +4,8 @@
 
 MouseState::MouseState()
 {
-	_currentState	 = new bool[NUM_BUTTONS];
-	_oldState		 = new bool[NUM_BUTTONS];
+	_currentState = new bool[NUM_BUTTONS];
+	_oldState = new bool[NUM_BUTTONS];
 	memset(_currentState, 0, sizeof(bool) * NUM_BUTTONS);
 	memset(_oldState, 0, sizeof(bool) * NUM_BUTTONS);
 }

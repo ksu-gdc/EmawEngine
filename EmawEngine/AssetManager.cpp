@@ -64,7 +64,8 @@ Asset* AssetManager::loadFromFile(std::string name) {
 		else if (ext == "wav" || ext == "mp3")
 			loadMusic(name);
 		else
-			OutputDebugString(L"File type not supported.");
+			
+			(L"File type not supported.");
 	}
 	else {
 		OutputDebugString(L"File not found.\n");

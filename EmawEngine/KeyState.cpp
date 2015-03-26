@@ -4,8 +4,8 @@
 // Default constructor
 KeyState::KeyState()
 {
-	_currentState	= new bool[NUM_KEYS];
-	_oldState		= new bool[NUM_KEYS];
+	_currentState = new bool[NUM_KEYS];
+	_oldState = new bool[NUM_KEYS];
 	memset(_currentState, 0, sizeof(bool) * NUM_KEYS);
 	memset(_oldState, 0, sizeof(bool) * NUM_KEYS);
 }
