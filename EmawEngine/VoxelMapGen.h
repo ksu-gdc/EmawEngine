@@ -11,7 +11,7 @@
 class VoxelMapGen
 {
 public:
-	Chunk VoxelMapGen(float f[16][16], int x, int y, int freq, int floor, int ceiling);
+	VoxelMapGen(string);
 	VoxelMapGen();
 	~VoxelMapGen();
 };
