@@ -2,14 +2,14 @@
 
 #include "stdafx.h"
 #include "Transform.h"
-#include "GameObjectNode.h"
+#include "SceneGraphNode.h"
 #include <string>
 
-class GameNode : public GameObjectNode {
+class GameNode : public SceneGraphNode {
 
 private:
 
-	std::vector<GameObjectNode*> children;
+	std::vector<SceneGraphNode*> children;
 	Transform* transform;
 
 public:
@@ -18,8 +18,8 @@ public:
 	~GameNode();
 
 	void input();
-	std::vector<VERTEX>* update(Transform*);
-	void render();
-	void addChild(GameObjectNode*);
+	void update(D3DXMATRIX*);
+	void render(std::vector<VERTEX>*);
+	void addChild(SceneGraphNode*);
 
 };

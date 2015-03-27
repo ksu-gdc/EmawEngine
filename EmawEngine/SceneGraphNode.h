@@ -4,17 +4,17 @@
 #include "Transform.h"
 #include <string>
 
-class GameObjectNode {
+class SceneGraphNode {
 
 private:
 
-	std::vector<GameObjectNode*> children;
+	std::vector<SceneGraphNode*> children;
 	Transform* transform;
 
 public:
 
 	virtual void input() = 0;
-	virtual std::vector<VERTEX>* update(Transform*) = 0;
-	virtual void render() = 0;
+	virtual void update(D3DXMATRIX*) = 0;
+	virtual void render(std::vector<VERTEX>*) = 0;
 
 };

@@ -4,6 +4,8 @@
 
 //#include <DirectXColors.h>
 #include <DirectXMath.h>
+#include <D3DX11.h>
+#include <D3DX10.h>
 
 #define _XM_NO_INTRINSICS_
 
@@ -100,6 +102,7 @@ void GraphicsDeviceInterface::InitPipeline()
 //Placeholder used for testing, manually creates a triangle and sends the vertices for the Graphics Device for rendering.
 void GraphicsDeviceInterface::InitGraphics(void)
 {
+
 	//the triangle
 	VERTEX OurVertices[] = {
 			{ 0.0f, 0.0f, 1.0f, 0.5f, DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f) },
@@ -119,7 +122,7 @@ void GraphicsDeviceInterface::InitGraphics(void)
 
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
-
+	
 	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
 	bd.ByteWidth = sizeof(VERTEX) * vertices.size();             // size is the VERTEX struct * 3
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
@@ -166,6 +169,8 @@ void GraphicsDeviceInterface::NextFrame()
 //
 bool GraphicsDeviceInterface::Render()
 {
+
+
 	// Default color
 	float color[4] = { 0.2, 0.11, 0.34, 1.0 };
 	
@@ -208,7 +213,7 @@ bool GraphicsDeviceInterface::Update(std::vector<VERTEX>* vertices){
 	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
 
 	m_Device->CreateBuffer(&bd, NULL, &m_VertBuffer);       // create the buffer
-
+	
 	D3D11_MAPPED_SUBRESOURCE ms;
 	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
 	memcpy(ms.pData, vertices->data(), vertices->size() * sizeof(VERTEX));                // copy the data

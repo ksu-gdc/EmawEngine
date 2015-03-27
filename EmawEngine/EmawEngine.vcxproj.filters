@@ -72,11 +72,11 @@
     <ClCompile Include="Transform.cpp">
       <Filter>Core Systems</Filter>
     </ClCompile>
-    <ClCompile Include="BaseShip.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="GameNode.cpp">
       <Filter>Core Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelNode.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -164,17 +164,17 @@
     <ClInclude Include="VoxelMap.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjectNode.h">
-      <Filter>Core Systems</Filter>
-    </ClInclude>
     <ClInclude Include="Transform.h">
       <Filter>Core Systems</Filter>
     </ClInclude>
-    <ClInclude Include="BaseShip.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="GameNode.h">
       <Filter>Core Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraphNode.h">
+      <Filter>Core Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelNode.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

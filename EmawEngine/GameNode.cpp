@@ -3,7 +3,7 @@
 #include <algorithm>
 
 GameNode::GameNode(){
-	transform = NULL;
+	transform = new Transform();
 }
 
 GameNode::~GameNode(){
@@ -14,41 +14,30 @@ void GameNode::input(){
 
 }
 
-std::vector<VERTEX>* GameNode::update(Transform* t){
-
-	std::vector<VERTEX>* totalVerticies = new std::vector<VERTEX>();
-	std::vector<VERTEX>* parentVerticies = new std::vector<VERTEX>();
-	std::vector<VERTEX>* childVerticies = new std::vector<VERTEX>();
-
-	Transform* newTransform = transform;
-
-	if (t != NULL){
-		newTransform = transform->multiply(t);
-	}
+void GameNode::update(D3DXMATRIX* otherTransform){
 
 	// Apply transform
+	transform->applyTransformation(otherTransform);
+	transform->createTransform();
+
 
 	// Update children
 	for (int i = 0; i < children.size(); i++){
-
-		childVerticies = children.at(i)->update(newTransform);
-		totalVerticies->insert(totalVerticies->end(), childVerticies->begin(), childVerticies->end());
+		children.at(i)->update(transform->getTransformMatrix());
 	}
-
-	return totalVerticies;
 
 }
 
-void GameNode::render(){
+void GameNode::render(std::vector<VERTEX>* verticies){
 
 	//Render children.
 	for (int i = 0; i < children.size(); i++){
-		children.at(i)->render();
+		children.at(i)->render(verticies);
 	}
 
 }
 
-void GameNode::addChild(GameObjectNode* child){
+void GameNode::addChild(SceneGraphNode* child){
 
 	children.push_back(child);
 

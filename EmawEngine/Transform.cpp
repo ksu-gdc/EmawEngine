@@ -1,63 +1,104 @@
 #include "stdafx.h"
 #include "Transform.h"
+#include <D3DX10.h>
 
 Transform::Transform(){
-	matrix = new float[9];
-	matrix[0] = 1;
-	matrix[4] = 1;
-	matrix[7] = 1;
-}
 
-Transform::Transform(float* otherMatrix){
-	
-	matrix = new float[9];
+	rotateMatrixX = Transform::createIdentity();
+	rotateMatrixY = Transform::createIdentity();
+	rotateMatrixZ = Transform::createIdentity();
+	translateMatrix = Transform::createIdentity();
+	scaleMatrix = Transform::createIdentity();
+	transformMatrix = Transform::createIdentity();
 
-	for (int i = 0; i < 3; i++){
-		for (int j = 0; j < 3; j++){
-			matrix[3 * i + j] = otherMatrix[3 * i + j];
-		}
-	}
 }
 
 Transform::~Transform(){
-
+	delete rotateMatrixX;
+	delete rotateMatrixY;
+	delete rotateMatrixZ;
+	delete translateMatrix;
+	delete scaleMatrix;
+	delete transformMatrix;
 }
 
-Transform* Transform::multiply(Transform* multiplier){
-
-	float* product = new float[9];
-
-	// Iterate through the rows of multiplicand matrix.
-	for (int row = 0; row < 3; row++){
-
-		// Iterate through the columns of the multiplier matrix;
-		for (int col = 0; col < 3; col++){
-
-			// Index to multiply.
-			for (int i = 0; i < 3; i++){
-
-				product[3 * row + col] += matrix[3 * row + i] * multiplier->getMatrix()[3 * i + col];
-
-			}
-		}
-	}
-
-	return new Transform(product);
+void Transform::createTransform(){
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixX);
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixY);
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixZ);
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, translateMatrix);
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, scaleMatrix);
 }
+
+
 
 VERTEX Transform::transformVertex(VERTEX vertex){
+	
+	D3DXVECTOR4* vector = new D3DXVECTOR4();
+	vector->x = vertex.X;
+	vector->y = vertex.Y;
+	vector->z = vertex.Z;
+	vector->w = vertex.W;
 
-	VERTEX transformedVertex;
+	D3DXVec4Transform(vector, vector, transformMatrix);
 
-	transformedVertex.Color = vertex.Color;
-	transformedVertex.W = vertex.W;
-	transformedVertex.X = (matrix[0] * vertex.X) + (matrix[1] * vertex.Y) + (matrix[2] * vertex.Z);
-	transformedVertex.Y = (matrix[3] * vertex.X) + (matrix[4] * vertex.Y) + (matrix[5] * vertex.Z);
-	transformedVertex.Z = (matrix[6] * vertex.X) + (matrix[7] * vertex.Y) + (matrix[8] * vertex.Z);
+	vertex.X = vector->x;
+	vertex.Y = vector->y;
+	vertex.Z = vector->z;
+	vertex.W = vector->w;
 
-	return transformedVertex;
+	return vertex;
 }
 
-float* Transform::getMatrix(){
-	return matrix;
+void Transform::applyTransformation(D3DXMATRIX* otherTransform){
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, otherTransform);
+}
+
+D3DXMATRIX* Transform::getTransformMatrix(){
+	return transformMatrix;
+}
+
+void Transform::rotateX(float angle){
+	D3DXMatrixRotationX(rotateMatrixX, angle);
+}
+
+void Transform::rotateY(float angle){
+	D3DXMatrixRotationY(rotateMatrixY, angle);
+}
+
+void Transform::rotateZ(float angle){
+	D3DXMatrixRotationZ(rotateMatrixZ, angle);
+}
+
+void Transform::scale(float x, float y, float z){
+	D3DXMatrixScaling(scaleMatrix, x, y, z);
+}
+
+void Transform::translate(float x, float y, float z){
+	D3DXMatrixTranslation(translateMatrix, x, y, z);
+}
+
+D3DXMATRIX* Transform::createIdentity(){
+
+	D3DXMATRIX* i = new D3DXMATRIX();
+
+	i->_11 = 1.0;
+	i->_12 = 0.0;
+	i->_13 = 0.0;
+	i->_14 = 0.0;
+	i->_21 = 0.0;
+	i->_22 = 1.0;
+	i->_23 = 0.0;
+	i->_24 = 0.0;
+	i->_31 = 0.0;
+	i->_32 = 0.0;
+	i->_33 = 1.0;
+	i->_34 = 0.0;
+	i->_41 = 0.0;
+	i->_42 = 0.0;
+	i->_43 = 0.0;
+	i->_44 = 1.0;
+
+	return i;
+
 }

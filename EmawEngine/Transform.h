@@ -3,19 +3,32 @@
 #include "stdafx.h"
 #include <list>
 #include <string>
+#include <D3DX10.h>
 
 class Transform {
 
 private:
 
-	float* matrix;
+	D3DXMATRIX* rotateMatrixX;
+	D3DXMATRIX* rotateMatrixY;
+	D3DXMATRIX* rotateMatrixZ;
+	D3DXMATRIX* translateMatrix;
+	D3DXMATRIX* scaleMatrix;
+	D3DXMATRIX* transformMatrix;
+
 
 public:
 	Transform();
-	Transform(float*);
 	~Transform();
 
-	Transform* multiply(Transform*);
+	void applyTransformation(D3DXMATRIX*);
+	D3DXMATRIX* getTransformMatrix();
+	void createTransform();
 	VERTEX transformVertex(VERTEX);
-	float* getMatrix();
+	static D3DXMATRIX* createIdentity();
+	void rotateX(float);
+	void rotateY(float);
+	void rotateZ(float);
+	void scale(float, float, float);
+	void translate(float, float, float);
 };

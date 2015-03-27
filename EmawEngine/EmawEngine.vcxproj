@@ -92,10 +92,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
-    <ClInclude Include="BaseShip.h" />
+    <ClInclude Include="ModelNode.h" />
     <ClInclude Include="GameNode.h" />
     <ClInclude Include="Position.h" />
-    <ClInclude Include="GameObjectNode.h" />
+    <ClInclude Include="SceneGraphNode.h" />
     <ClInclude Include="TDSFX.h" />
     <ClInclude Include="Asset.h" />
     <ClInclude Include="AssetManager.h" />
@@ -128,7 +128,7 @@
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="AudioRenderer.cpp" />
-    <ClCompile Include="BaseShip.cpp" />
+    <ClCompile Include="ModelNode.cpp" />
     <ClCompile Include="EmawEngine.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Font.cpp" />

@@ -8,7 +8,7 @@
 #include "Test.h"
 #include "AssetManager.h"
 #include "GameNode.h"
-#include "BaseShip.h"
+#include "ModelNode.h"
 
 #define MAX_LOADSTRING 100
 
@@ -64,8 +64,16 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// =========================================================================
 	GameNode* root = new GameNode();
 	Entity* e = new Entity();
-	BaseShip* base = new BaseShip(&e->getModel()->getVertexBuffer());
+	ModelNode* base = new ModelNode(e->getModel());
 	root->addChild(base);
+	base->translate(-0.52803708, 0.99305498227, 0.951292994);
+
+	//float rotate[] = { 1.0, 0.0, 0.0, -0.52803708, 0.0, 1.0, 0.0, -0.99305499, 0.0, 0.0, 1.0, -1.0478070006, 0.0, 0.0, 0.0, 1.0 };
+	//Transform* transform = new Transform(rotate);
+
+	Transform* identity = new Transform();
+
+
 	// =========================================================================
 	// TEST CODE!!!
 
@@ -95,8 +103,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		{
 			pos = am->getCharactersActualPosition();
 			am->setCharactersActualPosition(pos->getX() - 1, pos->getY(), pos->getZ());
-		}*/
-
+		}*/ 
 
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
@@ -107,8 +114,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
-			std::vector<VERTEX>* verticies = root->update(NULL);
-			root->render();
+			std::vector<VERTEX>* verticies = new std::vector<VERTEX>();
+			root->update(identity->getTransformMatrix());
+			root->render(verticies);
 			gdi.Update(verticies);
 
 			// TODO: Update
