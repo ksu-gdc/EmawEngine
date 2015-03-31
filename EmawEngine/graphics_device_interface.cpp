@@ -169,8 +169,6 @@ bool GraphicsDeviceInterface::Render()
 	matrixBufferDesc.MiscFlags = 0;
 	matrixBufferDesc.StructureByteStride = 0;
 
-	ID3D11Buffer* m_matrixBuffer;
-
 	HRESULT result = m_Device->CreateBuffer(&matrixBufferDesc, NULL, &m_matrixBuffer);
 	if (FAILED(result)) {
 		OutputDebugString(L"failed to create transform matrix buffer\n");
@@ -202,6 +200,7 @@ bool GraphicsDeviceInterface::Render()
 
 	m_Context->Unmap(m_matrixBuffer, 0);
 	m_Context->VSSetConstantBuffers(0, 1, &m_matrixBuffer);
+	m_matrixBuffer->Release();
 	// done passing transform matricies
 
 	// put entity verticies into a buffer to pass them to the shader
