@@ -122,6 +122,7 @@ void GraphicsDeviceInterface::Shutdown() {
 	m_Device->Release();
 	m_Context->Release();
 	m_VertBuffer->Release();
+	m_matrixBuffer->Release();
 }
 
 
@@ -169,7 +170,6 @@ bool GraphicsDeviceInterface::Render()
 	matrixBufferDesc.MiscFlags = 0;
 	matrixBufferDesc.StructureByteStride = 0;
 
-	ID3D11Buffer* m_matrixBuffer;
 
 	HRESULT result = m_Device->CreateBuffer(&matrixBufferDesc, NULL, &m_matrixBuffer);
 	if (FAILED(result)) {
@@ -234,6 +234,8 @@ bool GraphicsDeviceInterface::Render()
 
 	// Swap buffers - unlocked framerate
 	m_Swapchain->Present(0, 0);
+
+	delete view;
 
 	return true;
 }

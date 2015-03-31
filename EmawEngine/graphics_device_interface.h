@@ -38,6 +38,7 @@ private:
 	ID3D11DeviceContext		*m_Context;
 	ID3D11RenderTargetView  *m_BackBuffer;
 	ID3D11Buffer			*m_VertBuffer;
+	ID3D11Buffer			*m_matrixBuffer;
 };
 
 #endif
