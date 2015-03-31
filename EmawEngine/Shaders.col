@@ -6,6 +6,8 @@ cbuffer MatrixBuffer
 	matrix projectionMatrix;
 }
 
+matrix worldMatrixT;
+
 //structs
 struct VOut
 {
@@ -16,6 +18,8 @@ struct VOut
 VOut VShader(float4 position : POSITION, float4 color : COLOR)
 {
     VOut output;
+
+	float4 result = mul(position, worldMatrix);
 
     output.position = position;
     output.color = color;

@@ -15,10 +15,6 @@ ModelNode::~ModelNode(){
 
 }
 
-void ModelNode::input(){
-
-}
-
 void ModelNode::update(D3DXMATRIX* otherTransform){
 
 	// Apply transform
@@ -32,26 +28,25 @@ void ModelNode::update(D3DXMATRIX* otherTransform){
 
 }
 
-void ModelNode::render(std::vector<VERTEX>* verticies){
+void ModelNode::render(){
 
-	std::vector<VERTEX> modelVerticies = model->getVertexBuffer();
-
-	// Transform verticies.
-	for (int i = 0; i < modelVerticies.size(); i++){
-		verticies->push_back(transform->transformVertex(modelVerticies.at(i)));
-	}
+	gdi->VertexPipeline(&model->getVertexBuffer(), transform->getTransformMatrix());
 
 	//Render children.
 	for (int i = 0; i < children.size(); i++){
-		children.at(i)->render(verticies);
+		children.at(i)->render();
 	}
 
 }
 
+void ModelNode::setGraphicsDeviceInterface(GraphicsDeviceInterface* graphicsDeviceInterface){
+
+	gdi = graphicsDeviceInterface;
+
+}
+
 void ModelNode::addChild(SceneGraphNode* child){
-
 	children.push_back(child);
-
 }
 
 void ModelNode::rotateX(float angle){
@@ -74,6 +69,6 @@ void ModelNode::translate(float x, float y, float z){
 	transform->translate(x, y, z);
 }
 
-void ModelNode::resetTransformMatricies(){
-	transform = new Transform();
+void ModelNode::resetTransformMatrix(){
+	transform->resetTransformMatrix();
 }

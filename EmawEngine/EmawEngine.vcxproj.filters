@@ -78,6 +78,12 @@
     <ClCompile Include="ModelNode.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Core Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -175,6 +181,12 @@
     </ClInclude>
     <ClInclude Include="ModelNode.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Core Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -63,13 +63,18 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// TEST CODE!!!
 	// =========================================================================
 	GameNode* root = new GameNode();
+	root->setGraphicsDeviceInterface(&gdi);
 	Entity* e = new Entity();
 	ModelNode* base = new ModelNode(e->getModel());
+	base->setGraphicsDeviceInterface(&gdi);
 	root->addChild(base);
-	base->translate(-0.52803708, 0.99305498227, 0.951292994);
+	//base->translate(-.25, 1.0, 1.75);
+	//base->rotateZ(2);
+	Camera* camera = new Camera();
 
-	//float rotate[] = { 1.0, 0.0, 0.0, -0.52803708, 0.0, 1.0, 0.0, -0.99305499, 0.0, 0.0, 1.0, -1.0478070006, 0.0, 0.0, 0.0, 1.0 };
-	//Transform* transform = new Transform(rotate);
+	gdi.SetSceneGraphRoot(root);
+	gdi.SetCamera(camera);
+	camera->setPosition(0.0f, 0.0f, -10.0f);
 
 	Transform* identity = new Transform();
 
@@ -114,10 +119,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
-			std::vector<VERTEX>* verticies = new std::vector<VERTEX>();
 			root->update(identity->getTransformMatrix());
-			root->render(verticies);
-			gdi.Update(verticies);
+			base->resetTransformMatrix();
 
 			// TODO: Update
 			gdi.NextFrame();

@@ -23,31 +23,11 @@ Transform::~Transform(){
 }
 
 void Transform::createTransform(){
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, translateMatrix);
 	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixX);
 	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixY);
 	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixZ);
-	D3DXMatrixMultiply(transformMatrix, transformMatrix, translateMatrix);
 	D3DXMatrixMultiply(transformMatrix, transformMatrix, scaleMatrix);
-}
-
-
-
-VERTEX Transform::transformVertex(VERTEX vertex){
-	
-	D3DXVECTOR4* vector = new D3DXVECTOR4();
-	vector->x = vertex.X;
-	vector->y = vertex.Y;
-	vector->z = vertex.Z;
-	vector->w = vertex.W;
-
-	D3DXVec4Transform(vector, vector, transformMatrix);
-
-	vertex.X = vector->x;
-	vertex.Y = vector->y;
-	vertex.Z = vector->z;
-	vertex.W = vector->w;
-
-	return vertex;
 }
 
 void Transform::applyTransformation(D3DXMATRIX* otherTransform){
@@ -76,6 +56,10 @@ void Transform::scale(float x, float y, float z){
 
 void Transform::translate(float x, float y, float z){
 	D3DXMatrixTranslation(translateMatrix, x, y, z);
+}
+
+void Transform::resetTransformMatrix(){
+	transformMatrix = Transform::createIdentity();
 }
 
 D3DXMATRIX* Transform::createIdentity(){

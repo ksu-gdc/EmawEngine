@@ -12,21 +12,22 @@ private:
 	std::vector<SceneGraphNode*> children;
 	Transform* transform;
 	Model* model;
+	GraphicsDeviceInterface* gdi;
 
 public:
 	ModelNode();
 	ModelNode(Model*);
 	~ModelNode();
 
-	void input();
 	void update(D3DXMATRIX*);
-	void render(std::vector<VERTEX>* verticies);
+	void render();
 	void addChild(SceneGraphNode*);
+	void setGraphicsDeviceInterface(GraphicsDeviceInterface*);
 	void rotateX(float);
 	void rotateY(float);
 	void rotateZ(float);
 	void scale(float, float, float);
 	void translate(float, float, float);
-	void resetTransformMatricies();
+	void resetTransformMatrix();
 
 };

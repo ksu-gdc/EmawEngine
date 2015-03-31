@@ -6,13 +6,24 @@
 #include <DirectXMath.h>
 #include <D3DX11.h>
 #include <D3DX10.h>
+#include <D3DX11core.h>
 
 #define _XM_NO_INTRINSICS_
 
 GraphicsDeviceInterface::GraphicsDeviceInterface() {
+	m_SceneGraphRoot = 0;
+	m_Camera = 0;
 }
 
 GraphicsDeviceInterface::~GraphicsDeviceInterface() {}
+
+void GraphicsDeviceInterface::SetSceneGraphRoot(GameNode* root){
+	m_SceneGraphRoot = root;
+}
+
+void GraphicsDeviceInterface::SetCamera(Camera* camera){
+	m_Camera = camera;
+}
 
 //
 // FUNCTION: GraphicsDeviceInterface::Initialize()
@@ -79,6 +90,14 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 
 	m_Context->RSSetViewports(1, &viewport);
 
+	// Setup the projection matrix.
+	float fieldOfView = (float)D3DX_PI / 4.0f;
+	float screenAspect = (float)wind->getWidth() / (float)wind->getHeight();
+
+	// TODO: Make constants for screen depth and screen near.
+	// Create the projection matrix for 3D rendering.
+	D3DXMatrixPerspectiveFovLH(&m_projMatrix, fieldOfView, screenAspect, 0.1f, 1000.0f);
+
 	InitPipeline();
 	InitGraphics();
 
@@ -91,12 +110,15 @@ void GraphicsDeviceInterface::InitPipeline()
 	//load shaders
 	shdrs = new ShaderAsset(this);
 	ShaderStruct *blah = (ShaderStruct*)shdrs->load("Shaders.col");
-
+	
 	m_Context->VSSetShader(blah->VertShader, 0, 0);
 	m_Context->PSSetShader(blah->PixShader, 0, 0);
 //	m_Context->GSSetShader(blah->GeoShader, 0, 0);
 
 	m_Context->IASetInputLayout(blah->InputLayout);
+
+	m_VertexShader = new VertexShader();
+	m_VertexShader->initializeShader(m_Device);
 }
 
 //Placeholder used for testing, manually creates a triangle and sends the vertices for the Graphics Device for rendering.
@@ -170,28 +192,21 @@ void GraphicsDeviceInterface::NextFrame()
 bool GraphicsDeviceInterface::Render()
 {
 
-
 	// Default color
 	float color[4] = { 0.2, 0.11, 0.34, 1.0 };
 	
 	// Clear the back buffer
 	m_Context->ClearRenderTargetView(m_BackBuffer, color);
 
-	UINT stride = sizeof(VERTEX);
-	UINT offset = 0;
-	m_Context->IASetVertexBuffers(0, 1, &m_VertBuffer, &stride, &offset);
+	// Render Camera
+	m_Camera->Render();
 
-	// select which primtive type we are using
-	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	// draw the vertex buffer to the back buffer
-	m_Context->Draw(36, 0);
+	// Render SceneGraph
+	m_SceneGraphRoot->render();
 
 	// TODO: Clear the depth buffer
 
 	// TODO: Render game world
-
-
 
 	// Swap buffers - waits for vsync
 	//m_Swapchain->Present(1, 0);
@@ -200,6 +215,19 @@ bool GraphicsDeviceInterface::Render()
 	m_Swapchain->Present(0, 0);
 
 	return true;
+}
+
+bool GraphicsDeviceInterface::RenderModel(){
+
+	UINT stride = sizeof(VERTEX);
+	UINT offset = 0;
+	m_Context->IASetVertexBuffers(0, 1, &m_VertBuffer, &stride, &offset);
+
+	// select which primtive type we are using
+	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	return true;
+
 }
 
 bool GraphicsDeviceInterface::Update(std::vector<VERTEX>* vertices){
@@ -213,11 +241,33 @@ bool GraphicsDeviceInterface::Update(std::vector<VERTEX>* vertices){
 	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
 
 	m_Device->CreateBuffer(&bd, NULL, &m_VertBuffer);       // create the buffer
-	
+
 	D3D11_MAPPED_SUBRESOURCE ms;
 	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
 	memcpy(ms.pData, vertices->data(), vertices->size() * sizeof(VERTEX));                // copy the data
 	m_Context->Unmap(m_VertBuffer, NULL);
 
 	return true;
+}
+
+void GraphicsDeviceInterface::RenderShader(){
+	
+	// Set the vertex input layout.
+	m_Context->IASetInputLayout(shdrs->Shaders.InputLayout);
+	
+	// Set the vertex and pixel shaders that will be used to render this triangle.
+	m_Context->VSSetShader(shdrs->Shaders.VertShader, NULL, 0);
+	m_Context->PSSetShader(shdrs->Shaders.PixShader, NULL, 0);
+
+	// Render the triangle.
+	m_Context->Draw(36, 0);
+
+	return;
+}
+
+void GraphicsDeviceInterface::VertexPipeline(std::vector<VERTEX>* vertices, D3DXMATRIX* transform){
+	Update(vertices);
+	RenderModel();
+	m_VertexShader->setParameters(m_Context, *transform, m_Camera->GetViewMatrix(), m_projMatrix);
+	RenderShader();
 }

@@ -24,11 +24,11 @@ public:
 	void applyTransformation(D3DXMATRIX*);
 	D3DXMATRIX* getTransformMatrix();
 	void createTransform();
-	VERTEX transformVertex(VERTEX);
 	static D3DXMATRIX* createIdentity();
 	void rotateX(float);
 	void rotateY(float);
 	void rotateZ(float);
 	void scale(float, float, float);
 	void translate(float, float, float);
+	void resetTransformMatrix();
 };

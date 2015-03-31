@@ -10,11 +10,12 @@ private:
 
 	std::vector<SceneGraphNode*> children;
 	Transform* transform;
+	GraphicsDeviceInterface* gdi;
 
 public:
 
-	virtual void input() = 0;
 	virtual void update(D3DXMATRIX*) = 0;
-	virtual void render(std::vector<VERTEX>*) = 0;
+	virtual void render() = 0;
+	virtual void setGraphicsDeviceInterface(GraphicsDeviceInterface*) = 0;
 
 };
