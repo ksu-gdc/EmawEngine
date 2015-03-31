@@ -202,6 +202,7 @@ bool GraphicsDeviceInterface::Render()
 
 	m_Context->Unmap(m_matrixBuffer, 0);
 	m_Context->VSSetConstantBuffers(0, 1, &m_matrixBuffer);
+	m_matrixBuffer->Release();
 	// done passing transform matricies
 
 	// put entity verticies into a buffer to pass them to the shader
