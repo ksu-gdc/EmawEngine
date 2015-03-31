@@ -65,9 +65,15 @@
     </ClCompile>
     <ClCompile Include="AudioManager.cpp">
       <Filter>AudioRenderer</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="VoxelMap.cpp">
       <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSource.cpp">
+      <Filter>AudioRenderer\SoundSource</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEasyAccess.cpp">
+      <Filter>AudioRenderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,9 +157,15 @@
     </ClInclude>
     <ClInclude Include="AudioManager.h">
       <Filter>AudioRenderer</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="VoxelMap.h">
       <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundSource.h">
+      <Filter>AudioRenderer\SoundSource</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioEasyAccess.h">
+      <Filter>AudioRenderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +205,9 @@
     </Filter>
     <Filter Include="AudioRenderer\Test">
       <UniqueIdentifier>{d90f7724-5e5c-4fa8-a8a0-d8bb0b592cb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AudioRenderer\SoundSource">
+      <UniqueIdentifier>{a627f602-ccb9-4f09-a2c0-1bdc87b4ec97}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
