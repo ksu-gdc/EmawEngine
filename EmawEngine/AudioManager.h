@@ -41,10 +41,10 @@ public:
 	Sound* load(string name, FMOD::System *system);
 
 	//Method for loading 3D SFX
-	TDSFX* load3D(string name, Position* position, FMOD::System *system);
+	TDSFX* load3D(string filename, string name, Position* position, FMOD::System *system);
 
 	//Method for loading 3D SFX with looping
-	TDSFX* load3DLoop(string name, Position* position, FMOD::System *system);
+	TDSFX* load3DLoop(string filename, string name, Position* position, FMOD::System *system);
 
 	//Method for adding filename to filename's map
 	bool add(string name, string filename);

@@ -62,10 +62,14 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// Perform InputManager initialization
 	InputManager* inputManager = InputManager::getInstance();
 
+	//Perform sound initialization
+	AudioManager* am = AudioManager::getInstance();
+	(AudioRenderer::Instance())->setSoundSystem(am);
+
 	//Main game loop:
 	while(true)
 	{
-		/*AudioManager* am = AudioManager::getInstance();
+		/*AudioManager* am = AudioManager::getInstance(); James commented this out becuase it looked like testing code
 		(AudioRenderer::Instance())->setSoundSystem(am);
 
 		//Adding music to filename's map

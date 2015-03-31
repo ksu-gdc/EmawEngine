@@ -78,6 +78,12 @@
     <ClCompile Include="MouseState.cpp">
       <Filter>Human Interface Devices</Filter>
     </ClCompile>
+    <ClCompile Include="SoundSource.cpp">
+      <Filter>AudioRenderer\SoundSource</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEasyAccess.cpp">
+      <Filter>AudioRenderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -172,6 +178,12 @@
     </ClInclude>
     <ClInclude Include="MouseState.h">
       <Filter>Human Interface Devices</Filter>
+	</ClInclude>
+    <ClInclude Include="SoundSource.h">
+      <Filter>AudioRenderer\SoundSource</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioEasyAccess.h">
+      <Filter>AudioRenderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -211,6 +223,9 @@
     </Filter>
     <Filter Include="AudioRenderer\Test">
       <UniqueIdentifier>{d90f7724-5e5c-4fa8-a8a0-d8bb0b592cb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AudioRenderer\SoundSource">
+      <UniqueIdentifier>{a627f602-ccb9-4f09-a2c0-1bdc87b4ec97}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

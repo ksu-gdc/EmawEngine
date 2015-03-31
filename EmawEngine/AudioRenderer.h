@@ -12,6 +12,8 @@
 
 class AudioRenderer {
 private:
+	AudioRenderer();
+
 	//Singleton instance
 	static AudioRenderer* instance;
 
@@ -23,14 +25,9 @@ private:
 
 	//FMOD channel for playing SFX
 	FMOD::Channel    *SFXChannel = 0;
-
-	//Map position -> channel
-	map<Position*, FMOD::Channel*> TDChannels;
 public:
 	//Method for getting an instance
 	static AudioRenderer* Instance();
-
-	AudioRenderer();
 
 	~AudioRenderer();
 
@@ -91,14 +88,14 @@ public:
 	//Method for setting the volume of SFX to default value
 	bool SFXVolumeReset();
 
-	//Method for playing SFX on 3D Channel
-	void playOn3DChannel(float x, float y, float z, TDSFX *tdsfx);
+	//Method for getting new 3D Channel
+	FMOD::Channel* AudioRenderer::getNew3DChannel();
 
 	//Method for playing 3D SFX
-	bool playTDSFX(TDSFX *tdsfx);
+	void playTDSFX(TDSFX *tdsfx, FMOD::Channel *channel, Position* position);
 
-	//Method for loading and playing 3D SFX
-	void loadAndPlayTDSFX(string name, AudioManager* am, Position* p);
+	//Method for loading 3D SFX
+	TDSFX * loadTDSFX(string filename, string name, Position* position);
 
 	//Set sound system
 	bool setSoundSystem(AudioManager* am);
