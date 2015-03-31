@@ -188,17 +188,10 @@ bool GraphicsDeviceInterface::Render()
 	
 	// now we get the three matricies into the buffer
 	DirectX::XMMATRIX* world = entities[0]->getMatrix();
-	DirectX::XMMATRIX* view = new DirectX::XMMATRIX(
-		1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f);
-	//view = camera->getViewTransform();
-	DirectX::XMMATRIX* proj = camera->getProjTransform();
 
 	mb->world = *world;
-	mb->view = *view;
-	mb->projection = *proj;
+	mb->view = camera->getViewTransform();
+	mb->projection = camera->getProjTransform();
 
 	m_Context->Unmap(m_matrixBuffer, 0);
 	m_Context->VSSetConstantBuffers(0, 1, &m_matrixBuffer);
@@ -235,8 +228,6 @@ bool GraphicsDeviceInterface::Render()
 
 	// Swap buffers - unlocked framerate
 	m_Swapchain->Present(0, 0);
-
-	delete view;
 
 	return true;
 }

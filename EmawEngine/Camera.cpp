@@ -20,10 +20,10 @@ Camera::~Camera()
 {
 }
 
-DirectX::XMMATRIX* Camera::getViewTransform() {
-	return &DirectX::XMMatrixLookToLH(DirectX::XMVectorSet(0, 0, 0, 0), DirectX::XMQuaternionRotationRollPitchYaw(orientation.x, orientation.y, orientation.z), up);
+DirectX::XMMATRIX Camera::getViewTransform() {
+	return DirectX::XMMatrixLookToLH(DirectX::XMVectorSet(0, 0, 0, 1), DirectX::XMVectorSet(0, 0, 1, 1), up);
 }
 
-DirectX::XMMATRIX* Camera::getProjTransform() {
-	return &DirectX::XMMatrixPerspectiveFovLH(fov, aspect, nearPlane, farPlane);
+DirectX::XMMATRIX Camera::getProjTransform() {
+	return DirectX::XMMatrixPerspectiveFovLH(fov, aspect, nearPlane, farPlane);
 }

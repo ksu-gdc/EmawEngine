@@ -6,8 +6,8 @@ class Camera :
 public:
 	Camera();
 	~Camera();
-	DirectX::XMMATRIX* getViewTransform();
-	DirectX::XMMATRIX* getProjTransform();
+	DirectX::XMMATRIX getViewTransform();
+	DirectX::XMMATRIX getProjTransform();
 private:
 	DirectX::XMVECTOR up;
 	float fov;
