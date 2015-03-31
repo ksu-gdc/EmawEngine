@@ -44,8 +44,8 @@
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>..\DirectX_SDK\Include;$(IncludePath)</IncludePath>
     <LibraryPath>..\DirectX_SDK\Lib\x86;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)/libraries/FBX SDK/2015.1/include;..\DirectX_SDK\Include</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);..\DirectX_SDK\Lib\x86;..\libraries\FBX SDK\2015.1\lib\vs2013\x86\debug-noignore</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)/libraries/FBX SDK/2015.1/include;..\DirectX_SDK\Include;$(SolutionDir)/EmawEngine/fmod</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);..\DirectX_SDK\Lib\x86;..\libraries\FBX SDK\2015.1\lib\vs2013\x86\debug-noignore;$(SolutionDir)/EmawEngine/fmod</LibraryPath>
     <ExecutablePath>$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -57,16 +57,16 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)/libraries/FBX SDK/2015.1/lib/vs2013/x86/debug-noignore</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)/libraries/FBX SDK/2015.1/lib/vs2013/x86/debug-noignore;$(SolutionDir)/EmawEngine/fmod</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;libfbxsdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-        <Command>xcopy /y /d "$(SolutionDir)libraries\FBX SDK\2015.1\lib\vs2013\x86\debug-noignore\libfbxsdk.dll" $(OutDir)</Command>
+      <Command>xcopy /y /d "$(SolutionDir)libraries\FBX SDK\2015.1\lib\vs2013\x86\debug-noignore\libfbxsdk.dll" $(OutDir)</Command>
+      <Command>xcopy /y /d "$(SolutionDir)EmawEngine\fmod\fmod.dll" $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -77,20 +77,26 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Ondra\Documents\GitHub\EmawEngine\EmawEngine\fmod;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\Users\Ondra\Documents\GitHub\EmawEngine\EmawEngine\fmod;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="Position.h" />
+    <ClInclude Include="TDSFX.h" />
     <ClInclude Include="Asset.h" />
     <ClInclude Include="AssetManager.h" />
+    <ClInclude Include="AudioRenderer.h" />
     <ClInclude Include="EmawEngine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Font.h" />
@@ -102,15 +108,22 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ShaderAsset.h" />
     <ClInclude Include="WindowSize.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureShader.h" />
     <ClInclude Include="VoxelMap.h" />
+    <ClInclude Include="Music.h" />
+    <ClInclude Include="SFX.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Test.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Asset.cpp" />
     <ClCompile Include="AssetManager.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="AudioRenderer.cpp" />
     <ClCompile Include="EmawEngine.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -120,6 +133,8 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ShaderAsset.cpp" />
     <ClCompile Include="WindowSize.cpp" />
+    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="Position.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -127,6 +142,9 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureShader.cpp" />
     <ClCompile Include="VoxelMap.cpp" />
+    <ClCompile Include="TDSFX.cpp" />
+    <ClCompile Include="Test.cpp" />
+    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />

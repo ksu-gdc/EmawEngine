@@ -6,6 +6,7 @@
 #include "FontChar.h"
 
 class Font : public Asset {
+
 private:
 	std::map<int, FontChar*> fontCharacters;
 	void ParseFontFile(std::string line);
@@ -18,9 +19,12 @@ public:
 	Font();
 	~Font();
 
-	std::pair<int, int>* Font::textSize(std::string line);
-	std::string Font::createTextBlock(std::string text, int width);
-	
+	void* load(char*);
 	void* load(std::string);
-	bool unload();
+	void* getData();
+	string getFontPngPath();
+	bool unload(void);
+	std::pair<int, int>* Font::textSize(std::string);
+	std::string Font::createTextBlock(std::string, int);
+	Model* Font::createFontModel(std::string, float, float, float, float*, float);
 };

@@ -1,16 +1,8 @@
 #pragma once
-#ifndef VOXELMAP_H
-#define VOXELMAP_H
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <windows.h>
-#include <direct.h>
 
 struct VoxRegion {
 	int coord_X, coord_Y;
-	int width = 16, length = 16, height = 256;
+	static const int width = 16, length = 16, height = 256;
 	short region[16][16][256];
 };
 
@@ -22,7 +14,7 @@ struct VoxMap {
 	vector< vector<VoxRegion> > grid;
 };
 
-class VoxelMap
+class VoxelMap : public Asset
 {
 public:
 	VoxelMap(string);
@@ -40,4 +32,3 @@ private:
 	bool FileExists(string);
 	pair<int, int> MapToRealCoord(int, int);
 };
-#endif

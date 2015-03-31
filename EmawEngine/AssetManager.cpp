@@ -114,6 +114,7 @@ void AssetManager::unloadShader(std::string name) {
 Asset* AssetManager::loadFont(std::string name) {
 	Font font;
 	font.load(name);
+	load(font.getFontPngPath());
 	return &font;
 }
 void AssetManager::unloadFont(std::string name) {
@@ -160,4 +161,5 @@ Asset* AssetManager::loadBSPMap(std::string name) {
 }
 void AssetManager::unloadBSPMap(std::string name) {
 	//TODO: Unload asset
+
 }
