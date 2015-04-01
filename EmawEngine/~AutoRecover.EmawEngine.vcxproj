@@ -91,13 +91,11 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AudioEasyAccess.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="KeyState.h" />
     <ClInclude Include="MouseState.h" />
     <ClInclude Include="Position.h" />
-    <ClInclude Include="SoundSource.h" />
     <ClInclude Include="TDSFX.h" />
     <ClInclude Include="Asset.h" />
     <ClInclude Include="AssetManager.h" />
@@ -127,7 +125,6 @@
   <ItemGroup>
     <ClCompile Include="Asset.cpp" />
     <ClCompile Include="AssetManager.cpp" />
-    <ClCompile Include="AudioEasyAccess.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="AudioRenderer.cpp" />
     <ClCompile Include="EmawEngine.cpp" />
@@ -141,7 +138,6 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MouseState.cpp" />
     <ClCompile Include="ShaderAsset.cpp" />
-    <ClCompile Include="SoundSource.cpp" />
     <ClCompile Include="WindowSize.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Position.cpp" />

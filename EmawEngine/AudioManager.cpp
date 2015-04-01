@@ -69,33 +69,20 @@ bool AudioManager::add(string name, string filename){
 }
 
 //Method for loading 3D SFX
-TDSFX* AudioManager::load3D(string name, Position* position, FMOD::System *system){
-	if (sounds.find(name) == sounds.end()){
-		FMOD::Sound *sound;
+TDSFX* AudioManager::load3D(string filename, string name, Position* position, FMOD::System *system){
+	FMOD::Sound *sound;
 
-		const char* filename = NULL;
+	FMOD_RESULT result = system->createSound(filename.c_str(), FMOD_3D, 0, &sound);
 
-		if (filenames.find(name) != filenames.end()){
-			filename = (filenames.find(name)->second).c_str();
-		}
-		else {
-			throw fmodex;
-		}
+	checkProblem(result);
 
-		FMOD_RESULT result = system->createSound(filename, FMOD_3D, 0, &sound);
+	result = sound->set3DMinMaxDistance(0.5f * DISTANCE_FACTOR, 5000.0f * DISTANCE_FACTOR);
 
-		checkProblem(result);
+	checkProblem(result);
 
-		result = sound->set3DMinMaxDistance(0.5f * DISTANCE_FACTOR, 5000.0f * DISTANCE_FACTOR);
+	TDSFX *sound2 = new TDSFX(name, sound, position);
 
-		checkProblem(result);
-
-		name = "3d_" + name;
-		TDSFX *sound2 = new TDSFX(name, sound, position);
-		sounds[name] = sound2;
-	}
-
-	return (TDSFX*)sounds.find(name)->second;
+	return sound2;
 }
 
 //Get character's actual position
@@ -168,8 +155,8 @@ bool AudioManager::setSoundSystem(FMOD::System *system){
 }
 
 //Loading of 3D SFX with looping
-TDSFX* AudioManager::load3DLoop(string name, Position* position, FMOD::System *system){
-	TDSFX * sound = load3D(name, position, system);
+TDSFX* AudioManager::load3DLoop(string filename, string name, Position* position, FMOD::System *system){
+	TDSFX * sound = load3D(filename, name, position, system);
 
 	FMOD_RESULT result = sound->sound->setMode(FMOD_LOOP_NORMAL);
 

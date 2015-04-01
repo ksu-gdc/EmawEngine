@@ -7,6 +7,7 @@
 #include "FrameCounter.h"
 #include "Test.h"
 #include "AssetManager.h"
+#include "InputManager.h"
 
 #define MAX_LOADSTRING 100
 
@@ -58,10 +59,17 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// Perform AssetManager initialization
 	AssetManager* assetManager = AssetManager::getInstance();
 
+	// Perform InputManager initialization
+	InputManager* inputManager = InputManager::getInstance();
+
+	//Perform sound initialization
+	AudioManager* am = AudioManager::getInstance();
+	(AudioRenderer::Instance())->setSoundSystem(am);
+
 	//Main game loop:
 	while(true)
 	{
-		AudioManager* am = AudioManager::getInstance();
+		/*AudioManager* am = AudioManager::getInstance(); James commented this out becuase it looked like testing code
 		(AudioRenderer::Instance())->setSoundSystem(am);
 
 		//Adding music to filename's map
@@ -84,13 +92,45 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		{
 			pos = am->getCharactersActualPosition();
 			am->setCharactersActualPosition(pos->getX() - 1, pos->getY(), pos->getZ());
-		}
+		}*/
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 
-			if (msg.message == WM_QUIT) break;
+			if (msg.message == WM_QUIT) {
+				break;
+			}
+			else {
+				switch (msg.message) {
+					// Keyboard messages
+					case WM_KEYDOWN:
+						inputManager->handleKeyDownMessage(msg.wParam);
+						break;
+					case WM_KEYUP:
+						inputManager->handleKeyUpMessage(msg.wParam);
+						break;
+					// Mouse button messages
+					case WM_LBUTTONDOWN:
+						inputManager->handleMouseDownMessage(msg.wParam, MOUSEBUTTON_LEFT);
+						break;
+					case WM_LBUTTONUP:
+						inputManager->handleMouseUpMessage(msg.wParam, MOUSEBUTTON_LEFT);
+						break;
+					case WM_MBUTTONDOWN:
+						inputManager->handleMouseDownMessage(msg.wParam, MOUSEBUTTON_MID);
+						break;
+					case WM_MBUTTONUP:
+						inputManager->handleMouseUpMessage(msg.wParam, MOUSEBUTTON_MID);
+						break;
+					case WM_RBUTTONDOWN:
+						inputManager->handleMouseDownMessage(msg.wParam, MOUSEBUTTON_RIGHT);
+						break;
+					case WM_RBUTTONUP:
+						inputManager->handleMouseUpMessage(msg.wParam, MOUSEBUTTON_RIGHT);
+						break;
+				}
+			}
 		}
 		else
 		{
@@ -101,6 +141,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 			fc.Update();
 			wstring test = fc.GetFps();
 			SetWindowText(hWnd, (LPCWSTR)&test[0]);
+
+			// Update the input
+			inputManager->update();
 		}
 	}
 

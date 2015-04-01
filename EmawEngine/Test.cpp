@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "Test.h"
-#include "AudioManager.h"
+#include "AudioEasyAccess.h"
 
 void test(){
 	AudioManager* am = AudioManager::getInstance();
@@ -62,49 +62,10 @@ void test(){
 
 
 void TDtest(){
-	AudioManager* am = AudioManager::getInstance();
+	AudioEasyAccess* aea = AudioEasyAccess::getInstance();
 
-	//Adding music to filename's map
-	am->add("drum", "drumloop.wav");
-
-
-	Position* p = new Position(0, 0, 0);
-	(AudioRenderer::Instance())->loadAndPlayTDSFX("drum", am, p);
-	delete p;
-
-	am->setCharactersActualPosition(0, 0, 0);
-
-	char c = 0;
-	Position* pos;
-
-	//Testing based on user input
-	while (42){
-		c = _getch();
-		cout << (int)c << endl;
-		switch (c){
-		case 'c':
-		case 'C':
-			delete am;
-			AudioRenderer::destroy();
-			return;
-		case 'w':
-			pos = am->getCharactersActualPosition();
-			am->setCharactersActualPosition(pos->getX(), pos->getY() + 1, pos->getZ());
-			break;
-		case 's':
-			pos = am->getCharactersActualPosition();
-			am->setCharactersActualPosition(pos->getX(), pos->getY() - 1, pos->getZ());
-			break;
-		case 'd':
-			pos = am->getCharactersActualPosition();
-			am->setCharactersActualPosition(pos->getX() + 1, pos->getY(), pos->getZ());
-			break;
-		case 'a':
-			pos = am->getCharactersActualPosition();
-			am->setCharactersActualPosition(pos->getX() - 1, pos->getY(), pos->getZ());
-			break;
-		default:
-			break;
-		}
-	}
+	aea->playMusic("a", "drumloop.wav");
+	aea->playSFX("b", "drumloop.wav");
+	SoundSource* s = aea->getSoundSource("c", "jaguar.wav", -1.0, 0.0, 0.0);
+	s->playSound();
 }
