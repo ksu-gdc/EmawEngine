@@ -24,6 +24,7 @@ public:
 	bool LoadRegion(int, int);
 	bool SaveRegion(int, int);
 	bool RegionExists(int, int);
+	float** CreateChunk(int, int, int);
 	~VoxelMap();
 
 private:
