@@ -10,6 +10,7 @@ public:
 	// Methods that handle changes in state
 	void handleMouseDownMessage(WPARAM wParam, int button);
 	void handleMouseUpMessage(WPARAM wParam, int button);
+	void handleMouseMoveMessage(LPARAM lParam);
 	void update();
 	// Methods that get the state
 	bool mouseButtonDown(int button);
@@ -20,6 +21,8 @@ public:
 private:
 	bool *_currentState;
 	bool *_oldState;
+	POINT _screen;
+	POINT _client;
 };
 
 

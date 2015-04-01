@@ -17,6 +17,7 @@ public:
 	void handleKeyUpMessage(WPARAM wParam);
 	void handleMouseDownMessage(WPARAM wParam, int id);
 	void handleMouseUpMessage(WPARAM wParam, int id);
+	void handleMouseMoveMessage(LPARAM lParam);
 
 	// State checking
 	bool mouseButtonDown(int button);

@@ -129,6 +129,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 					case WM_RBUTTONUP:
 						inputManager->handleMouseUpMessage(msg.wParam, MOUSEBUTTON_RIGHT);
 						break;
+					// Mouse move messages
+					case WM_MOUSEMOVE:
+						inputManager->handleMouseMoveMessage(msg.lParam);
 				}
 			}
 		}

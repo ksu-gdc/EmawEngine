@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "MouseState.h"
+#include "Windowsx.h"
 
 
 MouseState::MouseState()
@@ -8,6 +9,11 @@ MouseState::MouseState()
 	_oldState = new bool[NUM_BUTTONS];
 	memset(_currentState, 0, sizeof(bool) * NUM_BUTTONS);
 	memset(_oldState, 0, sizeof(bool) * NUM_BUTTONS);
+
+	_screen.x = 0;
+	_screen.y = 0;
+	_client.x = 0;
+	_client.y = 0;
 }
 
 MouseState::~MouseState()
@@ -24,6 +30,11 @@ void MouseState::handleMouseDownMessage(WPARAM wParam, int button) {
 // Handles a windows mouse up messages and sets the appropriate flag to false;
 void MouseState::handleMouseUpMessage(WPARAM wParam, int button) {
 	_currentState[button] = false;
+}
+
+void MouseState::handleMouseMoveMessage(LPARAM lParam) {
+	_screen.x = GET_X_LPARAM(lParam);
+	_screen.y = GET_Y_LPARAM(lParam);
 }
 
 // Copies the current state into the old state

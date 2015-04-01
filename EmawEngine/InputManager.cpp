@@ -48,7 +48,11 @@ void InputManager::handleMouseDownMessage(WPARAM wParam, int id) {
 
 // Handles a windows mouse up message
 void InputManager::handleMouseUpMessage(WPARAM wParam, int id) {
-	return _mouseState->handleMouseUpMessage(wParam, id);
+	_mouseState->handleMouseUpMessage(wParam, id);
+}
+
+void InputManager::handleMouseMoveMessage(LPARAM lParam) {
+	_mouseState->handleMouseMoveMessage(lParam);
 }
 
 
