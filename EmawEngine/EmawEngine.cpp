@@ -233,7 +233,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_PAINT	- Paint the main window
 //  WM_DESTROY	- post a quit message and return
 //	WM_KEYDOWN	- process keydown events
-//	WM_SIZE		- resizes window - used when switching fullscreen/windowed
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
