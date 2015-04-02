@@ -22,19 +22,23 @@ MouseState::~MouseState()
 	delete[] _oldState;
 }
 
-// Handles a windows mouse down message and sets the appropriate flag to true;
+// Handles a windows mouse down message and sets the appropriate flag to true
 void MouseState::handleMouseDownMessage(WPARAM wParam, int button) {
 	_currentState[button] = true;
 }
 
-// Handles a windows mouse up messages and sets the appropriate flag to false;
+// Handles a windows mouse up messages and sets the appropriate flag to false
 void MouseState::handleMouseUpMessage(WPARAM wParam, int button) {
 	_currentState[button] = false;
 }
 
-void MouseState::handleMouseMoveMessage(LPARAM lParam) {
+// Handles a windows mouse move message and stores the appropraite screen coordinates
+void MouseState::handleMouseMoveMessage(LPARAM lParam, HWND hWnd) {
 	_screen.x = GET_X_LPARAM(lParam);
 	_screen.y = GET_Y_LPARAM(lParam);
+	_client.x = _screen.x;
+	_client.y = _screen.y;
+	ScreenToClient(hWnd, &_client);
 }
 
 // Copies the current state into the old state
@@ -64,4 +68,14 @@ bool MouseState::mouseButtonReleased(int button) {
 	if (_oldState[button] && !_currentState[button])
 		released = true;
 	return released;
+}
+
+// Gets the mouse position in client coordinates
+POINT MouseState::getMousePos() {
+	return _client;
+}
+
+// Gets the moue position in screen coordinates
+POINT MouseState::getMouseScreenPos() {
+	return _screen;
 }

@@ -61,6 +61,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// Perform InputManager initialization
 	InputManager* inputManager = InputManager::getInstance();
+	inputManager->registerWindow(hWnd);
 
 	//Perform sound initialization
 	AudioManager* am = AudioManager::getInstance();
