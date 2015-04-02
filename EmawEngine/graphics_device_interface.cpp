@@ -304,6 +304,8 @@ void GraphicsDeviceInterface::RenderShader(){
 }
 
 void GraphicsDeviceInterface::VertexPipeline(std::vector<VERTEX>* vertices, D3DXMATRIX* transform){
+	
+	//I want to rename these so they make a little more sense.
 	RenderModel();
 	m_VertexShader->initializeShader(m_Device);
 	m_VertexShader->setParameters(m_Context, *transform, m_Camera->GetViewMatrix(), m_projMatrix);
