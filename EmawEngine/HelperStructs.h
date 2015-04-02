@@ -5,6 +5,7 @@
 #include <DirectXMath.h>
 #include <d3dx10math.h>
 
+
 struct ShaderStruct{
 	ID3D11VertexShader *VertShader;
 	ID3D11PixelShader *PixShader;
@@ -12,7 +13,7 @@ struct ShaderStruct{
 	ID3D11InputLayout *InputLayout;
 };
 
-struct TransformBufferType
+struct MatrixBuffer
 {
 	D3DXMATRIX world;
 	D3DXMATRIX view;

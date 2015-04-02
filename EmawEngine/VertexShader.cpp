@@ -11,47 +11,45 @@ VertexShader::~VertexShader(){
 
 bool VertexShader::initializeShader(ID3D11Device* device){
 
+	// create a buffer in graphics memory to transfer the transformation matricies to the vertex shader
 	D3D11_BUFFER_DESC matrixBufferDesc;
-
 	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	matrixBufferDesc.ByteWidth = sizeof(TransformBufferType);
+	matrixBufferDesc.ByteWidth = sizeof(MatrixBuffer);
 	matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	matrixBufferDesc.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
 	matrixBufferDesc.MiscFlags = 0;
 	matrixBufferDesc.StructureByteStride = 0;
 
-	device->CreateBuffer(&matrixBufferDesc, NULL, &m_matrixBuffer);
+
+	HRESULT result = device->CreateBuffer(&matrixBufferDesc, NULL, &m_matrixBuffer);
+	if (FAILED(result)) {
+		OutputDebugString(L"failed to create transform matrix buffer\n");
+		return false;
+	}
 
 	return true;
 }
 
 bool VertexShader::setParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX w, D3DXMATRIX v, D3DXMATRIX p){
 
-	HRESULT hr;
+	HRESULT result;
 
-	D3D11_MAPPED_SUBRESOURCE subresource;
-	TransformBufferType* dataPtr;
-	unsigned int bufferNumber;
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	result = deviceContext->Map(m_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	if (FAILED(result)) {
+		OutputDebugString(L"failed to map transform matrix buffer\n");
+		return false;
+	}
 
-	// Transpose the matrices to prepare them for the shader.
-	D3DXMatrixTranspose(&w, &w);
-	D3DXMatrixTranspose(&v, &v);
-	D3DXMatrixTranspose(&p, &p);
+	MatrixBuffer* mb = (MatrixBuffer*)mappedResource.pData;
 
-	// Lock m_matrixBuffer.
-	hr = deviceContext->Map(m_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &subresource);
+	mb->world = w;
+	mb->view = v;
+	mb->projection = p;
 
-	dataPtr = (TransformBufferType*)subresource.pData;
-
-	dataPtr->world = w;
-	dataPtr->view = v;
-	dataPtr->projection = p;
-
-	// Unlock m_matrixBuffer.
 	deviceContext->Unmap(m_matrixBuffer, 0);
-
-	bufferNumber = 0;
-	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &m_matrixBuffer);
+	deviceContext->VSSetConstantBuffers(0, 1, &m_matrixBuffer);
+	m_matrixBuffer->Release();
 
 	return true;
 
