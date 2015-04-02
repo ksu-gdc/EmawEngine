@@ -11,11 +11,17 @@ class Entity
 public:
 	Entity();
 	~Entity();
-	Model* getModel();
-	Vector* getPosition();
-private:
-	Model* model;
-	Vector position;
 	Vector orientation;
+	Model* getModel();
+	Vector position;
+	DirectX::XMMATRIX* getMatrix();
+	void update();
+private:
+	
+	Vector scale;
+	DirectX::XMMATRIX worldMatrix;
+	void updateMatrix();
+protected:
+	Model* model;
 };
 

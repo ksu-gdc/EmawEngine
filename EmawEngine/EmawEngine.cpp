@@ -7,8 +7,9 @@
 #include "FrameCounter.h"
 #include "Test.h"
 #include "AssetManager.h"
+#include "GameNode.h"
+#include "ModelNode.h"
 #include "InputManager.h"
-
 #define MAX_LOADSTRING 100
 
 // Global Variables:
@@ -59,40 +60,43 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// Perform AssetManager initialization
 	AssetManager* assetManager = AssetManager::getInstance();
 
+	// TEST CODE!!!
+	// =========================================================================
+	GameNode* root = new GameNode();
+	root->setGraphicsDeviceInterface(&gdi);
+	Entity* e = new Entity();
+	ModelNode* base = new ModelNode(e->getModel());
+	base->setGraphicsDeviceInterface(&gdi);
+
+	ModelNode* base2 = new ModelNode(e->getModel());
+	base2->setGraphicsDeviceInterface(&gdi);
+
+	base2->setPosition(3, 0, 0);
+
+	root->addChild(base);
+	base->addChild(base2);
+	Camera* camera = new Camera();
+
+	gdi.SetSceneGraphRoot(root);
+	gdi.SetCamera(camera);
+	camera->setPosition(0.0f, 0.0f, -10.0f);
+
+	Transform* identity = new Transform();
+
+	// =========================================================================
+	// TEST CODE!!!
+
 	// Perform InputManager initialization
 	InputManager* inputManager = InputManager::getInstance();
+	inputManager->registerWindow(hWnd);
 
 	//Perform sound initialization
 	AudioManager* am = AudioManager::getInstance();
 	(AudioRenderer::Instance())->setSoundSystem(am);
-
 	//Main game loop:
 	while(true)
 	{
-		/*AudioManager* am = AudioManager::getInstance(); James commented this out becuase it looked like testing code
-		(AudioRenderer::Instance())->setSoundSystem(am);
-
-		//Adding music to filename's map
-		am->add("drum", "drumloop.wav");
-		am->setCharactersActualPosition(0.0f, 0.0f, 0.0f);
-
-		Position* p = new Position(0.0f, 0.0f, 0.0f);
-		(AudioRenderer::Instance())->loadAndPlayTDSFX("drum", am, p);
-		delete p;
-		char c = 0;
-		Position* pos;
-		float i = 0.0f;
-
-		if (GetAsyncKeyState(VK_UP) & 0x8000)
-		{
-			pos = am->getCharactersActualPosition();
-			am->setCharactersActualPosition(pos->getX() + 1, pos->getY(), pos->getZ());
-		}
-		if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-		{
-			pos = am->getCharactersActualPosition();
-			am->setCharactersActualPosition(pos->getX() - 1, pos->getY(), pos->getZ());
-		}*/
+		
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -129,11 +133,21 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 					case WM_RBUTTONUP:
 						inputManager->handleMouseUpMessage(msg.wParam, MOUSEBUTTON_RIGHT);
 						break;
+					// Mouse move messages
+					case WM_MOUSEMOVE:
+						inputManager->handleMouseMoveMessage(msg.lParam);
 				}
 			}
 		}
 		else
 		{
+			//root->update(identity->getTransformMatrix());
+			//base->resetTransformMatrix();
+			root->update(identity->getTransformMatrix());
+			base2->rotateX(0.0005);
+			base->rotateY(0.0005);
+
+
 			// TODO: Update
 			gdi.NextFrame();
 
