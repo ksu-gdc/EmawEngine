@@ -17,14 +17,10 @@
     <ClCompile Include="WindowSize.cpp">
       <Filter>Low-Level Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="VoxelMap.cpp" />
     <ClCompile Include="FrameCounter.cpp">
       <Filter>Debugging and Profiling</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Asset.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
     <ClCompile Include="AssetManager.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
@@ -40,9 +36,6 @@
     <ClCompile Include="Asset.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="Font.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
     <ClCompile Include="FontChar.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
@@ -52,7 +45,62 @@
     <ClCompile Include="ShaderAsset.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Sound.cpp">
+      <Filter>AudioRenderer\Sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>AudioRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioRenderer.cpp">
+      <Filter>AudioRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <Filter>AudioRenderer\Test</Filter>
+    </ClCompile>
+    <ClCompile Include="TDSFX.cpp">
+      <Filter>AudioRenderer\Sounds</Filter>
+    </ClCompile>
+    <ClCompile Include="Position.cpp">
+      <Filter>AudioRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>AudioRenderer</Filter>
+    </ClCompile>
+    <ClCompile Include="VoxelMap.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="Transform.cpp">
+      <Filter>Core Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="GameNode.cpp">
+      <Filter>Core Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelNode.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Core Systems</Filter>
+=======
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Human Interface Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyState.cpp">
+      <Filter>Human Interface Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseState.cpp">
+      <Filter>Human Interface Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundSource.cpp">
+      <Filter>AudioRenderer\SoundSource</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEasyAccess.cpp">
+      <Filter>AudioRenderer</Filter>
+>>>>>>> origin/development
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -74,7 +122,6 @@
     <ClInclude Include="WindowSize.h">
       <Filter>Low-Level Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="VoxelMap.h" />
     <ClInclude Include="FrameCounter.h">
       <Filter>Debugging and Profiling</Filter>
     </ClInclude>
@@ -94,9 +141,6 @@
     <ClInclude Include="FontChar.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Asset.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="Font.h">
       <Filter>Resources</Filter>
     </ClInclude>
@@ -109,7 +153,75 @@
     <ClInclude Include="ShaderAsset.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Asset.h" />
+    <ClInclude Include="Music.h">
+      <Filter>AudioRenderer\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>AudioRenderer\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>AudioRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="AssetManager.h">
+      <Filter>AudioRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioRenderer.h">
+      <Filter>AudioRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="SFX.h">
+      <Filter>AudioRenderer\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="TDSFX.h">
+      <Filter>AudioRenderer\Sounds</Filter>
+    </ClInclude>
+    <ClInclude Include="Test.h">
+      <Filter>AudioRenderer\Test</Filter>
+    </ClInclude>
+    <ClInclude Include="Position.h">
+      <Filter>AudioRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>AudioRenderer</Filter>
+    </ClInclude>
+    <ClInclude Include="VoxelMap.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="Transform.h">
+      <Filter>Core Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="GameNode.h">
+      <Filter>Core Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneGraphNode.h">
+      <Filter>Core Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelNode.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Core Systems</Filter>
+=======
+    <ClInclude Include="InputManager.h">
+      <Filter>Human Interface Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyState.h">
+      <Filter>Human Interface Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseState.h">
+      <Filter>Human Interface Devices</Filter>
+	</ClInclude>
+    <ClInclude Include="SoundSource.h">
+      <Filter>AudioRenderer\SoundSource</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioEasyAccess.h">
+      <Filter>AudioRenderer</Filter>
+>>>>>>> origin/development
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
@@ -139,6 +251,23 @@
     </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{7cb0be83-89c8-4854-831f-8a7b140301f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AudioRenderer">
+      <UniqueIdentifier>{48c453cf-f857-40bb-bd14-897b3c400f85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AudioRenderer\Sounds">
+      <UniqueIdentifier>{cfc91d84-e3d4-4377-8444-6201f9f4ff22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AudioRenderer\Test">
+      <UniqueIdentifier>{d90f7724-5e5c-4fa8-a8a0-d8bb0b592cb3}</UniqueIdentifier>
+    </Filter>
+<<<<<<< HEAD
+    <Filter Include="Game">
+      <UniqueIdentifier>{0f2ebe6a-3d21-4ae3-ae21-e49b6e93fdc9}</UniqueIdentifier>
+=======
+    <Filter Include="AudioRenderer\SoundSource">
+      <UniqueIdentifier>{a627f602-ccb9-4f09-a2c0-1bdc87b4ec97}</UniqueIdentifier>
+>>>>>>> origin/development
     </Filter>
   </ItemGroup>
   <ItemGroup>

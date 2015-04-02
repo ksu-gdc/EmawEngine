@@ -4,17 +4,29 @@
 
 //#include <DirectXColors.h>
 #include <DirectXMath.h>
+#include <D3DX11.h>
+#include <D3DX10.h>
+#include <D3DX11core.h>
 
 #define _XM_NO_INTRINSICS_
 
-const int maxEntities = 100;
-Entity* entities[maxEntities];
-Camera* camera = new Camera();
-
 GraphicsDeviceInterface::GraphicsDeviceInterface() {
+	m_SceneGraphRoot = 0;
+	m_Camera = 0;
+	m_DepthStencilView = 0;
+	m_DepthStencilState = 0;
+	m_DepthStencilBuffer = 0;
 }
 
 GraphicsDeviceInterface::~GraphicsDeviceInterface() {}
+
+void GraphicsDeviceInterface::SetSceneGraphRoot(GameNode* root){
+	m_SceneGraphRoot = root;
+}
+
+void GraphicsDeviceInterface::SetCamera(Camera* camera){
+	m_Camera = camera;
+}
 
 //
 // FUNCTION: GraphicsDeviceInterface::Initialize()
@@ -39,6 +51,7 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 	scd.OutputWindow = hWnd;							// window to render into
 	scd.SampleDesc.Count = 4;							// use 4 multisamples for antialiasing
 	scd.Windowed = true;
+	
 
 	// Create the device, context, and swap chain
 	hResult = D3D11CreateDeviceAndSwapChain(NULL,
@@ -67,8 +80,67 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 	m_Device->CreateRenderTargetView(pBackBuffer, NULL, &m_BackBuffer);
 	pBackBuffer->Release();
 
+	D3D11_TEXTURE2D_DESC depthBufferDesc;
+	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
+	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
+	D3D11_RASTERIZER_DESC rasterDesc;
+
+	ZeroMemory(&depthBufferDesc, sizeof(depthBufferDesc));
+
+	depthBufferDesc.Width = wind->getWidth();
+	depthBufferDesc.Height = wind->getHeight();
+	depthBufferDesc.MipLevels = 1;
+	depthBufferDesc.ArraySize = 1;
+	depthBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthBufferDesc.SampleDesc.Count = 4;
+	depthBufferDesc.SampleDesc.Quality = 0;
+	depthBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	depthBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	depthBufferDesc.CPUAccessFlags = 0;
+	depthBufferDesc.MiscFlags = 0;
+
+	m_Device->CreateTexture2D(&depthBufferDesc, NULL, &m_DepthStencilBuffer);
+
+	// Initialize the description of the stencil state.
+	ZeroMemory(&depthStencilDesc, sizeof(depthStencilDesc));
+
+	// Set up the description of the stencil state.
+	depthStencilDesc.DepthEnable = true;
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+	depthStencilDesc.StencilEnable = true;
+	depthStencilDesc.StencilReadMask = 0xFF;
+	depthStencilDesc.StencilWriteMask = 0xFF;
+
+	// Stencil operations if pixel is front-facing.
+	depthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+	depthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	// Stencil operations if pixel is back-facing.
+	depthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+	depthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	m_Device->CreateDepthStencilState(&depthStencilDesc, &m_DepthStencilState);
+
+	m_Context->OMSetDepthStencilState(m_DepthStencilState, 1);
+	
+	// Initailze the depth stencil view.
+	ZeroMemory(&depthStencilViewDesc, sizeof(depthStencilViewDesc));
+
+	// Set up the depth stencil view description.
+	depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	depthStencilViewDesc.Texture2D.MipSlice = 0;
+
+	m_Device->CreateDepthStencilView(m_DepthStencilBuffer, NULL, &m_DepthStencilView);
+
 	// set the render target as the back buffer
-	m_Context->OMSetRenderTargets(1, &m_BackBuffer, NULL);
+	m_Context->OMSetRenderTargets(1, &m_BackBuffer, m_DepthStencilView);
 
 	// Set the viewport using windowSize object
 	D3D11_VIEWPORT viewport;
@@ -76,15 +148,24 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
 	viewport.Width = (float)wind->getWidth();
 	viewport.Height = (float)wind->getHeight();
-	viewport.MaxDepth = 1;
-	viewport.MinDepth = 0;
 
 	m_Context->RSSetViewports(1, &viewport);
 
+	// Setup the projection matrix.
+	float fieldOfView = (float)D3DX_PI / 4.0f;
+	float screenAspect = (float)wind->getWidth() / (float)wind->getHeight();
+
+	// TODO: Make constants for screen depth and screen near.
+	// Create the projection matrix for 3D rendering.
+	D3DXMatrixPerspectiveFovLH(&m_projMatrix, fieldOfView, screenAspect, 0.1f, 1000.0f);
+
 	InitPipeline();
 	InitGraphics();
+
 
 	return TRUE;
 }
@@ -95,19 +176,26 @@ void GraphicsDeviceInterface::InitPipeline()
 	//load shaders
 	shdrs = new ShaderAsset(this);
 	ShaderStruct *blah = (ShaderStruct*)shdrs->load("Shaders.col");
-
+	
 	m_Context->VSSetShader(blah->VertShader, 0, 0);
 	m_Context->PSSetShader(blah->PixShader, 0, 0);
 //	m_Context->GSSetShader(blah->GeoShader, 0, 0);
 
 	m_Context->IASetInputLayout(blah->InputLayout);
+
+	m_VertexShader = new VertexShader();
+	m_VertexShader->initializeShader(m_Device);
 }
 
-//Placeholder used for testing, manually creates an entity and sends the vertices for the Graphics Device for rendering.
+//Placeholder used for testing, manually creates a triangle and sends the vertices for the Graphics Device for rendering.
 void GraphicsDeviceInterface::InitGraphics(void)
 {
+<<<<<<< HEAD
 	// temporary
 	entities[0] = new Entity();
+=======
+
+>>>>>>> 5eb62905de9bc485adae956ff9e20f4f56e3ef24
 }
 
 //
@@ -123,9 +211,9 @@ void GraphicsDeviceInterface::Shutdown() {
 	m_Device->Release();
 	m_Context->Release();
 	m_VertBuffer->Release();
-	m_matrixBuffer->Release();
+	m_DepthStencilView->Release();
+	m_DepthStencilBuffer->Release();
 }
-
 
 
 //
@@ -135,7 +223,6 @@ void GraphicsDeviceInterface::Shutdown() {
 //
 void GraphicsDeviceInterface::NextFrame()
 {
-	entities[0]->update();
 	Render();
 }
 
@@ -146,79 +233,19 @@ void GraphicsDeviceInterface::NextFrame()
 //
 bool GraphicsDeviceInterface::Render()
 {
+
 	// Default color
 	float color[4] = { 0.2, 0.11, 0.34, 1.0 };
 	
 	// Clear the back buffer
 	m_Context->ClearRenderTargetView(m_BackBuffer, color);
+	m_Context->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
-	UINT stride = sizeof(VERTEX);
-	UINT offset = 0;
-	m_Context->IASetVertexBuffers(0, 1, &m_VertBuffer, &stride, &offset);
+	// Render Camera
+	m_Camera->Render();
 
-	// select which primtive type we are using
-	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	// now we set up the vertex buffer
-	entities[0]->update();
-
-	// create a buffer in graphics memory to transfer the transformation matricies to the vertex shader
-	D3D11_BUFFER_DESC matrixBufferDesc;
-	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	matrixBufferDesc.ByteWidth = sizeof(MatrixBuffer);
-	matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	matrixBufferDesc.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
-	matrixBufferDesc.MiscFlags = 0;
-	matrixBufferDesc.StructureByteStride = 0;
-
-
-	HRESULT result = m_Device->CreateBuffer(&matrixBufferDesc, NULL, &m_matrixBuffer);
-	if (FAILED(result)) {
-		OutputDebugString(L"failed to create transform matrix buffer\n");
-		return false;
-	}
-
-	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	result = m_Context->Map(m_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-	if (FAILED(result)) {
-		OutputDebugString(L"failed to map transform matrix buffer\n");
-		return false;
-	}
-
-	MatrixBuffer* mb = (MatrixBuffer*)mappedResource.pData;
-	
-	// now we get the three matricies into the buffer
-	DirectX::XMMATRIX* world = entities[0]->getMatrix();
-
-	mb->world = *world;
-	mb->view = camera->getViewTransform();
-	mb->projection = camera->getProjTransform();
-
-	m_Context->Unmap(m_matrixBuffer, 0);
-	m_Context->VSSetConstantBuffers(0, 1, &m_matrixBuffer);
-	m_matrixBuffer->Release();
-	// done passing transform matricies
-
-	// put entity verticies into a buffer to pass them to the shader
-	std::vector<VERTEX> vertices = entities[0]->getModel()->getVertexBuffer();
-
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-
-	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-	bd.ByteWidth = sizeof(VERTEX) * vertices.size();             // size is the VERTEX struct * 3
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
-	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
-
-	m_Device->CreateBuffer(&bd, NULL, &m_VertBuffer);       // create the buffer
-
-	D3D11_MAPPED_SUBRESOURCE ms;
-	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
-	memcpy(ms.pData, vertices.data(), vertices.size() * sizeof(VERTEX));                // copy the data
-	m_Context->Unmap(m_VertBuffer, NULL);
-
-	// draw the vertex buffer to the back buffer
-	m_Context->Draw(vertices.size(), 0);
+	// Render SceneGraph
+	m_SceneGraphRoot->render();
 
 	// TODO: Clear the depth buffer
 
@@ -231,4 +258,62 @@ bool GraphicsDeviceInterface::Render()
 	m_Swapchain->Present(0, 0);
 
 	return true;
+}
+
+bool GraphicsDeviceInterface::RenderModel(){
+
+	UINT stride = sizeof(VERTEX);
+	UINT offset = 0;
+	m_Context->IASetVertexBuffers(0, 1, &m_VertBuffer, &stride, &offset);
+
+	// select which primtive type we are using
+	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	return true;
+
+}
+
+bool GraphicsDeviceInterface::Update(std::vector<VERTEX>* vertices){
+
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+
+	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
+	bd.ByteWidth = sizeof(VERTEX) * vertices->size();             // size is the VERTEX struct * 3
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
+
+	m_Device->CreateBuffer(&bd, NULL, &m_VertBuffer);       // create the buffer
+
+	D3D11_MAPPED_SUBRESOURCE ms;
+	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
+	memcpy(ms.pData, vertices->data(), vertices->size() * sizeof(VERTEX));                // copy the data
+	m_Context->Unmap(m_VertBuffer, NULL);
+
+	// Render the triangle.
+	m_Context->Draw(vertices->size(), 0);
+
+	return true;
+}
+
+void GraphicsDeviceInterface::RenderShader(){
+	
+	// Set the vertex input layout.
+	m_Context->IASetInputLayout(shdrs->Shaders.InputLayout);
+	
+	// Set the vertex and pixel shaders that will be used to render this triangle.
+	m_Context->VSSetShader(shdrs->Shaders.VertShader, NULL, 0);
+	m_Context->PSSetShader(shdrs->Shaders.PixShader, NULL, 0);
+
+	return;
+}
+
+void GraphicsDeviceInterface::VertexPipeline(std::vector<VERTEX>* vertices, D3DXMATRIX* transform){
+	
+	//I want to rename these so they make a little more sense.
+	RenderModel();
+	m_VertexShader->initializeShader(m_Device);
+	m_VertexShader->setParameters(m_Context, *transform, m_Camera->GetViewMatrix(), m_projMatrix);
+	Update(vertices);
+	//RenderShader();
 }

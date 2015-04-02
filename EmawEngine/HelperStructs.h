@@ -3,6 +3,7 @@
 #include "resource.h"
 #include "stdafx.h"
 #include <DirectXMath.h>
+#include <d3dx10math.h>
 
 
 struct ShaderStruct{
@@ -10,6 +11,13 @@ struct ShaderStruct{
 	ID3D11PixelShader *PixShader;
 	ID3D11GeometryShader *GeoShader;
 	ID3D11InputLayout *InputLayout;
+};
+
+struct MatrixBuffer
+{
+	D3DXMATRIX world;
+	D3DXMATRIX view;
+	D3DXMATRIX projection;
 };
 
 struct VERTEX
