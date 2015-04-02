@@ -40,6 +40,7 @@ using namespace std;
 #include "HelperStructs.h"
 #include "Model.h"
 #include "Entity.h"
+#include "Camera.h"
 #include "VoxelMap.h"
 
 #pragma comment(lib, "d3d11.lib")

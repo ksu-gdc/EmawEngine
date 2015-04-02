@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include <DirectXMath.h>
 
+
 struct ShaderStruct{
 	ID3D11VertexShader *VertShader;
 	ID3D11PixelShader *PixShader;

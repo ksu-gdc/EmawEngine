@@ -17,7 +17,9 @@ VOut VShader(float4 position : POSITION, float4 color : COLOR)
 {
     VOut output;
 
-    output.position = position;
+    output.position = mul(worldMatrix, position);
+	output.position = mul(viewMatrix, output.position);
+	output.position = mul(projectionMatrix, output.position);
     output.color = color;
 
     return output;

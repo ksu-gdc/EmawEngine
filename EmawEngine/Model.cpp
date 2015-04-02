@@ -40,11 +40,13 @@ void* Model::load(std::string str) {
 		manager->GetIOSettings());
 	if (!success) {
 		OutputDebugString(L"failed to load model\n");
+		manager->Destroy();
 		return NULL;
 	}
 	success = importer->Import(scene);
 	if (!success) {
 		OutputDebugString(L"some kinda failure\n");
+		manager->Destroy();
 		return NULL;
 	}
 
@@ -77,6 +79,9 @@ void* Model::load(std::string str) {
 						break;
 					}
 					OutputDebugString(L" given; make sure your model only has triangles.\n");
+					node->Destroy();
+					mesh->Destroy();
+					manager->Destroy();
 					return NULL;
 				}
 				for (int k = 0; k < numVerticies; k++) {
@@ -93,13 +98,16 @@ void* Model::load(std::string str) {
 					float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 					vertex.Color = DirectX::XMFLOAT4(r,g, b, 1.0f);
 
-
 					vertexBuffer.push_back(vertex);
 				}
 			}
+			mesh->Destroy();
 		}
 	}
 
+	node->Destroy();
+	manager->Destroy();
+	
 	return NULL;
 }
 
