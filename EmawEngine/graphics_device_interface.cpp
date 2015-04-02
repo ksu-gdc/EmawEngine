@@ -190,12 +190,7 @@ void GraphicsDeviceInterface::InitPipeline()
 //Placeholder used for testing, manually creates a triangle and sends the vertices for the Graphics Device for rendering.
 void GraphicsDeviceInterface::InitGraphics(void)
 {
-<<<<<<< HEAD
-	// temporary
-	entities[0] = new Entity();
-=======
 
->>>>>>> 5eb62905de9bc485adae956ff9e20f4f56e3ef24
 }
 
 //
