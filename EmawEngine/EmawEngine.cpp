@@ -9,7 +9,7 @@
 #include "AssetManager.h"
 #include "GameNode.h"
 #include "ModelNode.h"
-
+#include "InputManager.h"
 #define MAX_LOADSTRING 100
 
 // Global Variables:
@@ -86,40 +86,58 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// =========================================================================
 	// TEST CODE!!!
 
+	// Perform InputManager initialization
+	InputManager* inputManager = InputManager::getInstance();
+	inputManager->registerWindow(hWnd);
+
+	//Perform sound initialization
+	AudioManager* am = AudioManager::getInstance();
+	(AudioRenderer::Instance())->setSoundSystem(am);
 	//Main game loop:
 	while(true)
 	{
-		/*AudioManager* am = AudioManager::getInstance();
-		(AudioRenderer::Instance())->setSoundSystem(am);
-
-		//Adding music to filename's map
-		am->add("drum", "drumloop.wav");
-		am->setCharactersActualPosition(0.0f, 0.0f, 0.0f);
-
-		Position* p = new Position(0.0f, 0.0f, 0.0f);
-		(AudioRenderer::Instance())->loadAndPlayTDSFX("drum", am, p);
-		delete p;
-		char c = 0;
-		Position* pos;
-		float i = 0.0f;
-
-		if (GetAsyncKeyState(VK_UP) & 0x8000)
-		{
-			pos = am->getCharactersActualPosition();
-			am->setCharactersActualPosition(pos->getX() + 1, pos->getY(), pos->getZ());
-		}
-		if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-		{
-			pos = am->getCharactersActualPosition();
-			am->setCharactersActualPosition(pos->getX() - 1, pos->getY(), pos->getZ());
-		}*/ 
-
+		
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 
-			if (msg.message == WM_QUIT) break;
+			if (msg.message == WM_QUIT) {
+				break;
+			}
+			else {
+				switch (msg.message) {
+					// Keyboard messages
+					case WM_KEYDOWN:
+						inputManager->handleKeyDownMessage(msg.wParam);
+						break;
+					case WM_KEYUP:
+						inputManager->handleKeyUpMessage(msg.wParam);
+						break;
+					// Mouse button messages
+					case WM_LBUTTONDOWN:
+						inputManager->handleMouseDownMessage(msg.wParam, MOUSEBUTTON_LEFT);
+						break;
+					case WM_LBUTTONUP:
+						inputManager->handleMouseUpMessage(msg.wParam, MOUSEBUTTON_LEFT);
+						break;
+					case WM_MBUTTONDOWN:
+						inputManager->handleMouseDownMessage(msg.wParam, MOUSEBUTTON_MID);
+						break;
+					case WM_MBUTTONUP:
+						inputManager->handleMouseUpMessage(msg.wParam, MOUSEBUTTON_MID);
+						break;
+					case WM_RBUTTONDOWN:
+						inputManager->handleMouseDownMessage(msg.wParam, MOUSEBUTTON_RIGHT);
+						break;
+					case WM_RBUTTONUP:
+						inputManager->handleMouseUpMessage(msg.wParam, MOUSEBUTTON_RIGHT);
+						break;
+					// Mouse move messages
+					case WM_MOUSEMOVE:
+						inputManager->handleMouseMoveMessage(msg.lParam);
+				}
+			}
 		}
 		else
 		{
@@ -137,6 +155,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 			fc.Update();
 			std::wstring test = fc.GetFps();
 			SetWindowText(hWnd, (LPCWSTR)&test[0]);
+
+			// Update the input
+			inputManager->update();
 		}
 	}
 
@@ -237,36 +258,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	// Handles keydown messages - currently used for testing resolution changes
-#pragma region KEYDOWN message
-	case WM_KEYDOWN:
-		switch (wParam)
-		{
-		case 96: // Num-0
-			OutputDebugString(CString("0\n"));
-			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
-			break;
-		case 97: // Num-1
-			wind.setSize(hWnd, &gdi, LOW_4_3);
-			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
-			break;
-		case 98: // Num-2
-			wind.setSize(hWnd, &gdi, HIGH_4_3);
-			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
-			break;
-		case 99: // Num-3
-			wind.setSize(hWnd, &gdi, LOW_16_9);
-			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
-			break;
-		case 100: // Num-4
-			wind.setSize(hWnd, &gdi, HIGH_16_9);
-			OutputDebugString(CString((std::to_string(wind.getWidth()) + " " + std::to_string(wind.getHeight()) + "\n").c_str()));
-			break;
-		default:
-			OutputDebugString(CString((std::to_string(wParam) + "\n").c_str()));
-			break;
-		}
-		break;
-#pragma endregion
 	case WM_COMMAND:
 		wmId    = LOWORD(wParam);
 		wmEvent = HIWORD(wParam);
