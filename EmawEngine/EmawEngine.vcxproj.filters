@@ -69,7 +69,6 @@
     <ClCompile Include="VoxelMap.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="Transform.cpp">
       <Filter>Core Systems</Filter>
     </ClCompile>
@@ -84,7 +83,7 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Core Systems</Filter>
-=======
+    </ClCompile>
     <ClCompile Include="InputManager.cpp">
       <Filter>Human Interface Devices</Filter>
     </ClCompile>
@@ -99,7 +98,6 @@
     </ClCompile>
     <ClCompile Include="AudioEasyAccess.cpp">
       <Filter>AudioRenderer</Filter>
->>>>>>> origin/development
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -187,7 +185,6 @@
     <ClInclude Include="VoxelMap.h">
       <Filter>Resources</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="Transform.h">
       <Filter>Core Systems</Filter>
     </ClInclude>
@@ -205,7 +202,7 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Core Systems</Filter>
-=======
+    </ClInclude>
     <ClInclude Include="InputManager.h">
       <Filter>Human Interface Devices</Filter>
     </ClInclude>
@@ -220,7 +217,6 @@
     </ClInclude>
     <ClInclude Include="AudioEasyAccess.h">
       <Filter>AudioRenderer</Filter>
->>>>>>> origin/development
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -261,13 +257,11 @@
     <Filter Include="AudioRenderer\Test">
       <UniqueIdentifier>{d90f7724-5e5c-4fa8-a8a0-d8bb0b592cb3}</UniqueIdentifier>
     </Filter>
-<<<<<<< HEAD
     <Filter Include="Game">
       <UniqueIdentifier>{0f2ebe6a-3d21-4ae3-ae21-e49b6e93fdc9}</UniqueIdentifier>
-=======
+    </Filter>
     <Filter Include="AudioRenderer\SoundSource">
       <UniqueIdentifier>{a627f602-ccb9-4f09-a2c0-1bdc87b4ec97}</UniqueIdentifier>
->>>>>>> origin/development
     </Filter>
   </ItemGroup>
   <ItemGroup>
