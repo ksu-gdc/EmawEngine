@@ -67,9 +67,14 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	Entity* e = new Entity();
 	ModelNode* base = new ModelNode(e->getModel());
 	base->setGraphicsDeviceInterface(&gdi);
+
+	ModelNode* base2 = new ModelNode(e->getModel());
+	base2->setGraphicsDeviceInterface(&gdi);
+
+	base2->setPosition(3, 0, 0);
+
 	root->addChild(base);
-	//base->translate(-.25, 1.0, 1.75);
-	//base->rotateZ(2);
+	base->addChild(base2);
 	Camera* camera = new Camera();
 
 	gdi.SetSceneGraphRoot(root);
@@ -77,7 +82,6 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	camera->setPosition(0.0f, 0.0f, -10.0f);
 
 	Transform* identity = new Transform();
-
 
 	// =========================================================================
 	// TEST CODE!!!
@@ -119,8 +123,12 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
+			//root->update(identity->getTransformMatrix());
+			//base->resetTransformMatrix();
 			root->update(identity->getTransformMatrix());
-			base->resetTransformMatrix();
+			base2->rotateX(0.0005);
+			base->rotateY(0.0005);
+
 
 			// TODO: Update
 			gdi.NextFrame();

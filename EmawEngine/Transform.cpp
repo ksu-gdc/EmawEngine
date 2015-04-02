@@ -23,14 +23,16 @@ Transform::~Transform(){
 }
 
 void Transform::createTransform(){
-	D3DXMatrixMultiply(transformMatrix, transformMatrix, translateMatrix);
+	resetTransformMatrix();
 	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixX);
 	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixY);
 	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixZ);
 	D3DXMatrixMultiply(transformMatrix, transformMatrix, scaleMatrix);
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, translateMatrix);
 }
 
 void Transform::applyTransformation(D3DXMATRIX* otherTransform){
+	
 	D3DXMatrixMultiply(transformMatrix, transformMatrix, otherTransform);
 }
 
@@ -60,6 +62,23 @@ void Transform::translate(float x, float y, float z){
 
 void Transform::resetTransformMatrix(){
 	transformMatrix = Transform::createIdentity();
+}
+
+void Transform::resetTranslateMatrix(){
+	resetTransformMatrix();
+	translateMatrix = Transform::createIdentity();
+}
+
+void Transform::resetRotationMatrix(){
+	resetTransformMatrix();
+	rotateMatrixX = Transform::createIdentity();
+	rotateMatrixY = Transform::createIdentity();
+	rotateMatrixZ = Transform::createIdentity();
+}
+
+void Transform::resetScaleMatrix(){
+	resetTransformMatrix();
+	scaleMatrix = Transform::createIdentity();
 }
 
 D3DXMATRIX* Transform::createIdentity(){

@@ -40,6 +40,9 @@ private:
 	ID3D11DeviceContext		*m_Context;
 	ID3D11RenderTargetView  *m_BackBuffer;
 	ID3D11Buffer			*m_VertBuffer;
+	ID3D11DepthStencilView	*m_DepthStencilView;
+	ID3D11DepthStencilState *m_DepthStencilState;
+	ID3D11Texture2D			*m_DepthStencilBuffer;
 
 	VertexShader			*m_VertexShader;
 	GameNode				*m_SceneGraphRoot;

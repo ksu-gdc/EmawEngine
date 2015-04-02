@@ -31,4 +31,7 @@ public:
 	void scale(float, float, float);
 	void translate(float, float, float);
 	void resetTransformMatrix();
+	void resetTranslateMatrix();
+	void resetRotationMatrix();
+	void resetScaleMatrix();
 };

@@ -13,6 +13,9 @@
 GraphicsDeviceInterface::GraphicsDeviceInterface() {
 	m_SceneGraphRoot = 0;
 	m_Camera = 0;
+	m_DepthStencilView = 0;
+	m_DepthStencilState = 0;
+	m_DepthStencilBuffer = 0;
 }
 
 GraphicsDeviceInterface::~GraphicsDeviceInterface() {}
@@ -48,6 +51,7 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 	scd.OutputWindow = hWnd;							// window to render into
 	scd.SampleDesc.Count = 4;							// use 4 multisamples for antialiasing
 	scd.Windowed = true;
+	
 
 	// Create the device, context, and swap chain
 	hResult = D3D11CreateDeviceAndSwapChain(NULL,
@@ -76,8 +80,67 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 	m_Device->CreateRenderTargetView(pBackBuffer, NULL, &m_BackBuffer);
 	pBackBuffer->Release();
 
+	D3D11_TEXTURE2D_DESC depthBufferDesc;
+	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
+	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
+	D3D11_RASTERIZER_DESC rasterDesc;
+
+	ZeroMemory(&depthBufferDesc, sizeof(depthBufferDesc));
+
+	depthBufferDesc.Width = wind->getWidth();
+	depthBufferDesc.Height = wind->getHeight();
+	depthBufferDesc.MipLevels = 1;
+	depthBufferDesc.ArraySize = 1;
+	depthBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthBufferDesc.SampleDesc.Count = 4;
+	depthBufferDesc.SampleDesc.Quality = 0;
+	depthBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	depthBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	depthBufferDesc.CPUAccessFlags = 0;
+	depthBufferDesc.MiscFlags = 0;
+
+	m_Device->CreateTexture2D(&depthBufferDesc, NULL, &m_DepthStencilBuffer);
+
+	// Initialize the description of the stencil state.
+	ZeroMemory(&depthStencilDesc, sizeof(depthStencilDesc));
+
+	// Set up the description of the stencil state.
+	depthStencilDesc.DepthEnable = true;
+	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+
+	depthStencilDesc.StencilEnable = true;
+	depthStencilDesc.StencilReadMask = 0xFF;
+	depthStencilDesc.StencilWriteMask = 0xFF;
+
+	// Stencil operations if pixel is front-facing.
+	depthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+	depthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	// Stencil operations if pixel is back-facing.
+	depthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+	depthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	m_Device->CreateDepthStencilState(&depthStencilDesc, &m_DepthStencilState);
+
+	m_Context->OMSetDepthStencilState(m_DepthStencilState, 1);
+	
+	// Initailze the depth stencil view.
+	ZeroMemory(&depthStencilViewDesc, sizeof(depthStencilViewDesc));
+
+	// Set up the depth stencil view description.
+	depthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	depthStencilViewDesc.Texture2D.MipSlice = 0;
+
+	m_Device->CreateDepthStencilView(m_DepthStencilBuffer, NULL, &m_DepthStencilView);
+
 	// set the render target as the back buffer
-	m_Context->OMSetRenderTargets(1, &m_BackBuffer, NULL);
+	m_Context->OMSetRenderTargets(1, &m_BackBuffer, m_DepthStencilView);
 
 	// Set the viewport using windowSize object
 	D3D11_VIEWPORT viewport;
@@ -85,6 +148,8 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
+	viewport.MinDepth = 0.0f;
+	viewport.MaxDepth = 1.0f;
 	viewport.Width = (float)wind->getWidth();
 	viewport.Height = (float)wind->getHeight();
 
@@ -100,6 +165,7 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 
 	InitPipeline();
 	InitGraphics();
+
 
 	return TRUE;
 }
@@ -142,7 +208,7 @@ void GraphicsDeviceInterface::InitGraphics(void)
 	std::vector<VERTEX> vertices = e->getModel()->getVertexBuffer();
 	//vertices = m->getVertexBuffer();
 
-	D3D11_BUFFER_DESC bd;
+	/*D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 	
 	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
@@ -155,7 +221,7 @@ void GraphicsDeviceInterface::InitGraphics(void)
 	D3D11_MAPPED_SUBRESOURCE ms;
 	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
 	memcpy(ms.pData, vertices.data(), vertices.size() * sizeof(VERTEX));                // copy the data
-	m_Context->Unmap(m_VertBuffer, NULL);
+	m_Context->Unmap(m_VertBuffer, NULL);*/
 }
 
 //
@@ -171,6 +237,8 @@ void GraphicsDeviceInterface::Shutdown() {
 	m_Device->Release();
 	m_Context->Release();
 	m_VertBuffer->Release();
+	m_DepthStencilView->Release();
+	m_DepthStencilBuffer->Release();
 }
 
 
@@ -197,6 +265,7 @@ bool GraphicsDeviceInterface::Render()
 	
 	// Clear the back buffer
 	m_Context->ClearRenderTargetView(m_BackBuffer, color);
+	m_Context->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
 	// Render Camera
 	m_Camera->Render();
@@ -247,6 +316,9 @@ bool GraphicsDeviceInterface::Update(std::vector<VERTEX>* vertices){
 	memcpy(ms.pData, vertices->data(), vertices->size() * sizeof(VERTEX));                // copy the data
 	m_Context->Unmap(m_VertBuffer, NULL);
 
+	// Render the triangle.
+	m_Context->Draw(vertices->size(), 0);
+
 	return true;
 }
 
@@ -259,15 +331,13 @@ void GraphicsDeviceInterface::RenderShader(){
 	m_Context->VSSetShader(shdrs->Shaders.VertShader, NULL, 0);
 	m_Context->PSSetShader(shdrs->Shaders.PixShader, NULL, 0);
 
-	// Render the triangle.
-	m_Context->Draw(36, 0);
-
 	return;
 }
 
 void GraphicsDeviceInterface::VertexPipeline(std::vector<VERTEX>* vertices, D3DXMATRIX* transform){
-	Update(vertices);
 	RenderModel();
+	m_VertexShader->initializeShader(m_Device);
 	m_VertexShader->setParameters(m_Context, *transform, m_Camera->GetViewMatrix(), m_projMatrix);
-	RenderShader();
+	Update(vertices);
+	//RenderShader();
 }
