@@ -191,37 +191,6 @@ void GraphicsDeviceInterface::InitPipeline()
 void GraphicsDeviceInterface::InitGraphics(void)
 {
 
-	//the triangle
-	VERTEX OurVertices[] = {
-			{ 0.0f, 0.0f, 1.0f, 0.5f, DirectX::XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f) },
-			{ 1.0f, 0.0f, 1.0f, 0.5f, DirectX::XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f) },
-			{ -1.0f, 0.0f, 1.0f, 0.5f, DirectX::XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f) },
-	};
-	Entity* e = new Entity();
-
-	//TEST CODE
-	Font* f = new Font();
-	f->load("B:/consolas.fnt");
-
-	Model *m = f->createFontModel("Hello!", 0, 0, 0, NULL, 0.005);
-
-	std::vector<VERTEX> vertices = e->getModel()->getVertexBuffer();
-	//vertices = m->getVertexBuffer();
-
-	/*D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	
-	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-	bd.ByteWidth = sizeof(VERTEX) * vertices.size();             // size is the VERTEX struct * 3
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
-	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
-
-	m_Device->CreateBuffer(&bd, NULL, &m_VertBuffer);       // create the buffer
-
-	D3D11_MAPPED_SUBRESOURCE ms;
-	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
-	memcpy(ms.pData, vertices.data(), vertices.size() * sizeof(VERTEX));                // copy the data
-	m_Context->Unmap(m_VertBuffer, NULL);*/
 }
 
 //

@@ -20,7 +20,6 @@ bool VertexShader::initializeShader(ID3D11Device* device){
 	matrixBufferDesc.MiscFlags = 0;
 	matrixBufferDesc.StructureByteStride = 0;
 
-
 	HRESULT result = device->CreateBuffer(&matrixBufferDesc, NULL, &m_matrixBuffer);
 	if (FAILED(result)) {
 		OutputDebugString(L"failed to create transform matrix buffer\n");
