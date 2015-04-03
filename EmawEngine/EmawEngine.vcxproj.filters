@@ -99,6 +99,7 @@
     <ClCompile Include="AudioEasyAccess.cpp">
       <Filter>AudioRenderer</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -211,13 +212,14 @@
     </ClInclude>
     <ClInclude Include="MouseState.h">
       <Filter>Human Interface Devices</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="SoundSource.h">
       <Filter>AudioRenderer\SoundSource</Filter>
     </ClInclude>
     <ClInclude Include="AudioEasyAccess.h">
       <Filter>AudioRenderer</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
