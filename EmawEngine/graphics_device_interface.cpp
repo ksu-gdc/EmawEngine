@@ -16,6 +16,7 @@ GraphicsDeviceInterface::GraphicsDeviceInterface() {
 	m_DepthStencilView = 0;
 	m_DepthStencilState = 0;
 	m_DepthStencilBuffer = 0;
+	m_VertBuffer = 0;
 }
 
 GraphicsDeviceInterface::~GraphicsDeviceInterface() {}
@@ -220,7 +221,7 @@ void GraphicsDeviceInterface::Shutdown() {
 	m_BackBuffer->Release();
 	m_Device->Release();
 	m_Context->Release();
-	m_VertBuffer->Release();
+	//m_VertBuffer->Release();
 	m_DepthStencilView->Release();
 	m_DepthStencilBuffer->Release();
 }
@@ -286,11 +287,11 @@ bool GraphicsDeviceInterface::Render()
 	return true;
 }
 
-bool GraphicsDeviceInterface::RenderModel(){
+bool GraphicsDeviceInterface::RenderModel(ID3D11Buffer* vertexBuffer){
 
 	UINT stride = sizeof(VERTEX);
 	UINT offset = 0;
-	m_Context->IASetVertexBuffers(0, 1, &m_VertBuffer, &stride, &offset);
+	m_Context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 
 	// select which primtive type we are using
 	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -299,22 +300,12 @@ bool GraphicsDeviceInterface::RenderModel(){
 
 }
 
-bool GraphicsDeviceInterface::Update(std::vector<VERTEX>* vertices){
-
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-
-	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-	bd.ByteWidth = sizeof(VERTEX) * vertices->size();             // size is the VERTEX struct * 3
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
-	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
-
-	m_Device->CreateBuffer(&bd, NULL, &m_VertBuffer);       // create the buffer
+bool GraphicsDeviceInterface::Update(ID3D11Buffer* vertexBuffer, std::vector<VERTEX>* vertices){
 
 	D3D11_MAPPED_SUBRESOURCE ms;
-	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
+	m_Context->Map(vertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
 	memcpy(ms.pData, vertices->data(), vertices->size() * sizeof(VERTEX));                // copy the data
-	m_Context->Unmap(m_VertBuffer, NULL);
+	m_Context->Unmap(vertexBuffer, NULL);
 
 	// Render the triangle.
 	m_Context->Draw(vertices->size(), 0);
@@ -334,12 +325,29 @@ void GraphicsDeviceInterface::RenderShader(){
 	return;
 }
 
-void GraphicsDeviceInterface::VertexPipeline(std::vector<VERTEX>* vertices, D3DXMATRIX* transform){
+void GraphicsDeviceInterface::VertexPipeline(ID3D11Buffer* vertexBuffer, std::vector<VERTEX>* vertices, D3DXMATRIX* transform){
 	
 	//I want to rename these so they make a little more sense.
-	RenderModel();
+	RenderModel(vertexBuffer);
 	m_VertexShader->initializeShader(m_Device);
 	m_VertexShader->setParameters(m_Context, *transform, m_Camera->GetViewMatrix(), m_projMatrix);
-	Update(vertices);
+	Update(vertexBuffer, vertices);
 	//RenderShader();
+}
+
+ID3D11Buffer* GraphicsDeviceInterface::CreateVertexBuffer(int numOfVerticies){
+
+	ID3D11Buffer* vertexBuffer;
+
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+
+	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
+	bd.ByteWidth = sizeof(VERTEX) * numOfVerticies;             // size is the VERTEX struct * 3
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
+
+	m_Device->CreateBuffer(&bd, NULL, &vertexBuffer);       // create the buffer
+
+	return vertexBuffer;
 }

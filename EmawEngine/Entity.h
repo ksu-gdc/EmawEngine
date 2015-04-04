@@ -1,24 +1,18 @@
 #pragma once
 
-struct Vector {
-	float x;
-	float y;
-	float z;
-};
-
 class Entity
 {
 public:
 	Entity();
 	~Entity();
-	Vector orientation;
+	Vector3 orientation;
 	Model* getModel();
-	Vector position;
+	Vector3 position;
 	DirectX::XMMATRIX* getMatrix();
 	void update();
 private:
 	
-	Vector scale;
+	Vector3 scale;
 	DirectX::XMMATRIX worldMatrix;
 	void updateMatrix();
 protected:

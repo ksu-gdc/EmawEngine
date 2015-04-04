@@ -10,8 +10,9 @@ class ModelNode : public SceneGraphNode {
 private:
 
 	std::vector<SceneGraphNode*> children;
-	Transform* transform;
-	Model* model;
+	Transform* m_Transform;
+	Model* m_Model;
+	ID3D11Buffer *m_VertBuffer;
 	GraphicsDeviceInterface* gdi;
 
 	float *posX, *posY, *posZ;
@@ -28,6 +29,7 @@ public:
 	void render();
 	void addChild(SceneGraphNode*);
 	void setGraphicsDeviceInterface(GraphicsDeviceInterface*);
+	void initializeVertexBuffer();
 
 	void setPosition(float, float, float);
 	void setRotation(float, float, float);

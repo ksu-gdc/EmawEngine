@@ -3,18 +3,21 @@
 #include <algorithm>
 
 ModelNode::ModelNode(){
-	transform = new Transform();
+	m_Transform = new Transform();
 	initializePosition();
 	initializeScale();
 	initializeRotation();
 }
 
 ModelNode::ModelNode(Model* m){
-	transform = new Transform();
-	model = m;
+	m_Transform = new Transform();
+	m_Model = m;
 	initializePosition();
 	initializeScale();
 	initializeRotation();
+	ModelNode::setPosition(m_Model->m_InitPos->x, m_Model->m_InitPos->y, m_Model->m_InitPos->z);
+	ModelNode::setRotation(m_Model->m_InitRot->x, m_Model->m_InitRot->y, m_Model->m_InitRot->z);
+	ModelNode::setScale(m_Model->m_InitScale->x, m_Model->m_InitScale->y, m_Model->m_InitScale->z);
 }
 
 ModelNode::~ModelNode(){
@@ -24,19 +27,19 @@ ModelNode::~ModelNode(){
 void ModelNode::update(D3DXMATRIX* otherTransform){
 
 	// Apply transform
-	transform->createTransform();
-	transform->applyTransformation(otherTransform);
+	m_Transform->createTransform();
+	m_Transform->applyTransformation(otherTransform);
 	
 	// Update children
 	for (int i = 0; i < children.size(); i++){
-		children.at(i)->update(transform->getTransformMatrix());
+		children.at(i)->update(m_Transform->getTransformMatrix());
 	}
 
 }
 
 void ModelNode::render(){
 
-	gdi->VertexPipeline(&model->getVertexBuffer(), transform->getTransformMatrix());
+	gdi->VertexPipeline(m_VertBuffer, &m_Model->getVertexBuffer(), m_Transform->getTransformMatrix());
 
 	//Render children.
 	for (int i = 0; i < children.size(); i++){
@@ -46,6 +49,11 @@ void ModelNode::render(){
 
 void ModelNode::setGraphicsDeviceInterface(GraphicsDeviceInterface* graphicsDeviceInterface){
 	gdi = graphicsDeviceInterface;
+	initializeVertexBuffer();
+}
+
+void ModelNode::initializeVertexBuffer(){
+	m_VertBuffer = gdi->CreateVertexBuffer(m_Model->getVertexBuffer().size());
 }
 
 void ModelNode::addChild(SceneGraphNode* child){
@@ -57,8 +65,8 @@ void ModelNode::setPosition(float x, float y, float z){
 	*posX = x;
 	*posY = y;
 	*posZ = z;
-	transform->resetTranslateMatrix();
-	transform->translate(x, y, z);
+	m_Transform->resetTranslateMatrix();
+	m_Transform->translate(x, y, z);
 }
 
 // Sets the model's rotate to rx, ry, rz.
@@ -66,10 +74,10 @@ void ModelNode::setRotation(float rx, float ry, float rz){
 	*rotX = rx;
 	*rotY = ry;
 	*rotZ = rz;
-	transform->resetRotationMatrix();
-	transform->rotateX(rx);
-	transform->rotateY(ry);
-	transform->rotateZ(rz);
+	m_Transform->resetRotationMatrix();
+	m_Transform->rotateX(rx);
+	m_Transform->rotateY(ry);
+	m_Transform->rotateZ(rz);
 }
 
 // Sets the model's scale to sx, sy, sz.
@@ -77,26 +85,26 @@ void ModelNode::setScale(float sx, float sy, float sz){
 	*scaleX = sx;
 	*scaleY = sy;
 	*scaleZ = sz;
-	transform->resetScaleMatrix();
-	transform->scale(sx, sy, sz);
+	m_Transform->resetScaleMatrix();
+	m_Transform->scale(sx, sy, sz);
 }
 
 // Rotates the model by angle in the z direction.
 void ModelNode::rotateX(float angle){
 	*rotX += angle;
-	transform->rotateX(*rotX);
+	m_Transform->rotateX(*rotX);
 }
 
 // Rotates the model by angle in the y direction.
 void ModelNode::rotateY(float angle){
 	*rotY += angle;
-	transform->rotateY(*rotY);
+	m_Transform->rotateY(*rotY);
 }
 
 // Rotates the model by angle in the z direction.
 void ModelNode::rotateZ(float angle){
 	*rotZ += angle;
-	transform->rotateZ(angle);
+	m_Transform->rotateZ(angle);
 }
 
 // Scales the model by sx, sy, sz;
@@ -104,7 +112,7 @@ void ModelNode::scale(float sx, float sy, float sz){
 	*scaleX += sx;
 	*scaleY += sy;
 	*scaleZ += sz;
-	transform->scale(sz, sy, sz);
+	m_Transform->scale(sz, sy, sz);
 }
 
 // Translates the model by x, y, z.
@@ -112,11 +120,11 @@ void ModelNode::translate(float x, float y, float z){
 	*posX += x;
 	*posY += y;
 	*posZ += z;
-	transform->translate(x, y, z);
+	m_Transform->translate(x, y, z);
 }
 
 void ModelNode::resetTransformMatrix(){
-	transform->resetTransformMatrix();
+	m_Transform->resetTransformMatrix();
 }
 
 

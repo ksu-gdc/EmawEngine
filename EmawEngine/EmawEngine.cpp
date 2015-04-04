@@ -71,10 +71,12 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	ModelNode* base2 = new ModelNode(e->getModel());
 	base2->setGraphicsDeviceInterface(&gdi);
 
-	base2->setPosition(3, 0, 0);
+	//base2->setPosition(3, 0, 0);
+	//base->setPosition(0, 0, 10);
+	//base->setScale(2.198321, 0.175588, 5.520277);
 
 	root->addChild(base);
-	base->addChild(base2);
+	//base->addChild(base2);
 	Camera* camera = new Camera();
 
 	gdi.SetSceneGraphRoot(root);
@@ -144,7 +146,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 			//root->update(identity->getTransformMatrix());
 			//base->resetTransformMatrix();
 			root->update(identity->getTransformMatrix());
-			base2->rotateX(0.0005);
+			//base2->rotateX(0.0005);
 			base->rotateY(0.0005);
 
 
