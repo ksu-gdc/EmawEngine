@@ -10,8 +10,8 @@ Player::Player(Camera * camera)
 	lastPos = input->getMouseScreenPos();
 	fakeRadius = 100;
 	_position->x = 0;
-	_position->y = 10;
-	_position->z = 0;
+	_position->y = 0;
+	_position->z = -10;
 	_orientation->x = 0;
 	_orientation->y = 0;
 	_orientation->z = 0;
@@ -27,6 +27,7 @@ void Player::updatePlayer()
 {
 	float zvel = 0;
 	float xvel = 0;
+	float yvel = 0;
 	if (input->keyDown(Key::W))
 	{
 		zvel += speed;
@@ -43,13 +44,23 @@ void Player::updatePlayer()
 	{
 		xvel += speed;
 	}
+	if (input->keyDown(Key::Space))
+	{
+		yvel += speed;
+	}
+	if (input->keyDown(Key::Ctrl))
+	{
+		yvel -= speed;
+	}
 
+	//get change in mouse position from last update.
 	curPos = input->getMouseScreenPos();
 	long deltax = -(curPos.x - lastPos.x);
 	long deltay = curPos.y - lastPos.y;
 
 	lastPos = curPos;
 	
+	//map the mouse delta to an orientation angle.
 	_orientation->x += (float) (deltax / fakeRadius);
 	if (_orientation->x > (2 * M_PI)) _orientation->x -= (2 * M_PI);
 	else if (_orientation->x < 0) _orientation->x = (2 * M_PI) - _orientation->x;
@@ -58,8 +69,9 @@ void Player::updatePlayer()
 	if (_orientation->y >(2 * M_PI)) _orientation->y -= (2 * M_PI);
 	else if (_orientation->y < 0) _orientation->y = (2 * M_PI) - _orientation->y;
 
+	//transform the velocity of the player so that "forward" is always where the player is pointing.
 	DirectX::XMMATRIX rotMatrix = DirectX::XMMatrixRotationRollPitchYaw(_orientation->y, _orientation->x, _orientation->z);
-	DirectX::XMVECTOR velocity = DirectX::XMVectorSet(xvel, 0.0f, zvel, 1.0f);
+	DirectX::XMVECTOR velocity = DirectX::XMVectorSet(xvel, yvel, zvel, 1.0f);
 	velocity = DirectX::XMVector3Transform(velocity, rotMatrix);
 
 	_velocity->x = DirectX::XMVectorGetByIndex(velocity, 0);

@@ -70,7 +70,6 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// TEST CODE!!!
 	// =========================================================================
-	SetCursorPos(390, 323);
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
 	Entity* e = new Entity();
@@ -90,7 +89,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	gdi.SetCamera(camera);
 	camera->setPosition(0.0f, 0.0f, -10.0f);
 
-
+	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
 	Player* player = new Player(camera);
 
 	Transform* identity = new Transform();
