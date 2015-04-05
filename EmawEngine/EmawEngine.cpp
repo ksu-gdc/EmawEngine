@@ -60,8 +60,17 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// Perform AssetManager initialization
 	AssetManager* assetManager = AssetManager::getInstance();
 
+	// Perform InputManager initialization
+	InputManager* inputManager = InputManager::getInstance();
+	inputManager->registerWindow(hWnd);
+
+	//Perform sound initialization
+	AudioManager* am = AudioManager::getInstance();
+	(AudioRenderer::Instance())->setSoundSystem(am);
+
 	// TEST CODE!!!
 	// =========================================================================
+	SetCursorPos(390, 323);
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
 	Entity* e = new Entity();
@@ -81,18 +90,14 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	gdi.SetCamera(camera);
 	camera->setPosition(0.0f, 0.0f, -10.0f);
 
+
+	Player* player = new Player(camera);
+
 	Transform* identity = new Transform();
 
 	// =========================================================================
 	// TEST CODE!!!
 
-	// Perform InputManager initialization
-	InputManager* inputManager = InputManager::getInstance();
-	inputManager->registerWindow(hWnd);
-
-	//Perform sound initialization
-	AudioManager* am = AudioManager::getInstance();
-	(AudioRenderer::Instance())->setSoundSystem(am);
 	//Main game loop:
 	while(true)
 	{
@@ -143,6 +148,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		{
 			//root->update(identity->getTransformMatrix());
 			//base->resetTransformMatrix();
+			player->updatePlayer();
 			root->update(identity->getTransformMatrix());
 			base2->rotateX(0.0005);
 			base->rotateY(0.0005);
@@ -285,9 +291,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			wind.setWindowed(hWnd, &gdi, FALSE);
 			OutputDebugString(CString("fullscreen mode\n"));
 			break;
-		case 87: // 'w' keypress
+		/*case 87: // 'w' keypress
 			wind.setWindowed(hWnd, &gdi, TRUE);
-			OutputDebugString(CString("windowed mode\n"));
+			OutputDebugString(CString("windowed mode\n"));*/
 			break;
 		default:
 			OutputDebugString(CString((to_string(wParam) + "\n").c_str()));

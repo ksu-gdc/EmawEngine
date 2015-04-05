@@ -100,6 +100,7 @@
       <Filter>AudioRenderer</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -220,6 +221,7 @@
       <Filter>AudioRenderer</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />

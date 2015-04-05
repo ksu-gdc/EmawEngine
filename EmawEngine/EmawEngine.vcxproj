@@ -66,7 +66,8 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(SolutionDir)libraries\FBX SDK\2015.1\lib\vs2013\x86\debug-noignore\libfbxsdk.dll" $(OutDir)</Command>
-      <Command>xcopy /y /d "$(SolutionDir)EmawEngine\fmod\fmod.dll" $(OutDir)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -97,6 +98,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ModelNode.h" />
     <ClInclude Include="GameNode.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="SceneGraphNode.h" />
     <ClInclude Include="InputManager.h" />
@@ -151,6 +153,7 @@
     <ClCompile Include="KeyState.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MouseState.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="ShaderAsset.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="VertexShader.cpp" />

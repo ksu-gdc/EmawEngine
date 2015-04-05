@@ -1,4 +1,5 @@
 #pragma once
+#include "Entity.h"
 class GameObject
 {
 public:
@@ -18,9 +19,10 @@ public:
 	void setVelocity(Vector* v);
 	void setAlive(bool alive);
 
-private:
+protected:
 	Vector* _position;
 	Vector* _velocity;
+	Vector* _orientation;
 	bool _isAlive;
 };
 

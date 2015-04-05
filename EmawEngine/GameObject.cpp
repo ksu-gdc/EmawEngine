@@ -6,6 +6,7 @@ GameObject::GameObject()
 {
 	_position = new Vector();
 	_velocity = new Vector();
+	_orientation = new Vector();
 	_isAlive = true;
 }
 
