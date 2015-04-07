@@ -94,9 +94,11 @@
     <ClInclude Include="AudioEasyAccess.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CollisionObject.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ModelNode.h" />
     <ClInclude Include="GameNode.h" />
+    <ClInclude Include="PlayerObject.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="SceneGraphNode.h" />
     <ClInclude Include="InputManager.h" />
@@ -138,6 +140,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="AudioRenderer.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CollisionObject.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ModelNode.cpp" />
     <ClCompile Include="EmawEngine.cpp" />
@@ -151,6 +154,7 @@
     <ClCompile Include="KeyState.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MouseState.cpp" />
+    <ClCompile Include="PlayerObject.cpp" />
     <ClCompile Include="ShaderAsset.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="VertexShader.cpp" />

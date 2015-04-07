@@ -15,9 +15,9 @@ ModelNode::ModelNode(Model* m){
 	initializePosition();
 	initializeScale();
 	initializeRotation();
-	ModelNode::setPosition(m_Model->m_InitPos->x, m_Model->m_InitPos->y, m_Model->m_InitPos->z);
-	ModelNode::setRotation(m_Model->m_InitRot->x, m_Model->m_InitRot->y, m_Model->m_InitRot->z);
-	ModelNode::setScale(m_Model->m_InitScale->x, m_Model->m_InitScale->y, m_Model->m_InitScale->z);
+	ModelNode::setPosition(*m_Model->m_InitPos->x, *m_Model->m_InitPos->y, *m_Model->m_InitPos->z);
+	ModelNode::setRotation(*m_Model->m_InitRot->x, *m_Model->m_InitRot->y, *m_Model->m_InitRot->z);
+	ModelNode::setScale(*m_Model->m_InitScale->x, *m_Model->m_InitScale->y, *m_Model->m_InitScale->z);
 }
 
 ModelNode::~ModelNode(){
@@ -136,25 +136,16 @@ void ModelNode::initializePosition(){
 	posX = new float();
 	posY = new float();
 	posZ = new float();
-	*posX = 0;
-	*posY = 0;
-	*posZ = 0;
 }
 
 void ModelNode::initializeScale(){
 	scaleX = new float();
 	scaleY = new float();
 	scaleZ = new float();
-	*scaleX = 1;
-	*scaleY = 1;
-	*scaleZ = 1;
 }
 
 void ModelNode::initializeRotation(){
 	rotX = new float();
 	rotY = new float();
 	rotZ = new float();
-	*rotX = 1;
-	*rotY = 1;
-	*rotZ = 1;
 }

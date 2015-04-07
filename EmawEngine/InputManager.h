@@ -29,6 +29,8 @@ public:
 	bool keyReleased(Key k);
 	POINT getMousePos();
 	POINT getMouseScreenPos();
+	float getMousePosDiffX();
+	float getMousePosDiffY();
 
 	void update();
 

@@ -18,13 +18,16 @@ public:
 	bool mouseButtonReleased(int button);
 	POINT getMousePos();
 	POINT getMouseScreenPos();
-
+	float getMousePosDiffX();
+	float getMousePosDiffY();
 
 private:
 	bool *_currentState;
 	bool *_oldState;
 	POINT _screen;
 	POINT _client;
+	POINT _oldScreen;
+	POINT _oldClient;
 };
 
 

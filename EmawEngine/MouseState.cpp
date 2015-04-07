@@ -14,6 +14,11 @@ MouseState::MouseState()
 	_screen.y = 0;
 	_client.x = 0;
 	_client.y = 0;
+
+	_oldScreen.x = 0;
+	_oldScreen.y = 0;
+	_oldClient.x = 0;
+	_oldClient.y = 0;
 }
 
 MouseState::~MouseState()
@@ -34,6 +39,14 @@ void MouseState::handleMouseUpMessage(WPARAM wParam, int button) {
 
 // Handles a windows mouse move message and stores the appropraite screen coordinates
 void MouseState::handleMouseMoveMessage(LPARAM lParam, HWND hWnd) {
+
+	// Save the old screen and client positions.
+	_oldScreen.x = _screen.x;
+	_oldScreen.y = _screen.y;
+	_oldClient.x = _client.x;
+	_oldClient.y = _client.y;
+
+	// Save new screen and client positions. 
 	_screen.x = GET_X_LPARAM(lParam);
 	_screen.y = GET_Y_LPARAM(lParam);
 	_client.x = _screen.x;
@@ -78,4 +91,12 @@ POINT MouseState::getMousePos() {
 // Gets the moue position in screen coordinates
 POINT MouseState::getMouseScreenPos() {
 	return _screen;
+}
+
+float MouseState::getMousePosDiffX(){
+	return _oldClient.x - _client.x;
+}
+
+float MouseState::getMousePosDiffY(){
+	return _oldClient.y - _client.y;
 }

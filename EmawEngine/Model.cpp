@@ -8,18 +8,18 @@ const float MINIMUM_TRANSFORMATION_VALUE = 0.00005;
 
 Model::Model()
 {
-	m_InitPos = new Vector3;
-	m_InitScale = new Vector3;
-	m_InitRot = new Vector3;
-	m_InitPos->x = 0;
-	m_InitPos->y = 0;
-	m_InitPos->z = 0;
-	m_InitScale->x = 0;
-	m_InitScale->y = 0;
-	m_InitScale->z = 0;
-	m_InitRot->x = 0;
-	m_InitRot->y = 0;
-	m_InitRot->z = 0;
+	m_InitPos = new Vector3();
+	m_InitScale = new Vector3();
+	m_InitRot = new Vector3();
+	m_InitPos->x = new float();
+	m_InitPos->y = new float();
+	m_InitPos->z = new float();
+	m_InitScale->x = new float();
+	m_InitScale->y = new float();
+	m_InitScale->z = new float();
+	m_InitRot->x = new float();
+	m_InitRot->y = new float();
+	m_InitRot->z = new float();
 }
 
 Model::Model(std::vector<VERTEX> vBuffer){
@@ -141,33 +141,33 @@ void Model::setInitialTransforms(FbxMesh* mesh){
 	FbxDouble3 initialRotate = mesh->GetNode()->LclRotation.Get();
 
 	if (initialTranslate.mData[0] > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitPos->x = initialTranslate.mData[0];
+		*m_InitPos->x = initialTranslate.mData[0];
 	}
 	if (initialTranslate.mData[1] > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitPos->y = initialTranslate.mData[1];
+		*m_InitPos->y = initialTranslate.mData[1];
 	}
 	if (initialTranslate.mData[2] > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitPos->z = initialTranslate.mData[2];
+		*m_InitPos->z = initialTranslate.mData[2];
 	}
 
 	if (initialScale.mData[0] > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitScale->x = initialScale.mData[0];
+		*m_InitScale->x = initialScale.mData[0];
 	}
 	if (initialScale.mData[1] > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitScale->y = initialScale.mData[1];
+		*m_InitScale->y = initialScale.mData[1];
 	}
 	if (initialScale.mData[2] > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitScale->z = initialScale.mData[2];
+		*m_InitScale->z = initialScale.mData[2];
 	}
 
 	if (initialRotate.mData[0] > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitRot->x = initialRotate.mData[0];
+		*m_InitRot->x = initialRotate.mData[0];
 	}
 	if (initialRotate.mData[1] > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitRot->y = initialRotate.mData[1];
+		*m_InitRot->y = initialRotate.mData[1];
 	}
 	if (initialRotate.mData[2] > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitRot->z = initialRotate.mData[2];
+		*m_InitRot->z = initialRotate.mData[2];
 	}
 
 }

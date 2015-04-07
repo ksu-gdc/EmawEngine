@@ -101,3 +101,11 @@ POINT InputManager::getMousePos() {
 POINT InputManager::getMouseScreenPos() {
 	return _mouseState->getMouseScreenPos();
 }
+
+float InputManager::getMousePosDiffX(){
+	return _mouseState->getMousePosDiffX();
+}
+
+float InputManager::getMousePosDiffY(){
+	return _mouseState->getMousePosDiffY();
+}

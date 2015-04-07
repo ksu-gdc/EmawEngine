@@ -9,6 +9,8 @@
 #include "AssetManager.h"
 #include "GameNode.h"
 #include "ModelNode.h"
+#include "PlayerObject.h"
+#include "CollisionObject.h"
 #include "InputManager.h"
 #define MAX_LOADSTRING 100
 
@@ -62,28 +64,55 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// TEST CODE!!!
 	// =========================================================================
+	
+	// Create the root node of the Scene Graph.
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
+
+	// Create an entity.
 	Entity* e = new Entity();
+	
+	// Create a node for the floor.
 	ModelNode* base = new ModelNode(e->getModel());
 	base->setGraphicsDeviceInterface(&gdi);
-
-	ModelNode* base2 = new ModelNode(e->getModel());
-	base2->setGraphicsDeviceInterface(&gdi);
-
-	//base2->setPosition(3, 0, 0);
-	//base->setPosition(0, 0, 10);
-	//base->setScale(2.198321, 0.175588, 5.520277);
+	base->scale(100, 1, 100);
 
 	root->addChild(base);
-	//base->addChild(base2);
+	
+	GameObject* plane = new GameObject();
+	*plane->_scale->x = 100;
+	*plane->_scale->y = 1;
+	*plane->_scale->z = 100;
+
+	PlayerObject* player = new PlayerObject();
 	Camera* camera = new Camera();
+	camera->setPositionPointers(player->_position->x, player->_position->y, player->_position->z);
 
 	gdi.SetSceneGraphRoot(root);
 	gdi.SetCamera(camera);
-	camera->setPosition(0.0f, 0.0f, -10.0f);
 
 	Transform* identity = new Transform();
+
+	CollisionObject* playerCollision = new CollisionObject();
+	CollisionObject* planeCollision = new CollisionObject();
+
+	VERTEX* origin = new VERTEX();
+	origin->X = 0;
+	origin->Y = 0;
+	origin->Z = 0;
+
+
+	playerCollision->m_GameObject = player;
+	planeCollision->m_GameObject = plane;
+
+
+	planeCollision->calculateCollisionBox(origin, &e->getModel()->getVertexBuffer());
+	playerCollision->center->X = *player->_position->x;
+	playerCollision->center->Y = *player->_position->y;
+	playerCollision->center->Z = *player->_position->z;
+	playerCollision->lengthX = 2;
+	playerCollision->lengthY = 6;
+	playerCollision->lengthZ = 2;
 
 	// =========================================================================
 	// TEST CODE!!!
@@ -91,6 +120,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// Perform InputManager initialization
 	InputManager* inputManager = InputManager::getInstance();
 	inputManager->registerWindow(hWnd);
+
+	player->setInputManager(inputManager);
+	player->setCamera(camera);
 
 	//Perform sound initialization
 	AudioManager* am = AudioManager::getInstance();
@@ -143,12 +175,16 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
-			//root->update(identity->getTransformMatrix());
-			//base->resetTransformMatrix();
-			root->update(identity->getTransformMatrix());
-			//base2->rotateX(0.0005);
-			base->rotateY(0.0005);
+			playerCollision->center->X = *player->_position->x;
+			playerCollision->center->Y = *player->_position->y;
+			playerCollision->center->Z = *player->_position->z;
 
+			playerCollision->hasCollision(*planeCollision, 1.0);
+
+			player->update(0.0);
+
+			root->update(identity->getTransformMatrix());
+			//base->rotateY(0.0005);
 
 			// TODO: Update
 			gdi.NextFrame();

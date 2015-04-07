@@ -1,4 +1,5 @@
 #pragma once
+
 class GameObject
 {
 public:
@@ -9,18 +10,25 @@ public:
 	void destroy();
 	
 	// Getters
-	Vector* getPosition();
-	Vector* getVelocity();
+	Vector3* getPosition();
+	Vector3* getVelocity();
 	bool getAlive();
 
 	// Setters
-	void setPosition(Vector* v);
-	void setVelocity(Vector* v);
+	void setPosition(Vector3* v);
+	void setVelocity(Vector3* v);
 	void setAlive(bool alive);
 
+	Vector3* _position;
+	Vector3* _rotation;
+	Vector3* _scale;
+	Vector3* _velocity;
+
+	bool m_HasCollision;
+
 private:
-	Vector* _position;
-	Vector* _velocity;
+
 	bool _isAlive;
+	void initializeVector3(Vector3* vector);
 };
 

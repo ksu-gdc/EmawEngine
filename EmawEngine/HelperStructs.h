@@ -6,9 +6,9 @@
 #include <d3dx10math.h>
 
 struct Vector3 {
-	float x;
-	float y;
-	float z;
+	float* x;
+	float* y;
+	float* z;
 };
 
 struct ShaderStruct{
