@@ -7,7 +7,7 @@ class Player :
 public:
 	Player(Camera*);
 	~Player();
-	void updatePlayer();
+	void updatePlayer(HWND hWnd);
 	void passToCamera();
 
 private:
@@ -17,5 +17,7 @@ private:
 	POINT curPos;
 	InputManager* input;
 	float fakeRadius;
+	// point where mouse pointer sticks, in client coordinates.
+	POINT STICKING_POINT;
 };
 
