@@ -145,9 +145,11 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
+			
+
 			//root->update(identity->getTransformMatrix());
 			//base->resetTransformMatrix();
-			player->updatePlayer();
+			player->updatePlayer(hWnd);
 			root->update(identity->getTransformMatrix());
 			//base2->rotateX(0.0005);
 			//base->rotateY(0.0005);

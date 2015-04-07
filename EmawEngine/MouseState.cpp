@@ -14,6 +14,13 @@ MouseState::MouseState()
 	_screen.y = 0;
 	_client.x = 0;
 	_client.y = 0;
+
+	// set cursor to sticking point
+	if (!SetCursorPos(300, 300)) {
+		OutputDebugString(L"failed to set cursor position.\n");
+	}
+
+	ShowCursor(false);
 }
 
 MouseState::~MouseState()
@@ -34,11 +41,12 @@ void MouseState::handleMouseUpMessage(WPARAM wParam, int button) {
 
 // Handles a windows mouse move message and stores the appropraite screen coordinates
 void MouseState::handleMouseMoveMessage(LPARAM lParam, HWND hWnd) {
-	_screen.x = GET_X_LPARAM(lParam);
-	_screen.y = GET_Y_LPARAM(lParam);
-	_client.x = _screen.x;
-	_client.y = _screen.y;
-	ScreenToClient(hWnd, &_client);
+	_client.x = GET_X_LPARAM(lParam);
+	_client.y = GET_Y_LPARAM(lParam);
+	printf("_client.x: %ld _client.y: %ld\n", _client.x, _client.y);
+	_screen.x = _client.x;
+	_screen.y = _client.y;
+	ClientToScreen(hWnd, &_screen);
 }
 
 // Copies the current state into the old state
