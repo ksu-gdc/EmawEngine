@@ -74,7 +74,7 @@ void Player::updatePlayer(HWND hWnd)
 	}
 	
 	//map the mouse delta to an orientation angle.
-	_orientation->x += (float) (deltax / fakeRadius);
+	_orientation->x += (float)(deltax / fakeRadius);
 	if (_orientation->x > (2 * M_PI)) {
 		_orientation->x -= (2 * M_PI);
 	}
@@ -84,10 +84,16 @@ void Player::updatePlayer(HWND hWnd)
 
 	_orientation->y += (float)(deltay / fakeRadius);
 	if (_orientation->y > (2 * M_PI)) {
-		_orientation->y = (2 * M_PI);
+		_orientation->y -= (2 * M_PI);
 	}
 	else if (_orientation->y < 0) {
-		_orientation->y = 0;
+		_orientation->y += (2 * M_PI);
+	}
+	if (_orientation->y < (3 * M_PI / 2) && _orientation->y > M_PI) {
+		_orientation->y = (3 * M_PI / 2);
+	}
+	else if (_orientation->y >(M_PI / 2) && _orientation->y < M_PI) {
+		_orientation->y = (M_PI / 2);
 	}
 
 	//transform the velocity of the player so that "forward" is always where the player is pointing.

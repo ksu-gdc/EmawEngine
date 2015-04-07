@@ -68,6 +68,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	AudioManager* am = AudioManager::getInstance();
 	(AudioRenderer::Instance())->setSoundSystem(am);
 
+	bool paused = false;
+
 	// TEST CODE!!!
 	// =========================================================================
 	GameNode* root = new GameNode();
@@ -145,14 +147,25 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
-			
-
-			//root->update(identity->getTransformMatrix());
-			//base->resetTransformMatrix();
-			player->updatePlayer(hWnd);
-			root->update(identity->getTransformMatrix());
-			//base2->rotateX(0.0005);
-			//base->rotateY(0.0005);
+			if (inputManager->keyPressed(Esc)) {
+				paused = !paused;
+				if (paused) {
+					ShowCursor(true);
+				}
+				else {
+					ShowCursor(false);
+				}
+			}
+			if (paused) {
+				
+			} else {
+				//root->update(identity->getTransformMatrix());
+				//base->resetTransformMatrix();
+				player->updatePlayer(hWnd);
+				root->update(identity->getTransformMatrix());
+				//base2->rotateX(0.0005);
+				//base->rotateY(0.0005);
+			}
 
 
 			// TODO: Update

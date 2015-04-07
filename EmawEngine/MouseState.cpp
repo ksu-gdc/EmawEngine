@@ -43,7 +43,6 @@ void MouseState::handleMouseUpMessage(WPARAM wParam, int button) {
 void MouseState::handleMouseMoveMessage(LPARAM lParam, HWND hWnd) {
 	_client.x = GET_X_LPARAM(lParam);
 	_client.y = GET_Y_LPARAM(lParam);
-	printf("_client.x: %ld _client.y: %ld\n", _client.x, _client.y);
 	_screen.x = _client.x;
 	_screen.y = _client.y;
 	ClientToScreen(hWnd, &_screen);
