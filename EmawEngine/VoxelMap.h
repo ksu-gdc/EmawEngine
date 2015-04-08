@@ -45,7 +45,7 @@ public:
 	Chunk CreateChunk(int, int, string, int, int);
 	void CreateChunk(Chunk);
 	~VoxelMap();
-	vector< vector<short> > GenerateHeightMap(int, int, string, int);
+	vector< vector<short> > GenerateHeightMap(int, int, int, int, int, int, vector<vector<short>>);
 	int GeneratePsuedoKey(int, int);
 	bool IsChunkAdjacent(int, int, Adjacent);
 

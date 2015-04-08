@@ -240,7 +240,13 @@ Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, string seed, int freq, int
 {
 	if ((freq >= 10 && freq <= 100) && (freq + floor) < map.grid[0][0].height)
 	{
-		vector<vector<short>> height = GenerateHeightMap(coord_x, coord_y, seed, freq);
+		vector< vector<short> > height = vector<vector<short>>(map.width, vector<short>(map.height, 0));
+		height[0][0] = rand() % (freq + floor) + floor;
+		height[0][17] = rand() % (freq + floor) + floor;
+		height[17][0] = rand() % (freq + floor) + floor;
+		height[17][17] = rand() % (freq + floor) + floor;
+		height = GenerateHeightMap(coord_x, coord_y, freq, 0, 0, 17, height);
+
 		Chunk ch = {
 			coord_x,
 			coord_y,
@@ -287,146 +293,6 @@ void VoxelMap::CreateChunk(Chunk ch)
 	ch.set = true;
 }
 
-/* (int, int, int);
-*  Description:
-*  Returns:
-*  Parameters:
-*/
-float** VoxelMap::CreateChunk(int freq, int floor, int ceiling)
-{
-	float** heightMap;
-	heightMap = new float*[16];
-
-	for (int i = 0; i < 16; i++) 
-	{
-		heightMap[i] = new float[16];
-	}
-
-	//Generate key values
-	for (int i = 0; i < 16; i += freq)
-	{
-		for (int j = 0; j < 16; j += freq)
-		{
-			heightMap[i][j] = rand() % ceiling + floor;
-		}
-		heightMap[i][15] = rand() % ceiling + floor;
-	}
-	for (int i = 0; i < 16; i += freq)
-	{
-		heightMap[15][i] = rand() % ceiling + floor;
-	}
-	heightMap[15][15] = rand() % ceiling + floor;
-
-	//Generate row bridge values
-	float key1 = heightMap[0][0];
-	float key2 = heightMap[freq][freq];
-	float step = key2 - key1;
-	for (int j = 0; j < 16; j += freq)
-	{
-		for (int i = 1; i < 15; i++)
-		{
-			if (16%i != 0)
-			{
-				heightMap[i][j] = heightMap[i - 1][j] + step;
-			}
-			else 
-			{
-				key1 = key2;
-				if (i + freq > 16)
-				{
-					key2 = heightMap[i+freq][j];
-				}
-				else key2 = heightMap[15][j];
-				step = key2 - key1;
-			}
-		}
-	}
-	//final row
-	for (int i = 1; i < 15; i++)
-	{
-		if (16 % i != 0)
-		{
-			heightMap[i][15] = heightMap[i - 1][15] + step;
-		}
-		else
-		{
-			key1 = key2;
-			if (i + freq > 16)
-			{
-				key2 = heightMap[i + freq][15];
-			}
-			else key2 = heightMap[15][15];
-			step = key2 - key1;
-		}
-	}
-
-	//Genrate column values
-	for (int i = 0; i < 16; i += freq)
-	{
-		for (int j = 1; j < 15; j++)
-		{
-			if (16 % i != 0)
-			{
-				heightMap[i][j] = heightMap[i][j - 1] + step;
-			}
-			else
-			{
-				key1 = key2;
-				if (j + freq > 16)
-				{
-					key2 = heightMap[i][j + freq];
-				}
-				else key2 = heightMap[i][15];
-				step = key2 - key1;
-			}
-		}
-	}
-	//final row
-	for (int j = 1; j < 15; j++)
-	{
-		if (16 % j != 0)
-		{
-			heightMap[15][j] = heightMap[15][j - 1] + step;
-		}
-		else
-		{
-			key1 = key2;
-			if (j + freq > 16)
-			{
-				key2 = heightMap[15][j + freq];
-			}
-			else key2 = heightMap[15][15];
-			step = key2 - key1;
-		}
-	}
-
-	//Generate filler values
-	for (int i = 1; i < 15; i++)
-	{
-		if (16 % i != 0)
-		{
-			for (int j = 1; j < 15; j++)
-			{
-				if (16 % j != 0)
-				{
-					heightMap[i][j] = (heightMap[i][j - 1] + heightMap[i - 1][j]) / 2;
-				}
-			}
-		}
-	}
-
-	//Prepare for returning
-	for (int i = 0; i < 16; i++)
-	{
-		for (int j = 0; j < 16; j++)
-		{
-			heightMap[i][j] = heightMap[i][j] / ceiling;
-		}
-	}
-
-	return heightMap;
-}
-
 /* ~VoxelMap();
 *  Description: VoxelMap class destructor.
 */
@@ -441,33 +307,26 @@ VoxelMap::~VoxelMap()
 *  Returns: int**
 *  Parameters: coord_x : Virtual coordinate X
 *			   coord_y : Virtual coordinate Y
+				size: size of region that we're generating
+				TLX, TLY: top left corner coordinates for the region relative to the vector<vector<short>>
 */
-vector< vector<short> > VoxelMap::GenerateHeightMap(int coord_x, int coord_y, string seed, int freq)
+vector< vector<short> > VoxelMap::GenerateHeightMap(int coord_x, int coord_y, int freq, int size, int TLX, int TLY, vector<vector<short>> height)
 {
-	vector< vector<short> > height = vector<vector<short>>(map.width, vector<short>(map.height, 0));
 	pair<int, int> coords = MapToRealCoord(coord_x, coord_y);
 
-	for (int a = 0; a < 15; a++) //ROW
-	{
-		for (int b = 0; b < 15; b++) //COL
-		{
-			if (IsChunkAdjacent(coord_x, coord_y, LEFT))
-			{
-				height[0][0] = map.grid[coords.first - 1][coords.second].height_map[14][0];
-				height[0][14] = map.grid[coords.first - 1][coords.second].height_map[14][14];
+	//This mess generates the middle top, middle right, middle left, middle bottom, and center values relative to the region
+	height[TLX + ((size - 1) / 2)][TLY] = (height[TLX][TLY] + height[TLX + (size - 1)][TLY]) / 2; //top
+	height[TLX + (size - 1)][TLY + ((size - 1) / 2)] = (height[TLX + (size - 1)][TLY] + height[TLX + (size - 1)][TLY + (size - 1)]) / 2; //right
+	height[TLX][TLY + ((size - 1) / 2)] = (height[TLX][TLY] + height[TLX][TLY + (size - 1)]) / 2; //left
+	height[TLX + ((size - 1) / 2)][TLY + (size - 1)] = (height[TLX][TLY + (size - 1)] + height[TLX + (size - 1)][TLY + (size - 1)]) / 2; //bottom
+	height[TLX + ((size - 1) / 2)][TLY + ((size - 1) / 2)] = (height[TLX][TLY] + height[TLX + (size - 1)][TLY + (size - 1)] + height[TLX][TLY + (size - 1)] + height[TLX + (size - 1)][TLY]) / 4; //middle
 
-				if (IsChunkAdjacent(coord_x, coord_y, TOP))
-				{
-					height[0][0] += map.grid[coords.first][coords.second - 1].height_map[0][14];
-					height[0][0] /= 2;
-				}
-				if (IsChunkAdjacent(coord_x, coord_y, BOTTOM))
-				{
-					//TO DO : Write code to average adjacent chunk keys, and place them. 
-					height[0][14];
-				}
-			}
-		}
+	if (size > 3) //then divide into fourths and recurse
+	{
+		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1)/2, TLX, TLY, height); //top left corner
+		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX + ((size - 1) /2) , TLY, height); //top right corner
+		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX, TLY + ((size - 1) /2), height); //bottom left corner
+		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX + ((size - 1) / 2), TLY + ((size - 1) / 2), height); //bottom left corner
 	}
 
 	return height;
