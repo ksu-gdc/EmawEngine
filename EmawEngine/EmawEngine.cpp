@@ -68,6 +68,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	AudioManager* am = AudioManager::getInstance();
 	(AudioRenderer::Instance())->setSoundSystem(am);
 
+	// make mouse invisible
+	ShowCursor(false);
+
 	bool paused = false;
 
 	// TEST CODE!!!

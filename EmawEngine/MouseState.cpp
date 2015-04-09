@@ -19,8 +19,6 @@ MouseState::MouseState()
 	if (!SetCursorPos(300, 300)) {
 		OutputDebugString(L"failed to set cursor position.\n");
 	}
-
-	ShowCursor(false);
 }
 
 MouseState::~MouseState()
