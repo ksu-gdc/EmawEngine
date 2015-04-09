@@ -144,6 +144,30 @@ void VoxelMap::SetMapCenter(int coord_x, int coord_y)
 
 }
 
+/*
+*  Description: Sets the size of the area of the map that will be loaded. Size must be odd, if not the size is increased by one
+*  Returns: nothing
+*  Parameters: size: the size of the area to be loaded
+*/
+void VoxelMap::SetMapSize(int size)
+{
+	if (size % 2 != 0 && size < 100) //make sure it's odd and positive
+	{
+		map.height = abs(size);
+		map.width = abs(size);
+	}
+	else if (size < 100)//make it odd
+	{
+		map.height = abs(size) + 1;
+		map.width = abs(size) + 1;
+	}
+	else // max out size at 99
+	{
+		map.height = 99;
+		map.width = 99;
+	}
+}
+
 /* GetChunk(int, int);
 *  Description: Attempts to load a chunk file at the specified coordinates.
 *  Returns: bool : Indicates success or failure of load operation.
