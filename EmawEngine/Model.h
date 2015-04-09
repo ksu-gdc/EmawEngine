@@ -14,6 +14,7 @@ public:
 	bool unload();
 	void* createMode(std::vector<VERTEX>);
 	std::vector<VERTEX> getVertexBuffer();
+	void GetFbxInfo(FbxNode* Node);
 private:
 	std::vector<VERTEX> vertexBuffer;
 };

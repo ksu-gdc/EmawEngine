@@ -232,6 +232,8 @@
     <Image Include="C:\Users\Chris\Desktop\consolas_0.png">
       <Filter>Resources</Filter>
     </Image>
+    <Image Include="..\..\..\Downloads\Powercat.ico" />
+    <Image Include="..\..\..\downloads\icon2.ico" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

@@ -123,3 +123,72 @@ bool Model::unload() {
 std::vector<VERTEX> Model::getVertexBuffer() {
 	return vertexBuffer;
 }
+
+void Model::GetFbxInfo(FbxNode* Node)
+{
+	int children = Node->GetChildCount();
+	FbxNode* child = 0;
+
+	for (int i = 0; i < children; i++)
+	{
+		child = Node->GetChild(i);
+		FbxMesh* mesh = child->GetMesh();
+
+		if (mesh != NULL)
+		{
+			//get vertices, indices, uv, etc.
+
+			//======================== Texture ===============================
+			int materialCount = child->GetSrcObjectCount<FbxSurfaceMaterial>();
+
+			for (int index = 0; index < materialCount; index++)
+			{
+				FbxSurfaceMaterial* material = (FbxSurfaceMaterial*)child->GetSrcObject<FbxSurfaceMaterial>(j);
+
+				if (material != NULL)
+				{
+					//This only gets the material of type sDiffuse, might need to traverse all 
+					//standard material property by its name to get all possible textures.
+					FbxProperty prop = material->FindProperty(FbxSurfaceMaterial::sDiffuse);
+
+					//Check if the texture is layered
+					int layeredTextureCount = prop.GetSrcObjectCount<FbxLayeredTexture>();
+
+					if (layeredTextureCount > 0)
+					{
+						for (int j = 0; j < layeredTextureCount; j++)
+						{
+							FbxLayeredTexture* layered_texture = FbxCast<FbxLayeredTexture>(prop.GetSrcObject<FbxLayeredTexture>(j));
+							int layerCount = layered_texture->GetSrcObjectCount<FbxTexture>();
+
+							for (int k = 0; k < layerCount; k++)
+							{
+								FbxTexture* texture = FbxCast<FbxTexture>(layered_texture->GetSrcObject<FbxTexture>(k));
+								//Now we can get all the properties of the texture, including its name
+								const char* textureName = (FbxFileTexture*)texture->GetName();
+								OutputDebugString((LPCWSTR)textureName);
+							}
+						}
+					}
+					else
+					{
+						//Directly get textures 
+						int textureCount = prop.GetSrcObjectCount<FbxTexture>();
+						for (int j = 0; j < textureCount; j++)
+						{
+							FbxTexture* texture = FbxCast<FbxTexture>(prop.GetSrcObject<FbxTexture>(j));
+							//Now we can get all the properties of the texture, including its name
+							const char* textureName = texture->GetName();
+							OutputDebugString((LPCWSTR)textureName);
+
+							FbxProperty p = texture->RootProperty.Find("Filename");
+
+							HRESULT hr;
+							D3DX11CreateTextureFromFile(Game::GetInstance()->GetRenderer()->GetDevice(), textureName, 0, 0, &m_texture, &hr);
+						}
+					}
+				}
+			}
+		}
+	}
+}
