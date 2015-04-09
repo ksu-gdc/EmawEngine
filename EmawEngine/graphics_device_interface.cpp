@@ -203,7 +203,7 @@ void GraphicsDeviceInterface::InitPipeline()
 //Placeholder used for testing, manually creates a triangle and sends the vertices for the Graphics Device for rendering.
 void GraphicsDeviceInterface::InitGraphics(void)
 {
-
+	/*
 	std::vector<VERTEX> vertices = e->getModel()->getVertexBuffer();
 
 	D3D11_BUFFER_DESC bd;
@@ -220,7 +220,7 @@ void GraphicsDeviceInterface::InitGraphics(void)
 	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
 	memcpy(ms.pData, OurVertices, 3 * sizeof(VERTEX));                // copy the data
 	m_Context->Unmap(m_VertBuffer, NULL);
-
+	*/
 }
 
 //
@@ -292,10 +292,10 @@ bool GraphicsDeviceInterface::Render()
 	m_SceneGraphRoot->render();
 
 	// select which primtive type we are using
-	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+//	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	// draw the vertex buffer to the back buffer
-	m_Context->Draw(36, 0);
+//	m_Context->Draw(36, 0);
 
 
 	// TODO: Clear the depth buffer
@@ -366,5 +366,5 @@ void GraphicsDeviceInterface::VertexPipeline(std::vector<VERTEX>* vertices, D3DX
 	m_VertexShader->initializeShader(m_Device);
 	m_VertexShader->setParameters(m_Context, *transform, m_Camera->GetViewMatrix(), m_projMatrix);
 	Update(vertices);
-	//RenderShader();
+	RenderShader();
 }
