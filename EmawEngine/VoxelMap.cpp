@@ -245,7 +245,7 @@ Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, string seed, int freq, int
 		height[0][17] = rand() % (freq + floor) + floor;
 		height[17][0] = rand() % (freq + floor) + floor;
 		height[17][17] = rand() % (freq + floor) + floor;
-		height = GenerateHeightMap(coord_x, coord_y, freq, 0, 0, 17, height);
+		height = GenerateHeightMap(coord_x, coord_y, freq, 17, 0, 0, height);
 
 		Chunk ch = {
 			coord_x,
