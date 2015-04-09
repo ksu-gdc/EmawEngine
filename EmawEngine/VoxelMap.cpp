@@ -15,7 +15,7 @@ VoxelMap::VoxelMap(string dir)
 	{
 		fstream file = GetFileHandle(dir + "map.dat", ios::in);
 		string line;
-		//Chunk blank;
+		Chunk blank;
 
 		while (getline(file, line))
 		{
@@ -52,7 +52,7 @@ VoxelMap::VoxelMap(string dir)
 		//memset(blank.chunk, 0, sizeof(blank.chunk));
 		map.offset_X = (int)floor(map.width / 2);
 		map.offset_Y = (int)floor(map.height / 2);
-		map.grid = vector<vector<Chunk>>(map.width, vector<Chunk>(map.height/*, blank*/));
+		map.grid = vector<vector<Chunk>>(map.width, vector<Chunk>(map.height, blank));
 	}
 	catch (exception e) { throw e; }
 }
@@ -238,20 +238,24 @@ void VoxelMap::SaveChunk(Chunk ch)
 */
 Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, string seed, int freq, int floor)
 {
-	if ((freq >= 10 && freq <= 100) && (freq + floor) < map.grid[0][0].height)
+	if ((freq > 9 && freq < 101) && (freq + floor) < map.grid[0][0].height)
 	{
-		vector< vector<short> > height = vector<vector<short>>(map.width, vector<short>(map.height, 0));
-		height[0][0] = rand() % (freq + floor) + floor;
-		height[0][17] = rand() % (freq + floor) + floor;
-		height[17][0] = rand() % (freq + floor) + floor;
-		height[17][17] = rand() % (freq + floor) + floor;
-		height = GenerateHeightMap(coord_x, coord_y, freq, 0, 0, 17, height);
-
 		Chunk ch = {
 			coord_x,
 			coord_y,
 			true
 		};
+
+		vector< vector<short> > height = vector<vector<short>>(ch.width, vector<short>(ch.height, 0));
+
+		srand(GeneratePsuedoKey(coord_x, coord_y));
+
+		height[0][0] = rand() % freq + (floor + 1);
+		height[0][16] = rand() % freq + (floor + 1);
+		height[16][0] = rand() % freq + (floor + 1);
+		height[16][16] = rand() % freq + (floor + 1);
+
+		height = GenerateHeightMap(coord_x, coord_y, freq, 17, 0, 0, height);
 
 		memset(ch.chunk, 0, sizeof(ch.chunk));
 
@@ -259,7 +263,9 @@ Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, string seed, int freq, int
 		{
 			for (int b = 0; b < ch.width; b++)
 			{
-				for (int c = 0; height[a][b]; c++)
+				ch.height_map[a][b] = height[a][b];
+
+				for (int c = 0; c < height[a][b]; c++)
 				{
 					ch.chunk[a][b][c] = (short)1;
 				}
@@ -307,8 +313,8 @@ VoxelMap::~VoxelMap()
 *  Returns: int**
 *  Parameters: coord_x : Virtual coordinate X
 *			   coord_y : Virtual coordinate Y
-				size: size of region that we're generating
-				TLX, TLY: top left corner coordinates for the region relative to the vector<vector<short>>
+size: size of region that we're generating
+TLX, TLY: top left corner coordinates for the region relative to the vector<vector<short>>
 */
 vector< vector<short> > VoxelMap::GenerateHeightMap(int coord_x, int coord_y, int freq, int size, int TLX, int TLY, vector<vector<short>> height)
 {
@@ -323,9 +329,9 @@ vector< vector<short> > VoxelMap::GenerateHeightMap(int coord_x, int coord_y, in
 
 	if (size > 3) //then divide into fourths and recurse
 	{
-		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1)/2, TLX, TLY, height); //top left corner
-		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX + ((size - 1) /2) , TLY, height); //top right corner
-		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX, TLY + ((size - 1) /2), height); //bottom left corner
+		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX, TLY, height); //top left corner
+		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX + ((size - 1) / 2), TLY, height); //top right corner
+		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX, TLY + ((size - 1) / 2), height); //bottom left corner
 		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX + ((size - 1) / 2), TLY + ((size - 1) / 2), height); //bottom left corner
 	}
 

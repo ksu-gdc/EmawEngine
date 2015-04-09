@@ -12,9 +12,9 @@ using namespace std;
 struct Chunk {
 	int coord_X, coord_Y;
 	bool set;
-	static const int width = 15, length = 15, height = 225;
-	short height_map[15][15];
-	short chunk[15][15][225];
+	static const int width = 17, length = 17, height = 225;
+	short height_map[17][17];
+	short chunk[17][17][225];
 };
 
 struct Grid {
