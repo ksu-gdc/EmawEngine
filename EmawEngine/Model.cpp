@@ -185,7 +185,7 @@ void Model::GetFbxInfo(FbxNode* Node)
 
 							FbxProperty p = texture->RootProperty.Find("Filename");
 
-							HRESULT hr;
+							//HRESULT hr;
 							//D3DX11CreateTextureFromFile(Game::GetInstance()->GetRenderer()->GetDevice(), textureName, 0, 0, &m_texture, &hr);
 						}
 					}
