@@ -272,7 +272,7 @@ Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, string seed, int freq, int
 
 		vector< vector<short> > height = vector<vector<short>>(ch.width, vector<short>(ch.height, 0));
 
-		srand(GeneratePsuedoKey(coord_x, coord_y));
+		srand(GeneratePsuedoKey(coord_x, coord_y)*stoi(seed));
 
 		height[0][0] = rand() % freq + (floor + 1);
 		height[0][16] = rand() % freq + (floor + 1);
