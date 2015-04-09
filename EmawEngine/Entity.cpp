@@ -6,7 +6,7 @@
 Entity::Entity()
 {
 	model = new Model();
-	model->load("models/cube-small.fbx");
+	model->load("models/NotBattlefrontStage4_2-Stage.fbx");
 	//model->load("models/bell.fbx");
 
 	position = { 0, 0, 0 };
@@ -39,6 +39,9 @@ void Entity::update()
 	if (orientation.y < 6.28)
 		orientation.y += .001;
 	else orientation.y = 0;
+	if (orientation.x < 6.28)
+		orientation.x += .0015;
+	else orientation.x = 0;
 	updateMatrix();
 }
 
