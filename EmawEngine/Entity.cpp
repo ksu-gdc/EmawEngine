@@ -6,7 +6,7 @@
 Entity::Entity()
 {
 	model = new Model();
-	model->load("models/plane.fbx");
+	model->load("models/hall.fbx");
 	//model->load("models/bell.fbx");
 
 	/*position = { 0, 0, 0 };

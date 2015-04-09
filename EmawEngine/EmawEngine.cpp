@@ -75,14 +75,14 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// Create a node for the floor.
 	ModelNode* base = new ModelNode(e->getModel());
 	base->setGraphicsDeviceInterface(&gdi);
-	base->scale(100, 1, 100);
+	//base->scale(100, 1, 100);
 
 	root->addChild(base);
 	
 	GameObject* plane = new GameObject();
-	*plane->_scale->x = 100;
+	*plane->_scale->x = 1;
 	*plane->_scale->y = 1;
-	*plane->_scale->z = 100;
+	*plane->_scale->z = 1;
 
 	PlayerObject* player = new PlayerObject();
 	Camera* camera = new Camera();
