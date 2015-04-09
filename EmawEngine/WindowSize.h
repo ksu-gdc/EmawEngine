@@ -17,14 +17,17 @@ public:
 
 	int getWidth();
 	int getHeight();
+	BOOL getWindowed();
 	RES getResolution();
 	void setSize(HWND, GraphicsDeviceInterface*, RES);
+	void setWindowed(HWND, GraphicsDeviceInterface*, BOOL);
 
 private:
 	void forceSize(RES);
 
 	int width;
 	int height;
+	BOOL windowed;
 	RES resolution;
 	static const int wResolution[];
 	static const int hResolution[];

@@ -10,10 +10,14 @@ MouseState::MouseState()
 	memset(_currentState, 0, sizeof(bool) * NUM_BUTTONS);
 	memset(_oldState, 0, sizeof(bool) * NUM_BUTTONS);
 
+	_locked = false;
+
 	_screen.x = 0;
 	_screen.y = 0;
 	_client.x = 0;
 	_client.y = 0;
+
+	ShowCursor(false);
 }
 
 MouseState::~MouseState()
@@ -32,18 +36,54 @@ void MouseState::handleMouseUpMessage(WPARAM wParam, int button) {
 	_currentState[button] = false;
 }
 
-// Handles a windows mouse move message and stores the appropraite screen coordinates
-void MouseState::handleMouseMoveMessage(LPARAM lParam, HWND hWnd) {
-	_screen.x = GET_X_LPARAM(lParam);
-	_screen.y = GET_Y_LPARAM(lParam);
-	_client.x = _screen.x;
-	_client.y = _screen.y;
-	ScreenToClient(hWnd, &_client);
+// Handles a windows mouse move message and stores the appropriate screen coordinates
+void MouseState::handleMouseMoveMessage(LPARAM lParam, HWND hWnd) {	
+	// Calculate the mouse delta
+	int x = GET_X_LPARAM(lParam);
+	int y = GET_Y_LPARAM(lParam);
+	_delta.x += _client.x - x;
+	_delta.y += _client.y - y;
+
+	// Store the new coordinates
+	_client.x = x;
+	_client.y = y;
+	_screen.x = _client.x;
+	_screen.y = _client.y;
+	ClientToScreen(hWnd, &_screen);
+
+	// Move mouse back if we are locked
+	if (_locked)
+		centerMouse(hWnd);
+}
+
+// Centers the mouse to the center of the given window
+void MouseState::centerMouse(HWND hWnd) {
+	RECT rect;
+	if (GetWindowRect(hWnd, &rect)) {
+		int xMid = (rect.right - rect.left) / 2;
+		int yMid = (rect.bottom - rect.top) / 2;
+		SetCursorPos(xMid, yMid);
+	}
+}
+
+// Locks the mouse to the center of the sreen
+void MouseState::lockMouse(HWND hWnd) {
+	_locked = true;
+	ShowCursor(false);
+	centerMouse(hWnd);
+}
+
+// Unlocks the mouse and shows the cursor
+void MouseState::unlockMouse() {
+	_locked = false;
+	ShowCursor(true);
 }
 
 // Copies the current state into the old state
 void MouseState::update() {
 	std::copy(_currentState, _currentState + sizeof(bool) * NUM_BUTTONS, _oldState);
+	_delta.x = 0;
+	_delta.y = 0;
 }
 
 // Returns trye if the specified mouse button is down
@@ -68,6 +108,11 @@ bool MouseState::mouseButtonReleased(int button) {
 	if (_oldState[button] && !_currentState[button])
 		released = true;
 	return released;
+}
+
+// Gets the change in the mouse position since the last update call
+POINT MouseState::getMouseDelta() {
+	return _delta;
 }
 
 // Gets the mouse position in client coordinates

@@ -60,6 +60,16 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// Perform AssetManager initialization
 	AssetManager* assetManager = AssetManager::getInstance();
 
+	// Perform InputManager initialization
+	InputManager* inputManager = InputManager::getInstance();
+	inputManager->registerWindow(hWnd);
+
+	//Perform sound initialization
+	AudioManager* am = AudioManager::getInstance();
+	(AudioRenderer::Instance())->setSoundSystem(am);
+
+	bool paused = false;
+
 	// TEST CODE!!!
 	// =========================================================================
 	GameNode* root = new GameNode();
@@ -81,18 +91,14 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	gdi.SetCamera(camera);
 	camera->setPosition(0.0f, 0.0f, -10.0f);
 
+	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
+	Player* player = new Player(camera);
+
 	Transform* identity = new Transform();
 
 	// =========================================================================
 	// TEST CODE!!!
 
-	// Perform InputManager initialization
-	InputManager* inputManager = InputManager::getInstance();
-	inputManager->registerWindow(hWnd);
-
-	//Perform sound initialization
-	AudioManager* am = AudioManager::getInstance();
-	(AudioRenderer::Instance())->setSoundSystem(am);
 	//Main game loop:
 	while(true)
 	{
@@ -141,11 +147,25 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
-			//root->update(identity->getTransformMatrix());
-			//base->resetTransformMatrix();
-			root->update(identity->getTransformMatrix());
-			base2->rotateX(0.0005);
-			base->rotateY(0.0005);
+			if (inputManager->keyPressed(Esc)) {
+				paused = !paused;
+				if (paused) {
+					ShowCursor(true);
+				}
+				else {
+					ShowCursor(false);
+				}
+			}
+			if (paused) {
+				
+			} else {
+				//root->update(identity->getTransformMatrix());
+				//base->resetTransformMatrix();
+				player->updatePlayer(hWnd);
+				root->update(identity->getTransformMatrix());
+				base2->rotateX(0.0005);
+				base->rotateY(0.0005);
+			}
 
 
 			// TODO: Update
@@ -153,7 +173,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 			// Update frame counter
 			fc.Update();
-			std::wstring test = fc.GetFps();
+			wstring test = fc.GetFps();
 			SetWindowText(hWnd, (LPCWSTR)&test[0]);
 
 			// Update the input
@@ -248,7 +268,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY	- post a quit message and return
 //	WM_KEYDOWN	- process keydown events
 //
-//
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId, wmEvent;
@@ -258,6 +277,44 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	// Handles keydown messages - currently used for testing resolution changes
+#pragma region KEYDOWN message
+	case WM_KEYDOWN:
+		switch (wParam)
+		{
+		case 96: // Num-0
+			OutputDebugString(CString("0\n"));
+			OutputDebugString(CString((to_string(wind.getWidth()) + " " + to_string(wind.getHeight()) + "\n").c_str()));
+			break;
+		case 49: // Num-1
+			wind.setSize(hWnd, &gdi, LOW_4_3);
+			OutputDebugString(CString((to_string(wind.getWidth()) + " " + to_string(wind.getHeight()) + "\n").c_str()));
+			break;
+		case 50: // Num-2
+			wind.setSize(hWnd, &gdi, HIGH_4_3);
+			OutputDebugString(CString((to_string(wind.getWidth()) + " " + to_string(wind.getHeight()) + "\n").c_str()));
+			break;
+		case 51: // Num-3
+			wind.setSize(hWnd, &gdi, LOW_16_9);
+			OutputDebugString(CString((to_string(wind.getWidth()) + " " + to_string(wind.getHeight()) + "\n").c_str()));
+			break;
+		case 52: // Num-4
+			wind.setSize(hWnd, &gdi, HIGH_16_9);
+			OutputDebugString(CString((to_string(wind.getWidth()) + " " + to_string(wind.getHeight()) + "\n").c_str()));
+			break;
+		case 70: // 'f' keypress
+			wind.setWindowed(hWnd, &gdi, FALSE);
+			OutputDebugString(CString("fullscreen mode\n"));
+			break;
+		case 90: // 'z' keypress
+			wind.setWindowed(hWnd, &gdi, TRUE);
+			OutputDebugString(CString("windowed mode\n"));
+			break;
+		default:
+			OutputDebugString(CString((to_string(wParam) + "\n").c_str()));
+			break;
+		}
+		break;
+#pragma endregion
 	case WM_COMMAND:
 		wmId    = LOWORD(wParam);
 		wmEvent = HIWORD(wParam);
