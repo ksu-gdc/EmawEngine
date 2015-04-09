@@ -78,9 +78,9 @@ void Camera::Render(){
 	position.z = *m_positionZ;
 
 	// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-	pitch = m_rotationX * 0.0174532925f;
-	yaw = m_rotationY * 0.0174532925f;
-	roll = m_rotationZ * 0.0174532925f;
+	pitch = m_rotationX;
+	yaw = m_rotationY;
+	roll = m_rotationZ;
 
 	m_LookAt.x = 0.0f;
 	m_LookAt.y = 0.0f;

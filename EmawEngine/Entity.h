@@ -1,18 +1,24 @@
 #pragma once
+#include "Model.h"
+struct Vector {
+	float x;
+	float y;
+	float z;
+};
 
 class Entity
 {
 public:
 	Entity();
 	~Entity();
-	Vector3 orientation;
+	Vector orientation;
 	Model* getModel();
-	Vector3 position;
+	Vector position;
 	DirectX::XMMATRIX* getMatrix();
 	void update();
 private:
 	
-	Vector3 scale;
+	Vector scale;
 	DirectX::XMMATRIX worldMatrix;
 	void updateMatrix();
 protected:

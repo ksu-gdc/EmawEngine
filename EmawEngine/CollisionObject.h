@@ -1,26 +1,22 @@
 #pragma once
 #include "GameObject.h"
 
-enum CollisionState{
-	Fail,
-	Succeed,
-	Rewind,
-};
-
 class CollisionObject {
 
 public:
 	CollisionObject();
+	CollisionObject(Vector*);
+	CollisionObject(Vector*, float, float, float);
 	~CollisionObject();
 
-	void calculateCollisionBox(VERTEX*, std::vector<VERTEX>*);
+	void calculateCollisionBox(Vector*, std::vector<VERTEX>*, float, float, float);
 	bool hasCollision(CollisionObject, float);
 
 	float calculateRewindX();
 	float calculateRewindY();
 	float calculateRewindZ();
 
-	VERTEX* center;
+	Vector* _position;
 	float lengthX;
 	float lengthY;
 	float lengthZ;

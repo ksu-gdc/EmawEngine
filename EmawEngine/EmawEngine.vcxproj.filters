@@ -100,7 +100,7 @@
       <Filter>AudioRenderer</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="PlayerObject.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="CollisionObject.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -222,7 +222,7 @@
       <Filter>AudioRenderer</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="PlayerObject.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="CollisionObject.h" />
   </ItemGroup>
   <ItemGroup>

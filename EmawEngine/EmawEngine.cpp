@@ -9,9 +9,8 @@
 #include "AssetManager.h"
 #include "GameNode.h"
 #include "ModelNode.h"
-#include "PlayerObject.h"
-#include "CollisionObject.h"
 #include "InputManager.h"
+#include <DirectXMath.h>
 #define MAX_LOADSTRING 100
 
 // Global Variables:
@@ -62,71 +61,45 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// Perform AssetManager initialization
 	AssetManager* assetManager = AssetManager::getInstance();
 
-	// TEST CODE!!!
-	// =========================================================================
-	
-	// Create the root node of the Scene Graph.
-	GameNode* root = new GameNode();
-	root->setGraphicsDeviceInterface(&gdi);
-
-	// Create an entity.
-	Entity* e = new Entity();
-	
-	// Create a node for the floor.
-	ModelNode* base = new ModelNode(e->getModel());
-	base->setGraphicsDeviceInterface(&gdi);
-	//base->scale(100, 1, 100);
-
-	root->addChild(base);
-	
-	GameObject* plane = new GameObject();
-	*plane->_scale->x = 1;
-	*plane->_scale->y = 1;
-	*plane->_scale->z = 1;
-
-	PlayerObject* player = new PlayerObject();
-	Camera* camera = new Camera();
-	camera->setPositionPointers(player->_position->x, player->_position->y, player->_position->z);
-
-	gdi.SetSceneGraphRoot(root);
-	gdi.SetCamera(camera);
-
-	Transform* identity = new Transform();
-
-	CollisionObject* playerCollision = new CollisionObject();
-	CollisionObject* planeCollision = new CollisionObject();
-
-	VERTEX* origin = new VERTEX();
-	origin->X = 0;
-	origin->Y = 0;
-	origin->Z = 0;
-
-
-	playerCollision->m_GameObject = player;
-	planeCollision->m_GameObject = plane;
-
-
-	planeCollision->calculateCollisionBox(origin, &e->getModel()->getVertexBuffer());
-	playerCollision->center->X = *player->_position->x;
-	playerCollision->center->Y = *player->_position->y;
-	playerCollision->center->Z = *player->_position->z;
-	playerCollision->lengthX = 2;
-	playerCollision->lengthY = 6;
-	playerCollision->lengthZ = 2;
-
-	// =========================================================================
-	// TEST CODE!!!
-
 	// Perform InputManager initialization
 	InputManager* inputManager = InputManager::getInstance();
 	inputManager->registerWindow(hWnd);
 
-	player->setInputManager(inputManager);
-	player->setCamera(camera);
-
 	//Perform sound initialization
 	AudioManager* am = AudioManager::getInstance();
 	(AudioRenderer::Instance())->setSoundSystem(am);
+
+	bool paused = false;
+
+	// TEST CODE!!!
+	// =========================================================================
+	GameNode* root = new GameNode();
+	root->setGraphicsDeviceInterface(&gdi);
+	Entity* e = new Entity();
+	ModelNode* base = new ModelNode(e->getModel());
+	base->setGraphicsDeviceInterface(&gdi);
+
+	//ModelNode* base2 = new ModelNode(e->getModel());
+	//base2->setGraphicsDeviceInterface(&gdi);
+
+	//base2->setPosition(3, 0, 0);
+
+	root->addChild(base);
+	//base->addChild(base2);
+	Camera* camera = new Camera();
+
+	gdi.SetSceneGraphRoot(root);
+	gdi.SetCamera(camera);
+	camera->setPosition(0.0f, 0.0f, -10.0f);
+
+	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
+	Player* player = new Player(camera);
+
+	Transform* identity = new Transform();
+
+	// =========================================================================
+	// TEST CODE!!!
+
 	//Main game loop:
 	while(true)
 	{
@@ -175,16 +148,26 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		}
 		else
 		{
-			playerCollision->center->X = *player->_position->x;
-			playerCollision->center->Y = *player->_position->y;
-			playerCollision->center->Z = *player->_position->z;
+			if (inputManager->keyPressed(Esc)) {
+				paused = !paused;
+				if (paused) {
+					ShowCursor(true);
+				}
+				else {
+					ShowCursor(false);
+				}
+			}
+			if (paused) {
+				
+			} else {
+				//root->update(identity->getTransformMatrix());
+				//base->resetTransformMatrix();
+				player->updatePlayer(hWnd);
+				root->update(identity->getTransformMatrix());
+				//base2->rotateX(0.0005);
+				//base->rotateY(0.0005);
+			}
 
-			playerCollision->hasCollision(*planeCollision, 1.0);
-
-			player->update(0.0);
-
-			root->update(identity->getTransformMatrix());
-			//base->rotateY(0.0005);
 
 			// TODO: Update
 			gdi.NextFrame();
@@ -323,7 +306,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			wind.setWindowed(hWnd, &gdi, FALSE);
 			OutputDebugString(CString("fullscreen mode\n"));
 			break;
-		case 87: // 'w' keypress
+		case 90: // 'z' keypress
 			wind.setWindowed(hWnd, &gdi, TRUE);
 			OutputDebugString(CString("windowed mode\n"));
 			break;

@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Entity.h"
 class GameObject
 {
 public:
@@ -10,25 +10,24 @@ public:
 	void destroy();
 	
 	// Getters
-	Vector3* getPosition();
-	Vector3* getVelocity();
+	Vector* getPosition();
+	Vector* getVelocity();
 	bool getAlive();
 
 	// Setters
-	void setPosition(Vector3* v);
-	void setVelocity(Vector3* v);
+	void setPosition(Vector* v);
+	void setVelocity(Vector* v);
 	void setAlive(bool alive);
+	void setCollision(bool collision);
 
-	Vector3* _position;
-	Vector3* _rotation;
-	Vector3* _scale;
-	Vector3* _velocity;
-
-	bool m_HasCollision;
-
-private:
-
+protected:
+	Vector* _position;
+	Vector* _velocity;
+	Vector* _orientation;
+	bool _hasCollision;
+	bool _isFalling;
 	bool _isAlive;
-	void initializeVector3(Vector3* vector);
+
+	float GRAVITY;
 };
 
