@@ -143,7 +143,7 @@ void Model::GetFbxInfo(FbxNode* Node)
 
 			for (int index = 0; index < materialCount; index++)
 			{
-				FbxSurfaceMaterial* material = (FbxSurfaceMaterial*)child->GetSrcObject<FbxSurfaceMaterial>(j);
+				FbxSurfaceMaterial* material = (FbxSurfaceMaterial*)child->GetSrcObject<FbxSurfaceMaterial>(index);
 
 				if (material != NULL)
 				{
@@ -164,8 +164,9 @@ void Model::GetFbxInfo(FbxNode* Node)
 							for (int k = 0; k < layerCount; k++)
 							{
 								FbxTexture* texture = FbxCast<FbxTexture>(layered_texture->GetSrcObject<FbxTexture>(k));
+								FbxFileTexture* textureFile = FbxCast<FbxFileTexture>(texture);
 								//Now we can get all the properties of the texture, including its name
-								const char* textureName = (FbxFileTexture*)texture->GetName();
+								const char* textureName = textureFile->GetName();
 								OutputDebugString((LPCWSTR)textureName);
 							}
 						}
@@ -177,14 +178,15 @@ void Model::GetFbxInfo(FbxNode* Node)
 						for (int j = 0; j < textureCount; j++)
 						{
 							FbxTexture* texture = FbxCast<FbxTexture>(prop.GetSrcObject<FbxTexture>(j));
+							FbxFileTexture* textureFile = FbxCast<FbxFileTexture>(texture);
 							//Now we can get all the properties of the texture, including its name
-							const char* textureName = texture->GetName();
+							const char* textureName = textureFile->GetName();
 							OutputDebugString((LPCWSTR)textureName);
 
 							FbxProperty p = texture->RootProperty.Find("Filename");
 
 							HRESULT hr;
-							D3DX11CreateTextureFromFile(Game::GetInstance()->GetRenderer()->GetDevice(), textureName, 0, 0, &m_texture, &hr);
+							//D3DX11CreateTextureFromFile(Game::GetInstance()->GetRenderer()->GetDevice(), textureName, 0, 0, &m_texture, &hr);
 						}
 					}
 				}
