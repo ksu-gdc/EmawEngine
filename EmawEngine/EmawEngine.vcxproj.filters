@@ -101,6 +101,21 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceObject.cpp">
+      <Filter>Collision\Space</Filter>
+    </ClCompile>
+    <ClCompile Include="SpaceStatic.cpp">
+      <Filter>Collision\Space</Filter>
+    </ClCompile>
+    <ClCompile Include="VoxelObject.cpp">
+      <Filter>Collision\Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="VoxelStatic.cpp">
+      <Filter>Collision\Voxel</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -222,6 +237,27 @@
     </ClInclude>
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Collidable.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="VoxelObject.h">
+      <Filter>Collision\Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceObject.h">
+      <Filter>Collision\Space</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceStatic.h">
+      <Filter>Collision\Space</Filter>
+    </ClInclude>
+    <ClInclude Include="VoxelStatic.h">
+      <Filter>Collision\Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticCollider.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
@@ -266,6 +302,15 @@
     </Filter>
     <Filter Include="AudioRenderer\SoundSource">
       <UniqueIdentifier>{a627f602-ccb9-4f09-a2c0-1bdc87b4ec97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{f22b96db-1b7b-46f3-9cae-b6c3741a66fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision\Space">
+      <UniqueIdentifier>{4a237b12-a8bd-4dc6-a974-eb21ae0d9db5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision\Voxel">
+      <UniqueIdentifier>{bc32a18e-4ad3-4a63-845b-d703783d7534}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

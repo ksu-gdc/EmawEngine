@@ -95,6 +95,8 @@
     <ClInclude Include="AudioEasyAccess.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collidable.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ModelNode.h" />
     <ClInclude Include="GameNode.h" />
@@ -105,6 +107,9 @@
     <ClInclude Include="KeyState.h" />
     <ClInclude Include="MouseState.h" />
     <ClInclude Include="SoundSource.h" />
+    <ClInclude Include="SpaceObject.h" />
+    <ClInclude Include="SpaceStatic.h" />
+    <ClInclude Include="StaticCollider.h" />
     <ClInclude Include="TDSFX.h" />
     <ClInclude Include="Asset.h" />
     <ClInclude Include="AssetManager.h" />
@@ -121,6 +126,8 @@
     <ClInclude Include="ShaderAsset.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="VertexShader.h" />
+    <ClInclude Include="VoxelObject.h" />
+    <ClInclude Include="VoxelStatic.h" />
     <ClInclude Include="WindowSize.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureShader.h" />
@@ -140,6 +147,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="AudioRenderer.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ModelNode.cpp" />
     <ClCompile Include="EmawEngine.cpp" />
@@ -155,9 +163,13 @@
     <ClCompile Include="MouseState.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ShaderAsset.cpp" />
+    <ClCompile Include="SpaceObject.cpp" />
+    <ClCompile Include="SpaceStatic.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="SoundSource.cpp" />
+    <ClCompile Include="VoxelObject.cpp" />
+    <ClCompile Include="VoxelStatic.cpp" />
     <ClCompile Include="WindowSize.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Position.cpp" />
