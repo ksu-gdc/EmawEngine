@@ -80,10 +80,21 @@ VoxelMap::VoxelMap(string dir, string seed, int x, int y)
 		floor(y / 2),
 		0,
 		0,
-		vector<vector<Chunk>>(map.width, vector<Chunk>(map.height, blank))
+		vector<vector<Chunk>>(x, vector<Chunk>(y, blank))
 	};
 
 	SaveMap();
+	PopulateMap();
+}
+
+/*
+*	Desctiption:
+*	Returns:
+*	Parameters:
+*/
+VoxelMap::~VoxelMap()
+{
+
 }
 
 /* # PUBLIC FUNCTIONS # */

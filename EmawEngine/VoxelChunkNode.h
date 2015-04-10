@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneGraphNode.h"
+#include "VoxelMap.h"
 class VoxelChunkNode :
 	public SceneGraphNode
 {
@@ -9,12 +10,14 @@ public:
 	void update(D3DXMATRIX*);
 	void render();
 	void setGraphicsDeviceInterface(GraphicsDeviceInterface*);
+	void loadChunkBuffer(VoxelMap*, int, int);
 
 private:
 	float posX, posY, posZ;
 	float rotX, rotY, rotZ;
 	float scaleX, scaleY, scaleZ;
-	VERTEX point;
+	int length;
+	VERTEX ChunkBuffer[65025];
 	float voxSize;
 };
 
