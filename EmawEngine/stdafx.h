@@ -32,15 +32,12 @@ using namespace std;
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dx11.lib")
 #pragma comment(lib, "d3dx10.lib")
-#define _USE_MATH_DEFINES
-#include <cmath>
 #include <d3dcompiler.h>
 #include <atlstr.h>
 #include "HelperStructs.h"
 #include "WindowSize.h"
 #include "graphics_device_interface.h"
 #include "HelperStructs.h"
-#include "Player.h"
 #include "Model.h"
 #include "Entity.h"
 #include "Camera.h"

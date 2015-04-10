@@ -8,10 +8,9 @@ const int WindowSize::hResolution[] = { 600, 960,	576,	900 };
 WindowSize::WindowSize()
 {
 	this->forceSize(LOW_4_3);
-	windowed = TRUE;
 }
 
-#pragma region getters/setters
+#pragma region getters
 int WindowSize::getWidth()
 {
 	return width;
@@ -26,12 +25,7 @@ RES WindowSize::getResolution()
 {
 	return resolution;
 }
-
-BOOL WindowSize::getWindowed()
-{
-	return windowed;
-}
-#pragma endregion contains get/set functions for variables
+#pragma endregion contains get functions for variables
 
 
 //
@@ -41,34 +35,30 @@ BOOL WindowSize::getWindowed()
 //
 void WindowSize::setSize(HWND hWnd, GraphicsDeviceInterface *gdi, RES resolution)
 {
-	// return if restarting the gdi is not needed
-	/*if (this->resolution == resolution && this->windowed == gdi->IsWindowed())
-		return;*/
+	// Check to see resolution needs to be changed
+	if (this->resolution != resolution)
+	{
+		// changes width and height
+		forceSize(resolution);
 
-	// Update resolution width and height
-	forceSize(resolution);
+		// release old gdi resources
+		gdi->Shutdown();
 
-	// Shutdown and reinitialize graphics device interface
-	gdi->Shutdown();
-	gdi->Initialize(hWnd, this);
-}
+		// create adjusted rectangle for window sizing
+		RECT wr = { 0, 0, width, height };
+		AdjustWindowRect(&wr, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX, FALSE);
 
-//
-//   FUNCTION: setWindowed(HWND hWnd, GraphicsDeviceInterface *gdi, BOOL windowed)
-//
-//   PURPOSE: public function that switches between fullscreen and windowed modes when needed
-//
-void WindowSize::setWindowed(HWND hWnd, GraphicsDeviceInterface *gdi, BOOL windowed)
-{
-	// return if mode change is not needed
-	/*if (windowed == gdi->IsWindowed())
-		return;*/
+		// change window size
+		SetWindowPos(hWnd,
+			NULL,
+			0, 0,
+			wr.right - wr.left,
+			wr.bottom - wr.top,
+			SWP_NOMOVE);
 
-	// Update windowed field in WindowSize object
-	this->windowed = windowed;
-
-	// Uses the setSize method to recreate the GDI
-	this->setSize(hWnd, gdi, this->resolution);
+		// reinitialize resources
+		gdi->Initialize(hWnd, this);
+	}
 }
 
 //

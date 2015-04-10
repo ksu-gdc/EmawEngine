@@ -94,27 +94,10 @@ bool InputManager::keyReleased(Key k) {
 	return _keyState->keyReleased(k);
 }
 
-// Gets the current mouse position in client coordinates
 POINT InputManager::getMousePos() {
 	return _mouseState->getMousePos();
 }
 
-// Gets the current mouse position in screen coordinates
 POINT InputManager::getMouseScreenPos() {
 	return _mouseState->getMouseScreenPos();
-}
-
-// Gets the mouse delta since the last update call
-POINT InputManager::getMouseDelta() {
-	return _mouseState->getMouseDelta();
-}
-
-// Locks the mouse to the center of the screen and hides the cursor
-void InputManager::lockMouse() {
-	_mouseState->lockMouse(_hWnd);
-}
-
-// Unlocks the mosue from the center of the sreen and shows the cursor
-void InputManager::unlockMouse() {
-	_mouseState->unlockMouse();
 }

@@ -28,14 +28,12 @@ public:
 	void InitGraphics();
 	bool Update(std::vector<VERTEX>*);
 	void VertexPipeline(std::vector<VERTEX>*, D3DXMATRIX*);
-	BOOL IsWindowed();
 
 private:
 	bool Render();
 	bool RenderModel();
 	void RenderShader();
 
-	DXGI_SWAP_CHAIN_DESC	scd;
 	ShaderAsset				*shdrs;
 	IDXGISwapChain			*m_Swapchain;
 	ID3D11Device			*m_Device;

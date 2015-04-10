@@ -1,5 +1,5 @@
 #pragma once
-#include "Model.h"
+
 struct Vector {
 	float x;
 	float y;
