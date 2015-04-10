@@ -29,16 +29,13 @@ class VoxelMap
 public:
 	VoxelMap(string);
 	VoxelMap(string, string, int, int);
-	void* load(string);
-	Grid GetMap();
 	bool SaveMap();
-	void SetMapCenter(int, int);
-	void SetMapSize(int);
+	void PopulateMap();
 	bool LoadChunk(int, int);
 	void SaveChunk(Chunk);
 	Chunk CreateChunk(int, int, string, int, int);
 	void CreateChunk(Chunk);
-	bool unload();
+	short GetChunkValue(int, int, int, int, int);
 	~VoxelMap();
 	vector< vector<short> > GenerateHeightMap(int, int, int, int, int, int, vector<vector<short>>);
 	int GeneratePsuedoKey(int, int);
