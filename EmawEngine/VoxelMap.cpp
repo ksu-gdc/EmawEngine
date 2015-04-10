@@ -54,7 +54,7 @@ VoxelMap::VoxelMap(string dir)
 
 		PopulateMap();
 	}
-	else 
+	else
 	{
 		VoxelMap(dir, dir, 20, 20);
 	}
@@ -80,10 +80,11 @@ VoxelMap::VoxelMap(string dir, string seed, int x, int y)
 		floor(y / 2),
 		0,
 		0,
-		vector<vector<Chunk>>(map.width, vector<Chunk>(map.height, blank))
+		vector<vector<Chunk>>(x, vector<Chunk>(y, blank))
 	};
 
 	SaveMap();
+	PopulateMap();
 }
 
 /* # PUBLIC FUNCTIONS # */
@@ -123,7 +124,7 @@ void VoxelMap::PopulateMap()
 	{
 		for (int b = 0; b < map.height; b++)
 		{
-			map.grid[a][b] = CreateChunk(a, b, map.seed, 10, 5);
+			map.grid[a][b] = CreateChunk(a, b, map.seed, 50, 5);
 		}
 	}
 }
@@ -272,6 +273,19 @@ void VoxelMap::CreateChunk(Chunk ch)
 				ch.chunk[a][b][c] = (short)1;
 			}
 		}
+	}
+}
+
+/*
+*  Description:
+*  Returns:
+*  Parameters:
+*/
+Chunk VoxelMap::GetChunk(int grid_x, int grid_y)
+{
+	if ((grid_x > -1 && grid_x < map.width) && (grid_y > -1 && grid_y < map.height))
+	{
+		return map.grid[grid_x][grid_y];
 	}
 }
 
