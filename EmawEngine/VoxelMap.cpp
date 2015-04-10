@@ -306,13 +306,6 @@ bool VoxelMap::unload()
 	return true;
 }
 
-/* ~VoxelMap();
-*  Description: VoxelMap class destructor.
-*/
-VoxelMap::~VoxelMap()
-{
-}
-
 /* # PRIVATE FUNCTIONS # */
 
 /* GenerateHeightMap(int, int, string, int)
