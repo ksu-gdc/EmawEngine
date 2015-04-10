@@ -10,6 +10,7 @@
 #include "GameNode.h"
 #include "ModelNode.h"
 #include "InputManager.h"
+#include "AudioEasyAccess.h"
 #include <DirectXMath.h>
 #define MAX_LOADSTRING 100
 
@@ -68,6 +69,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	//Perform sound initialization
 	AudioManager* am = AudioManager::getInstance();
 	(AudioRenderer::Instance())->setSoundSystem(am);
+	AudioEasyAccess::getInstance()->playMusic("background", "music/Tictac_-_Estrade.mp3");
 
 	bool paused = false;
 

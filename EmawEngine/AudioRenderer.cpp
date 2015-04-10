@@ -126,7 +126,7 @@ Sound* AudioRenderer::load(string name, AudioManager* am){
 
 //Method for loading and playing music
 void AudioRenderer::loadAndPlayMusic(string name, AudioManager* am){
-	Music * m = (Music*)load(name, am);
+	Music * m = (Music*)(am->loadLoop(name, system));
 	playMusic(m);
 }
 
