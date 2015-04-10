@@ -27,7 +27,7 @@ private:
 	Asset* loadFont(std::string);
 	Asset* loadMusic(std::string);
 	Asset* loadSoundFX(std::string);
-	Asset* loadVoxelMap(std::string);
+	//Asset* loadVoxelMap(std::string);
 	Asset* loadBSPMap(std::string);
 
 	// Unloading
@@ -37,7 +37,7 @@ private:
 	void unloadFont(std::string);
 	void unloadMusic(std::string);
 	void unloadSoundFX(std::string);
-	void unloadVoxelMap(std::string);
+	//void unloadVoxelMap(std::string);
 	void unloadBSPMap(std::string);
 
 public:
