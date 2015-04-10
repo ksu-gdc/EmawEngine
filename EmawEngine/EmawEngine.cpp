@@ -11,6 +11,7 @@
 #include "ModelNode.h"
 #include "InputManager.h"
 #include "VoxelMap.h"
+#include <DirectXMath.h>
 #define MAX_LOADSTRING 100
 
 // Global Variables:
@@ -94,6 +95,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	root->addChild(test);
 //	root->addChild(base);
 //	base->addChild(base2);
+
 	Camera* camera = new Camera();
 
 	gdi.SetSceneGraphRoot(root);
@@ -171,8 +173,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 				//base->resetTransformMatrix();
 				player->updatePlayer(hWnd);
 				root->update(identity->getTransformMatrix());
-//				base2->rotateX(0.0005);
-//				base->rotateY(0.0005);
+
+				//base2->rotateX(0.0005);
+				//base->rotateY(0.0005);
 			}
 
 

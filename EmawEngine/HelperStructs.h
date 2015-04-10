@@ -5,6 +5,11 @@
 #include <DirectXMath.h>
 #include <d3dx10math.h>
 
+struct Vector3 {
+	float* x;
+	float* y;
+	float* z;
+};
 
 struct ShaderStruct{
 	ID3D11VertexShader *VertShader;

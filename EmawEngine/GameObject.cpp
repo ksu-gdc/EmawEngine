@@ -7,7 +7,11 @@ GameObject::GameObject()
 	_position = new Vector();
 	_velocity = new Vector();
 	_orientation = new Vector();
+	_hasCollision = false;
+	_isFalling = true;
 	_isAlive = true;
+
+	GRAVITY = (-9.81 / 100000.0);
 }
 
 
@@ -18,8 +22,15 @@ GameObject::~GameObject()
 // Logic for updating a game object
 void GameObject::update(float gameTime) {
 	// Movement
+
+	if (_hasCollision){
+		_velocity->x = 0;
+		_velocity->y = 0;
+		_velocity->z = 0;
+	}
+
 	_position->x += _velocity->x;
-	_position->y += _velocity->y;
+	_position->y += (_velocity->y + GRAVITY * _isFalling);
 	_position->z += _velocity->z;
 }
 
@@ -56,4 +67,8 @@ void GameObject::setVelocity(Vector* v) {
 // Sets the isAlive state of the object
 void GameObject::setAlive(bool alive) {
 	_isAlive = alive;
+}
+
+void GameObject::setCollision(bool collision){
+	_hasCollision = collision;
 }

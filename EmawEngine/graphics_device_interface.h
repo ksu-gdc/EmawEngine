@@ -28,13 +28,17 @@ public:
 	void InitGraphics();
 	bool Update(std::vector<VERTEX>*);
 	bool Update(VERTEX*, int);
+	bool Update(ID3D11Buffer*, std::vector<VERTEX>*);
 	void VertexPipeline(std::vector<VERTEX>*, D3DXMATRIX*);
 	void VoxelPipeline(VERTEX*, int, D3DXMATRIX*);
+	void VertexPipeline(ID3D11Buffer*, std::vector<VERTEX>*, D3DXMATRIX*);
+	ID3D11Buffer* CreateVertexBuffer(int numOfVerticies);
 	BOOL IsWindowed();
 
 private:
 	bool Render();
 	bool RenderModel();
+	bool RenderModel(ID3D11Buffer*);
 	bool RenderVoxel();
 	void RenderShader();
 
