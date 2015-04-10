@@ -8,6 +8,8 @@ const float MINIMUM_TRANSFORMATION_VALUE = 0.00005;
 
 Model::Model()
 {
+	m_Texture = 0;
+
 	m_InitPos = new Vector3();
 	m_InitScale = new Vector3();
 	m_InitRot = new Vector3();
@@ -128,9 +130,20 @@ void* Model::load(std::string str) {
 	node->Destroy();
 	manager->Destroy();
 
-	//applyInitialTransformations();
+	applyInitialTransformations();
 	
 	return NULL;
+}
+
+void Model::LoadTexture(ID3D11Device* device, string filename){
+
+	m_Texture = new Texture(device);
+	m_Texture->load(filename);
+
+}
+
+ID3D11ShaderResourceView* Model::GetTexture(){
+	return m_Texture->getTexture();
 }
 
 void Model::setInitialTransforms(FbxMesh* mesh){
@@ -191,10 +204,10 @@ void Model::applyInitialTransformations(){
 	D3DXMatrixIdentity(transformMatrix);
 
 	D3DXMatrixTranslation(translateMatrix, *m_InitPos->x, *m_InitPos->y, *m_InitPos->z);
-	D3DXMatrixScaling(scaleMatrix, *m_InitScale->x, *m_InitScale->y, *m_InitScale->z);
-	D3DXMatrixRotationZ(rotateMatrixZ, *m_InitRot->z);
-	D3DXMatrixRotationY(rotateMatrixY, *m_InitRot->y);
-	D3DXMatrixRotationX(rotateMatrixX, *m_InitRot->x);
+	D3DXMatrixScaling(scaleMatrix, *m_InitScale->x, *m_InitScale->z, *m_InitScale->y);
+	D3DXMatrixRotationZ(rotateMatrixZ, *m_InitRot->z * 0.0174532925);
+	D3DXMatrixRotationY(rotateMatrixY, *m_InitRot->y * 0.0174532925);
+	D3DXMatrixRotationX(rotateMatrixX, *m_InitRot->x * 0.0174532925);
 
 	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixX);
 	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixY);

@@ -186,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="C:\Users\Chris\Desktop\consolas.fnt" />
+    <None Include="texture.col" />
     <None Include="VoxShader.geo" />
     <None Include="Shaders.col" />
   </ItemGroup>

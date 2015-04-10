@@ -280,5 +280,8 @@
     <None Include="Shaders.col">
       <Filter>Resources</Filter>
     </None>
+    <None Include="texture.col">
+      <Filter>Resources</Filter>
+    </None>
   </ItemGroup>
 </Project>

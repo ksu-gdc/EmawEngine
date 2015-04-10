@@ -15,9 +15,9 @@ ModelNode::ModelNode(Model* m){
 	initializePosition();
 	initializeScale();
 	initializeRotation();
-	ModelNode::setPosition(*m_Model->m_InitPos->x, *m_Model->m_InitPos->y, *m_Model->m_InitPos->z);
-	ModelNode::setRotation(*m_Model->m_InitRot->x, *m_Model->m_InitRot->y, *m_Model->m_InitRot->z);
-	ModelNode::setScale(*m_Model->m_InitScale->x, *m_Model->m_InitScale->y, *m_Model->m_InitScale->z);
+	//ModelNode::setPosition(*m_Model->m_InitPos->x, *m_Model->m_InitPos->y, *m_Model->m_InitPos->z);
+	//ModelNode::setRotation(*m_Model->m_InitRot->x, *m_Model->m_InitRot->y, *m_Model->m_InitRot->z);
+	//ModelNode::setScale(*m_Model->m_InitScale->x, *m_Model->m_InitScale->y, *m_Model->m_InitScale->z);
 }
 
 ModelNode::~ModelNode(){
