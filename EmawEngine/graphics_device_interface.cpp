@@ -307,7 +307,7 @@ bool GraphicsDeviceInterface::Render()
 
 	// Swap buffers - unlocked framerate
 	m_Swapchain->Present(0, 0);
-	m_VertBuffer->Release();
+
 	return true;
 }
 
@@ -361,7 +361,6 @@ bool GraphicsDeviceInterface::Update(std::vector<VERTEX>* vertices){
 }
 
 bool GraphicsDeviceInterface::Update(VERTEX* vertices, int size){
-
 
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
