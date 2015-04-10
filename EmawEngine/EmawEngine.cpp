@@ -72,18 +72,22 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// TEST CODE!!!
 	// =========================================================================
+	VoxelMap* world = new VoxelMap("testworld", "blarghle", 1, 1);
+	Chunk testChunk = world->CreateChunk(1, 1, "blarghle", 10, 1);
+
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
 	VoxelChunkNode* test = new VoxelChunkNode();
 	test->setGraphicsDeviceInterface(&gdi);
-	Entity* e = new Entity();
+
+/*	Entity* e = new Entity();
 	ModelNode* base = new ModelNode(e->getModel());
 	base->setGraphicsDeviceInterface(&gdi);
 
 	ModelNode* base2 = new ModelNode(e->getModel());
 	base2->setGraphicsDeviceInterface(&gdi);
 
-	base2->setPosition(3, 0, 0);
+	base2->setPosition(3, 0, 0);*/
 
 	root->addChild(test);
 //	root->addChild(base);
