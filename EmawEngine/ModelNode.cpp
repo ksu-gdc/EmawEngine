@@ -127,7 +127,6 @@ void ModelNode::resetTransformMatrix(){
 	m_Transform->resetTransformMatrix();
 }
 
-
 // ----------------
 // Helper Functions
 // ----------------

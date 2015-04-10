@@ -127,6 +127,8 @@ void* Model::load(std::string str) {
 
 	node->Destroy();
 	manager->Destroy();
+
+	//applyInitialTransformations();
 	
 	return NULL;
 }
@@ -140,34 +142,81 @@ void Model::setInitialTransforms(FbxMesh* mesh){
 	FbxDouble3 initialScale = mesh->GetNode()->LclScaling.Get();
 	FbxDouble3 initialRotate = mesh->GetNode()->LclRotation.Get();
 
-	if (initialTranslate.mData[0] > MINIMUM_TRANSFORMATION_VALUE){
+	if (abs(initialTranslate.mData[0]) > MINIMUM_TRANSFORMATION_VALUE){
 		*m_InitPos->x = initialTranslate.mData[0];
 	}
-	if (initialTranslate.mData[1] > MINIMUM_TRANSFORMATION_VALUE){
+	if (abs(initialTranslate.mData[1]) > MINIMUM_TRANSFORMATION_VALUE){
 		*m_InitPos->y = initialTranslate.mData[1];
 	}
-	if (initialTranslate.mData[2] > MINIMUM_TRANSFORMATION_VALUE){
+	if (abs(initialTranslate.mData[2]) > MINIMUM_TRANSFORMATION_VALUE){
 		*m_InitPos->z = initialTranslate.mData[2];
 	}
 
-	if (initialScale.mData[0] > MINIMUM_TRANSFORMATION_VALUE){
+	if (abs(initialScale.mData[0]) > MINIMUM_TRANSFORMATION_VALUE){
 		*m_InitScale->x = initialScale.mData[0];
 	}
-	if (initialScale.mData[1] > MINIMUM_TRANSFORMATION_VALUE){
+	if (abs(initialScale.mData[1]) > MINIMUM_TRANSFORMATION_VALUE){
 		*m_InitScale->y = initialScale.mData[1];
 	}
-	if (initialScale.mData[2] > MINIMUM_TRANSFORMATION_VALUE){
+	if (abs(initialScale.mData[2]) > MINIMUM_TRANSFORMATION_VALUE){
 		*m_InitScale->z = initialScale.mData[2];
 	}
 
-	if (initialRotate.mData[0] > MINIMUM_TRANSFORMATION_VALUE){
+	if (abs(initialRotate.mData[0]) > MINIMUM_TRANSFORMATION_VALUE){
 		*m_InitRot->x = initialRotate.mData[0];
 	}
-	if (initialRotate.mData[1] > MINIMUM_TRANSFORMATION_VALUE){
+	if (abs(initialRotate.mData[1]) > MINIMUM_TRANSFORMATION_VALUE){
 		*m_InitRot->y = initialRotate.mData[1];
 	}
-	if (initialRotate.mData[2] > MINIMUM_TRANSFORMATION_VALUE){
+	if (abs(initialRotate.mData[2]) > MINIMUM_TRANSFORMATION_VALUE){
 		*m_InitRot->z = initialRotate.mData[2];
+	}
+
+}
+
+void Model::applyInitialTransformations(){
+
+	D3DXMATRIX* rotateMatrixX = new D3DXMATRIX();
+	D3DXMATRIX* rotateMatrixY = new D3DXMATRIX();
+	D3DXMATRIX* rotateMatrixZ = new D3DXMATRIX();
+	D3DXMATRIX* translateMatrix = new D3DXMATRIX();
+	D3DXMATRIX* scaleMatrix = new D3DXMATRIX();
+	D3DXMATRIX* transformMatrix = new D3DXMATRIX();
+
+	D3DXMatrixIdentity(rotateMatrixX);
+	D3DXMatrixIdentity(rotateMatrixY);
+	D3DXMatrixIdentity(rotateMatrixZ);
+	D3DXMatrixIdentity(translateMatrix);
+	D3DXMatrixIdentity(scaleMatrix);
+	D3DXMatrixIdentity(transformMatrix);
+
+	D3DXMatrixTranslation(translateMatrix, *m_InitPos->x, *m_InitPos->y, *m_InitPos->z);
+	D3DXMatrixScaling(scaleMatrix, *m_InitScale->x, *m_InitScale->y, *m_InitScale->z);
+	D3DXMatrixRotationZ(rotateMatrixZ, *m_InitRot->z);
+	D3DXMatrixRotationY(rotateMatrixY, *m_InitRot->y);
+	D3DXMatrixRotationX(rotateMatrixX, *m_InitRot->x);
+
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixX);
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixY);
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixZ);
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, scaleMatrix);
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, translateMatrix);
+
+	for (int i = 0; i < vertexBuffer.size(); i++){
+
+		D3DXVECTOR4* transformedVertex = new D3DXVECTOR4();
+		D3DXVECTOR3* vertex = new D3DXVECTOR3();
+
+		vertex->x = vertexBuffer.at(i).X;
+		vertex->y = vertexBuffer.at(i).Y;
+		vertex->z = vertexBuffer.at(i).Z;
+
+		D3DXVec3Transform(transformedVertex, vertex, transformMatrix);
+
+		vertexBuffer.at(i).X = transformedVertex->x;
+		vertexBuffer.at(i).Y = transformedVertex->y;
+		vertexBuffer.at(i).Z = transformedVertex->z;
+
 	}
 
 }

@@ -19,7 +19,6 @@ private:
 	float *scaleX, *scaleY, *scaleZ;
 	float *rotX, *rotY, *rotZ;
 
-
 public:
 	ModelNode();
 	ModelNode(Model*);
