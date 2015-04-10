@@ -318,7 +318,7 @@ bool GraphicsDeviceInterface::RenderModel(){
 	m_Context->IASetVertexBuffers(0, 1, &m_VertBuffer, &stride, &offset);
 
 	// select which primtive type we are using
-	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	return true;
 
@@ -330,7 +330,7 @@ bool GraphicsDeviceInterface::Update(std::vector<VERTEX>* vertices){
 	ZeroMemory(&bd, sizeof(bd));
 
 	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-	bd.ByteWidth = sizeof(VERTEX) * vertices->size();             // size is the VERTEX struct * 3
+	bd.ByteWidth = sizeof(VERTEX) * vertices->size();             // The number of vertices expected
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
 	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
 
@@ -343,6 +343,28 @@ bool GraphicsDeviceInterface::Update(std::vector<VERTEX>* vertices){
 
 	// Render the triangle.
 	m_Context->Draw(vertices->size(), 0);
+
+	return true;
+}
+
+bool GraphicsDeviceInterface::Update(VERTEX* vertices, int size){
+
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+
+	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
+	bd.ByteWidth = sizeof(VERTEX) * size;             // The number of vertices expected
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
+
+	m_Device->CreateBuffer(&bd, NULL, &m_VertBuffer);       // create the buffer
+
+	D3D11_MAPPED_SUBRESOURCE ms;
+	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
+	memcpy(ms.pData, vertices, size * sizeof(VERTEX));                // copy the data
+	m_Context->Unmap(m_VertBuffer, NULL);
+
+	m_Context->Draw(size*8, 0);
 
 	return true;
 }
@@ -366,5 +388,15 @@ void GraphicsDeviceInterface::VertexPipeline(std::vector<VERTEX>* vertices, D3DX
 	m_VertexShader->initializeShader(m_Device);
 	m_VertexShader->setParameters(m_Context, *transform, m_Camera->GetViewMatrix(), m_projMatrix);
 	Update(vertices);
-	RenderShader();
+	//RenderShader();
+}
+
+void GraphicsDeviceInterface::VoxelPipeline(VERTEX* vertices, int size, D3DXMATRIX* transform){
+
+	//I want to rename these so they make a little more sense.
+	RenderModel();
+	m_VertexShader->initializeShader(m_Device);
+	m_VertexShader->setParameters(m_Context, *transform, m_Camera->GetViewMatrix(), m_projMatrix);
+	Update(vertices, size);
+	//RenderShader();
 }

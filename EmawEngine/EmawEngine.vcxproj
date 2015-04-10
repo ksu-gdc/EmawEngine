@@ -121,6 +121,7 @@
     <ClInclude Include="ShaderAsset.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="VertexShader.h" />
+    <ClInclude Include="VoxelChunkNode.h" />
     <ClInclude Include="WindowSize.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureShader.h" />
@@ -158,6 +159,7 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="SoundSource.cpp" />
+    <ClCompile Include="VoxelChunkNode.cpp" />
     <ClCompile Include="WindowSize.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Position.cpp" />

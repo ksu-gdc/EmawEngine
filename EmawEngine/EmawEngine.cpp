@@ -74,6 +74,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// =========================================================================
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
+	VoxelChunkNode* test = new VoxelChunkNode();
+	test->setGraphicsDeviceInterface(&gdi);
 	Entity* e = new Entity();
 	ModelNode* base = new ModelNode(e->getModel());
 	base->setGraphicsDeviceInterface(&gdi);
@@ -83,8 +85,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	base2->setPosition(3, 0, 0);
 
-	root->addChild(base);
-	base->addChild(base2);
+	root->addChild(test);
+//	root->addChild(base);
+//	base->addChild(base2);
 	Camera* camera = new Camera();
 
 	gdi.SetSceneGraphRoot(root);
@@ -159,12 +162,11 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 			if (paused) {
 				
 			} else {
-				//root->update(identity->getTransformMatrix());
 				//base->resetTransformMatrix();
 				player->updatePlayer(hWnd);
 				root->update(identity->getTransformMatrix());
-				base2->rotateX(0.0005);
-				base->rotateY(0.0005);
+//				base2->rotateX(0.0005);
+//				base->rotateY(0.0005);
 			}
 
 

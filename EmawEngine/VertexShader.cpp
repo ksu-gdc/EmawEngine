@@ -50,6 +50,22 @@ bool VertexShader::setParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX 
 	deviceContext->VSSetConstantBuffers(0, 1, &m_matrixBuffer);
 	m_matrixBuffer->Release();
 
+	result = deviceContext->Map(m_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	if (FAILED(result)) {
+		OutputDebugString(L"failed to map transform matrix buffer\n");
+		return false;
+	}
+
+	mb = (MatrixBuffer*)mappedResource.pData;
+
+	mb->world = w;
+	mb->view = v;
+	mb->projection = p;
+
+	deviceContext->Unmap(m_matrixBuffer, 0);
+	deviceContext->GSSetConstantBuffers(0, 1, &m_matrixBuffer);
+	m_matrixBuffer->Release();
+
 	return true;
 
 }

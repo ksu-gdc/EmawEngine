@@ -101,6 +101,7 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="VoxelChunkNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -222,6 +223,7 @@
     </ClInclude>
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="VoxelChunkNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />

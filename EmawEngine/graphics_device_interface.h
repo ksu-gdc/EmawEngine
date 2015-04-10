@@ -27,7 +27,9 @@ public:
 	void InitPipeline();
 	void InitGraphics();
 	bool Update(std::vector<VERTEX>*);
+	bool Update(VERTEX*, int);
 	void VertexPipeline(std::vector<VERTEX>*, D3DXMATRIX*);
+	void VoxelPipeline(VERTEX*, int, D3DXMATRIX*);
 	BOOL IsWindowed();
 
 private:
