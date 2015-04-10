@@ -34,7 +34,7 @@ void VoxelChunkNode::setGraphicsDeviceInterface(GraphicsDeviceInterface* graphic
 
 void VoxelChunkNode::render(){
 
-	gdi->VoxelPipeline(ChunkBuffer, length, transform->getTransformMatrix());
+	gdi->VoxelPipeline(vertBuffer, ChunkBuffer, length, transform->getTransformMatrix());
 
 	//Render children.
 	for (int i = 0; i < children.size(); i++){
@@ -66,4 +66,5 @@ void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator, int gridx, int grid
 			}
 		}
 	}
+	vertBuffer = gdi->CreateVertexBuffer(length);
 }

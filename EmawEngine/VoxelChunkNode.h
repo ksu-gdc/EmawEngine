@@ -18,6 +18,7 @@ private:
 	float scaleX, scaleY, scaleZ;
 	int length;
 	VERTEX ChunkBuffer[65025];
+	ID3D11Buffer* vertBuffer;
 	float voxSize;
 };
 
