@@ -323,13 +323,6 @@ short VoxelMap::GetChunkValue(int grid_x, int grid_y, int chunk_x, int chunk_y, 
 	return -1;
 }
 
-/* ~VoxelMap();
-*  Description: VoxelMap class destructor.
-*/
-VoxelMap::~VoxelMap()
-{
-}
-
 /* # PRIVATE FUNCTIONS # */
 
 /* GenerateHeightMap(int, int, string, int)
