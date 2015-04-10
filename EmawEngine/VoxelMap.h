@@ -35,6 +35,7 @@ public:
 	void SaveChunk(Chunk);
 	Chunk CreateChunk(int, int, string, int, int);
 	void CreateChunk(Chunk);
+	Chunk GetChunk(int, int);
 	short GetChunkValue(int, int, int, int, int);
 	~VoxelMap();
 	vector< vector<short> > GenerateHeightMap(int, int, int, int, int, int, vector<vector<short>>);
