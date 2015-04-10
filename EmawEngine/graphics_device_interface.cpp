@@ -176,7 +176,7 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 	// Create the projection matrix for 3D rendering.
 	D3DXMatrixPerspectiveFovLH(&m_projMatrix, fieldOfView, screenAspect, 0.1f, 1000.0f);
 
-//	InitPipeline();
+	InitPipeline();
 	InitGraphics();
 
 
@@ -332,18 +332,6 @@ bool GraphicsDeviceInterface::RenderVoxel(){
 
 	// select which primtive type we are using
 	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-
-	shdrs = new ShaderAsset(this);
-	ShaderStruct *blah = (ShaderStruct*)shdrs->load("VoxShader.geo");
-
-	m_Context->VSSetShader(blah->VertShader, 0, 0);
-	m_Context->PSSetShader(blah->PixShader, 0, 0);
-	m_Context->GSSetShader(blah->GeoShader, 0, 0);
-
-	m_Context->IASetInputLayout(blah->InputLayout);
-
-	m_VertexShader = new VertexShader();
-	m_VertexShader->initializeShader(m_Device);
 
 	return true;
 
