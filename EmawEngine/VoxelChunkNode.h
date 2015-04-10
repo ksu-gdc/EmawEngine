@@ -5,14 +5,15 @@ class VoxelChunkNode :
 	public SceneGraphNode
 {
 public:
-	VoxelChunkNode();
+	VoxelChunkNode(int, int);
 	~VoxelChunkNode();
 	void update(D3DXMATRIX*);
 	void render();
 	void setGraphicsDeviceInterface(GraphicsDeviceInterface*);
-	void loadChunkBuffer(VoxelMap*, int, int);
+	void loadChunkBuffer(VoxelMap*);
 
 private:
+	int gridx, gridy;
 	float posX, posY, posZ;
 	float rotX, rotY, rotZ;
 	float scaleX, scaleY, scaleZ;

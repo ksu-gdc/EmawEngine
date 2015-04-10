@@ -74,14 +74,23 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// TEST CODE!!!
 	// =========================================================================
-	VoxelMap* worldGenerator = new VoxelMap("testmap","blarghle", 11, 11);
+	VoxelMap* worldGenerator = new VoxelMap("testmap","blarghle", 5, 5);
 	
 
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
-	VoxelChunkNode* test = new VoxelChunkNode();
-	test->setGraphicsDeviceInterface(&gdi);
-	test->loadChunkBuffer(worldGenerator, 1, 1);
+	VoxelChunkNode* world[5][5];
+	for (int i = 0; i < 5; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			world[i][j] = new VoxelChunkNode(i, j);
+			world[i][j]->setGraphicsDeviceInterface(&gdi);
+			world[i][j]->loadChunkBuffer(worldGenerator);
+			root->addChild(world[i][j]);
+		}
+	}
+	
 
 /*	Entity* e = new Entity();
 	ModelNode* base = new ModelNode(e->getModel());
@@ -92,7 +101,6 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	base2->setPosition(3, 0, 0);*/
 
-	root->addChild(test);
 //	root->addChild(base);
 //	base->addChild(base2);
 
