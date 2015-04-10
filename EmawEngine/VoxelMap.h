@@ -1,35 +1,60 @@
 #pragma once
 
-struct VoxRegion {
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <windows.h>
+#include <direct.h>
+
+using namespace std;
+
+struct Chunk {
 	int coord_X, coord_Y;
-	static const int width = 16, length = 16, height = 256;
-	short region[16][16][256];
+	bool set;
+	static const int width = 17, length = 17, height = 225;
+	short height_map[17][17];
+	short chunk[17][17][225];
 };
 
-struct VoxMap {
-	string seed;
+struct Grid {
+	string seed, directory;
 	int width, height;
 	int offset_X, offset_Y;
 	int center_X, center_Y;
-	vector< vector<VoxRegion> > grid;
+	vector< vector<Chunk> > grid;
 };
 
-class VoxelMap : public Asset
+enum Adjacent : int {
+	LEFT,
+	RIGHT,
+	TOP,
+	BOTTOM
+};
+
+class VoxelMap
 {
 public:
 	VoxelMap(string);
 	VoxelMap(string, string, int, int);
+	Grid GetMap();
 	bool SaveMap();
-	VoxMap GetMap();
-	bool LoadRegion(int, int);
-	bool SaveRegion(int, int);
-	bool RegionExists(int, int);
-	float** CreateChunk(int, int, int);
+	void SetMapCenter(int, int);
+	void SetMapSize(int);
+	bool LoadChunk(int, int);
+	void SaveChunk(Chunk);
+	Chunk CreateChunk(int, int, string, int, int);
+	void CreateChunk(Chunk);
 	~VoxelMap();
+	vector< vector<short> > GenerateHeightMap(int, int, int, int, int, int, vector<vector<short>>);
+	int GeneratePsuedoKey(int, int);
+	bool IsChunkAdjacent(int, int, Adjacent);
 
 private:
 	vector<string> Parse(string, char);
 	void MakeDirectory(string);
 	bool FileExists(string);
+	fstream GetFileHandle(string, ios::openmode);
 	pair<int, int> MapToRealCoord(int, int);
+	pair<int, int> MapToVirtualCoord(int, int);
 };
