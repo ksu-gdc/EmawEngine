@@ -14,6 +14,9 @@
 #include <DirectXMath.h>
 #define MAX_LOADSTRING 100
 
+void LoadTieFighter(GameNode* root);
+void LoadShip(GameNode* root);
+
 // Global Variables:
 HINSTANCE hInst;								// current instance
 HWND hWnd;										// window handle
@@ -77,27 +80,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// =========================================================================
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
-	Entity* e = new Entity();
-	//ModelNode* base = new ModelNode(e->getModel());
-	//base->setGraphicsDeviceInterface(&gdi);
 
-	Model* floorModel = new Model();
-	floorModel->load("models/Ship-Exterior.fbx");
-	
-	ModelNode* floorNode = new ModelNode(floorModel);
-	floorNode->setGraphicsDeviceInterface(&gdi);
-
-	//root->addChild(base);
-	root->addChild(floorNode);
-
-	Model* floorModel2 = new Model();
-	floorModel2->load("models/Ship-Interior.fbx");
-
-	ModelNode* floorNode2 = new ModelNode(floorModel2);
-	floorNode2->setGraphicsDeviceInterface(&gdi);
-
-	//root->addChild(base);
-	root->addChild(floorNode2);
+	LoadTieFighter(root);
 
 	/*Model* floorModel3 = new Model();
 	floorModel3->load("models/Ship-Part-3.fbx");
@@ -363,4 +347,84 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
 	return 0;
+}
+
+void LoadTieFighter(GameNode* root){
+
+	Model* tieModel1 = new Model();
+	tieModel1->load("models/tie1.fbx");
+
+	ModelNode* floorNode1 = new ModelNode(tieModel1);
+	floorNode1->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(floorNode1);
+
+	Model* tieModel2 = new Model();
+	tieModel2->load("models/tie2.fbx");
+
+	ModelNode* tieNode2 = new ModelNode(tieModel2);
+	tieNode2->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(tieNode2);
+
+	Model* tieModel3 = new Model();
+	tieModel3->load("models/tie3.fbx");
+
+	ModelNode* tieNode3 = new ModelNode(tieModel3);
+	tieNode3->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(tieNode3);
+
+	Model* tieModel4 = new Model();
+	tieModel4->load("models/tie4.fbx");
+
+	ModelNode* tieNode4 = new ModelNode(tieModel4);
+	tieNode4->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(tieNode4);
+
+	Model* tieModel5 = new Model();
+	tieModel5->load("models/tie5.fbx");
+
+	ModelNode* tieNode5 = new ModelNode(tieModel5);
+	tieNode5->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(tieNode5);
+
+	Model* tieModel6 = new Model();
+	tieModel6->load("models/tie6.fbx");
+
+	ModelNode* tieNode6 = new ModelNode(tieModel6);
+	tieNode6->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(tieNode6);
+
+	Model* tieModel7 = new Model();
+	tieModel7->load("models/tie7.fbx");
+
+	ModelNode* tieNode7 = new ModelNode(tieModel7);
+	tieNode7->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(tieNode7);
+
+}
+
+void LoadShip(GameNode* root){
+
+	Model* shipExteriorModel = new Model();
+	shipExteriorModel->load("models/Ship-Exterior.fbx");
+
+	ModelNode* shipExteriorNode = new ModelNode(shipExteriorModel);
+	shipExteriorNode->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(shipExteriorNode);
+
+	Model* shipInteriorModel = new Model();
+	shipInteriorModel->load("models/Ship-Interior.fbx");
+
+	ModelNode* shipInteriorNode = new ModelNode(shipInteriorModel);
+	shipInteriorNode->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(shipInteriorNode);
+
 }

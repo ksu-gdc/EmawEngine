@@ -102,7 +102,7 @@ void Player::updatePlayer(HWND hWnd)
 
 	_velocity->x = DirectX::XMVectorGetByIndex(velocity, 0);
 	// yvel is added here because jumping should move you straight up no matter what.
-	_velocity->y = DirectX::XMVectorGetByIndex(velocity, 1) + yvel;
+	_velocity->y = DirectX::XMVectorGetByIndex(velocity, 1) +yvel;
 	_velocity->z = DirectX::XMVectorGetByIndex(velocity, 2);
 	
 
