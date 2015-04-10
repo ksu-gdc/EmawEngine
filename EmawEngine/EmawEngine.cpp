@@ -79,13 +79,15 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	ModelNode* base = new ModelNode(e->getModel());
 	base->setGraphicsDeviceInterface(&gdi);
 
-	//ModelNode* base2 = new ModelNode(e->getModel());
-	//base2->setGraphicsDeviceInterface(&gdi);
-
-	//base2->setPosition(3, 0, 0);
+	Model* floorModel = new Model();
+	floorModel->load("models/floor.fbx");
+	
+	ModelNode* floorNode = new ModelNode(floorModel);
+	floorNode->setGraphicsDeviceInterface(&gdi);
 
 	root->addChild(base);
-	//base->addChild(base2);
+	root->addChild(floorNode);
+
 	Camera* camera = new Camera();
 
 	gdi.SetSceneGraphRoot(root);
