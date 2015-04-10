@@ -72,8 +72,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// TEST CODE!!!
 	// =========================================================================
-	VoxelMap* world = new VoxelMap("testworld", "blarghle", 1, 1);
-	Chunk testChunk = world->CreateChunk(1, 1, "blarghle", 10, 1);
+//	VoxelMap* world = new VoxelMap("testworld", "blarghle", 1, 1);
+//	Chunk testChunk = world->CreateChunk(1, 1, "blarghle", 10, 1);
 
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
