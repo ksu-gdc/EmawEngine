@@ -11,18 +11,6 @@ Grid map;
 */
 VoxelMap::VoxelMap(string dir)
 {
-	map.directory = dir;
-}
-
-/* # PUBLIC FUNCTIONS # */
-
-/* load(string);
-*  Description: Attempts to load a VoxelMap from file, or creates a new VoxelMap if no file is found. 
-*  Returns: void*
-*  Parameters: str :
-*/
-void* VoxelMap::load(string str)
-{
 	Chunk blank;
 	fstream file(map.directory + "map.dat", ios::in);
 
@@ -59,27 +47,46 @@ void* VoxelMap::load(string str)
 		}
 
 		file.close();
-	}
-	else {
-		map.seed = str;
-		map.width = 15;
-		map.height = 15;
-		map.center_X = 0;
-		map.center_Y = 0;
-	}
 
-	map.offset_X = floor(map.width / 2);
-	map.offset_Y = floor(map.height / 2);
-	map.grid = vector<vector<Chunk>>(map.width, vector<Chunk>(map.height, blank));
+		map.offset_X = floor(map.width / 2);
+		map.offset_Y = floor(map.height / 2);
+		map.grid = vector<vector<Chunk>>(map.width, vector<Chunk>(map.height, blank));
 
-	return this;
+		PopulateMap();
+	}
+	else 
+	{
+		VoxelMap(dir, dir, 20, 20);
+	}
 }
 
-/* GetMap();
-*  Description: Retrieves the Grid object, and returns it.
-*  Returns: Grid : Grid struct representing
+/*
+*  Description:
+*  Returns:
+*  Parameters:
 */
-Grid VoxelMap::GetMap() { return map; }
+VoxelMap::VoxelMap(string dir, string seed, int x, int y)
+{
+	Chunk blank;
+
+	memset(blank.chunk, 0, sizeof(blank.chunk));
+
+	map = {
+		seed,
+		dir,
+		x,
+		y,
+		floor(x / 2),
+		floor(y / 2),
+		0,
+		0,
+		vector<vector<Chunk>>(map.width, vector<Chunk>(map.height, blank))
+	};
+
+	SaveMap();
+}
+
+/* # PUBLIC FUNCTIONS # */
 
 /* SaveMap();
 *  Description: Updates the directory's map file. Returns a bool indicating success of failure.
@@ -110,32 +117,14 @@ bool VoxelMap::SaveMap()
 *  Returns:
 *  Parameters:
 */
-void VoxelMap::SetMapCenter(int coord_x, int coord_y)
+void VoxelMap::PopulateMap()
 {
-
-}
-
-/*
-*  Description: Sets the size of the area of the map that will be loaded. Size must be odd, if not the size is increased by one
-*  Returns: nothing
-*  Parameters: size: the size of the area to be loaded
-*/
-void VoxelMap::SetMapSize(int size)
-{
-	if (size % 2 != 0 && size < 100) //make sure it's odd and positive
+	for (int a = 0; a < map.width; a++)
 	{
-		map.height = abs(size);
-		map.width = abs(size);
-	}
-	else if (size < 100)//make it odd
-	{
-		map.height = abs(size) + 1;
-		map.width = abs(size) + 1;
-	}
-	else // max out size at 99
-	{
-		map.height = 99;
-		map.width = 99;
+		for (int b = 0; b < map.height; b++)
+		{
+			map.grid[a][b] = CreateChunk(a, b, map.seed, 10, 5);
+		}
 	}
 }
 
@@ -231,15 +220,14 @@ Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, string seed, int freq, int
 {
 	Chunk ch = {
 		coord_x,
-		coord_y,
-		true
+		coord_y
 	};
 
 	if ((freq > 9 && freq < 101) && (freq + floor) < ch.height)
 	{
 		vector< vector<short> > height = vector<vector<short>>(ch.width, vector<short>(ch.height, 0));
 
-		srand(GeneratePsuedoKey(coord_x, coord_y)*stoi(seed));
+		srand(GeneratePsuedoKey(coord_x, coord_y));//*stoi(seed));
 
 		height[0][0] = rand() % freq + (floor + 1);
 		height[0][16] = rand() % freq + (floor + 1);
@@ -292,18 +280,21 @@ void VoxelMap::CreateChunk(Chunk ch)
 *  Returns:
 *  Parameters:
 */
-bool VoxelMap::unload()
+short VoxelMap::GetChunkValue(int grid_x, int grid_y, int chunk_x, int chunk_y, int chunk_z)
 {
-	for (int a = 0; a < map.width; a++)
+	if ((grid_x > -1 && grid_x < map.width) && (grid_y > -1 && grid_y < map.height))
 	{
-		for (int b = 0; b < map.height; b++)
+		Chunk ch = map.grid[grid_x][grid_y];
+
+		if ((chunk_x > -1 && chunk_x < ch.width) && (chunk_y > -1 && chunk_y < ch.length))
 		{
-			delete &map.grid[a][b];
+			if (chunk_z > -1 && chunk_z < ch.height)
+			{
+				return ch.chunk[chunk_x][chunk_y][chunk_z];
+			}
 		}
 	}
-	delete &map;
-
-	return true;
+	return -1;
 }
 
 /* # PRIVATE FUNCTIONS # */
