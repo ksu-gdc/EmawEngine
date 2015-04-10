@@ -24,7 +24,7 @@ struct Grid {
 	vector< vector<Chunk> > grid;
 };
 
-class VoxelMap : public Asset
+class VoxelMap
 {
 public:
 	VoxelMap(string);

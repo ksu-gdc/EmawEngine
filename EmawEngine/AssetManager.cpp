@@ -145,14 +145,14 @@ void AssetManager::unloadSoundFX(std::string name) {
 }
 
 // VoxelMap ====================================
-Asset* AssetManager::loadVoxelMap(std::string name) {
+/*Asset* AssetManager::loadVoxelMap(std::string name) {
 	VoxelMap voxmap(name);
 	//TODO: Load asset
 	return &voxmap;
 }
 void AssetManager::unloadVoxelMap(std::string name) {
 	//TODO: Unload asset
-}
+}*/
 
 // BSPMap ====================================
 Asset* AssetManager::loadBSPMap(std::string name) {
