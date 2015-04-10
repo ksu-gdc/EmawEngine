@@ -11,6 +11,7 @@
 #include "ModelNode.h"
 #include "InputManager.h"
 #include "VoxelMap.h"
+#include <DirectXMath.h>
 #define MAX_LOADSTRING 100
 
 // Global Variables:
@@ -73,13 +74,14 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// TEST CODE!!!
 	// =========================================================================
-	VoxelMap* world = new VoxelMap("testworld", "blarghle", 1, 1);
-	//Chunk testChunk = world->CreateChunk(1, 1, "blarghle", 10, 1);
+	VoxelMap* worldGenerator = new VoxelMap("testmap","blarghle", 11, 11);
+	
 
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
 	VoxelChunkNode* test = new VoxelChunkNode();
 	test->setGraphicsDeviceInterface(&gdi);
+	test->loadChunkBuffer(worldGenerator, 1, 1);
 
 /*	Entity* e = new Entity();
 	ModelNode* base = new ModelNode(e->getModel());
@@ -93,6 +95,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	root->addChild(test);
 //	root->addChild(base);
 //	base->addChild(base2);
+
 	Camera* camera = new Camera();
 
 	gdi.SetSceneGraphRoot(root);
@@ -170,8 +173,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 				//base->resetTransformMatrix();
 				player->updatePlayer(hWnd);
 				root->update(identity->getTransformMatrix());
-//				base2->rotateX(0.0005);
-//				base->rotateY(0.0005);
+
+				//base2->rotateX(0.0005);
+				//base->rotateY(0.0005);
 			}
 
 

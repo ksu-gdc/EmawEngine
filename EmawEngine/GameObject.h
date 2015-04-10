@@ -18,11 +18,16 @@ public:
 	void setPosition(Vector* v);
 	void setVelocity(Vector* v);
 	void setAlive(bool alive);
+	void setCollision(bool collision);
 
 protected:
 	Vector* _position;
 	Vector* _velocity;
 	Vector* _orientation;
+	bool _hasCollision;
+	bool _isFalling;
 	bool _isAlive;
+
+	float GRAVITY;
 };
 

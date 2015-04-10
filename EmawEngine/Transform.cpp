@@ -41,15 +41,15 @@ D3DXMATRIX* Transform::getTransformMatrix(){
 }
 
 void Transform::rotateX(float angle){
-	D3DXMatrixRotationX(rotateMatrixX, angle);
+	D3DXMatrixRotationX(rotateMatrixX, angle * 0.0174532925);
 }
 
 void Transform::rotateY(float angle){
-	D3DXMatrixRotationY(rotateMatrixY, angle);
+	D3DXMatrixRotationY(rotateMatrixY, angle * 0.0174532925);
 }
 
 void Transform::rotateZ(float angle){
-	D3DXMatrixRotationZ(rotateMatrixZ, angle);
+	D3DXMatrixRotationZ(rotateMatrixZ, angle * 0.0174532925);
 }
 
 void Transform::scale(float x, float y, float z){

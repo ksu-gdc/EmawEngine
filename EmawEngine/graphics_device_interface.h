@@ -26,16 +26,18 @@ public:
 	void NextFrame();
 	void InitPipeline();
 	void InitGraphics();
-	bool Update(std::vector<VERTEX>*);
-	bool Update(VERTEX*, int);
-	void VertexPipeline(std::vector<VERTEX>*, D3DXMATRIX*);
-	void VoxelPipeline(VERTEX*, int, D3DXMATRIX*);
+	bool Update(ID3D11Buffer*, VERTEX*, int);
+	bool Update(ID3D11Buffer*, std::vector<VERTEX>*);
+	void VoxelPipeline(ID3D11Buffer*, VERTEX*, int, D3DXMATRIX*);
+	void VertexPipeline(ID3D11Buffer*, std::vector<VERTEX>*, D3DXMATRIX*);
+	ID3D11Buffer* CreateVertexBuffer(int numOfVerticies);
 	BOOL IsWindowed();
 
 private:
 	bool Render();
 	bool RenderModel();
-	bool RenderVoxel();
+	bool RenderModel(ID3D11Buffer*);
+	bool RenderVoxel(ID3D11Buffer*);
 	void RenderShader();
 
 	DXGI_SWAP_CHAIN_DESC	scd;

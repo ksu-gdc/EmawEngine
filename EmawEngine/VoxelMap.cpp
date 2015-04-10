@@ -88,6 +88,17 @@ VoxelMap::VoxelMap(string dir, string seed, int x, int y)
 	PopulateMap();
 }
 
+/*
+*	Desctiption:
+*	Returns:
+*	Parameters:
+*/
+VoxelMap::~VoxelMap()
+{
+
+
+}
+
 /* # PUBLIC FUNCTIONS # */
 
 /* SaveMap();

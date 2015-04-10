@@ -1,9 +1,25 @@
 #include "stdafx.h"
 #include "Model.h"
 
+// Sometimes models will read in extremely small values.
+// We might as well set these values to 0. So this const
+// is just used as a minimum value.
+const float MINIMUM_TRANSFORMATION_VALUE = 0.00005;
 
 Model::Model()
 {
+	m_InitPos = new Vector3();
+	m_InitScale = new Vector3();
+	m_InitRot = new Vector3();
+	m_InitPos->x = new float();
+	m_InitPos->y = new float();
+	m_InitPos->z = new float();
+	m_InitScale->x = new float();
+	m_InitScale->y = new float();
+	m_InitScale->z = new float();
+	m_InitRot->x = new float();
+	m_InitRot->y = new float();
+	m_InitRot->z = new float();
 }
 
 Model::Model(std::vector<VERTEX> vBuffer){
@@ -64,6 +80,10 @@ void* Model::load(std::string str) {
 				continue;
 			}
 			FbxMesh* mesh = (FbxMesh*)childNode->GetNodeAttribute();
+
+			// Pull initial transformation values out of the mesh.
+			setInitialTransforms(mesh);
+
 			FbxVector4* verticies = mesh->GetControlPoints();
 			for (int j = 0; j < mesh->GetPolygonCount(); j++) {
 				int numVerticies = mesh->GetPolygonSize(j);
@@ -107,8 +127,98 @@ void* Model::load(std::string str) {
 
 	node->Destroy();
 	manager->Destroy();
+
+	//applyInitialTransformations();
 	
 	return NULL;
+}
+
+void Model::setInitialTransforms(FbxMesh* mesh){
+
+	// Models can come with scale, translation, and rotation. This
+	// code will extract those values and store them in the model so that
+	// the models will render correctly.
+	FbxDouble3 initialTranslate = mesh->GetNode()->LclTranslation.Get();
+	FbxDouble3 initialScale = mesh->GetNode()->LclScaling.Get();
+	FbxDouble3 initialRotate = mesh->GetNode()->LclRotation.Get();
+
+	if (abs(initialTranslate.mData[0]) > MINIMUM_TRANSFORMATION_VALUE){
+		*m_InitPos->x = initialTranslate.mData[0];
+	}
+	if (abs(initialTranslate.mData[1]) > MINIMUM_TRANSFORMATION_VALUE){
+		*m_InitPos->y = initialTranslate.mData[1];
+	}
+	if (abs(initialTranslate.mData[2]) > MINIMUM_TRANSFORMATION_VALUE){
+		*m_InitPos->z = initialTranslate.mData[2];
+	}
+
+	if (abs(initialScale.mData[0]) > MINIMUM_TRANSFORMATION_VALUE){
+		*m_InitScale->x = initialScale.mData[0];
+	}
+	if (abs(initialScale.mData[1]) > MINIMUM_TRANSFORMATION_VALUE){
+		*m_InitScale->y = initialScale.mData[1];
+	}
+	if (abs(initialScale.mData[2]) > MINIMUM_TRANSFORMATION_VALUE){
+		*m_InitScale->z = initialScale.mData[2];
+	}
+
+	if (abs(initialRotate.mData[0]) > MINIMUM_TRANSFORMATION_VALUE){
+		*m_InitRot->x = initialRotate.mData[0];
+	}
+	if (abs(initialRotate.mData[1]) > MINIMUM_TRANSFORMATION_VALUE){
+		*m_InitRot->y = initialRotate.mData[1];
+	}
+	if (abs(initialRotate.mData[2]) > MINIMUM_TRANSFORMATION_VALUE){
+		*m_InitRot->z = initialRotate.mData[2];
+	}
+
+}
+
+void Model::applyInitialTransformations(){
+
+	D3DXMATRIX* rotateMatrixX = new D3DXMATRIX();
+	D3DXMATRIX* rotateMatrixY = new D3DXMATRIX();
+	D3DXMATRIX* rotateMatrixZ = new D3DXMATRIX();
+	D3DXMATRIX* translateMatrix = new D3DXMATRIX();
+	D3DXMATRIX* scaleMatrix = new D3DXMATRIX();
+	D3DXMATRIX* transformMatrix = new D3DXMATRIX();
+
+	D3DXMatrixIdentity(rotateMatrixX);
+	D3DXMatrixIdentity(rotateMatrixY);
+	D3DXMatrixIdentity(rotateMatrixZ);
+	D3DXMatrixIdentity(translateMatrix);
+	D3DXMatrixIdentity(scaleMatrix);
+	D3DXMatrixIdentity(transformMatrix);
+
+	D3DXMatrixTranslation(translateMatrix, *m_InitPos->x, *m_InitPos->y, *m_InitPos->z);
+	D3DXMatrixScaling(scaleMatrix, *m_InitScale->x, *m_InitScale->y, *m_InitScale->z);
+	D3DXMatrixRotationZ(rotateMatrixZ, *m_InitRot->z);
+	D3DXMatrixRotationY(rotateMatrixY, *m_InitRot->y);
+	D3DXMatrixRotationX(rotateMatrixX, *m_InitRot->x);
+
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixX);
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixY);
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixZ);
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, scaleMatrix);
+	D3DXMatrixMultiply(transformMatrix, transformMatrix, translateMatrix);
+
+	for (int i = 0; i < vertexBuffer.size(); i++){
+
+		D3DXVECTOR4* transformedVertex = new D3DXVECTOR4();
+		D3DXVECTOR3* vertex = new D3DXVECTOR3();
+
+		vertex->x = vertexBuffer.at(i).X;
+		vertex->y = vertexBuffer.at(i).Y;
+		vertex->z = vertexBuffer.at(i).Z;
+
+		D3DXVec3Transform(transformedVertex, vertex, transformMatrix);
+
+		vertexBuffer.at(i).X = transformedVertex->x;
+		vertexBuffer.at(i).Y = transformedVertex->y;
+		vertexBuffer.at(i).Z = transformedVertex->z;
+
+	}
+
 }
 
 void* Model::getData() {
