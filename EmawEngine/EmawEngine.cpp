@@ -76,17 +76,35 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
 	Entity* e = new Entity();
-	ModelNode* base = new ModelNode(e->getModel());
-	base->setGraphicsDeviceInterface(&gdi);
+	//ModelNode* base = new ModelNode(e->getModel());
+	//base->setGraphicsDeviceInterface(&gdi);
 
 	Model* floorModel = new Model();
-	floorModel->load("models/floor.fbx");
+	floorModel->load("models/Ship-Exterior.fbx");
 	
 	ModelNode* floorNode = new ModelNode(floorModel);
 	floorNode->setGraphicsDeviceInterface(&gdi);
 
-	root->addChild(base);
+	//root->addChild(base);
 	root->addChild(floorNode);
+
+	Model* floorModel2 = new Model();
+	floorModel2->load("models/Ship-Interior.fbx");
+
+	ModelNode* floorNode2 = new ModelNode(floorModel2);
+	floorNode2->setGraphicsDeviceInterface(&gdi);
+
+	//root->addChild(base);
+	root->addChild(floorNode2);
+
+	/*Model* floorModel3 = new Model();
+	floorModel3->load("models/Ship-Part-3.fbx");
+
+	ModelNode* floorNode3 = new ModelNode(floorModel3);
+	floorNode3->setGraphicsDeviceInterface(&gdi);
+
+	//root->addChild(base);
+	root->addChild(floorNode3);*/
 
 	Camera* camera = new Camera();
 
