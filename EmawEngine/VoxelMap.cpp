@@ -85,7 +85,6 @@ VoxelMap::VoxelMap(string dir, string seed, int x, int y)
 
 	SaveMap();
 	PopulateMap();
-<<<<<<< HEAD
 }
 
 /*
@@ -96,8 +95,7 @@ VoxelMap::VoxelMap(string dir, string seed, int x, int y)
 VoxelMap::~VoxelMap()
 {
 
-=======
->>>>>>> origin/Not-Minecraft-Dev
+
 }
 
 /* # PUBLIC FUNCTIONS # */
