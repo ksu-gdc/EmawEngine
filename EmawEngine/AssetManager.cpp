@@ -146,9 +146,9 @@ void AssetManager::unloadSoundFX(std::string name) {
 
 // VoxelMap ====================================
 Asset* AssetManager::loadVoxelMap(std::string name) {
-	Asset* asset = NULL;
+	VoxelMap voxmap(name);
 	//TODO: Load asset
-	return asset;
+	return &voxmap;
 }
 void AssetManager::unloadVoxelMap(std::string name) {
 	//TODO: Unload asset

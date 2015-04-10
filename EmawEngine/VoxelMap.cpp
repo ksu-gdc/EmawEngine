@@ -11,11 +11,26 @@ Grid map;
 */
 VoxelMap::VoxelMap(string dir)
 {
-	try
+	map.directory = dir;
+}
+
+/* # PUBLIC FUNCTIONS # */
+
+/* load(string);
+*  Description: Attempts to load a VoxelMap from file, or creates a new VoxelMap if no file is found. 
+*  Returns: void*
+*  Parameters: str :
+*/
+void* VoxelMap::load(string str)
+{
+	Chunk blank;
+	fstream file(map.directory + "map.dat", ios::in);
+
+	memset(blank.chunk, 0, sizeof(blank.chunk));
+
+	if (file.good())
 	{
-		fstream file = GetFileHandle(dir + "map.dat", ios::in);
 		string line;
-		Chunk blank;
 
 		while (getline(file, line))
 		{
@@ -24,10 +39,6 @@ VoxelMap::VoxelMap(string dir)
 			if (tokens[0] == "Seed")
 			{
 				map.seed = tokens[1];
-			}
-			else if (tokens[0] == "Directory")
-			{
-				map.directory = tokens[1];
 			}
 			else if (tokens[0] == "Width")
 			{
@@ -48,53 +59,21 @@ VoxelMap::VoxelMap(string dir)
 		}
 
 		file.close();
-
-		//memset(blank.chunk, 0, sizeof(blank.chunk));
-		map.offset_X = (int)floor(map.width / 2);
-		map.offset_Y = (int)floor(map.height / 2);
-		map.grid = vector<vector<Chunk>>(map.width, vector<Chunk>(map.height, blank));
 	}
-	catch (exception e) { throw e; }
-}
-
-/* VoxelMap(string, string, width, height);
-*  Description: Creates a NEW VoxelMap class object with the defining parameters.
-*  Parameters: dir : The directory to save the VoxelMap object, data, and resources.
-*			   seed : The world generator seed, used to generate contiguous terrain.
-*			   width : Specifies how many horizontal chunks will be loaded at once.
-*			   height : Specifies how many vertical chunks will be loaded at once.
-*/
-VoxelMap::VoxelMap(string dir, string seed, int width, int height)
-{
-	if (width > 0 && height > 0) {
-		//Chunk blank;
-
-		//memset(blank.chunk, 0, sizeof(blank.chunk));
-
-		width = abs(width);
-		height = abs(height);
-
-		if ((width % 2) != 1 && width > 0) width += 1;
-		if ((height % 2) != 1 && height > 0) height += 1;
-
-		map = {
-			seed,
-			dir,
-			width,
-			height,
-			(int)floor(width / 2),
-			(int)floor(height / 2),
-			0,
-			0,
-			vector<vector<Chunk>>(width, vector<Chunk>(height/*, blank*/))
-		};
-
-		MakeDirectory(map.directory);
-		MakeDirectory(map.directory + "Regions/");
+	else {
+		map.seed = str;
+		map.width = 15;
+		map.height = 15;
+		map.center_X = 0;
+		map.center_Y = 0;
 	}
-}
 
-/* # PUBLIC FUNCTIONS # */
+	map.offset_X = floor(map.width / 2);
+	map.offset_Y = floor(map.height / 2);
+	map.grid = vector<vector<Chunk>>(map.width, vector<Chunk>(map.height, blank));
+
+	return this;
+}
 
 /* GetMap();
 *  Description: Retrieves the Grid object, and returns it.
@@ -108,10 +87,10 @@ Grid VoxelMap::GetMap() { return map; }
 */
 bool VoxelMap::SaveMap()
 {
-	try
-	{
-		fstream file = GetFileHandle(map.directory + "map.dat", ios::out | ios::trunc);
+	fstream file(map.directory + "map.dat", ios::out | ios::trunc);
 
+	if (file.good())
+	{
 		file << "Seed=" << map.seed << endl;
 		file << "Directory=" << map.directory << endl;
 		file << "Width=" << map.width << endl;
@@ -121,17 +100,9 @@ bool VoxelMap::SaveMap()
 
 		file.close();
 
-		for (size_t a = 0; a < map.grid.size(); a++)
-		{
-			for (size_t b = 0; b < map.grid[a].size(); b++)
-			{
-				SaveChunk(map.grid[a][b]);
-			}
-		}
-
 		return true;
 	}
-	catch (exception e) { throw e; }
+	return false;
 }
 
 /*
@@ -181,13 +152,12 @@ bool VoxelMap::LoadChunk(int coord_x, int coord_y)
 	if (coord_x < map.width && coord_y < map.height)
 	{
 		Chunk vr = map.grid[coord_x][coord_y];
+		string line, name = "r." + to_string(coords.first) + "." + to_string(coords.second) + ".hmap";
+		fstream file(map.directory + "Regions/" + name, ios::in);
 		memset(vr.chunk, 0, sizeof(vr.chunk));
 
-		try
+		if (file.good())
 		{
-			string line, name = "r." + to_string(coords.first) + "." + to_string(coords.second) + ".hmap";
-			fstream file = GetFileHandle(map.directory + "Regions/" + name, ios::in);
-
 			while (getline(file, line))
 			{
 				vector<string> tmp = Parse(line, '=');
@@ -204,7 +174,7 @@ bool VoxelMap::LoadChunk(int coord_x, int coord_y)
 			CreateChunk(vr);
 			file.close();
 		}
-		catch (exception e)
+		else
 		{
 			//TO DO : Create variables for floor, and frequency. 
 			vr = CreateChunk(coords.first, coords.second, map.seed, 10, 5);
@@ -225,11 +195,11 @@ bool VoxelMap::LoadChunk(int coord_x, int coord_y)
 */
 void VoxelMap::SaveChunk(Chunk ch)
 {
-	try
-	{
-		string name = "r." + to_string(ch.coord_X) + "." + to_string(ch.coord_Y) + ".hmap";
-		fstream file = GetFileHandle(map.directory + "Regions/" + name, ios::out | ios::trunc);
+	string name = "r." + to_string(ch.coord_X) + "." + to_string(ch.coord_Y) + ".hmap";
+	fstream file = GetFileHandle(map.directory + "Regions/" + name, ios::out | ios::trunc);
 
+	if (file.good())
+	{
 		for (int a = 0; a < ch.length; a++)
 		{
 			file << a << "=";
@@ -248,11 +218,8 @@ void VoxelMap::SaveChunk(Chunk ch)
 				}
 			}
 		}
-
-		ch.set = true;
 		file.close();
 	}
-	catch (exception e) { throw e; }
 }
 
 /* CreateChunk(int, int, string, int, int);
@@ -262,14 +229,14 @@ void VoxelMap::SaveChunk(Chunk ch)
 */
 Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, string seed, int freq, int floor)
 {
-	if ((freq > 9 && freq < 101) && (freq + floor) < map.grid[0][0].height)
-	{
-		Chunk ch = {
-			coord_x,
-			coord_y,
-			true
-		};
+	Chunk ch = {
+		coord_x,
+		coord_y,
+		true
+	};
 
+	if ((freq > 9 && freq < 101) && (freq + floor) < ch.height)
+	{
 		vector< vector<short> > height = vector<vector<short>>(ch.width, vector<short>(ch.height, 0));
 
 		srand(GeneratePsuedoKey(coord_x, coord_y)*stoi(seed));
@@ -296,7 +263,6 @@ Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, string seed, int freq, int
 			}
 		}
 
-		ch.set = true;
 		return ch;
 	}
 	throw invalid_argument("Invalid frequency value. Frequency must be between 10, and 100.");
@@ -319,8 +285,25 @@ void VoxelMap::CreateChunk(Chunk ch)
 			}
 		}
 	}
+}
 
-	ch.set = true;
+/*
+*  Description:
+*  Returns:
+*  Parameters:
+*/
+bool VoxelMap::unload()
+{
+	for (int a = 0; a < map.width; a++)
+	{
+		for (int b = 0; b < map.height; b++)
+		{
+			delete &map.grid[a][b];
+		}
+	}
+	delete &map;
+
+	return true;
 }
 
 /* ~VoxelMap();
@@ -372,70 +355,6 @@ int VoxelMap::GeneratePsuedoKey(int coord_x, int coord_y)
 	srand((u_int)(coord_x));
 	srand(rand() * (u_int)(sin(coord_y) * 10 + 100));
 	return rand();
-}
-
-/*
-*  Description:
-*  Returns:
-*  Parameters:
-*/
-bool VoxelMap::IsChunkAdjacent(int coord_x, int coord_y, Adjacent side)
-{
-	pair<int, int> coords = MapToRealCoord(coord_x, coord_y);
-
-	switch (side)
-	{
-	case LEFT:
-		if (coords.second >= 0 && coords.second <= 14)
-		{
-			if ((coords.first - 1) >= 0 && (coords.first - 1) < 14)
-			{
-				if (map.grid[coords.first - 1][coords.second].set == true)
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	case RIGHT:
-		if (coords.second >= 0 && coords.second <= 14)
-		{
-			if ((coords.first + 1) > 0 && (coords.first + 1) <= 14)
-			{
-				if (map.grid[coords.first + 1][coords.second].set == true)
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	case TOP:
-		if (coords.first >= 0 && coords.first <= 14)
-		{
-			if ((coords.second - 1) >= 0 && (coords.second - 1) < 14)
-			{
-				if (map.grid[coords.first][coords.second - 1].set == true)
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	case BOTTOM:
-		if (coords.first >= 0 && coords.first <= 14)
-		{
-			if ((coords.first + 1) > 0 && (coords.first + 1) <= 14)
-			{
-				if (map.grid[coords.first + 1][coords.second].set == true)
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	default:
-		return false;
-	}
 }
 
 /* Parse(string, char);
