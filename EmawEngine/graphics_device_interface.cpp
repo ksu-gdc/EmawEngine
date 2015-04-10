@@ -176,7 +176,7 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 	// Create the projection matrix for 3D rendering.
 	D3DXMatrixPerspectiveFovLH(&m_projMatrix, fieldOfView, screenAspect, 0.1f, 1000.0f);
 
-	InitPipeline();
+//	InitPipeline();
 	InitGraphics();
 
 
@@ -318,7 +318,32 @@ bool GraphicsDeviceInterface::RenderModel(){
 	m_Context->IASetVertexBuffers(0, 1, &m_VertBuffer, &stride, &offset);
 
 	// select which primtive type we are using
+	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	return true;
+
+}
+
+bool GraphicsDeviceInterface::RenderVoxel(){
+
+	UINT stride = sizeof(VERTEX);
+	UINT offset = 0;
+	m_Context->IASetVertexBuffers(0, 1, &m_VertBuffer, &stride, &offset);
+
+	// select which primtive type we are using
 	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	shdrs = new ShaderAsset(this);
+	ShaderStruct *blah = (ShaderStruct*)shdrs->load("VoxShader.geo");
+
+	m_Context->VSSetShader(blah->VertShader, 0, 0);
+	m_Context->PSSetShader(blah->PixShader, 0, 0);
+	m_Context->GSSetShader(blah->GeoShader, 0, 0);
+
+	m_Context->IASetInputLayout(blah->InputLayout);
+
+	m_VertexShader = new VertexShader();
+	m_VertexShader->initializeShader(m_Device);
 
 	return true;
 
@@ -394,7 +419,7 @@ void GraphicsDeviceInterface::VertexPipeline(std::vector<VERTEX>* vertices, D3DX
 void GraphicsDeviceInterface::VoxelPipeline(VERTEX* vertices, int size, D3DXMATRIX* transform){
 
 	//I want to rename these so they make a little more sense.
-	RenderModel();
+	RenderVoxel();
 	m_VertexShader->initializeShader(m_Device);
 	m_VertexShader->setParameters(m_Context, *transform, m_Camera->GetViewMatrix(), m_projMatrix);
 	Update(vertices, size);

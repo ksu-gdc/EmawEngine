@@ -35,6 +35,7 @@ public:
 private:
 	bool Render();
 	bool RenderModel();
+	bool RenderVoxel();
 	void RenderShader();
 
 	DXGI_SWAP_CHAIN_DESC	scd;
