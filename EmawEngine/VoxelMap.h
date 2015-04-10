@@ -11,17 +11,24 @@ using namespace std;
 
 struct Chunk {
 	int coord_X, coord_Y;
-	static const int width = 17, length = 17, height = 225;
+	static const int size = 17, height = 225;
 	short height_map[17][17];
 	short chunk[17][17][225];
 };
 
 struct Grid {
-	string seed, directory;
-	int width, height;
+	string directory;
+	int seed, width, height;
 	int offset_X, offset_Y;
 	int center_X, center_Y;
 	vector< vector<Chunk> > grid;
+};
+
+enum Corner {
+	TOPLEFT,
+	TOPRGHT,
+	BOTLEFT,
+	BOTRGHT
 };
 
 class VoxelMap
@@ -33,9 +40,9 @@ public:
 	void PopulateMap();
 	bool LoadChunk(int, int);
 	void SaveChunk(Chunk);
-	Chunk CreateChunk(int, int, string, int, int);
+	Chunk CreateChunk(int, int, int, int);
 	void CreateChunk(Chunk);
-	Chunk GetChunk(int, int);
+	Chunk* GetChunk(int, int);
 	short GetChunkValue(int, int, int, int, int);
 	~VoxelMap();
 	vector< vector<short> > GenerateHeightMap(int, int, int, int, int, int, vector<vector<short>>);
@@ -48,4 +55,5 @@ private:
 	fstream GetFileHandle(string, ios::openmode);
 	pair<int, int> MapToRealCoord(int, int);
 	pair<int, int> MapToVirtualCoord(int, int);
+	short GetAdjValue(Chunk, Corner);
 };

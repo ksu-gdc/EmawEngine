@@ -26,7 +26,7 @@ VoxelMap::VoxelMap(string dir)
 
 			if (tokens[0] == "Seed")
 			{
-				map.seed = tokens[1];
+				map.seed = stoi(tokens[1]);
 			}
 			else if (tokens[0] == "Width")
 			{
@@ -68,12 +68,13 @@ VoxelMap::VoxelMap(string dir)
 VoxelMap::VoxelMap(string dir, string seed, int x, int y)
 {
 	Chunk blank;
+	hash<string> hash;
 
 	memset(blank.chunk, 0, sizeof(blank.chunk));
 
 	map = {
-		seed,
 		dir,
+		hash(seed),
 		x,
 		y,
 		floor(x / 2),
@@ -124,7 +125,7 @@ void VoxelMap::PopulateMap()
 	{
 		for (int b = 0; b < map.height; b++)
 		{
-			map.grid[a][b] = CreateChunk(a, b, map.seed, 50, 5);
+			map.grid[a][b] = CreateChunk(a, b, 50, 5);
 		}
 	}
 }
@@ -167,7 +168,7 @@ bool VoxelMap::LoadChunk(int coord_x, int coord_y)
 		else
 		{
 			//TO DO : Create variables for floor, and frequency. 
-			vr = CreateChunk(coords.first, coords.second, map.seed, 10, 5);
+			vr = CreateChunk(coords.first, coords.second, 10, 5);
 		}
 
 		map.grid[coords.first][coords.second] = vr;
@@ -190,15 +191,15 @@ void VoxelMap::SaveChunk(Chunk ch)
 
 	if (file.good())
 	{
-		for (int a = 0; a < ch.length; a++)
+		for (int a = 0; a < ch.size; a++)
 		{
 			file << a << "=";
 
-			for (int b = 0; b < ch.width; b++)
+			for (int b = 0; b < ch.size; b++)
 			{
 				file << ch.height_map[a][b];
 
-				if (b == (ch.width - 1))
+				if (b == (ch.size - 1))
 				{
 					file << endl;
 				}
@@ -217,7 +218,7 @@ void VoxelMap::SaveChunk(Chunk ch)
 *  Returns:
 *  Parameters:
 */
-Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, string seed, int freq, int floor)
+Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, int freq, int floor)
 {
 	Chunk ch = {
 		coord_x,
@@ -226,22 +227,22 @@ Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, string seed, int freq, int
 
 	if ((freq > 9 && freq < 101) && (freq + floor) < ch.height)
 	{
-		vector< vector<short> > height = vector<vector<short>>(ch.width, vector<short>(ch.height, 0));
+		vector< vector<short> > height = vector<vector<short>>(ch.size, vector<short>(ch.size, 0));
 
-		srand(GeneratePsuedoKey(coord_x, coord_y));//*stoi(seed));
+		srand(GeneratePsuedoKey(coord_x, coord_y) * map.seed);
 
 		height[0][0] = rand() % freq + (floor + 1);
 		height[0][16] = rand() % freq + (floor + 1);
 		height[16][0] = rand() % freq + (floor + 1);
 		height[16][16] = rand() % freq + (floor + 1);
 
-		height = GenerateHeightMap(coord_x, coord_y, freq, 17, 0, 0, height);
+		height = GenerateHeightMap(coord_x, coord_y, freq, ch.size, 0, 0, height);
 
 		memset(ch.chunk, 0, sizeof(ch.chunk));
 
-		for (int a = 0; a < ch.length; a++)
+		for (int a = 0; a < ch.size; a++)
 		{
-			for (int b = 0; b < ch.width; b++)
+			for (int b = 0; b < ch.size; b++)
 			{
 				ch.height_map[a][b] = height[a][b];
 
@@ -264,9 +265,9 @@ Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, string seed, int freq, int
 */
 void VoxelMap::CreateChunk(Chunk ch)
 {
-	for (int a = 0; a < ch.length; a++)
+	for (int a = 0; a < ch.size; a++)
 	{
-		for (int b = 0; b < ch.width; b++)
+		for (int b = 0; b < ch.size; b++)
 		{
 			for (int c = 0; c < ch.height_map[a][b]; c++)
 			{
@@ -281,11 +282,11 @@ void VoxelMap::CreateChunk(Chunk ch)
 *  Returns:
 *  Parameters:
 */
-Chunk VoxelMap::GetChunk(int grid_x, int grid_y)
+Chunk* VoxelMap::GetChunk(int grid_x, int grid_y)
 {
 	if ((grid_x > -1 && grid_x < map.width) && (grid_y > -1 && grid_y < map.height))
 	{
-		return map.grid[grid_x][grid_y];
+		return &map.grid[grid_x][grid_y];
 	}
 }
 
@@ -300,7 +301,7 @@ short VoxelMap::GetChunkValue(int grid_x, int grid_y, int chunk_x, int chunk_y, 
 	{
 		Chunk ch = map.grid[grid_x][grid_y];
 
-		if ((chunk_x > -1 && chunk_x < ch.width) && (chunk_y > -1 && chunk_y < ch.length))
+		if ((chunk_x > -1 && chunk_x < ch.size) && (chunk_y > -1 && chunk_y < ch.size))
 		{
 			if (chunk_z > -1 && chunk_z < ch.height)
 			{
@@ -309,6 +310,13 @@ short VoxelMap::GetChunkValue(int grid_x, int grid_y, int chunk_x, int chunk_y, 
 		}
 	}
 	return -1;
+}
+
+/* ~VoxelMap();
+*  Description: VoxelMap class destructor.
+*/
+VoxelMap::~VoxelMap()
+{
 }
 
 /* # PRIVATE FUNCTIONS # */
@@ -352,7 +360,7 @@ int VoxelMap::GeneratePsuedoKey(int coord_x, int coord_y)
 {
 	srand((u_int)(coord_x));
 	srand(rand() * (u_int)(sin(coord_y) * 10 + 100));
-	return rand();
+	return rand();// *stoi(map.seed);
 }
 
 /* Parse(string, char);
