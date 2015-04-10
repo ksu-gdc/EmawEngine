@@ -36,9 +36,6 @@ void GraphicsDeviceInterface::SetCamera(Camera* camera){
 bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 	HRESULT hResult;
 
-	// Create swap chain info struct
-	DXGI_SWAP_CHAIN_DESC scd;
-
 	// Clear the struct
 	ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
 
@@ -50,8 +47,9 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;	// swap chain is output
 	scd.OutputWindow = hWnd;							// window to render into
 	scd.SampleDesc.Count = 4;							// use 4 multisamples for antialiasing
-	scd.Windowed = true;
-	
+	scd.Windowed = wind->getWindowed();					// Sets windowed mode
+	scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;	// Allow full-screen switching
+
 
 	// Create the device, context, and swap chain
 	hResult = D3D11CreateDeviceAndSwapChain(NULL,
@@ -71,6 +69,21 @@ bool GraphicsDeviceInterface::Initialize(HWND hWnd, WindowSize* wind) {
 	{
 		return FALSE;
 	}
+
+	// Retrieves the IDXGIFactory that created "m_Device"
+	IDXGIDevice *pDXGIDevice;
+	m_Device->QueryInterface(__uuidof(IDXGIDevice), (void **)&pDXGIDevice);
+	IDXGIAdapter *pDXGIAdapter;
+	pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), (void **)&pDXGIAdapter);
+	IDXGIFactory *pDXGIFactory;
+	pDXGIAdapter->GetParent(__uuidof(IDXGIFactory), (void **)&pDXGIFactory);
+
+	// Disables the use of Alt-Enter to switch between fullscreen/windowed
+	pDXGIFactory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_ALT_ENTER);
+	
+	// Resized the target (window or screen resolution) and back buffers
+	m_Swapchain->ResizeTarget(&scd.BufferDesc);
+	m_Swapchain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, scd.Flags);
 
 	// Get the back buffer address
 	ID3D11Texture1D *pBackBuffer;
@@ -176,7 +189,7 @@ void GraphicsDeviceInterface::InitPipeline()
 	//load shaders
 	shdrs = new ShaderAsset(this);
 	ShaderStruct *blah = (ShaderStruct*)shdrs->load("Shaders.col");
-	
+
 	m_Context->VSSetShader(blah->VertShader, 0, 0);
 	m_Context->PSSetShader(blah->PixShader, 0, 0);
 //	m_Context->GSSetShader(blah->GeoShader, 0, 0);
@@ -200,6 +213,8 @@ void GraphicsDeviceInterface::InitGraphics(void)
 // 
 void GraphicsDeviceInterface::Shutdown() {
 
+	m_Swapchain->SetFullscreenState(FALSE, NULL);	// switch to windowed mode
+
 	// close and release all COM objects
 	m_Swapchain->Release();
 	m_BackBuffer->Release();
@@ -219,6 +234,22 @@ void GraphicsDeviceInterface::Shutdown() {
 void GraphicsDeviceInterface::NextFrame()
 {
 	Render();
+}
+
+//
+// FUNCTION: GraphicsDeviceInterface::IsWindowed()
+//
+// PURPOSE: returns false if fullscreen, true if windowed;
+//
+BOOL GraphicsDeviceInterface::IsWindowed()
+{
+	if (m_Swapchain == NULL) // this occurs when program is starting up
+		return TRUE;
+
+	BOOL fullscreen;
+	m_Swapchain->GetFullscreenState(&fullscreen, NULL);
+
+	return !fullscreen;
 }
 
 //

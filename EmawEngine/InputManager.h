@@ -29,8 +29,11 @@ public:
 	bool keyReleased(Key k);
 	POINT getMousePos();
 	POINT getMouseScreenPos();
+	POINT getMouseDelta();
 
 	void update();
+	void lockMouse();
+	void unlockMouse();
 
 private:
 	InputManager();
