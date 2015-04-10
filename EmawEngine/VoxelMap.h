@@ -33,6 +33,7 @@ public:
 	Grid GetMap();
 	bool SaveMap();
 	void SetMapCenter(int, int);
+	void SetMapSize(int);
 	bool LoadChunk(int, int);
 	void SaveChunk(Chunk);
 	Chunk CreateChunk(int, int, string, int, int);
