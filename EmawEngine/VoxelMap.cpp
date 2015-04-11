@@ -88,17 +88,6 @@ VoxelMap::VoxelMap(string dir, string seed, int x, int y)
 	PopulateMap();
 }
 
-/*
-*	Desctiption:
-*	Returns:
-*	Parameters:
-*/
-VoxelMap::~VoxelMap()
-{
-
-
-}
-
 /* # PUBLIC FUNCTIONS # */
 
 /* SaveMap();
@@ -136,7 +125,7 @@ void VoxelMap::PopulateMap()
 	{
 		for (int b = 0; b < map.height; b++)
 		{
-			map.grid[a][b] = CreateChunk(a, b, 50, 5);
+			map.grid[a][b] = CreateChunk(a, b, 20, 5);
 		}
 	}
 }

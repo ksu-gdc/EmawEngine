@@ -390,7 +390,7 @@ void GraphicsDeviceInterface::VoxelPipeline(ID3D11Buffer* vertexBuffer, VERTEX* 
 
 	//I want to rename these so they make a little more sense.
 	RenderVoxel(vertexBuffer);
-	m_VertexShader->initializeShader(m_Device);
+//	m_VertexShader->initializeShader(m_Device);
 	m_VertexShader->setParameters(m_Context, *transform, m_Camera->GetViewMatrix(), m_projMatrix);
 	Update(vertexBuffer, vertices, size);
 	//RenderShader();

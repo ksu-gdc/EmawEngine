@@ -48,15 +48,16 @@ void VoxelChunkNode::render(){
 	}
 }
 
+/*
 void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 {
-	Chunk hold = mapGenerator->GetChunk(gridx, gridy);
+	Chunk* hold = mapGenerator->GetChunk(gridx, gridy);
 	for (int i = 0; i < 17; i++)
 	{
 		for (int j = 0; j < 17; j++)
 		{
-			int k = hold.height_map[i][j] - 1;
-			if (hold.chunk[i][j][k] == 1)
+			int k = hold->height_map[i][j] - 1;
+			if (hold->chunk[i][j][k] == 1)
 			{
 				ChunkBuffer[length].X = (float)i;
 				ChunkBuffer[length].Y = (float)k;
@@ -73,9 +74,9 @@ void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 	}
 	vertBuffer = gdi->CreateVertexBuffer(length);
 }
-
+*/
 //Old chunk loader, unoptimized, runs longer. probably because it creeps upwards slower (why is that happening?)
-/*
+
 void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 {
 
@@ -91,15 +92,14 @@ void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 					ChunkBuffer[length].Y = (float)k;
 					ChunkBuffer[length].Z = (float)j;
 					ChunkBuffer[length].W = voxSize;
-					if (length % 4 == 0) ChunkBuffer[length].Color = { 0.0f, 0.0f, 0.0f, 0.0f };
-					else if (length % 4 == 1) ChunkBuffer[length].Color = { 0.0f, 1.0f, 0.0f, 0.0f };
-					else if (length % 4 == 2) ChunkBuffer[length].Color = { 1.0f, 0.0f, 0.0f, 0.0f };
-					else if (length % 4 == 3) ChunkBuffer[length].Color = { 0.0f, 0.0f, 1.0f, 0.0f };
-					else ChunkBuffer[length].Color = { 1.0f, 1.0f, 1.0f, 0.0f };
+					float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+					float g = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+					float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+					ChunkBuffer[length].Color = { r, g, b, 1.0f };
 					length++;
 				}
 			}
 		}
 	}
 	vertBuffer = gdi->CreateVertexBuffer(length);
-}*/
+}
