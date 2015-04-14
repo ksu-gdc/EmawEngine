@@ -8,7 +8,7 @@ const int WindowSize::hResolution[] = { 600, 960,	576,	900 };
 WindowSize::WindowSize()
 {
 	this->forceSize(HIGH_16_9);
-	windowed = FALSE;
+	windowed = TRUE;
 }
 
 #pragma region getters/setters
