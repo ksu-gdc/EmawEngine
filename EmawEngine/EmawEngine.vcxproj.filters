@@ -101,6 +101,7 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="CollisionObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -222,6 +223,7 @@
     </ClInclude>
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="CollisionObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
@@ -274,6 +276,9 @@
     </None>
     <None Include="VoxShader.geo" />
     <None Include="Shaders.col">
+      <Filter>Resources</Filter>
+    </None>
+    <None Include="texture.col">
       <Filter>Resources</Filter>
     </None>
   </ItemGroup>

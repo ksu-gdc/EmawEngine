@@ -58,12 +58,11 @@ void Player::updatePlayer(HWND hWnd)
 
 	//get change in mouse position from last update.
 	curPos = input->getMousePos();
-	long deltax = 0;
-	long deltay = 0;
-	if (curPos.x != STICKING_POINT.x) {
-		deltax = curPos.x - STICKING_POINT.x;
-		deltay = curPos.y - STICKING_POINT.y;
+	
+	long deltax = curPos.x - STICKING_POINT.x;
+	long deltay = curPos.y - STICKING_POINT.y;
 
+	if (deltax != 0 || deltay != 0) {
 		// move mouse back to sticking point
 		POINT stickingPointScreen = STICKING_POINT;
 		ClientToScreen(hWnd, &stickingPointScreen);
@@ -102,7 +101,7 @@ void Player::updatePlayer(HWND hWnd)
 
 	_velocity->x = DirectX::XMVectorGetByIndex(velocity, 0);
 	// yvel is added here because jumping should move you straight up no matter what.
-	_velocity->y = DirectX::XMVectorGetByIndex(velocity, 1) + yvel;
+	_velocity->y = DirectX::XMVectorGetByIndex(velocity, 1) +yvel;
 	_velocity->z = DirectX::XMVectorGetByIndex(velocity, 2);
 	
 

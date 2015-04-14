@@ -164,3 +164,13 @@ TDSFX* AudioManager::load3DLoop(string filename, string name, Position* position
 
 	return sound;
 }
+
+Sound* AudioManager::loadLoop(string name, FMOD::System *system){
+	Sound * sound = load(name, system);
+
+	FMOD_RESULT result = sound->sound->setMode(FMOD_LOOP_NORMAL);
+
+	checkProblem(result);
+
+	return sound;
+}
