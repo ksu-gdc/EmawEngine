@@ -33,6 +33,52 @@ Model::~Model()
 }
 
 void* Model::load(std::string str) {
+	// obj model loading
+	ifstream fin;
+	fin.open(str);
+	if (!fin.good()) {
+		return NULL;
+	}
+
+	// create buffer to hold all vertices
+	const int MAX_VERTICES = 1000;
+	VERTEX vertices[MAX_VERTICES];
+	int num_vertices = 0;
+
+	const int MAX_CHARS = 500;
+	while (!fin.eof()) {
+		char buf[MAX_CHARS];
+		fin.getline(buf, MAX_CHARS);
+
+		// vertex
+		if (buf[0] == 'v') {
+			strtok(buf, " ");
+			vertices[num_vertices].X = stof(strtok(0, " "));
+			vertices[num_vertices].Y = stof(strtok(0, " "));
+			vertices[num_vertices].Z = stof(strtok(0, " "));
+		}
+		/*
+		int n = 0;
+		const int MAX_TOKENS = 4;
+		// store addresses of tokens
+		const char* token[MAX_TOKENS] = {};
+
+		token[0] = strtok(buf, " ");
+		if (token[0]) {
+			for (n = 1; n < MAX_TOKENS; n++) {
+				token[n] = strtok(0, " ");
+				if (!token[n]) {
+					break;
+				}
+			}
+		}
+		*/
+
+
+	}
+	return NULL;
+	/*
+	fbx model loading
 	char *filename = &str[0u];
 
 	if (strlen(filename) <= 4) {
@@ -133,6 +179,7 @@ void* Model::load(std::string str) {
 	applyInitialTransformations();
 	
 	return NULL;
+	*/
 }
 
 void Model::LoadTexture(ID3D11Device* device, string filename){

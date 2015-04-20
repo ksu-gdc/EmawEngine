@@ -81,7 +81,15 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
 
-	LoadTieFighter(root);
+	//LoadTieFighter(root);
+
+	Model* cube = new Model();
+	cube->load("models/obj/cube.obj");
+
+	ModelNode* cubeNode = new ModelNode(cube);
+	cubeNode->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(cubeNode);
 
 	/*Model* floorModel3 = new Model();
 	floorModel3->load("models/Ship-Part-3.fbx");
