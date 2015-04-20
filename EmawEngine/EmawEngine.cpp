@@ -72,7 +72,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	//Perform sound initialization
 	AudioManager* am = AudioManager::getInstance();
 	(AudioRenderer::Instance())->setSoundSystem(am);
-	AudioEasyAccess::getInstance()->playMusic("background", "music/Tictac_-_Estrade.mp3");
+	//AudioEasyAccess::getInstance()->playMusic("background", "music/Tictac_-_Estrade.mp3");
 
 	// make mouse invisible
 	ShowCursor(false);

@@ -49,13 +49,36 @@ void* Model::load(std::string str) {
 	while (!fin.eof()) {
 		char buf[MAX_CHARS];
 		fin.getline(buf, MAX_CHARS);
+		if (strlen(buf) == 0) {
+			return NULL;
+		}
+		string prefix = strtok(buf, " ");
 
 		// vertex
-		if (buf[0] == 'v') {
-			strtok(buf, " ");
+		if (prefix.compare("v") == 0) {
+			
 			vertices[num_vertices].X = stof(strtok(0, " "));
 			vertices[num_vertices].Y = stof(strtok(0, " "));
 			vertices[num_vertices].Z = stof(strtok(0, " "));
+			vertices[num_vertices].W = 1.0f;
+
+			// generate random color
+			float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+			float g = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+			float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+			vertices[num_vertices].Color = DirectX::XMFLOAT4(r, g, b, 1.0f);
+
+			num_vertices++;
+		}
+		else if (prefix.compare("f") == 0) {
+			for (int i = 0; i < 3; i++) {
+				int index = stoi(strtok(0, " ")) - 1;
+				vertexBuffer.push_back(vertices[index]);
+				
+			}
+		}
+		else {
+			int x = 3;
 		}
 		/*
 		int n = 0;
