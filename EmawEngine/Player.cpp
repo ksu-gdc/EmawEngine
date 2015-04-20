@@ -7,8 +7,7 @@ Player::Player(Camera * camera)
 	input = InputManager::getInstance();
 	fpsCamera = camera;
 	speed = 0.01;
-	lastPos = input->getMouseScreenPos();
-	fakeRadius = 100;
+	fakeRadius = 1000;
 	_position->x = 0;
 	_position->y = 0;
 	_position->z = -10;

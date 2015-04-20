@@ -74,6 +74,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	(AudioRenderer::Instance())->setSoundSystem(am);
 	AudioEasyAccess::getInstance()->playMusic("background", "music/Tictac_-_Estrade.mp3");
 
+	// make mouse invisible
+	ShowCursor(false);
+
 	bool paused = false;
 
 	// TEST CODE!!!

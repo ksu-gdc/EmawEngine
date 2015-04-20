@@ -13,7 +13,6 @@ public:
 private:
 	Camera* fpsCamera;
 	float speed;
-	POINT lastPos;
 	POINT curPos;
 	InputManager* input;
 	float fakeRadius;
