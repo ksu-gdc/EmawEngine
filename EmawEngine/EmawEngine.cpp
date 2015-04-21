@@ -106,24 +106,21 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	ModelNode* base2 = new ModelNode(e->getModel());
 	base2->setGraphicsDeviceInterface(&gdi);
-=======
 
 	LoadTieFighter(root);
->>>>>>> origin/development
+
 
 	base2->setPosition(3, 0, 0);*/
 
 //	root->addChild(base);
 //	base->addChild(base2);
-
-	Camera* camera = new Camera();
+	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
+	Player* player = new Player();
 
 	gdi.SetSceneGraphRoot(root);
-	gdi.SetCamera(camera);
-	camera->setPosition(0.0f, 0.0f, -10.0f);
+	gdi.SetCamera(player->getCamera());
+//	camera->setPosition(0.0f, 0.0f, -10.0f);
 
-	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
-	Player* player = new Player(camera);
 
 	Transform* identity = new Transform();
 
