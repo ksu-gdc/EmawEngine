@@ -197,6 +197,28 @@ void GraphicsDeviceInterface::InitPipeline()
 
 	m_Context->IASetInputLayout(blah->InputLayout);
 
+	/*
+	D3D11_TEXTURE2D_DESC desc;
+	desc.Width = 256;
+	desc.Height = 256;
+	desc.MipLevels = desc.ArraySize = 1;
+	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	desc.SampleDesc.Count = 1;
+	desc.Usage = D3D11_USAGE_DYNAMIC;
+	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	desc.MiscFlags = 0;
+
+	ID3D11Device *pd3dDevice; // Don't forget to initialize this
+	ID3D11Texture2D *pTexture = NULL;
+	pd3dDevice->CreateTexture2D(&desc, NULL, &pTexture);
+
+	ID3D11ShaderResourceView** x;
+	m_Device->CreateShaderResourceView(pTexture, NULL, x);
+	
+	m_Context->PSSetShaderResources(0, 1, x);
+	*/
+
 	m_VertexShader = new VertexShader();
 	m_VertexShader->initializeShader(m_Device);
 }

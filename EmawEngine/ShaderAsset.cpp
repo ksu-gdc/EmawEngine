@@ -32,12 +32,20 @@ void* ShaderAsset::load(std::string str)
 	size_t size = strlen(filename) + 1;
 	size_t convertedChars = 0;
 	wchar_t wcstring[100];
-	mbstowcs_s(&convertedChars, wcstring, size, filename, size-1);
+	mbstowcs_s(&convertedChars, wcstring, size, filename, size - 1);
 	//load shaders
 	ID3DBlob *VS, *PS, *GS, *err;
 	HRESULT otherErr;
 	otherErr = D3DCompileFromFile(wcstring, 0, 0, "VShader", "vs_4_0", 0, 0, &VS, &err);
-	D3DCompileFromFile(wcstring, 0, 0, "PShader", "ps_4_0", 0, 0, &PS, 0);
+	if (otherErr != S_OK) {
+		OutputDebugString(L"vertex shader failed to compile.\n");
+		return NULL;
+	}
+	otherErr = D3DCompileFromFile(wcstring, 0, 0, "PShader", "ps_4_0", 0, 0, &PS, 0);
+	if (otherErr != S_OK) {
+		OutputDebugString(L"pixel shader failed to compile.\n");
+		return NULL;
+	}
 	if (type == GEO) D3DCompileFromFile(wcstring, 0, 0, "GShader", "gs_4_0", D3DCOMPILE_DEBUG, 0, &GS, &err);
 
 	GraphicsDeviceInterface* Interface = (GraphicsDeviceInterface*)gInterface;
@@ -45,12 +53,17 @@ void* ShaderAsset::load(std::string str)
 	Interface->m_Device->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &Shaders.PixShader);
 	if (type == GEO) otherErr = Interface->m_Device->CreateGeometryShader(GS->GetBufferPointer(), GS->GetBufferSize(), NULL, &Shaders.GeoShader);
 
+	// changes to this structure must be reflected in the call to CreateInputLayout;
+	// the second parameter must equal the number of elements
 	D3D11_INPUT_ELEMENT_DESC ied[] = {
 			{ "POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 			{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
-	Interface->m_Device->CreateInputLayout(ied, 2, VS->GetBufferPointer(), VS->GetBufferSize(), &Shaders.InputLayout);
+	Interface->m_Device->CreateInputLayout(ied, 3, VS->GetBufferPointer(), VS->GetBufferSize(), &Shaders.InputLayout);
+
+	
 	return &Shaders;
 }
 
