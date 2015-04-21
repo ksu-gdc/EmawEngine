@@ -103,7 +103,6 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="VoxelChunkNode.cpp" />
     <ClCompile Include="CollisionObject.cpp" />
-    <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="Vector2.cpp">
       <Filter>Math</Filter>
     </ClCompile>
@@ -112,6 +111,9 @@
     </ClCompile>
     <ClCompile Include="Vector3.cpp">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -236,7 +238,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="VoxelChunkNode.h" />
     <ClInclude Include="CollisionObject.h" />
-    <ClInclude Include="Vertex.h" />
     <ClInclude Include="Color.h">
       <Filter>Math</Filter>
     </ClInclude>
@@ -249,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="Vector3.h">
       <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
