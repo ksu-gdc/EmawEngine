@@ -11,6 +11,12 @@ struct Vector3 {
 	float* z;
 };
 
+struct Vector {
+	float x;
+	float y;
+	float z;
+};
+
 struct ShaderStruct{
 	ID3D11VertexShader *VertShader;
 	ID3D11PixelShader *PixShader;
