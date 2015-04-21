@@ -5,11 +5,6 @@
 #include <DirectXMath.h>
 #include <d3dx10math.h>
 
-struct Vector3 {
-	float* x;
-	float* y;
-	float* z;
-};
 
 struct Vector {
 	float x;

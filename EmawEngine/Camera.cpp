@@ -1,58 +1,53 @@
 #include "stdafx.h"
 #include "Camera.h"
 
-Camera::Camera()
+Camera::Camera(Vector* pos, Vector* rot)
 {
-	m_positionX = new float();
-	m_positionY = new float();
-	m_positionZ = new float();
-
-	m_rotationX = 0.0f;
-	m_rotationY = 0.0f;
-	m_rotationZ = 0.0f;
+	m_position = pos;
+	m_rotation = rot;
 }
 
 Camera::~Camera(){}
 
 void Camera::setPosition(float x, float y, float z)
 {
-	*m_positionX = x;
-	*m_positionY = y;
-	*m_positionZ = z;
+	m_position->x = x;
+	m_position->y = y;
+	m_position->z = z;
 	return;
 }
 
 void Camera::setRotation(float x, float y, float z)
 {
-	m_rotationX = x;
-	m_rotationY = y;
-	m_rotationZ = z;
+	m_rotation->x = x;
+	m_rotation->y = y;
+	m_rotation->z = z;
 	return;
 }
 
 void Camera::AddPitch(float y){
-	m_rotationY -= y;
+	m_rotation->y -= y;
 }
 
 void Camera::AddYaw(float x){
-	m_rotationX -= x;
+	m_rotation->x -= x;
 }
 
 void Camera::setPositionPointers(float* x, float* y, float* z){
-	m_positionX = x;
-	m_positionY = y;
-	m_positionZ = z;
+	m_position->x = *x;
+	m_position->y = *y;
+	m_position->z = *z;
 }
 
 D3DXVECTOR3 Camera::GetPosition()
 {
-	return D3DXVECTOR3(*m_positionX, *m_positionY, *m_positionZ);
+	return D3DXVECTOR3(m_position->x, m_position->y, m_position->z);
 }
 
 
 D3DXVECTOR3 Camera::GetRotation()
 {
-	return D3DXVECTOR3(m_rotationX, m_rotationY, m_rotationZ);
+	return D3DXVECTOR3(m_rotation->x, m_rotation->y, m_rotation->z);
 }
 
 D3DXMATRIX Camera::GetViewMatrix()
@@ -73,14 +68,15 @@ void Camera::Render(){
 	up.z = 0.0f;
 
 	// Setup the position of the camera in the world.
-	position.x = *m_positionX;
-	position.y = *m_positionY;
-	position.z = *m_positionZ;
+	position.x = m_position->x;
+	position.y = m_position->y;
+	position.z = m_position->z;
 
-	// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
-	pitch = m_rotationX;
-	yaw = m_rotationY;
-	roll = m_rotationZ;
+	// Set the yaw (X axis), pitch (Y axis), and roll (Z axis) rotations in radians.
+	// I know the yaw should be the Y axis, and the pitch the X axis, but the way player uses them they're switched.
+	pitch = m_rotation->y;
+	yaw = m_rotation->x;
+	roll = m_rotation->z;
 
 	m_LookAt.x = 0.0f;
 	m_LookAt.y = 0.0f;
