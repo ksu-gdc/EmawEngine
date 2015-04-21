@@ -96,7 +96,9 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionObject.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="MathCore.h" />
     <ClInclude Include="ModelNode.h" />
     <ClInclude Include="GameNode.h" />
     <ClInclude Include="Player.h" />
@@ -121,6 +123,9 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ShaderAsset.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="Vector2.h" />
+    <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="VoxelChunkNode.h" />
     <ClInclude Include="WindowSize.h" />
@@ -144,6 +149,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionObject.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="MathCore.cpp" />
     <ClCompile Include="ModelNode.cpp" />
     <ClCompile Include="EmawEngine.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -159,6 +165,8 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ShaderAsset.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="SoundSource.cpp" />
     <ClCompile Include="VoxelChunkNode.cpp" />
