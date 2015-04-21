@@ -16,8 +16,6 @@ MouseState::MouseState()
 	_screen.y = 0;
 	_client.x = 0;
 	_client.y = 0;
-
-	ShowCursor(false);
 }
 
 MouseState::~MouseState()

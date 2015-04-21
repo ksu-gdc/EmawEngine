@@ -40,6 +40,9 @@ public:
 	//Method for loading Sound
 	Sound* load(string name, FMOD::System *system);
 
+	//Method for loading Sound with looping
+	Sound* loadLoop(string name, FMOD::System *system);
+
 	//Method for loading 3D SFX
 	TDSFX* load3D(string filename, string name, Position* position, FMOD::System *system);
 

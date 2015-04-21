@@ -11,8 +11,12 @@
 #include "ModelNode.h"
 #include "InputManager.h"
 #include "VoxelMap.h"
+#include "AudioEasyAccess.h"
 #include <DirectXMath.h>
 #define MAX_LOADSTRING 100
+
+void LoadTieFighter(GameNode* root);
+void LoadShip(GameNode* root);
 
 // Global Variables:
 HINSTANCE hInst;								// current instance
@@ -69,6 +73,10 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	//Perform sound initialization
 	AudioManager* am = AudioManager::getInstance();
 	(AudioRenderer::Instance())->setSoundSystem(am);
+	AudioEasyAccess::getInstance()->playMusic("background", "music/Tictac_-_Estrade.mp3");
+
+	// make mouse invisible
+	ShowCursor(false);
 
 	bool paused = false;
 
@@ -98,6 +106,10 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	ModelNode* base2 = new ModelNode(e->getModel());
 	base2->setGraphicsDeviceInterface(&gdi);
+=======
+
+	LoadTieFighter(root);
+>>>>>>> origin/development
 
 	base2->setPosition(3, 0, 0);*/
 
@@ -360,3 +372,85 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	return 0;
 }
+
+/*
+void LoadTieFighter(GameNode* root){
+
+	Model* tieModel1 = new Model();
+	tieModel1->load("models/tie1.fbx");
+
+	ModelNode* floorNode1 = new ModelNode(tieModel1);
+	floorNode1->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(floorNode1);
+
+	Model* tieModel2 = new Model();
+	tieModel2->load("models/tie2.fbx");
+
+	ModelNode* tieNode2 = new ModelNode(tieModel2);
+	tieNode2->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(tieNode2);
+
+	Model* tieModel3 = new Model();
+	tieModel3->load("models/tie3.fbx");
+
+	ModelNode* tieNode3 = new ModelNode(tieModel3);
+	tieNode3->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(tieNode3);
+
+	Model* tieModel4 = new Model();
+	tieModel4->load("models/tie4.fbx");
+
+	ModelNode* tieNode4 = new ModelNode(tieModel4);
+	tieNode4->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(tieNode4);
+
+	Model* tieModel5 = new Model();
+	tieModel5->load("models/tie5.fbx");
+
+	ModelNode* tieNode5 = new ModelNode(tieModel5);
+	tieNode5->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(tieNode5);
+
+	Model* tieModel6 = new Model();
+	tieModel6->load("models/tie6.fbx");
+
+	ModelNode* tieNode6 = new ModelNode(tieModel6);
+	tieNode6->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(tieNode6);
+
+	Model* tieModel7 = new Model();
+	tieModel7->load("models/tie7.fbx");
+
+	ModelNode* tieNode7 = new ModelNode(tieModel7);
+	tieNode7->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(tieNode7);
+
+}
+
+void LoadShip(GameNode* root){
+
+	Model* shipExteriorModel = new Model();
+	shipExteriorModel->load("models/Ship-Exterior.fbx");
+
+	ModelNode* shipExteriorNode = new ModelNode(shipExteriorModel);
+	shipExteriorNode->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(shipExteriorNode);
+
+	Model* shipInteriorModel = new Model();
+	shipInteriorModel->load("models/Ship-Interior.fbx");
+
+	ModelNode* shipInteriorNode = new ModelNode(shipInteriorModel);
+	shipInteriorNode->setGraphicsDeviceInterface(&gdi);
+
+	root->addChild(shipInteriorNode);
+
+}
+*/
