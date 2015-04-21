@@ -66,7 +66,7 @@ void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 				if (other->height_map[16][j] - 1 < lowest) lowest = other->height_map[16][j] - 1;
 			}
 			if (i < 16 && hold->height_map[i + 1][j] - 1 < lowest) lowest = hold->height_map[i + 1][j] - 1;
-			else if (i == 16 && gridx < 1)
+			else if (i == 16 && gridx < 4)
 			{
 				other = mapGenerator->GetChunk(gridx + 1, gridy);
 				if (other->height_map[0][j] - 1 < lowest) lowest = other->height_map[0][j] - 1;
@@ -78,7 +78,7 @@ void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 				if (other->height_map[i][16] - 1 < lowest) lowest = other->height_map[i][16] - 1;
 			}
 			if (j < 16 && hold->height_map[i][j + 1] - 1 < lowest) lowest = hold->height_map[i][j + 1] - 1;
-			else if (j == 16 && gridy < 1)
+			else if (j == 16 && gridy < 4)
 			{
 				other = mapGenerator->GetChunk(gridx, gridy + 1);
 				if (other->height_map[i][0] - 1 < lowest) lowest = other->height_map[i][0] - 1;
