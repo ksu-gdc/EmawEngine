@@ -110,6 +110,9 @@
     <ClCompile Include="MathCore.cpp">
       <Filter>Math</Filter>
     </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -242,6 +245,9 @@
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="MathCore.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
       <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>
