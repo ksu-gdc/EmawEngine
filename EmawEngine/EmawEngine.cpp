@@ -87,7 +87,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	//LoadTieFighter(root);
 
 	Model* cube = new Model();
-	cube->load("models/obj/cube.obj");
+	cube->load("models/obj/cube-tex.obj");
 
 	ModelNode* cubeNode = new ModelNode(cube);
 	cubeNode->setGraphicsDeviceInterface(&gdi);

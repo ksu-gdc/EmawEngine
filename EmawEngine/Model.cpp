@@ -37,6 +37,7 @@ void* Model::load(std::string str) {
 	ifstream fin;
 	fin.open(str);
 	if (!fin.good()) {
+		OutputDebugString(L"model file not found\n");
 		return NULL;
 	}
 
@@ -72,7 +73,8 @@ void* Model::load(std::string str) {
 		}
 		else if (prefix.compare("f") == 0) {
 			for (int i = 0; i < 3; i++) {
-				int index = stoi(strtok(0, " ")) - 1;
+				string entry = strtok(0, " ");
+				int index = stoi(entry) - 1;
 				vertexBuffer.push_back(vertices[index]);
 				
 			}

@@ -281,5 +281,6 @@
     <None Include="texture.col">
       <Filter>Resources</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
