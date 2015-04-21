@@ -5,10 +5,11 @@ class Player :
 	public GameObject
 {
 public:
-	Player(Camera*);
+	Player();
 	~Player();
 	void updatePlayer(HWND hWnd);
 	void passToCamera();
+	Camera* getCamera();
 
 private:
 	Camera* fpsCamera;

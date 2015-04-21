@@ -10,6 +10,7 @@
 #include "GameNode.h"
 #include "ModelNode.h"
 #include "InputManager.h"
+#include "VoxelMap.h"
 #include "AudioEasyAccess.h"
 #include <DirectXMath.h>
 #define MAX_LOADSTRING 100
@@ -81,10 +82,25 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// TEST CODE!!!
 	// =========================================================================
+	VoxelMap* worldGenerator = new VoxelMap("testmap","blarghle", 5, 5);
+	
+
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
-
-	//LoadTieFighter(root);
+	bool renderVoxels = false;
+	if (renderVoxels) {
+		VoxelChunkNode* world[5][5];
+		for (int i = 0; i < 5; i++)
+		{
+			for (int j = 0; j < 5; j++)
+			{
+				world[i][j] = new VoxelChunkNode(i, j);
+				world[i][j]->setGraphicsDeviceInterface(&gdi);
+				world[i][j]->loadChunkBuffer(worldGenerator);
+				root->addChild(world[i][j]);
+			}
+		}
+	}
 
 	Model* cube = new Model();
 	cube->load("models/obj/cube-tex.obj");
@@ -94,23 +110,13 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	root->addChild(cubeNode);
 
-	/*Model* floorModel3 = new Model();
-	floorModel3->load("models/Ship-Part-3.fbx");
-
-	ModelNode* floorNode3 = new ModelNode(floorModel3);
-	floorNode3->setGraphicsDeviceInterface(&gdi);
-
-	//root->addChild(base);
-	root->addChild(floorNode3);*/
-
-	Camera* camera = new Camera();
+	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
+	Player* player = new Player();
 
 	gdi.SetSceneGraphRoot(root);
-	gdi.SetCamera(camera);
-	camera->setPosition(0.0f, 0.0f, -10.0f);
+	gdi.SetCamera(player->getCamera());
+//	camera->setPosition(0.0f, 0.0f, -10.0f);
 
-	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
-	Player* player = new Player(camera);
 
 	Transform* identity = new Transform();
 
@@ -177,10 +183,10 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 			if (paused) {
 				
 			} else {
-				//root->update(identity->getTransformMatrix());
 				//base->resetTransformMatrix();
 				player->updatePlayer(hWnd);
 				root->update(identity->getTransformMatrix());
+
 				//base2->rotateX(0.0005);
 				//base->rotateY(0.0005);
 			}
@@ -360,6 +366,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+/*
 void LoadTieFighter(GameNode* root){
 
 	Model* tieModel1 = new Model();
@@ -439,3 +446,4 @@ void LoadShip(GameNode* root){
 	root->addChild(shipInteriorNode);
 
 }
+*/

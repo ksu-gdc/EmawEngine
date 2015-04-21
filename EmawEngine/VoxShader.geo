@@ -7,12 +7,6 @@ cbuffer MatrixBuffer
 }
 
 //structs
-struct VIn
-{
-	float4 position : POSITION;
-	float4 color : COLOR;
-};
-
 struct VOut
 {
     float4 position : SV_POSITION;
@@ -50,58 +44,85 @@ void GShader( point VOut voxel[1], inout TriangleStream<VOut> triStream)
 	float4 pt6 = { voxel[0].position[0] + voxel[0].position[3], voxel[0].position[1] + voxel[0].position[3], voxel[0].position[2] + voxel[0].position[3], 1.0f };
 	float4 pt7 = { voxel[0].position[0] - voxel[0].position[3], voxel[0].position[1] - voxel[0].position[3], voxel[0].position[2] + voxel[0].position[3], 1.0f };
 	float4 pt8 = { voxel[0].position[0] - voxel[0].position[3], voxel[0].position[1] + voxel[0].position[3], voxel[0].position[2] + voxel[0].position[3], 1.0f };
+
 	
+	pt1 = mul(worldMatrix, pt1);
+	pt1 = mul(viewMatrix, pt1);
+	pt1 = mul(projectionMatrix, pt1);
+	pt2 = mul(worldMatrix, pt2);
+	pt2 = mul(viewMatrix, pt2);
+	pt2 = mul(projectionMatrix, pt2);
+	pt3 = mul(worldMatrix, pt3);
+	pt3 = mul(viewMatrix, pt3);
+	pt3 = mul(projectionMatrix, pt3);
+	pt4 = mul(worldMatrix, pt4);
+	pt4 = mul(viewMatrix, pt4);
+	pt4 = mul(projectionMatrix, pt4);
+	pt5 = mul(worldMatrix, pt5);
+	pt5 = mul(viewMatrix, pt5);
+	pt5 = mul(projectionMatrix, pt5);
+	pt6 = mul(worldMatrix, pt6);
+	pt6 = mul(viewMatrix, pt6);
+	pt6 = mul(projectionMatrix, pt6);
+	pt7 = mul(worldMatrix, pt7);
+	pt7 = mul(viewMatrix, pt7);
+	pt7 = mul(projectionMatrix, pt7);
+	pt8 = mul(worldMatrix, pt8);
+	pt8 = mul(viewMatrix, pt8);
+	pt8 = mul(projectionMatrix, pt8);
+	
+
 	//actually put vertices in the triStream (hopefully in the right order)(I need to change this to use an index buffer)
 	
-	v.position = pt1;//1 vertice number
+	v.position = pt4;//1 vertice number
 	triStream.Append(v);
 
-	v.position = pt2;//2
+	v.position = pt1;//2
 	triStream.Append(v);
 
 	v.position = pt3;//3
 	triStream.Append(v);
 
-	v.position = pt8;//4
+	v.position = pt2;//4
 	triStream.Append(v);
 
 	v.position = pt6;//5
 	triStream.Append(v);
 
-	v.position = pt7;//6
+	v.position = pt8;//6
 	triStream.Append(v);
 
 	v.position = pt5;//7
 	triStream.Append(v);
 
-	v.position = pt1;//8
-	triStream.Append(v);
-
-	v.position = pt4;//9
-	triStream.Append(v);
-	
-	v.position = pt3;//10
-	triStream.Append(v);
-
-	v.position = pt6;//11
-	triStream.Append(v);
-
-	v.position = pt5;//12
+	v.position = pt7;//8
 	triStream.Append(v);
 
 	//make a new triangle strip 'cause I couldn't figure out a way to do the whole cube in one go (there's definitely a way to do it though)
 	triStream.RestartStrip();
 
-	v.position = pt8;//13
+	v.position = pt8;//9
 	triStream.Append(v);
 
-	v.position = pt2;//14
+	v.position = pt2;//10
 	triStream.Append(v);
 
-	v.position = pt7;//15
+	v.position = pt7;//11
 	triStream.Append(v);
 
-	v.position = pt1;//16
+	v.position = pt1;//12
+	triStream.Append(v);
+
+	v.position = pt5;//13
+	triStream.Append(v);
+
+	v.position = pt4;//14
+	triStream.Append(v);
+
+	v.position = pt6;//15
+	triStream.Append(v);
+
+	v.position = pt3;//16
 	triStream.Append(v);
 }
 

@@ -43,6 +43,7 @@ using namespace std;
 #include "Player.h"
 #include "Model.h"
 #include "Entity.h"
+#include "VoxelChunkNode.h"
 #include "Camera.h"
 #include "VoxelMap.h"
 

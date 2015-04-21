@@ -2,19 +2,20 @@
 #include "Player.h"
 #include "InputManager.h"
 
-Player::Player(Camera * camera)
+Player::Player()
 {
 	input = InputManager::getInstance();
-	fpsCamera = camera;
-	speed = 0.01;
-	fakeRadius = 1000;
+	speed = 1;
+	fakeRadius = 100;
+
 	_position->x = 0;
 	_position->y = 0;
 	_position->z = -10;
 	_orientation->x = M_PI;
 	_orientation->y = 0;
 	_orientation->z = 0;
-	
+	fpsCamera = new Camera(_position, _orientation);
+
 	// these must match the values in MouseState.cpp
 	// todo: make both of these reference the same constant
 	STICKING_POINT.x = 300;
@@ -109,8 +110,13 @@ void Player::updatePlayer(HWND hWnd)
 	passToCamera();
 }
 
+Camera* Player::getCamera()
+{
+	return fpsCamera;
+}
+
 void Player::passToCamera()
 {
-	fpsCamera->setPosition(_position->x, _position->y, _position->z);
-	fpsCamera->setRotation(_orientation->y, _orientation->x, _orientation->z);
+	//fpsCamera->setPosition(_position->x, _position->y, _position->z);
+	//fpsCamera->setRotation(_orientation->y, _orientation->x, _orientation->z);
 }

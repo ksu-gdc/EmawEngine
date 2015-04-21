@@ -18,9 +18,9 @@ public:
 	void LoadTexture(ID3D11Device*, string);
 	ID3D11ShaderResourceView* GetTexture();
 
-	Vector3* m_InitPos;
-	Vector3* m_InitScale;
-	Vector3* m_InitRot;
+	Vector* m_InitPos;
+	Vector* m_InitScale;
+	Vector* m_InitRot;
 	
 
 private:

@@ -189,11 +189,11 @@ void GraphicsDeviceInterface::InitPipeline()
 {
 	//load shaders
 	shdrs = new ShaderAsset(this);
-	ShaderStruct *blah = (ShaderStruct*)shdrs->load("Shaders.col");
+	ShaderStruct *blah = (ShaderStruct*)shdrs->load("VoxShader.geo");
 
 	m_Context->VSSetShader(blah->VertShader, 0, 0);
 	m_Context->PSSetShader(blah->PixShader, 0, 0);
-//	m_Context->GSSetShader(blah->GeoShader, 0, 0);
+	m_Context->GSSetShader(blah->GeoShader, 0, 0);
 
 	m_Context->IASetInputLayout(blah->InputLayout);
 
@@ -226,7 +226,24 @@ void GraphicsDeviceInterface::InitPipeline()
 //Placeholder used for testing, manually creates a triangle and sends the vertices for the Graphics Device for rendering.
 void GraphicsDeviceInterface::InitGraphics(void)
 {
+	/*
+	std::vector<VERTEX> vertices = e->getModel()->getVertexBuffer();
 
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+
+	bd.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
+	bd.ByteWidth = sizeof(VERTEX) * 3;             // size is the VERTEX struct * 3
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
+
+	m_Device->CreateBuffer(&bd, NULL, &m_VertBuffer);       // create the buffer
+
+	D3D11_MAPPED_SUBRESOURCE ms;
+	m_Context->Map(m_VertBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
+	memcpy(ms.pData, OurVertices, 3 * sizeof(VERTEX));                // copy the data
+	m_Context->Unmap(m_VertBuffer, NULL);
+	*/
 }
 
 //
@@ -293,8 +310,16 @@ bool GraphicsDeviceInterface::Render()
 	// Render Camera
 	m_Camera->Render();
 
+
 	// Render SceneGraph
 	m_SceneGraphRoot->render();
+
+	// select which primtive type we are using
+//	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	// draw the vertex buffer to the back buffer
+//	m_Context->Draw(36, 0);
+
 
 	// TODO: Clear the depth buffer
 
@@ -322,6 +347,20 @@ bool GraphicsDeviceInterface::RenderModel(ID3D11Buffer* vertexBuffer){
 
 }
 
+
+bool GraphicsDeviceInterface::RenderVoxel(ID3D11Buffer* vertexBuffer){
+
+	UINT stride = sizeof(VERTEX);
+	UINT offset = 0;
+	m_Context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+
+	// select which primtive type we are using
+	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	return true;
+
+}
+
 bool GraphicsDeviceInterface::Update(ID3D11Buffer* vertexBuffer, std::vector<VERTEX>* vertices){
 
 	D3D11_MAPPED_SUBRESOURCE ms;
@@ -331,6 +370,18 @@ bool GraphicsDeviceInterface::Update(ID3D11Buffer* vertexBuffer, std::vector<VER
 
 	// Render the triangle.
 	m_Context->Draw(vertices->size(), 0);
+
+	return true;
+}
+
+bool GraphicsDeviceInterface::Update(ID3D11Buffer* vertexBuffer, VERTEX* vertices, int size){
+
+	D3D11_MAPPED_SUBRESOURCE ms;
+	m_Context->Map(vertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
+	memcpy(ms.pData, vertices, size * sizeof(VERTEX));                // copy the data
+	m_Context->Unmap(vertexBuffer, NULL);
+
+	m_Context->Draw(size*8, 0);
 
 	return true;
 }
@@ -354,6 +405,16 @@ void GraphicsDeviceInterface::VertexPipeline(ID3D11Buffer* vertexBuffer, std::ve
 	m_VertexShader->initializeShader(m_Device);
 	m_VertexShader->setParameters(m_Context, *transform, m_Camera->GetViewMatrix(), m_projMatrix);
 	Update(vertexBuffer, vertices);
+	//RenderShader();
+}
+
+void GraphicsDeviceInterface::VoxelPipeline(ID3D11Buffer* vertexBuffer, VERTEX* vertices, int size, D3DXMATRIX* transform){
+
+	//I want to rename these so they make a little more sense.
+	RenderVoxel(vertexBuffer);
+//	m_VertexShader->initializeShader(m_Device);
+	m_VertexShader->setParameters(m_Context, *transform, m_Camera->GetViewMatrix(), m_projMatrix);
+	Update(vertexBuffer, vertices, size);
 	//RenderShader();
 }
 

@@ -1,23 +1,24 @@
 #include "stdafx.h"
 #include "VoxelMap.h"
 
-VoxMap map;
-string directory;
+Grid map;
+
+/* # CONSTRUCTORS # */
 
 /* VoxelMap(string);
-*  Description: Attempts to load a VoxelMap from the specified directory.
+*  Description: Attempts to load a VoxelMap class object from the specified directory.
 *  Paramaters: dir : The directory which holds a valid map file to construct a VoxelMap object in memory with.
 */
 VoxelMap::VoxelMap(string dir)
 {
-	ifstream file(dir + "map.dat");
+	Chunk blank;
+	fstream file(map.directory + "map.dat", ios::in);
+
+	memset(blank.chunk, 0, sizeof(blank.chunk));
 
 	if (file.good())
 	{
 		string line;
-		VoxRegion blank;
-
-		memset(blank.region, 0, sizeof(blank.region));
 
 		while (getline(file, line))
 		{
@@ -25,11 +26,15 @@ VoxelMap::VoxelMap(string dir)
 
 			if (tokens[0] == "Seed")
 			{
-				map.seed = tokens[1];
+				map.seed = stoi(tokens[1]);
 			}
-			else if (tokens[0] == "Directory")
+			else if (tokens[0] == "Width")
 			{
-				directory = tokens[1];
+				map.width = abs(atoi(tokens[1].c_str()));
+			}
+			else if (tokens[0] == "Height")
+			{
+				map.height = abs(atoi(tokens[1].c_str()));
 			}
 			else if (tokens[0] == "Center_X")
 			{
@@ -39,62 +44,51 @@ VoxelMap::VoxelMap(string dir)
 			{
 				map.center_Y = atoi(tokens[1].c_str());
 			}
-			else if (tokens[0] == "Width")
-			{
-				map.width = atoi(tokens[1].c_str());
-			}
-			else if (tokens[0] == "Height")
-			{
-				map.height = atoi(tokens[1].c_str());
-			}
 		}
 
 		file.close();
 
-		map.offset_X = (int)floor(map.width / 2);
-		map.offset_Y = (int)floor(map.height / 2);
-		map.grid = vector<vector<VoxRegion>>(map.width, vector<VoxRegion>(map.height, blank));
+		map.offset_X = floor(map.width / 2);
+		map.offset_Y = floor(map.height / 2);
+		map.grid = vector<vector<Chunk>>(map.width, vector<Chunk>(map.height, blank));
+
+		PopulateMap();
 	}
 	else
 	{
-		file.close();
-		throw invalid_argument("No such file exists.");
+		VoxelMap(dir, dir, 20, 20);
 	}
 }
 
-/* VoxelMap(string, string, width, height);
-*  Description: Creates a NEW VoxelMap class object with the defining parameters.
-*  Parameters: dir : The directory to save the VoxelMap object, data, and resources.
-*			   seed : The world generator seed, used to generate contiguous terrain.
-*			   width : Specifies how many horizontal chunks will be loaded at once.
-*			   height : Specifies how many vertical chunks will be loaded at once.
+/*
+*  Description:
+*  Returns:
+*  Parameters:
 */
-VoxelMap::VoxelMap(string dir, string seed, int width, int height)
+VoxelMap::VoxelMap(string dir, string seed, int x, int y)
 {
-	VoxRegion blank;
+	Chunk blank;
+	hash<string> hash;
 
-	memset(blank.region, 0, sizeof(blank.region));
-
-	if ((width % 2) != 1 && width > 0) width += 1;
-	if ((height % 2) != 1 && height > 0) height += 1;
+	memset(blank.chunk, 0, sizeof(blank.chunk));
 
 	map = {
-		seed,
-		width,
-		height,
-		(int)floor(map.width / 2),
-		(int)floor(map.height / 2),
+		dir,
+		hash(seed),
+		x,
+		y,
+		floor(x / 2),
+		floor(y / 2),
 		0,
 		0,
-		vector<vector<VoxRegion>>(map.width, vector<VoxRegion>(map.height, blank))
+		vector<vector<Chunk>>(x, vector<Chunk>(y, blank))
 	};
 
-	MakeDirectory(dir);
-	MakeDirectory(dir + "Regions/");
-	directory = dir;
-
 	SaveMap();
+	PopulateMap();
 }
+
+/* # PUBLIC FUNCTIONS # */
 
 /* SaveMap();
 *  Description: Updates the directory's map file. Returns a bool indicating success of failure.
@@ -102,148 +96,220 @@ VoxelMap::VoxelMap(string dir, string seed, int width, int height)
 */
 bool VoxelMap::SaveMap()
 {
-	ofstream file(directory + "map.dat", ofstream::out | ofstream::trunc);
+	fstream file(map.directory + "map.dat", ios::out | ios::trunc);
 
 	if (file.good())
 	{
 		file << "Seed=" << map.seed << endl;
-		file << "Directory=" << directory << endl;
+		file << "Directory=" << map.directory << endl;
 		file << "Width=" << map.width << endl;
 		file << "Height=" << map.height << endl;
 		file << "Center_X=" << map.center_X << endl;
 		file << "Center_Y=" << map.center_Y << endl;
-		file.close();
 
-		//TO DO: Add code to save regions existing on the map's grid. 
+		file.close();
 
 		return true;
 	}
-	else return false;
+	return false;
 }
 
-/* GetMap();
-*  Description: Retrieves the VoxMap object, and returns it.
-*  Returns: VoxMap
+/*
+*  Description:
+*  Returns:
+*  Parameters:
 */
-VoxMap VoxelMap::GetMap() { return map; }
+void VoxelMap::PopulateMap()
+{
+	for (int a = 0; a < map.width; a++)
+	{
+		for (int b = 0; b < map.height; b++)
+		{
+			map.grid[a][b] = CreateChunk(a, b, 20, 5);
+		}
+	}
+}
 
-/* LoadRegion(int, int);
-*  Description: Attempts to load a region file at the specified coordinates.
+/* GetChunk(int, int);
+*  Description: Attempts to load a chunk file at the specified coordinates.
 *  Returns: bool : Indicates success or failure of load operation.
 *  Parameters: coord_x : X coordinate of the Region to be loaded.
 *			   coord_y : Y coordinate of the Region to be loaded.
 */
-bool VoxelMap::LoadRegion(int coord_x, int coord_y)
+bool VoxelMap::LoadChunk(int coord_x, int coord_y)
 {
-	pair<int, int> coords = MapToRealCoord(coord_x, coord_y);
+	pair<int, int> coords = MapToVirtualCoord(coord_x, coord_y);
 
-	if (coords.first < map.width && coords.second < map.height)
+	if (coord_x < map.width && coord_y < map.height)
 	{
-		string name = "r." + to_string(coord_x) + "." + to_string(coord_y) + ".dat";
-		ifstream file(directory + "Regions/" + name);
-		VoxRegion vr = map.grid[coords.first][coords.second];
+		Chunk vr = map.grid[coord_x][coord_y];
+		string line, name = "r." + to_string(coords.first) + "." + to_string(coords.second) + ".hmap";
+		fstream file(map.directory + "Regions/" + name, ios::in);
+		memset(vr.chunk, 0, sizeof(vr.chunk));
 
-		memset(vr.region, 0, sizeof(vr.region));
-
-		//If the region files exists in the directory. 
 		if (file.good())
 		{
-			string line;
-			int palette, row;
-
 			while (getline(file, line))
 			{
 				vector<string> tmp = Parse(line, '=');
+				vector<string> cols = Parse(tmp[1], ',');
 
-				if (tmp[0] == "PALETTE")
-				{
-					palette = atoi(tmp[1].c_str());
-				}
-				else
-				{
-					row = atoi(tmp[0].c_str());
-					vector<string> cols = Parse(tmp[1], ',');
+				int row = atoi(tmp[0].c_str());
 
-					for (size_t a = 0; a < cols.size(); a++)
-					{
-						vr.region[row][a][palette] = (short)atoi(cols[a].c_str());
-					}
+				for (size_t a = 0; a < cols.size(); a++)
+				{
+					vr.height_map[row][a] = (short)atoi(cols[a].c_str());
 				}
 			}
+
+			CreateChunk(vr);
+			file.close();
+		}
+		else
+		{
+			//TO DO : Create variables for floor, and frequency. 
+			vr = CreateChunk(coords.first, coords.second, 10, 5);
 		}
 
 		map.grid[coords.first][coords.second] = vr;
-		file.close();
 
 		return true;
 	}
 	return false;
 }
 
-/* SaveRegion(int, int);
-*  Description: Attempts to save a region to file.
+/* SaveChunk(int, int);
+*  Description: Attempts to save a chunk to file.
 *  Returns: bool : Indicates success or failure of save operation.
 *  Parameters: coord_x : X coordinate of the Region to be loaded.
 *			   coord_y : Y coordinate of the Region to be loaded.
 */
-bool VoxelMap::SaveRegion(int coord_x, int coord_y)
+void VoxelMap::SaveChunk(Chunk ch)
 {
-	pair<int, int> coords = MapToRealCoord(coord_x, coord_y);
+	string name = "r." + to_string(ch.coord_X) + "." + to_string(ch.coord_Y) + ".hmap";
+	fstream file = GetFileHandle(map.directory + "Regions/" + name, ios::out | ios::trunc);
 
-	if (coords.first < map.width && coords.second < map.height)
+	if (file.good())
 	{
-		VoxRegion vr = map.grid[coords.first][coords.second];
-		string name = "r." + to_string(coord_x) + "." + to_string(coord_y) + ".dat";
-		ofstream file(directory + "Regions/" + name, ofstream::out | ofstream::trunc);
+		for (int a = 0; a < ch.size; a++)
+		{
+			file << a << "=";
 
-		if (file.good()) {
-			for (int a = 0; a < vr.height; a++)
+			for (int b = 0; b < ch.size; b++)
 			{
-				file << "PALETTE=" << a << endl;
-				for (int b = 0; b < vr.length; b++)
+				file << ch.height_map[a][b];
+
+				if (b == (ch.size - 1))
 				{
-					file << b << "=";
-					for (int c = 0; c < vr.width; c++)
-					{
-						if (c == (vr.width - 1))
-						{
-							file << vr.region[b][c][a] << endl;
-						}
-						else
-						{
-							file << vr.region[b][c][a] << ",";
-						}
-					}
+					file << endl;
+				}
+				else
+				{
+					file << ",";
 				}
 			}
-			file.close();
-			return true;
 		}
+		file.close();
 	}
-
-	return false;
 }
 
-/* RegionExists(int, int);
-*  Description: Checks if the region with the specified coordinates exists on the map.
-*  Returns: bool : Indicates true if the region is loaded, false  otherwise.
+/* CreateChunk(int, int, string, int, int);
+*  Description:
+*  Returns:
 *  Parameters:
 */
-bool VoxelMap::RegionExists(int coord_x, int coord_y)
+Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, int freq, int floor)
 {
-	pair<int, int> coords = MapToRealCoord(coord_x, coord_y);
+	Chunk ch = {
+		coord_x,
+		coord_y
+	};
 
-	if (coords.first < map.width && coords.second < map.height)
+	if ((freq > 9 && freq < 101) && (freq + floor) < ch.height)
 	{
-		VoxRegion vr = map.grid[coords.first][coords.second];
+		vector< vector<short> > height = vector<vector<short>>(ch.size, vector<short>(ch.size, 0));
 
-		if (vr.coord_X == coord_x && vr.coord_Y == coord_y)
+		srand(GeneratePsuedoKey(coord_x, coord_y) * map.seed);
+
+		height[0][0] = rand() % freq + (floor + 1);
+		height[0][16] = rand() % freq + (floor + 1);
+		height[16][0] = rand() % freq + (floor + 1);
+		height[16][16] = rand() % freq + (floor + 1);
+
+		height = GenerateHeightMap(coord_x, coord_y, freq, ch.size, 0, 0, height);
+
+		memset(ch.chunk, 0, sizeof(ch.chunk));
+
+		for (int a = 0; a < ch.size; a++)
 		{
-			return true;
+			for (int b = 0; b < ch.size; b++)
+			{
+				ch.height_map[a][b] = height[a][b];
+
+				for (int c = 0; c < height[a][b]; c++)
+				{
+					ch.chunk[a][b][c] = (short)1;
+				}
+			}
+		}
+
+		return ch;
+	}
+	throw invalid_argument("Invalid frequency value. Frequency must be between 10, and 100.");
+}
+
+/* CreateChunk(Chunk ch);
+*  Description:
+*  Returns:
+*  Parameters:
+*/
+void VoxelMap::CreateChunk(Chunk ch)
+{
+	for (int a = 0; a < ch.size; a++)
+	{
+		for (int b = 0; b < ch.size; b++)
+		{
+			for (int c = 0; c < ch.height_map[a][b]; c++)
+			{
+				ch.chunk[a][b][c] = (short)1;
+			}
 		}
 	}
+}
 
-	return false;
+/*
+*  Description:
+*  Returns:
+*  Parameters:
+*/
+Chunk* VoxelMap::GetChunk(int grid_x, int grid_y)
+{
+	if ((grid_x > -1 && grid_x < map.width) && (grid_y > -1 && grid_y < map.height))
+	{
+		return &map.grid[grid_x][grid_y];
+	}
+}
+
+/*
+*  Description:
+*  Returns:
+*  Parameters:
+*/
+short VoxelMap::GetChunkValue(int grid_x, int grid_y, int chunk_x, int chunk_y, int chunk_z)
+{
+	if ((grid_x > -1 && grid_x < map.width) && (grid_y > -1 && grid_y < map.height))
+	{
+		Chunk ch = map.grid[grid_x][grid_y];
+
+		if ((chunk_x > -1 && chunk_x < ch.size) && (chunk_y > -1 && chunk_y < ch.size))
+		{
+			if (chunk_z > -1 && chunk_z < ch.height)
+			{
+				return ch.chunk[chunk_x][chunk_y][chunk_z];
+			}
+		}
+	}
+	return -1;
 }
 
 /* ~VoxelMap();
@@ -251,6 +317,50 @@ bool VoxelMap::RegionExists(int coord_x, int coord_y)
 */
 VoxelMap::~VoxelMap()
 {
+}
+
+/* # PRIVATE FUNCTIONS # */
+
+/* GenerateHeightMap(int, int, string, int)
+*  Description:
+*  Returns: int**
+*  Parameters: coord_x : Virtual coordinate X
+*			   coord_y : Virtual coordinate Y
+size: size of region that we're generating
+TLX, TLY: top left corner coordinates for the region relative to the vector<vector<short>>
+*/
+vector< vector<short> > VoxelMap::GenerateHeightMap(int coord_x, int coord_y, int freq, int size, int TLX, int TLY, vector<vector<short>> height)
+{
+	pair<int, int> coords = MapToRealCoord(coord_x, coord_y);
+
+	//This mess generates the middle top, middle right, middle left, middle bottom, and center values relative to the region
+	height[TLX + ((size - 1) / 2)][TLY] = (height[TLX][TLY] + height[TLX + (size - 1)][TLY]) / 2; //top
+	height[TLX + (size - 1)][TLY + ((size - 1) / 2)] = (height[TLX + (size - 1)][TLY] + height[TLX + (size - 1)][TLY + (size - 1)]) / 2; //right
+	height[TLX][TLY + ((size - 1) / 2)] = (height[TLX][TLY] + height[TLX][TLY + (size - 1)]) / 2; //left
+	height[TLX + ((size - 1) / 2)][TLY + (size - 1)] = (height[TLX][TLY + (size - 1)] + height[TLX + (size - 1)][TLY + (size - 1)]) / 2; //bottom
+	height[TLX + ((size - 1) / 2)][TLY + ((size - 1) / 2)] = (height[TLX][TLY] + height[TLX + (size - 1)][TLY + (size - 1)] + height[TLX][TLY + (size - 1)] + height[TLX + (size - 1)][TLY]) / 4; //middle
+
+	if (size > 3) //then divide into fourths and recurse
+	{
+		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX, TLY, height); //top left corner
+		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX + ((size - 1) / 2), TLY, height); //top right corner
+		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX, TLY + ((size - 1) / 2), height); //bottom left corner
+		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX + ((size - 1) / 2), TLY + ((size - 1) / 2), height); //bottom left corner
+	}
+
+	return height;
+}
+
+/*
+*  Description:
+*  Returns:
+*  Parameters:
+*/
+int VoxelMap::GeneratePsuedoKey(int coord_x, int coord_y)
+{
+	srand((u_int)(coord_x));
+	srand(rand() * (u_int)(sin(coord_y) * 10 + 100));
+	return rand();// *stoi(map.seed);
 }
 
 /* Parse(string, char);
@@ -296,7 +406,7 @@ void VoxelMap::MakeDirectory(string dir)
 
 		if (!FileExists(path))
 		{
-			mkdir(path.c_str());
+			_mkdir(path.c_str());
 		}
 	}
 }
@@ -319,33 +429,47 @@ bool VoxelMap::FileExists(string path)
 	}
 }
 
+/* GetFileHandle();
+*  Description:
+*  Returns:
+*  Parameters:
+*/
+fstream VoxelMap::GetFileHandle(string dir, ios::openmode modes)
+{
+	fstream file(dir, modes);
+
+	if (file.good())
+	{
+		return file;
+	}
+	else
+	{
+		file.close();
+		throw invalid_argument("No such file exists.");
+	}
+}
+
 /* MapToRealCoord(int, int);
-*  Description: Checks if a File and/or directory exists, and returns a boolean value.
-*  Returns: bool : Returns true or false depending on whether or not the file/directory exists.
+*  Description: Translates a set of virtual coordinates, to actual vector coordinates.
+*  Returns: pair<int, int> : Holds the set of translated coordinates.
 *  Parameters: coord_x : The virtual coordinate to translate to the according 2D array row index.
 *			   coord_y : The virtual coordinate to translate to the according 2D array column index.
 */
 pair<int, int> VoxelMap::MapToRealCoord(int coord_x, int coord_y)
 {
-	pair<int, int> coords;
+	pair<int, int> coords(coord_x + map.offset_X, coord_y + map.offset_Y);
+	return coords;
+}
 
-	if (coord_x < map.center_X)
-	{
-		coords.first = (map.offset_X - map.center_X) - abs(coord_x);
-	}
-	else
-	{
-		coords.first = (map.offset_X - map.center_X) + abs(coord_x);
-	}
 
-	if (coord_y < map.center_Y)
-	{
-		coords.second = (map.offset_Y - map.center_Y) - coord_y;
-	}
-	else
-	{
-		coords.second = (map.offset_Y - map.center_Y) + coord_y;
-	}
-
+/* MapToVirtualCoord(int, int);
+*  Description : Translates a set of real vector coordinates, to a set of virtual coordinates.
+*  Returns : pair<int, int> : Holds the set of translated coordinates.
+*  Parameters : coord_x : The real coordinate to translate to it's according index in virtual space.
+*               coord_y : The real coordinate to translate to it's according index in virtual space.
+*/
+pair<int, int> VoxelMap::MapToVirtualCoord(int coord_x, int coord_y)
+{
+	pair<int, int> coords(coord_x - map.offset_X, coord_y - map.offset_Y);
 	return coords;
 }
