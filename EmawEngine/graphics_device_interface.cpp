@@ -189,7 +189,8 @@ void GraphicsDeviceInterface::InitPipeline()
 {
 	//load shaders
 	shdrs = new ShaderAsset(this);
-	ShaderStruct *blah = (ShaderStruct*)shdrs->load("VoxShader.geo");
+	//ShaderStruct *blah = (ShaderStruct*)shdrs->load("VoxShader.geo");
+	ShaderStruct *blah = (ShaderStruct*)shdrs->load("Shaders.col");
 
 	m_Context->VSSetShader(blah->VertShader, 0, 0);
 	m_Context->PSSetShader(blah->PixShader, 0, 0);
