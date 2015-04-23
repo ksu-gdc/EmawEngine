@@ -5,8 +5,8 @@
 Player::Player()
 {
 	input = InputManager::getInstance();
-	speed = 1;
-	fakeRadius = 100;
+	speed = 0.008;
+	fakeRadius = 600;
 
 	_position->x = 0;
 	_position->y = 0;

@@ -198,22 +198,48 @@ void GraphicsDeviceInterface::InitPipeline()
 
 	m_Context->IASetInputLayout(blah->InputLayout);
 
+	ID3D11Resource* tex;
+	HRESULT hr = D3DX11CreateTextureFromFile(m_Device, L"C:\\Users\\max_000\\git-projects\\EmawEngine\\EmawEngine\\textures\\y.png", NULL, NULL, &tex, NULL);
+	ID3D11Texture2D* realTex = (ID3D11Texture2D*)tex;
+	if (hr != S_OK) {
+		OutputDebugString(L"texture loading failed\n");
+	}
+
+	ID3D11ShaderResourceView* resourceView;
+	hr = m_Device->CreateShaderResourceView(tex, NULL, &resourceView);
+	if (hr != S_OK) {
+		OutputDebugString(L"sharing texture with shader failed\n");
+	}
+	m_Context->PSSetShaderResources(0, 1, &resourceView);
+
+	// create texture
 	/*
 	D3D11_TEXTURE2D_DESC desc;
-	desc.Width = 256;
-	desc.Height = 256;
-	desc.MipLevels = desc.ArraySize = 1;
-	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	desc.Width = width;
+	desc.Height = height;
+	desc.MipLevels = 1;
+	desc.ArraySize = 1;
+	desc.Format = format;
 	desc.SampleDesc.Count = 1;
-	desc.Usage = D3D11_USAGE_DYNAMIC;
+	desc.SampleDesc.Quality = 0;
+	desc.Usage = D3D11_USAGE_DEFAULT;
 	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	desc.CPUAccessFlags = 0;
 	desc.MiscFlags = 0;
 
-	ID3D11Device *pd3dDevice; // Don't forget to initialize this
-	ID3D11Texture2D *pTexture = NULL;
-	pd3dDevice->CreateTexture2D(&desc, NULL, &pTexture);
+	D3D11_SUBRESOURCE_DATA initData;
+	initData.pSysMem = temp.get();
+	initData.SysMemPitch = static_cast<UINT>(rowPitch);
+	initData.SysMemSlicePitch = static_cast<UINT>(imageSize);
 
+	ID3D11Texture2D* tex = nullptr;
+	HRESULT hr = m_Device->CreateTexture2D(&desc, &initData, &tex);
+	if (hr != S_OK) {
+		OutputDebugString(L"texture loading failed\n");
+	}
+	*/
+
+	/*
 	ID3D11ShaderResourceView** x;
 	m_Device->CreateShaderResourceView(pTexture, NULL, x);
 	
