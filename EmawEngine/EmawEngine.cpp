@@ -103,7 +103,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	Model* cube = new Model();
-	cube->load("models/obj/cube.obj");
+	cube->load("models/obj-models/cube.obj");
 
 	ModelNode* cubeNode = new ModelNode(cube);
 	cubeNode->setGraphicsDeviceInterface(&gdi);
