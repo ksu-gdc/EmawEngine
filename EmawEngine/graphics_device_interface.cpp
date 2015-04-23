@@ -198,9 +198,9 @@ void GraphicsDeviceInterface::InitPipeline()
 
 	m_Context->IASetInputLayout(blah->InputLayout);
 
+	// tex is a ID3D11Texture2D*
 	ID3D11Resource* tex;
-	HRESULT hr = D3DX11CreateTextureFromFile(m_Device, L"C:\\Users\\max_000\\git-projects\\EmawEngine\\EmawEngine\\textures\\y.png", NULL, NULL, &tex, NULL);
-	ID3D11Texture2D* realTex = (ID3D11Texture2D*)tex;
+	HRESULT hr = D3DX11CreateTextureFromFile(m_Device, L"textures\\dot.png", NULL, NULL, &tex, NULL);
 	if (hr != S_OK) {
 		OutputDebugString(L"texture loading failed\n");
 	}
