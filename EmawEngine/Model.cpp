@@ -86,12 +86,6 @@ void* Model::load(std::string str) {
 				
 			}
 		}
-		
-		else {
-			int x = 3;
-		}
-
-
 	}
 	return NULL;
 }
@@ -105,94 +99,6 @@ void Model::LoadTexture(ID3D11Device* device, string filename){
 
 ID3D11ShaderResourceView* Model::GetTexture(){
 	return m_Texture->getTexture();
-}
-
-void Model::setInitialTransforms(FbxMesh* mesh){
-
-	// Models can come with scale, translation, and rotation. This
-	// code will extract those values and store them in the model so that
-	// the models will render correctly.
-	FbxDouble3 initialTranslate = mesh->GetNode()->LclTranslation.Get();
-	FbxDouble3 initialScale = mesh->GetNode()->LclScaling.Get();
-	FbxDouble3 initialRotate = mesh->GetNode()->LclRotation.Get();
-
-	if (abs(initialTranslate.mData[0]) > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitPos->x = initialTranslate.mData[0];
-	}
-	if (abs(initialTranslate.mData[1]) > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitPos->y = initialTranslate.mData[1];
-	}
-	if (abs(initialTranslate.mData[2]) > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitPos->z = initialTranslate.mData[2];
-	}
-
-	if (abs(initialScale.mData[0]) > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitScale->x = initialScale.mData[0];
-	}
-	if (abs(initialScale.mData[1]) > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitScale->y = initialScale.mData[1];
-	}
-	if (abs(initialScale.mData[2]) > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitScale->z = initialScale.mData[2];
-	}
-
-	if (abs(initialRotate.mData[0]) > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitRot->x = initialRotate.mData[0];
-	}
-	if (abs(initialRotate.mData[1]) > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitRot->y = initialRotate.mData[1];
-	}
-	if (abs(initialRotate.mData[2]) > MINIMUM_TRANSFORMATION_VALUE){
-		m_InitRot->z = initialRotate.mData[2];
-	}
-
-}
-
-void Model::applyInitialTransformations(){
-
-	D3DXMATRIX* rotateMatrixX = new D3DXMATRIX();
-	D3DXMATRIX* rotateMatrixY = new D3DXMATRIX();
-	D3DXMATRIX* rotateMatrixZ = new D3DXMATRIX();
-	D3DXMATRIX* translateMatrix = new D3DXMATRIX();
-	D3DXMATRIX* scaleMatrix = new D3DXMATRIX();
-	D3DXMATRIX* transformMatrix = new D3DXMATRIX();
-
-	D3DXMatrixIdentity(rotateMatrixX);
-	D3DXMatrixIdentity(rotateMatrixY);
-	D3DXMatrixIdentity(rotateMatrixZ);
-	D3DXMatrixIdentity(translateMatrix);
-	D3DXMatrixIdentity(scaleMatrix);
-	D3DXMatrixIdentity(transformMatrix);
-
-	D3DXMatrixTranslation(translateMatrix, m_InitPos->x, m_InitPos->y, m_InitPos->z);
-	D3DXMatrixScaling(scaleMatrix, m_InitScale->x, m_InitScale->z, m_InitScale->y);
-	D3DXMatrixRotationZ(rotateMatrixZ, m_InitRot->z * 0.0174532925);
-	D3DXMatrixRotationY(rotateMatrixY, m_InitRot->y * 0.0174532925);
-	D3DXMatrixRotationX(rotateMatrixX, m_InitRot->x * 0.0174532925);
-
-	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixX);
-	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixY);
-	D3DXMatrixMultiply(transformMatrix, transformMatrix, rotateMatrixZ);
-	D3DXMatrixMultiply(transformMatrix, transformMatrix, scaleMatrix);
-	D3DXMatrixMultiply(transformMatrix, transformMatrix, translateMatrix);
-
-	for (int i = 0; i < vertexBuffer.size(); i++){
-
-		D3DXVECTOR4* transformedVertex = new D3DXVECTOR4();
-		D3DXVECTOR3* vertex = new D3DXVECTOR3();
-
-		vertex->x = vertexBuffer.at(i).X;
-		vertex->y = vertexBuffer.at(i).Y;
-		vertex->z = vertexBuffer.at(i).Z;
-
-		D3DXVec3Transform(transformedVertex, vertex, transformMatrix);
-
-		vertexBuffer.at(i).X = transformedVertex->x;
-		vertexBuffer.at(i).Y = transformedVertex->y;
-		vertexBuffer.at(i).Z = transformedVertex->z;
-
-	}
-
 }
 
 void* Model::getData() {

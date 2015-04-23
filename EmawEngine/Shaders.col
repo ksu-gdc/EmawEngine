@@ -40,7 +40,4 @@ VOut VShader(float4 position : POSITION, float4 color : COLOR, float2 TextureCoo
 float4 PShader(float4 position : SV_POSITION, float4 color : COLOR, float2 TextureCoordinate : TEXCOORD) : SV_TARGET
 {
     return ModelTexture.Sample(MeshTextureSampler, TextureCoordinate);
-	return color;
-	
-	
 }

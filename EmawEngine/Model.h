@@ -1,6 +1,5 @@
 #pragma once
 #include "Asset.h"
-#include <fbxsdk.h>
 #include "Entity.h"
 #include "texture.h"
 
@@ -25,9 +24,6 @@ public:
 
 private:
 	std::vector<VERTEX> vertexBuffer;
-
-	void setInitialTransforms(FbxMesh*);
-	void applyInitialTransformations();
 
 	Texture* m_Texture;
 

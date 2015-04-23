@@ -200,7 +200,7 @@ void GraphicsDeviceInterface::InitPipeline()
 
 	// tex is a ID3D11Texture2D*
 	ID3D11Resource* tex;
-	HRESULT hr = D3DX11CreateTextureFromFile(m_Device, L"textures\\dot.png", NULL, NULL, &tex, NULL);
+	HRESULT hr = D3DX11CreateTextureFromFile(m_Device, L"textures\\x.png", NULL, NULL, &tex, NULL);
 	if (hr != S_OK) {
 		OutputDebugString(L"texture loading failed\n");
 	}
@@ -211,40 +211,6 @@ void GraphicsDeviceInterface::InitPipeline()
 		OutputDebugString(L"sharing texture with shader failed\n");
 	}
 	m_Context->PSSetShaderResources(0, 1, &resourceView);
-
-	// create texture
-	/*
-	D3D11_TEXTURE2D_DESC desc;
-	desc.Width = width;
-	desc.Height = height;
-	desc.MipLevels = 1;
-	desc.ArraySize = 1;
-	desc.Format = format;
-	desc.SampleDesc.Count = 1;
-	desc.SampleDesc.Quality = 0;
-	desc.Usage = D3D11_USAGE_DEFAULT;
-	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-	desc.CPUAccessFlags = 0;
-	desc.MiscFlags = 0;
-
-	D3D11_SUBRESOURCE_DATA initData;
-	initData.pSysMem = temp.get();
-	initData.SysMemPitch = static_cast<UINT>(rowPitch);
-	initData.SysMemSlicePitch = static_cast<UINT>(imageSize);
-
-	ID3D11Texture2D* tex = nullptr;
-	HRESULT hr = m_Device->CreateTexture2D(&desc, &initData, &tex);
-	if (hr != S_OK) {
-		OutputDebugString(L"texture loading failed\n");
-	}
-	*/
-
-	/*
-	ID3D11ShaderResourceView** x;
-	m_Device->CreateShaderResourceView(pTexture, NULL, x);
-	
-	m_Context->PSSetShaderResources(0, 1, x);
-	*/
 
 	m_VertexShader = new VertexShader();
 	m_VertexShader->initializeShader(m_Device);
