@@ -67,11 +67,13 @@
   <ItemGroup>
     <ClInclude Include="NetworkServices.h" />
     <ClInclude Include="Server.h" />
+    <ClInclude Include="ServerGame.h" />
     <ClInclude Include="ServerNetwork.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NetworkServices.cpp" />
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="ServerGame.cpp" />
     <ClCompile Include="ServerNetwork.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
