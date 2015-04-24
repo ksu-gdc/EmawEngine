@@ -101,7 +101,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	Model* cube = new Model();
 	cube->load("models/obj-models/cube-tex.obj");
-	cube->LoadTexture(gdi.m_Device, "textures\\half-and-half.png");
+	cube->LoadTexture(gdi.m_Device, "textures\\x.png");
 
 	ModelNode* cubeNode = new ModelNode(cube);
 	cubeNode->setGraphicsDeviceInterface(&gdi);

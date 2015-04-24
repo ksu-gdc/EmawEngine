@@ -320,7 +320,7 @@ bool GraphicsDeviceInterface::RenderModel(ID3D11Buffer* vertexBuffer){
 	m_Context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 
 	// select which primtive type we are using
-	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	m_Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	return true;
 
