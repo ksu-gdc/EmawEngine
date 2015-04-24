@@ -198,20 +198,6 @@ void GraphicsDeviceInterface::InitPipeline()
 
 	m_Context->IASetInputLayout(blah->InputLayout);
 
-	// tex is a ID3D11Texture2D*
-	ID3D11Resource* tex;
-	HRESULT hr = D3DX11CreateTextureFromFile(m_Device, L"textures\\half-and-half.png", NULL, NULL, &tex, NULL);
-	if (hr != S_OK) {
-		OutputDebugString(L"texture loading failed\n");
-	}
-
-	ID3D11ShaderResourceView* resourceView;
-	hr = m_Device->CreateShaderResourceView(tex, NULL, &resourceView);
-	if (hr != S_OK) {
-		OutputDebugString(L"sharing texture with shader failed\n");
-	}
-	m_Context->PSSetShaderResources(0, 1, &resourceView);
-
 	m_VertexShader = new VertexShader();
 	m_VertexShader->initializeShader(m_Device);
 }
@@ -358,7 +344,7 @@ bool GraphicsDeviceInterface::Update(ID3D11Buffer* vertexBuffer, std::vector<VER
 
 	D3D11_MAPPED_SUBRESOURCE ms;
 	m_Context->Map(vertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
-	memcpy(ms.pData, vertices->data(), vertices->size() * sizeof(VERTEX));                // copy the data
+	memcpy(ms.pData, vertices->data(), vertices->size() * sizeof(VERTEX));    // copy the data
 	m_Context->Unmap(vertexBuffer, NULL);
 
 	// Render the triangle.
@@ -391,12 +377,13 @@ void GraphicsDeviceInterface::RenderShader(){
 	return;
 }
 
-void GraphicsDeviceInterface::VertexPipeline(ID3D11Buffer* vertexBuffer, std::vector<VERTEX>* vertices, D3DXMATRIX* transform){
+void GraphicsDeviceInterface::VertexPipeline(ID3D11Buffer* vertexBuffer, std::vector<VERTEX>* vertices, D3DXMATRIX* transform, ID3D11ShaderResourceView* texture){
 	
 	//I want to rename these so they make a little more sense.
 	RenderModel(vertexBuffer);
 	m_VertexShader->initializeShader(m_Device);
 	m_VertexShader->setParameters(m_Context, *transform, m_Camera->GetViewMatrix(), m_projMatrix);
+	m_Context->PSSetShaderResources(0, 1, &texture);
 	Update(vertexBuffer, vertices);
 	//RenderShader();
 }

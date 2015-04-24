@@ -101,6 +101,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	Model* cube = new Model();
 	cube->load("models/obj-models/cube-tex.obj");
+	cube->LoadTexture(gdi.m_Device, "textures\\half-and-half.png");
 
 	ModelNode* cubeNode = new ModelNode(cube);
 	cubeNode->setGraphicsDeviceInterface(&gdi);
@@ -112,8 +113,6 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	gdi.SetSceneGraphRoot(root);
 	gdi.SetCamera(player->getCamera());
-//	camera->setPosition(0.0f, 0.0f, -10.0f);
-
 
 	Transform* identity = new Transform();
 

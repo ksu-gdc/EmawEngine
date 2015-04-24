@@ -10,8 +10,8 @@ Texture2D ModelTexture : register(t0);
 SamplerState MeshTextureSampler
 {
     Filter = MIN_MAG_LINEAR;
-    AddressU = Clamp;
-    AddressV = Clamp;
+    AddressU = Wrap;
+    AddressV = Wrap;
 };
 
 //structs
@@ -41,3 +41,42 @@ float4 PShader(float4 position : SV_POSITION, float4 color : COLOR, float2 Textu
 {
     return ModelTexture.Sample(MeshTextureSampler, TextureCoordinate);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
