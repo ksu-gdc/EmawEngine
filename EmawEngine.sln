@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EmawEngine", "EmawEngine\EmawEngine.vcxproj", "{2495FA64-E4EC-4ECA-A4C4-A4A9606AE914}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "EmawEngine.Server\EmawEngine.Server.vcxproj", "{2CA55F29-25F8-4424-9280-C6D1D655F783}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{2495FA64-E4EC-4ECA-A4C4-A4A9606AE914}.Debug|Win32.Build.0 = Debug|Win32
 		{2495FA64-E4EC-4ECA-A4C4-A4A9606AE914}.Release|Win32.ActiveCfg = Release|Win32
 		{2495FA64-E4EC-4ECA-A4C4-A4A9606AE914}.Release|Win32.Build.0 = Release|Win32
+		{2CA55F29-25F8-4424-9280-C6D1D655F783}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2CA55F29-25F8-4424-9280-C6D1D655F783}.Debug|Win32.Build.0 = Debug|Win32
+		{2CA55F29-25F8-4424-9280-C6D1D655F783}.Release|Win32.ActiveCfg = Release|Win32
+		{2CA55F29-25F8-4424-9280-C6D1D655F783}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
