@@ -200,7 +200,7 @@ void GraphicsDeviceInterface::InitPipeline()
 
 	// tex is a ID3D11Texture2D*
 	ID3D11Resource* tex;
-	HRESULT hr = D3DX11CreateTextureFromFile(m_Device, L"textures\\x.png", NULL, NULL, &tex, NULL);
+	HRESULT hr = D3DX11CreateTextureFromFile(m_Device, L"textures\\half-and-half.png", NULL, NULL, &tex, NULL);
 	if (hr != S_OK) {
 		OutputDebugString(L"texture loading failed\n");
 	}

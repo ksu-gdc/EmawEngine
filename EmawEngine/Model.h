@@ -16,10 +16,6 @@ public:
 	std::vector<VERTEX> getVertexBuffer();
 	void LoadTexture(ID3D11Device*, string);
 	ID3D11ShaderResourceView* GetTexture();
-
-	Vector* m_InitPos;
-	Vector* m_InitScale;
-	Vector* m_InitRot;
 	
 
 private:

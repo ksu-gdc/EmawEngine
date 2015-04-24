@@ -9,10 +9,6 @@ const float MINIMUM_TRANSFORMATION_VALUE = 0.00005;
 Model::Model()
 {
 	m_Texture = 0;
-
-	m_InitPos = new Vector();
-	m_InitScale = new Vector();
-	m_InitRot = new Vector();
 }
 
 Model::Model(std::vector<VERTEX> vBuffer){
@@ -87,6 +83,7 @@ void* Model::load(std::string str) {
 			}
 		}
 	}
+
 	return NULL;
 }
 

@@ -9,9 +9,9 @@ cbuffer MatrixBuffer
 Texture2D ModelTexture : register(t0);
 SamplerState MeshTextureSampler
 {
-    Filter = MIN_MAG_MIP_LINEAR;
-    AddressU = Wrap;
-    AddressV = Wrap;
+    Filter = MIN_MAG_LINEAR;
+    AddressU = Clamp;
+    AddressV = Clamp;
 };
 
 //structs

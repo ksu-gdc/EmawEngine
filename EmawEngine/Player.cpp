@@ -10,7 +10,7 @@ Player::Player()
 
 	_position->x = 0;
 	_position->y = 0;
-	_position->z = -10;
+	_position->z = 3;
 	_orientation->x = M_PI;
 	_orientation->y = 0;
 	_orientation->z = 0;
