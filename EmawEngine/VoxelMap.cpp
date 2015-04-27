@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "VoxelMap.h"
 
-Grid map;
+
 
 /* # CONSTRUCTORS # */
 
 /* VoxelMap(string);
-*  Description: Attempts to load a VoxelMap class object from the specified directory.
+*  Description: Attempts to load a VoxelMap class from the specified directory.
 *  Paramaters: dir : The directory which holds a valid map file to construct a VoxelMap object in memory with.
 */
 VoxelMap::VoxelMap(string dir)
@@ -56,14 +56,16 @@ VoxelMap::VoxelMap(string dir)
 	}
 	else
 	{
-		VoxelMap(dir, dir, 20, 20);
+		VoxelMap(dir, dir, 5, 5);
 	}
 }
 
-/*
-*  Description:
-*  Returns:
-*  Parameters:
+/* VoxelMap(string, string, int, int);
+*  Description: Creates a new VoxelMap class.
+*  Parameters: dir : The directory in which to save this VoxelMap class.
+*			  seed : The world generation seed.
+*                x : The width of the map.
+*                y : The height of the map.
 */
 VoxelMap::VoxelMap(string dir, string seed, int x, int y)
 {
@@ -92,7 +94,7 @@ VoxelMap::VoxelMap(string dir, string seed, int x, int y)
 
 /* SaveMap();
 *  Description: Updates the directory's map file. Returns a bool indicating success of failure.
-*  Returns: bool : Indiciates success or failure of save operation.
+*  Returns: bool
 */
 bool VoxelMap::SaveMap()
 {
@@ -125,14 +127,14 @@ void VoxelMap::PopulateMap()
 	{
 		for (int b = 0; b < map.height; b++)
 		{
-			map.grid[a][b] = CreateChunk(a, b, 20, 5);
+			map.grid[a][b] = CreateChunk(a, b, 10, 5);
 		}
 	}
 }
 
-/* GetChunk(int, int);
+/* LoadChunk(int, int);
 *  Description: Attempts to load a chunk file at the specified coordinates.
-*  Returns: bool : Indicates success or failure of load operation.
+*  Returns: bool
 *  Parameters: coord_x : X coordinate of the Region to be loaded.
 *			   coord_y : Y coordinate of the Region to be loaded.
 */
@@ -178,11 +180,10 @@ bool VoxelMap::LoadChunk(int coord_x, int coord_y)
 	return false;
 }
 
-/* SaveChunk(int, int);
+/* SaveChunk(Chunk);
 *  Description: Attempts to save a chunk to file.
-*  Returns: bool : Indicates success or failure of save operation.
-*  Parameters: coord_x : X coordinate of the Region to be loaded.
-*			   coord_y : Y coordinate of the Region to be loaded.
+*  Returns: bool
+*  Parameters: ch : The Chunk struct being written to file. 
 */
 void VoxelMap::SaveChunk(Chunk ch)
 {
@@ -191,15 +192,15 @@ void VoxelMap::SaveChunk(Chunk ch)
 
 	if (file.good())
 	{
-		for (int a = 0; a < ch.size; a++)
+		for (int a = 0; a < CHUNK_SIZE; a++)
 		{
 			file << a << "=";
 
-			for (int b = 0; b < ch.size; b++)
+			for (int b = 0; b < CHUNK_SIZE; b++)
 			{
 				file << ch.height_map[a][b];
 
-				if (b == (ch.size - 1))
+				if (b == (CHUNK_SIZE - 1))
 				{
 					file << endl;
 				}
@@ -213,36 +214,41 @@ void VoxelMap::SaveChunk(Chunk ch)
 	}
 }
 
-/* CreateChunk(int, int, string, int, int);
-*  Description:
-*  Returns:
-*  Parameters:
+/* CreateChunk(int, int, int, int);
+*  Description: Creates a Chunk struct located at the specified coordinates in world space. 
+*  Returns: Chunk
+*  Parameters: coord_x : The X coordinate of the new Chunk struct in world space. 
+*			   coord_y : The Y coordinate of the new Chunk struct in world space. 
+*			      freq : Determines the Chunk struct's terrain topography.
+*                floor : The minimum amount of blocks at any given pair of coordinates. 
 */
 Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, int freq, int floor)
 {
-	Chunk ch = {
-		coord_x,
-		coord_y
-	};
-
-	if ((freq > 9 && freq < 101) && (freq + floor) < ch.height)
+	if ((freq > 0 && freq < 51) && floor < 101)
 	{
-		vector< vector<short> > height = vector<vector<short>>(ch.size, vector<short>(ch.size, 0));
+		short height[CHUNK_SIZE][CHUNK_SIZE];
+		Chunk ch = {
+			coord_x,
+			coord_y
+		};
 
-		srand(GeneratePsuedoKey(coord_x, coord_y) * map.seed);
+		//Generates initial 2D noise table.
+		GenerateNoise();
 
-		height[0][0] = rand() % freq + (floor + 1);
-		height[0][16] = rand() % freq + (floor + 1);
-		height[16][0] = rand() % freq + (floor + 1);
-		height[16][16] = rand() % freq + (floor + 1);
-
-		height = GenerateHeightMap(coord_x, coord_y, freq, ch.size, 0, 0, height);
+		//Translates and smooths the original noise generation, and inserts value into table.
+		for (int x = 0; x < CHUNK_SIZE; x++)
+		{
+			for (int y = 0; y < CHUNK_SIZE; y++)
+			{
+				height[x][y] = floor + (Turbulence((coord_x * CHUNK_SIZE) + x, (coord_y * CHUNK_SIZE) + y, 64) / freq);
+			}
+		}
 
 		memset(ch.chunk, 0, sizeof(ch.chunk));
 
-		for (int a = 0; a < ch.size; a++)
+		for (int a = 0; a < CHUNK_SIZE; a++)
 		{
-			for (int b = 0; b < ch.size; b++)
+			for (int b = 0; b < CHUNK_SIZE; b++)
 			{
 				ch.height_map[a][b] = height[a][b];
 
@@ -255,19 +261,19 @@ Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, int freq, int floor)
 
 		return ch;
 	}
-	throw invalid_argument("Invalid frequency value. Frequency must be between 10, and 100.");
+	throw invalid_argument("Invalid frequency value. Frequency must be between 1, and 50.");
 }
 
 /* CreateChunk(Chunk ch);
-*  Description:
-*  Returns:
-*  Parameters:
+*  Description: Takes in a Chunk struct and fills in it's 3D structure
+*  Returns: void
+*  Parameters: ch : The Chunk struct to fill in the 3D world space for.
 */
 void VoxelMap::CreateChunk(Chunk ch)
 {
-	for (int a = 0; a < ch.size; a++)
+	for (int a = 0; a < CHUNK_SIZE; a++)
 	{
-		for (int b = 0; b < ch.size; b++)
+		for (int b = 0; b < CHUNK_SIZE; b++)
 		{
 			for (int c = 0; c < ch.height_map[a][b]; c++)
 			{
@@ -277,9 +283,9 @@ void VoxelMap::CreateChunk(Chunk ch)
 	}
 }
 
-/*
-*  Description:
-*  Returns:
+/* GetChunk(int, int);
+*  Description: Retrieves a Chunk struct in memory, and returns a pointer to it. 
+*  Returns: Chunk*
 *  Parameters:
 */
 Chunk* VoxelMap::GetChunk(int grid_x, int grid_y)
@@ -290,10 +296,14 @@ Chunk* VoxelMap::GetChunk(int grid_x, int grid_y)
 	}
 }
 
-/*
-*  Description:
-*  Returns:
-*  Parameters:
+/* GetChunkValue(int, int, int, int, int);
+*  Description: Returns a value stored inside the designated Chunk struct.
+*  Returns: short
+*  Parameters: grid_x : The X coordinate of the Chunk struct in storage space.
+*			   grid_y : The Y coordinate of the Chunk struct in storage space.
+*			  chunk_x : The X coordinate of the Chunk's 3D short value in storage space.
+*			  chunk_y : The Y coordinate of the Chunk's 3D short value in storage space.
+*			  chunk_z : The Z coordinate of the Chunk's 3D short value in storage space.
 */
 short VoxelMap::GetChunkValue(int grid_x, int grid_y, int chunk_x, int chunk_y, int chunk_z)
 {
@@ -301,9 +311,9 @@ short VoxelMap::GetChunkValue(int grid_x, int grid_y, int chunk_x, int chunk_y, 
 	{
 		Chunk ch = map.grid[grid_x][grid_y];
 
-		if ((chunk_x > -1 && chunk_x < ch.size) && (chunk_y > -1 && chunk_y < ch.size))
+		if ((chunk_x > -1 && chunk_x < CHUNK_SIZE) && (chunk_y > -1 && chunk_y < CHUNK_SIZE))
 		{
-			if (chunk_z > -1 && chunk_z < ch.height)
+			if (chunk_z > -1 && chunk_z < CHUNK_HEIGHT)
 			{
 				return ch.chunk[chunk_x][chunk_y][chunk_z];
 			}
@@ -320,48 +330,6 @@ VoxelMap::~VoxelMap()
 }
 
 /* # PRIVATE FUNCTIONS # */
-
-/* GenerateHeightMap(int, int, string, int)
-*  Description:
-*  Returns: int**
-*  Parameters: coord_x : Virtual coordinate X
-*			   coord_y : Virtual coordinate Y
-size: size of region that we're generating
-TLX, TLY: top left corner coordinates for the region relative to the vector<vector<short>>
-*/
-vector< vector<short> > VoxelMap::GenerateHeightMap(int coord_x, int coord_y, int freq, int size, int TLX, int TLY, vector<vector<short>> height)
-{
-	pair<int, int> coords = MapToRealCoord(coord_x, coord_y);
-
-	//This mess generates the middle top, middle right, middle left, middle bottom, and center values relative to the region
-	height[TLX + ((size - 1) / 2)][TLY] = (height[TLX][TLY] + height[TLX + (size - 1)][TLY]) / 2; //top
-	height[TLX + (size - 1)][TLY + ((size - 1) / 2)] = (height[TLX + (size - 1)][TLY] + height[TLX + (size - 1)][TLY + (size - 1)]) / 2; //right
-	height[TLX][TLY + ((size - 1) / 2)] = (height[TLX][TLY] + height[TLX][TLY + (size - 1)]) / 2; //left
-	height[TLX + ((size - 1) / 2)][TLY + (size - 1)] = (height[TLX][TLY + (size - 1)] + height[TLX + (size - 1)][TLY + (size - 1)]) / 2; //bottom
-	height[TLX + ((size - 1) / 2)][TLY + ((size - 1) / 2)] = (height[TLX][TLY] + height[TLX + (size - 1)][TLY + (size - 1)] + height[TLX][TLY + (size - 1)] + height[TLX + (size - 1)][TLY]) / 4; //middle
-
-	if (size > 3) //then divide into fourths and recurse
-	{
-		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX, TLY, height); //top left corner
-		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX + ((size - 1) / 2), TLY, height); //top right corner
-		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX, TLY + ((size - 1) / 2), height); //bottom left corner
-		height = GenerateHeightMap(coord_x, coord_y, freq, (size + 1) / 2, TLX + ((size - 1) / 2), TLY + ((size - 1) / 2), height); //bottom left corner
-	}
-
-	return height;
-}
-
-/*
-*  Description:
-*  Returns:
-*  Parameters:
-*/
-int VoxelMap::GeneratePsuedoKey(int coord_x, int coord_y)
-{
-	srand((u_int)(coord_x));
-	srand(rand() * (u_int)(sin(coord_y) * 10 + 100));
-	return rand();// *stoi(map.seed);
-}
 
 /* Parse(string, char);
 *  Description: Tokenizes a string by the supplied delimiter, and returns a vector of tokens.
@@ -430,9 +398,10 @@ bool VoxelMap::FileExists(string path)
 }
 
 /* GetFileHandle();
-*  Description:
-*  Returns:
-*  Parameters:
+*  Description: Opens a file and returns the handle, otherwise throws an exception if no file is found. 
+*  Returns: fstream
+*  Parameters: dir : The location of the file to open. 
+*            modes : The modes and flags with which to open the designated file with. 
 */
 fstream VoxelMap::GetFileHandle(string dir, ios::openmode modes)
 {
@@ -472,4 +441,70 @@ pair<int, int> VoxelMap::MapToVirtualCoord(int coord_x, int coord_y)
 {
 	pair<int, int> coords(coord_x - map.offset_X, coord_y - map.offset_Y);
 	return coords;
+}
+
+/* GenerateNoise();
+*  Description: Generates a basic Noise table used to generate terrain.
+*  Returns: void 
+*  Parameters:
+*/
+void VoxelMap::GenerateNoise()
+{
+	memset(Noise, 0, sizeof(Noise));
+
+	srand(map.seed);
+
+	for (int x = 0; x < CHUNK_SIZE; x++)
+	{
+		for (int y = 0; y < CHUNK_SIZE; y++)
+		{
+			Noise[x][y] = (rand() % 32768) / 32768.0;
+		}
+	}
+}
+
+/* SmoothNoise(double, double);
+*  Description: Smooths a value picked from the Noise table.
+*  Returns: double 
+*  Parameters: x : X coordinate on the Noise table.
+*			   y : Y coordinate on the Noise table.
+*/
+double VoxelMap::SmoothNoise(double x, double y)
+{
+	double fractX = x - int(x);
+	double fractY = y - int(y);
+
+	int x1 = (int(x) + CHUNK_SIZE) % CHUNK_SIZE;
+	int y1 = (int(y) + CHUNK_SIZE) % CHUNK_SIZE;
+
+	int x2 = (x1 + CHUNK_SIZE - 1) % CHUNK_SIZE;
+	int y2 = (y1 + CHUNK_SIZE - 1) % CHUNK_SIZE;
+
+	double value = 0.0;
+	value += fractX       * fractY       * Noise[x1][y1];
+	value += fractX       * (1 - fractY) * Noise[x1][y2];
+	value += (1 - fractX) * fractY       * Noise[x2][y1];
+	value += (1 - fractX) * (1 - fractY) * Noise[x2][y2];
+
+	return value;
+}
+
+/* Turbulence(double, double, double);
+*  Description: Further obfuscates and smooths the Noise table, resulting in gradient style terrain.
+*  Returns: double
+*  Parameters: x : X coordinate on the Noise table.
+*			   y : Y coordinate on the noise table.
+*			size : Sampling size. 
+*/
+double VoxelMap::Turbulence(double x, double y, double size)
+{
+	double value = 0.0, initialSize = size;
+
+	while (size >= 1)
+	{
+		value += SmoothNoise(x / size, y / size) * size;
+		size /= 2.0;
+	}
+
+	return(128.0 * value / initialSize);
 }

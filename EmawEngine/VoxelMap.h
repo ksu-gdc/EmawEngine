@@ -9,11 +9,13 @@
 
 using namespace std;
 
+#define CHUNK_SIZE 16
+#define CHUNK_HEIGHT 256
+
 struct Chunk {
 	int coord_X, coord_Y;
-	static const int size = 17, height = 225;
-	short height_map[17][17];
-	short chunk[17][17][225];
+	short height_map[CHUNK_SIZE][CHUNK_SIZE];
+	short chunk[CHUNK_SIZE][CHUNK_SIZE][CHUNK_HEIGHT];
 };
 
 struct Grid {
@@ -34,6 +36,11 @@ enum Corner {
 class VoxelMap
 {
 public:
+	//Global Objects
+	Grid map;
+	double Noise[CHUNK_SIZE][CHUNK_SIZE];
+
+	//Class Functions, and Constructor/Destructor.
 	VoxelMap(string);
 	VoxelMap(string, string, int, int);
 	bool SaveMap();
@@ -45,8 +52,6 @@ public:
 	Chunk* GetChunk(int, int);
 	short GetChunkValue(int, int, int, int, int);
 	~VoxelMap();
-	vector< vector<short> > GenerateHeightMap(int, int, int, int, int, int, vector<vector<short>>);
-	int GeneratePsuedoKey(int, int);
 
 private:
 	vector<string> Parse(string, char);
@@ -55,5 +60,7 @@ private:
 	fstream GetFileHandle(string, ios::openmode);
 	pair<int, int> MapToRealCoord(int, int);
 	pair<int, int> MapToVirtualCoord(int, int);
-	short GetAdjValue(Chunk, Corner);
+	void GenerateNoise();
+	double SmoothNoise(double, double);
+	double Turbulence(double, double, double);
 };
