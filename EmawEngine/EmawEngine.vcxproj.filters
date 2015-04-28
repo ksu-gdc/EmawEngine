@@ -103,6 +103,15 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="VoxelChunkNode.cpp" />
     <ClCompile Include="CollisionObject.cpp" />
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="2DWall.cpp">
+      <Filter>Collision\Collidables</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingCollidable.cpp">
+      <Filter>Collision\Collidables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -226,6 +235,18 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="VoxelChunkNode.h" />
     <ClInclude Include="CollisionObject.h" />
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Collidable.h">
+      <Filter>Collision\Collidables</Filter>
+    </ClInclude>
+    <ClInclude Include="2DWall.h">
+      <Filter>Collision\Collidables</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingCollidable.h">
+      <Filter>Collision\Collidables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
@@ -270,6 +291,12 @@
     </Filter>
     <Filter Include="AudioRenderer\SoundSource">
       <UniqueIdentifier>{a627f602-ccb9-4f09-a2c0-1bdc87b4ec97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{c658b6b9-5141-4aaf-94e5-95c03e7607a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision\Collidables">
+      <UniqueIdentifier>{b4bcd059-6fe9-4efa-83c7-7d300e5e1a04}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

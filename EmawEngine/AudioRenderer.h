@@ -89,7 +89,7 @@ public:
 	bool SFXVolumeReset();
 
 	//Method for getting new 3D Channel
-	FMOD::Channel* AudioRenderer::getNew3DChannel();
+	FMOD::Channel* getNew3DChannel();
 
 	//Method for playing 3D SFX
 	void playTDSFX(TDSFX *tdsfx, FMOD::Channel *channel, Position* position);
