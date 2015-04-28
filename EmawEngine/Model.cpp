@@ -75,7 +75,7 @@ void* Model::load(std::string str) {
 				// stoi will properly ignore the '/'
 				int index = stoi(entry) - 1;
 				// add uv data to vertex
-				int uv_index = stoi(entry.substr(entry.find('/')+1));
+				int uv_index = stoi(entry.substr(entry.find('/')+1)) - 1;
 				vertices[index].U = us[uv_index];
 				vertices[index].V = vs[uv_index];
 				vertexBuffer.push_back(vertices[index]);
