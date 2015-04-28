@@ -29,12 +29,12 @@ void* Model::load(std::string str) {
 	}
 
 	// create buffer to hold all vertices
-	const int MAX_VERTICES = 1000;
+	const int MAX_VERTICES = 10000;
 	VERTEX vertices[MAX_VERTICES];
 	int num_vertices = 0;
 
 	// create buffer to hold uv coordinates
-	const int MAX_UV = 1000;
+	const int MAX_UV = 40000;
 	float us[MAX_UV];
 	float vs[MAX_UV];
 	int num_uv = 0;
@@ -44,7 +44,7 @@ void* Model::load(std::string str) {
 		char buf[MAX_CHARS];
 		fin.getline(buf, MAX_CHARS);
 		if (strlen(buf) == 0) {
-			break;
+			continue;
 		}
 		string prefix = strtok(buf, " ");
 
@@ -63,11 +63,19 @@ void* Model::load(std::string str) {
 			vertices[num_vertices].Color = DirectX::XMFLOAT4(r, g, b, 1.0f);
 
 			num_vertices++;
+			if (num_vertices >= MAX_VERTICES) {
+				OutputDebugString(L"too many vertices in model\n");
+				break;
+			}
 		}
 		else if (prefix.compare("vt") == 0) {
 			us[num_uv] = stof(strtok(0, " "));
 			vs[num_uv] = stof(strtok(0, " "));
 			num_uv++;
+			if (num_uv >= MAX_UV) {
+				OutputDebugString(L"too many uv coordinates in model\n");
+				break;
+			}
 		}
 		else if (prefix.compare("f") == 0) {
 			for (int i = 0; i < 3; i++) {

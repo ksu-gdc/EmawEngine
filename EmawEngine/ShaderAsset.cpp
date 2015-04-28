@@ -62,7 +62,6 @@ void* ShaderAsset::load(std::string str)
 	};
 
 	Interface->m_Device->CreateInputLayout(ied, 3, VS->GetBufferPointer(), VS->GetBufferSize(), &Shaders.InputLayout);
-
 	
 	return &Shaders;
 }
