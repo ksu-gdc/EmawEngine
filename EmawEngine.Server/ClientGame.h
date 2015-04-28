@@ -12,4 +12,10 @@ public:
 	~ClientGame(void);
 
 	ClientNetwork* network;
+
+	void sendActionPackets();
+
+	char network_data[MAX_PACKET_SIZE];
+
+	void update();
 };

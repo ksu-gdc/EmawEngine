@@ -93,3 +93,18 @@ ClientNetwork::ClientNetwork(void) {
 	setsockopt(ConnectSocket, IPPROTO_TCP, TCP_NODELAY, &value, sizeof(value));
 
 }
+
+int ClientNetwork::receivePackets(char * recvbuf)
+{
+	iResult = NetworkServices::receiveMessage(ConnectSocket, recvbuf, MAX_PACKET_SIZE);
+
+	if (iResult == 0)
+	{
+		printf("Connection closed\n");
+		closesocket(ConnectSocket);
+		WSACleanup();
+		exit(1);
+	}
+
+	return iResult;
+}

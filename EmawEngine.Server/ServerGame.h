@@ -13,6 +13,7 @@ public:
 
 	void update();
 	void receiveFromClients();
+	void sendActionPackets();
 
 private:
 

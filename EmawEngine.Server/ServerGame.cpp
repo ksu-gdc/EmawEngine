@@ -27,6 +27,7 @@ void ServerGame::update()
 
 void ServerGame::receiveFromClients()
 {
+
 	Packet packet;
 
 	// go through all clients
@@ -34,7 +35,6 @@ void ServerGame::receiveFromClients()
 
 	for (iter = network->sessions.begin(); iter != network->sessions.end(); iter++)
 	{
-		// get data for that client
 		int data_length = network->receiveData(iter->first, network_data);
 
 		if (data_length <= 0)
@@ -55,11 +55,15 @@ void ServerGame::receiveFromClients()
 
 				printf("server received init packet from client\n");
 
+				sendActionPackets();
+
 				break;
 
 			case ACTION_EVENT:
 
 				printf("server received action event packet from client\n");
+
+				sendActionPackets();
 
 				break;
 
@@ -71,4 +75,18 @@ void ServerGame::receiveFromClients()
 			}
 		}
 	}
+}
+
+void ServerGame::sendActionPackets()
+{
+	// send action packet
+	const unsigned int packet_size = sizeof(Packet);
+	char packet_data[packet_size];
+
+	Packet packet;
+	packet.packet_type = ACTION_EVENT;
+
+	packet.serialize(packet_data);
+
+	network->sendToAll(packet_data, packet_size);
 }
