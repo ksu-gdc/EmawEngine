@@ -14,14 +14,13 @@ enum PacketTypes {
 struct Packet {
 
 	unsigned int packet_type;
-	unsigned int length;
 
 	void serialize(char * data) {
-		memcpy(data, this, length);
+		memcpy(data, this, sizeof(Packet));
 	}
 
 	void deserialize(char * data) {
-		memcpy(this, data, length);
+		memcpy(this, data, sizeof(Packet));
 	}
 };
 

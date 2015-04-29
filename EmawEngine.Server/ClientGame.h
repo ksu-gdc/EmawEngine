@@ -1,6 +1,7 @@
 #include <winsock2.h>
 #include <Windows.h>
 #include "ClientNetwork.h"
+#include "ClientPacket.h"
 #include "NetworkData.h"
 #include <iostream>
 

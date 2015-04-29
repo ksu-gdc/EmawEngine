@@ -26,14 +26,11 @@ bool ClientGame::connect() {
 
 void ClientGame::sendActionPackets()
 {
-	// send action packet
-	const unsigned int packet_size = sizeof(Packet);
-	char packet_data[packet_size];
-
-	Packet packet;
-	packet.packet_type = ACTION_EVENT;
-
-	packet.serialize(packet_data);
+	ClientPacket packet = ClientPacket();
+	packet.addInput("testMsg");
+	packet.addInput("test2Msg");
+	char * packet_data = packet.pack();
+	int packet_size = packet.size();
 
 	int sent = NetworkServices::sendMessage(network->ConnectSocket, packet_data, packet_size);
 }
@@ -57,7 +54,7 @@ void ClientGame::update()
 
 		switch (packet.packet_type) {
 
-		case ACTION_EVENT:
+		case SERVER_UPDATE:
 
 			printf("client received action event packet from server\n");
 

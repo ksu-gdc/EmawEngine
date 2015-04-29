@@ -44,38 +44,25 @@ void ServerGame::receiveFromClients()
 		}
 
 		int i = 0;
-		while (i < (unsigned int)data_length)
-		{
-			packet.deserialize(&(network_data[i]));
-			i += sizeof(Packet);
+		unsigned int * type = (unsigned int *)network_data;
+		ClientPacket packet;
+		switch (*type) {
 
-			switch (packet.packet_type) {
-
-			case INIT_CONNECTION:
-
+			case 0: // INIT CONNECTION
 				printf("server received init packet from client\n");
-
 				sendActionPackets();
-
 				break;
 
-			case ACTION_EVENT:
-
-				printf("server received action event packet from client\nMessage: ");
-				char buffer[sizeof(Packet)];
-				packet.deserialize(&(buffer[0]));
-				std::cout << network_data;
-
+			case 2: // CLIENT UPDATE
+				printf("server received action event packet from client\n");
+				packet = ClientPacket(network_data);
+				packet.printAll();
 				sendActionPackets();
-
 				break;
 
 			default:
-
 				printf("error in packet types\n");
-
 				break;
-			}
 		}
 	}
 }
@@ -87,7 +74,7 @@ void ServerGame::sendActionPackets()
 	char packet_data[packet_size];
 
 	Packet packet;
-	packet.packet_type = ACTION_EVENT;
+	packet.packet_type = SERVER_UPDATE;
 
 	packet.serialize(packet_data);
 
