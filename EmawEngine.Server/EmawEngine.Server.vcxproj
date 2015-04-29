@@ -67,7 +67,9 @@
   <ItemGroup>
     <ClInclude Include="ClientGame.h" />
     <ClInclude Include="ClientNetwork.h" />
+    <ClInclude Include="ClientPacket.h" />
     <ClInclude Include="NetworkData.h" />
+    <ClInclude Include="NetworkPackager.h" />
     <ClInclude Include="NetworkServices.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="ServerGame.h" />
@@ -76,7 +78,9 @@
   <ItemGroup>
     <ClCompile Include="ClientGame.cpp" />
     <ClCompile Include="ClientNetwork.cpp" />
+    <ClCompile Include="ClientPacket.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NetworkPackager.cpp" />
     <ClCompile Include="NetworkServices.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="ServerGame.cpp" />

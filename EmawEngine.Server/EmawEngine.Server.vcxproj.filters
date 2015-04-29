@@ -36,6 +36,12 @@
     <ClInclude Include="NetworkData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkPackager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientPacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp">
@@ -53,10 +59,16 @@
     <ClCompile Include="ClientNetwork.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="ClientGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="NetworkPackager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientPacket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

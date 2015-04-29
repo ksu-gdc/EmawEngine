@@ -61,7 +61,10 @@ void ServerGame::receiveFromClients()
 
 			case ACTION_EVENT:
 
-				printf("server received action event packet from client\n");
+				printf("server received action event packet from client\nMessage: ");
+				char buffer[sizeof(Packet)];
+				packet.deserialize(&(buffer[0]));
+				std::cout << network_data;
 
 				sendActionPackets();
 

@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include "ClientNetwork.h"
 #include "NetworkData.h"
+#include <iostream>
 
 class ClientGame
 {
@@ -18,4 +19,5 @@ public:
 	char network_data[MAX_PACKET_SIZE];
 
 	void update();
+	bool connect();
 };

@@ -2,6 +2,7 @@
 
 #include "ServerNetwork.h"
 #include "NetworkData.h"
+#include <iostream>
 
 class ServerGame
 {

@@ -2,6 +2,11 @@
 
 ClientGame::ClientGame(void)
 {
+	// TODO: add time outs and reconnects
+	connect();
+}
+
+bool ClientGame::connect() {
 	network = new ClientNetwork();
 
 	// send init packet
@@ -13,7 +18,10 @@ ClientGame::ClientGame(void)
 
 	packet.serialize(packet_data);
 
-	NetworkServices::sendMessage(network->ConnectSocket, packet_data, packet_size);
+	if (NetworkServices::sendMessage(network->ConnectSocket, packet_data, packet_size))
+		return true;
+
+	return false;
 }
 
 void ClientGame::sendActionPackets()
@@ -27,7 +35,7 @@ void ClientGame::sendActionPackets()
 
 	packet.serialize(packet_data);
 
-	NetworkServices::sendMessage(network->ConnectSocket, packet_data, packet_size);
+	int sent = NetworkServices::sendMessage(network->ConnectSocket, packet_data, packet_size);
 }
 
 void ClientGame::update()
