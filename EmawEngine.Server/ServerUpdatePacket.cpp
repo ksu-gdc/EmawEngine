@@ -50,7 +50,7 @@ char * ServerUpdatePacket::pack() {
 	char * loc = data;
 
 	// Add the packet type
-	unsigned int type = 3;
+	unsigned int type = SERVER_UPDATE;
 	memcpy(loc, &type, sizeof(unsigned int));
 	loc += sizeof(unsigned int);
 

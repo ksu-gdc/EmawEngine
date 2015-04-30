@@ -28,9 +28,6 @@ void ServerGame::update()
 // Checks for messages from all clients.
 void ServerGame::receiveFromClients()
 {
-
-	Packet packet;
-
 	// go through all clients
 	std::map<unsigned int, SOCKET>::iterator iter;
 
@@ -44,21 +41,15 @@ void ServerGame::receiveFromClients()
 			continue;
 		}
 
-		int i = 0;
 		unsigned int * type = (unsigned int *)network_data;
-		ClientPacket packet;
 		switch (*type) {
 
-			case 0: // INIT CONNECTION
-				printf("server received init packet from client\n");
-				sendUpdateToAll();
+			case CONNECTION_PACKET:
+				handleConnectionPacket(network_data);
 				break;
 
-			case 2: // CLIENT UPDATE
-				printf("server received action event packet from client\n");
-				packet = ClientPacket(network_data);
-				packet.printAll();
-				sendUpdateToAll();
+			case CLIENT_UPDATE:
+				handleClientUpdatePacket(network_data);
 				break;
 
 			default:
@@ -66,6 +57,8 @@ void ServerGame::receiveFromClients()
 				break;
 		}
 	}
+
+	sendUpdateToAll();
 }
 
 // Sends an updateServerPacket to all clients.
@@ -76,8 +69,21 @@ void ServerGame::sendUpdateToAll()
 	Vector3 pos2; pos2.x = -1; pos2.y = -2; pos2.z = -3;
 	packet.addPlayer(0, pos1, pos2, true);
 	packet.addPlayer(1, pos2, pos1, false);
+
 	char * packet_data = packet.pack();
 	int packet_size = packet.size();
-
 	network->sendToAll(packet_data, packet_size);
+}
+
+// Handles a connection packet
+void ServerGame::handleConnectionPacket(char * data) {
+	printf("server received init packet from client\n");
+	ConnectionPacket packet = ConnectionPacket(data);
+}
+
+// Handles a client update packet
+void ServerGame::handleClientUpdatePacket(char * data) {
+	printf("server received action event packet from client\n");
+	ClientUpdatePacket packet = ClientUpdatePacket(data);
+	packet.printAll();
 }

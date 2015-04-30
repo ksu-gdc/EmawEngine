@@ -1,13 +1,13 @@
 // James Tyson
-#include "ClientPacket.h"
+#include "ClientUpdatePacket.h"
 
 // Default constructor
-ClientPacket::ClientPacket()
+ClientUpdatePacket::ClientUpdatePacket()
 {
 }
 
 // Constructor that depacks packet data.
-ClientPacket::ClientPacket(char * data) {
+ClientUpdatePacket::ClientUpdatePacket(char * data) {
 	char * loc = data;
 	//ignore first unsigned int, it is type
 	loc += sizeof(unsigned int);
@@ -23,25 +23,25 @@ ClientPacket::ClientPacket(char * data) {
 }
 
 // Default destructor
-ClientPacket::~ClientPacket()
+ClientUpdatePacket::~ClientUpdatePacket()
 {
 }
 
 // Adds a player input into the packet.
-void ClientPacket::addInput(std::string input) {
+void ClientUpdatePacket::addInput(std::string input) {
 	m_input.push_back(input);
 	m_inputCount++;
 }
 
 // Packs the packet data and returns a char*.
-char * ClientPacket::pack() {
+char * ClientUpdatePacket::pack() {
 	m_size = sizeof(unsigned int) * 2
 		+ m_inputCount * MAX_INPUT_SIZE;
 	char * data = new char[m_size];
 	char * loc = data;
 
 	// add the packet type
-	unsigned int type = 2;
+	unsigned int type = CLIENT_UPDATE;
 	memcpy(loc, &type, sizeof(unsigned int));
 	loc += sizeof(unsigned int);
 
@@ -62,12 +62,12 @@ char * ClientPacket::pack() {
 }
 
 // Returns the size of the packet.
-int ClientPacket::size() {
+int ClientUpdatePacket::size() {
 	return m_size;
 }
 
 // Prints out the input for debugging.
-void ClientPacket::printAll() {
+void ClientUpdatePacket::printAll() {
 	for (int i = 0; i < m_inputCount; i++) {
 		std::cout << m_input[i] << "\n";
 	}

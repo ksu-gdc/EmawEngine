@@ -9,12 +9,12 @@
 
 #define MAX_INPUT_SIZE 10
 
-class ClientPacket
+class ClientUpdatePacket
 {
 public:
-	ClientPacket();
-	ClientPacket(char * data);
-	~ClientPacket();
+	ClientUpdatePacket();
+	ClientUpdatePacket(char * data);
+	~ClientUpdatePacket();
 
 	void addInput(std::string input);
 	char * pack();

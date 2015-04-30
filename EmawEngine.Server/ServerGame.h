@@ -3,7 +3,8 @@
 
 #include "ServerNetwork.h"
 #include "NetworkData.h"
-#include "ClientPacket.h"
+#include "ClientUpdatePacket.h"
+#include "ConnectionPacket.h"
 #include "ServerUpdatePacket.h"
 #include <iostream>
 
@@ -28,4 +29,7 @@ private:
 
 	// data buffer
 	char network_data[MAX_PACKET_SIZE];
+
+	void handleConnectionPacket(char * data);
+	void handleClientUpdatePacket(char * data);
 };

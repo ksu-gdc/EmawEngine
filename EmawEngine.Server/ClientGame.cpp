@@ -10,14 +10,12 @@ ClientGame::ClientGame(void)
 bool ClientGame::connect() {
 	network = new ClientNetwork();
 
-	// send init packet
-	const unsigned int packet_size = sizeof(Packet);
-	char packet_data[packet_size];
+	// Send init packet
+	ConnectionPacket packet = ConnectionPacket();
+	packet.setType(INIT_CONNECTION);
 
-	Packet packet;
-	packet.packet_type = INIT_CONNECTION;
-
-	packet.serialize(packet_data);
+	char * packet_data = packet.pack();
+	int packet_size = packet.size();
 
 	if (NetworkServices::sendMessage(network->ConnectSocket, packet_data, packet_size))
 		return true;
@@ -25,11 +23,12 @@ bool ClientGame::connect() {
 	return false;
 }
 
-void ClientGame::sendActionPackets()
+void ClientGame::sendUpdatePacket()
 {
-	ClientPacket packet = ClientPacket();
+	ClientUpdatePacket packet = ClientUpdatePacket();
 	packet.addInput("testMsg");
 	packet.addInput("test2Msg");
+
 	char * packet_data = packet.pack();
 	int packet_size = packet.size();
 
@@ -39,32 +38,40 @@ void ClientGame::sendActionPackets()
 void ClientGame::update()
 {
 	int data_length = network->receivePackets(network_data);
-
 	if (data_length <= 0)
 	{
 		//no data recieved
 		return;
 	}
 
-	int i = 0;
-	unsigned int * type = (unsigned int *)network_data;
-	ServerUpdatePacket packet;
-	switch (*type) {
+	unsigned int type = *((unsigned int *)network_data);
+	switch (type) {
 
-	case 0: // INIT CONNECTION
-		printf("client received init packet from server\n");
-		sendActionPackets();
+	case CONNECTION_PACKET:
+		handleConnetionPacket(network_data);
 		break;
 
-	case 3: // SERVER UPDATE
-		printf("client received server update packet from server\n");
-		packet = ServerUpdatePacket(network_data);
-		packet.printAll();
-		sendActionPackets();
+	case SERVER_UPDATE:
+		handleServerUpdatePacket(network_data);
 		break;
 
 	default:
 		printf("error in packet types\n");
 		break;
 	}
+
+	sendUpdatePacket();
+}
+
+// Handles a connection packet
+void ClientGame::handleConnetionPacket(char * data) {
+	printf("Client received init packet from server\n");
+	ConnectionPacket packet = ConnectionPacket(network_data);
+}
+
+// Handles a server update packet
+void ClientGame::handleServerUpdatePacket(char * data) {
+	printf("Client received server update packet from server\n");
+	ServerUpdatePacket packet = ServerUpdatePacket(network_data);
+	packet.printAll();
 }
