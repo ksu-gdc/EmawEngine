@@ -99,10 +99,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		}
 	}
 
-	bool do_cube = false;
+	bool do_cube = true;
 	bool do_pill = false;
-	bool do_monkey = false;
-	bool do_cat = true;
+	bool do_cat = false;
 	if (do_cube) {
 		Model* cube = new Model();
 		cube->load("models/obj-models/cube-tex.obj");
@@ -122,16 +121,6 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		capNode->setGraphicsDeviceInterface(&gdi);
 
 		root->addChild(capNode);
-	}
-	if (do_monkey) {
-		Model* monkey = new Model();
-		monkey->load("models/obj-models/monkey.obj");
-		monkey->LoadTexture(gdi.m_Device, "textures\\x.png");
-
-		ModelNode* monkeyNode = new ModelNode(monkey);
-		monkeyNode->setGraphicsDeviceInterface(&gdi);
-
-		root->addChild(monkeyNode);
 	}
 	if (do_cat) {
 		Model* cat = new Model();
