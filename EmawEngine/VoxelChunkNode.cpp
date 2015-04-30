@@ -48,7 +48,7 @@ void VoxelChunkNode::render(){
 	}
 }
 
-/*
+
 void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 {
 	Chunk* hold = mapGenerator->GetChunk(gridx, gridy);
@@ -98,12 +98,12 @@ void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 		}
 	}
 	vertBuffer = gdi->CreateVertexBuffer(length);
-}*/
+}
 
 
 //Old chunk loader, unoptimized, runs longer. probably because it creeps upwards slower (why is that happening?)
 
-
+/*
 void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 {
 
@@ -129,4 +129,4 @@ void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 		}
 	}
 	vertBuffer = gdi->CreateVertexBuffer(length);
-}
+}*/
