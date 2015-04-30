@@ -28,7 +28,7 @@ public:
 	void InitGraphics();
 	bool Update(ID3D11Buffer*, VERTEX*, int);
 	bool Update(ID3D11Buffer*, std::vector<VERTEX>*);
-	void VoxelPipeline(ID3D11Buffer*, VERTEX*, int, D3DXMATRIX*);
+	void VoxelPipeline(ID3D11Buffer*, VERTEX*, int, D3DXMATRIX*, ID3D11ShaderResourceView*);
 	void VertexPipeline(ID3D11Buffer*, std::vector<VERTEX>*, D3DXMATRIX*, ID3D11ShaderResourceView*);
 	ID3D11Buffer* CreateVertexBuffer(int numOfVerticies);
 	BOOL IsWindowed();

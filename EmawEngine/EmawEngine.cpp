@@ -84,7 +84,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
-	bool renderVoxels = false;
+	bool renderVoxels = true;
 	if (renderVoxels) {
 		VoxelChunkNode* world[5][5];
 		for (int i = 0; i < 5; i++)
@@ -93,6 +93,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 			{
 				world[i][j] = new VoxelChunkNode(i, j);
 				world[i][j]->setGraphicsDeviceInterface(&gdi);
+				world[i][j]->loadTextures();
 				world[i][j]->loadChunkBuffer(worldGenerator);
 				root->addChild(world[i][j]);
 			}
@@ -101,7 +102,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	bool do_cube = false;
 	bool do_pill = false;
-	bool do_monkey = true;
+	bool do_monkey = false;
 	bool do_cat = false;
 	bool do_head = false;
 	if (do_cube) {

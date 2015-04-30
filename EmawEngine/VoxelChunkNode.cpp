@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "VoxelChunkNode.h"
 
+Texture* VoxelChunkNode::grass;
 
 VoxelChunkNode::VoxelChunkNode(int inx, int iny)
 {
@@ -40,7 +41,7 @@ void VoxelChunkNode::setGraphicsDeviceInterface(GraphicsDeviceInterface* graphic
 
 void VoxelChunkNode::render(){
 
-	gdi->VoxelPipeline(vertBuffer, ChunkBuffer, length, transform->getTransformMatrix());
+	gdi->VoxelPipeline(vertBuffer, ChunkBuffer, length, transform->getTransformMatrix(), grass->getTexture());
 
 	//Render children.
 	for (int i = 0; i < children.size(); i++){
@@ -48,6 +49,11 @@ void VoxelChunkNode::render(){
 	}
 }
 
+void VoxelChunkNode::loadTextures()
+{
+	grass = new Texture(gdi->m_Device);
+	grass->load("models\\not_minecraft\\textures\\grass.png");
+}
 
 void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 {
