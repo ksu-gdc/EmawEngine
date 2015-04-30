@@ -103,8 +103,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	bool do_cube = false;
 	bool do_pill = false;
 	bool do_monkey = false;
-	bool do_cat = false;
 	bool do_head = false;
+	bool do_cat = false;
 	if (do_cube) {
 		Model* cube = new Model();
 		cube->load("models/obj-models/cube-tex.obj");
@@ -125,35 +125,15 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 		root->addChild(capNode);
 	}
-	if (do_monkey) {
-		Model* monkey = new Model();
-		monkey->load("models/obj-models/monkey.obj");
-		monkey->LoadTexture(gdi.m_Device, "textures\\x.png");
-
-		ModelNode* monkeyNode = new ModelNode(monkey);
-		monkeyNode->setGraphicsDeviceInterface(&gdi);
-
-		root->addChild(monkeyNode);
-	}
 	if (do_cat) {
 		Model* cat = new Model();
 		cat->load("models/obj-models/cat.obj");
-		cat->LoadTexture(gdi.m_Device, "textures\\cat.png");
+		cat->LoadTexture(gdi.m_Device, "textures\\cat-flipped.png");
 
 		ModelNode* catNode = new ModelNode(cat);
 		catNode->setGraphicsDeviceInterface(&gdi);
 
 		root->addChild(catNode);
-	}
-	if (do_head) {
-		Model* head = new Model();
-		head->load("models/obj-models/head.OBJ");
-		head->LoadTexture(gdi.m_Device, "textures\\lambertian-flipped.jpg");
-
-		ModelNode* headNode = new ModelNode(head);
-		headNode->setGraphicsDeviceInterface(&gdi);
-
-		root->addChild(headNode);
 	}
 
 	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
