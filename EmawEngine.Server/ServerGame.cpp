@@ -69,14 +69,13 @@ void ServerGame::receiveFromClients()
 
 void ServerGame::sendActionPackets()
 {
-	// send action packet
-	const unsigned int packet_size = sizeof(Packet);
-	char packet_data[packet_size];
-
-	Packet packet;
-	packet.packet_type = SERVER_UPDATE;
-
-	packet.serialize(packet_data);
+	ServerUpdatePacket packet = ServerUpdatePacket();
+	Vector3 pos1; pos1.x = 1; pos1.y = 2; pos1.z = 3;
+	Vector3 pos2; pos2.x = -1; pos2.y = -2; pos2.z = -3;
+	packet.addPlayer(0, pos1, pos2, true);
+	packet.addPlayer(1, pos2, pos1, false);
+	char * packet_data = packet.pack();
+	int packet_size = packet.size();
 
 	network->sendToAll(packet_data, packet_size);
 }

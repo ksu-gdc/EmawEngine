@@ -6,7 +6,19 @@
 
 #include <iostream>
 
-#define MAX_INPUT_SIZE 10
+struct PlayerData {
+	unsigned int id;
+	Vector3 position;
+	Vector3 orientation;
+	bool firing;
+
+	void init(unsigned int new_id, Vector3 new_position, Vector3 new_orientation, bool new_firing) {
+		id = new_id;
+		position = new_position;
+		orientation = new_orientation;
+		firing = new_firing;
+	}
+};
 
 class ServerUpdatePacket
 {
@@ -15,16 +27,13 @@ public:
 	ServerUpdatePacket(char * data);
 	~ServerUpdatePacket();
 
-	void addPlayer(Vector3 position, Vector3 orientation, bool firing);
+	void addPlayer(unsigned int id, Vector3 position, Vector3 orientation, bool firing);
 	char * pack();
 	int size();
 	void printAll();
 
 private:
-	std::vector<Vector3> m_pPos;
-	std::vector<Vector3> m_pOri;
-	std::vector<bool> m_pFire;
-
+	std::vector<PlayerData> m_players;
 	unsigned int m_playerSize;
 	unsigned int m_pCount;
 	int m_size;

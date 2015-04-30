@@ -37,7 +37,6 @@ void ClientGame::sendActionPackets()
 
 void ClientGame::update()
 {
-	Packet packet;
 	int data_length = network->receivePackets(network_data);
 
 	if (data_length <= 0)
@@ -47,26 +46,24 @@ void ClientGame::update()
 	}
 
 	int i = 0;
-	while (i < (unsigned int)data_length)
-	{
-		packet.deserialize(&(network_data[i]));
-		i += sizeof(Packet);
+	unsigned int * type = (unsigned int *)network_data;
+	ServerUpdatePacket packet;
+	switch (*type) {
 
-		switch (packet.packet_type) {
+	case 0: // INIT CONNECTION
+		printf("client received init packet from server\n");
+		sendActionPackets();
+		break;
 
-		case SERVER_UPDATE:
+	case 3: // SERVER UPDATE
+		printf("client received server update packet from server\n");
+		packet = ServerUpdatePacket(network_data);
+		packet.printAll();
+		sendActionPackets();
+		break;
 
-			printf("client received action event packet from server\n");
-
-			sendActionPackets();
-
-			break;
-
-		default:
-
-			printf("error in packet types\n");
-
-			break;
-		}
+	default:
+		printf("error in packet types\n");
+		break;
 	}
 }

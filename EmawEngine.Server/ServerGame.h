@@ -3,6 +3,7 @@
 #include "ServerNetwork.h"
 #include "NetworkData.h"
 #include "ClientPacket.h"
+#include "ServerUpdatePacket.h"
 #include <iostream>
 
 class ServerGame

@@ -4,20 +4,26 @@
 ServerUpdatePacket::ServerUpdatePacket()
 {
 	m_size = -1;
+	m_playerSize = sizeof(PlayerData);
 }
 
 ServerUpdatePacket::ServerUpdatePacket(char * data) {
+	m_size = -1;
+	m_playerSize = sizeof(PlayerData);
+
 	char * loc = data;
-	//ignore first unsigned int, it is type
+	//ignore first unsigned int, it is packet type
 	loc += sizeof(unsigned int);
-	memcpy(&m_inputCount, loc, sizeof(unsigned int));
+	// Get the player count
+	memcpy(&m_pCount, loc, sizeof(unsigned int));
 	loc += sizeof(unsigned int);
 
-	char line[MAX_INPUT_SIZE];
-	for (int i = 0; i < m_inputCount; i++) {
-		memcpy(line, loc, MAX_INPUT_SIZE);
-		m_input.push_back(line);
-		loc += MAX_INPUT_SIZE;
+	// Copy players into temp, and then push them into the list
+	PlayerData temp;
+	for (int i = 0; i < m_pCount; i++) {
+		memcpy(&temp, loc, m_playerSize);
+		m_players.push_back(temp);
+		loc += m_playerSize;
 	}
 }
 
@@ -26,38 +32,33 @@ ServerUpdatePacket::~ServerUpdatePacket()
 {
 }
 
-void ServerUpdatePacket::addPlayer(Vector3 position, Vector3 orientation, bool firing) {
-	m_pPos.push_back(position);
-	m_pOri.push_back(orientation);
-	m_pFire.push_back(firing);
+void ServerUpdatePacket::addPlayer(unsigned int id, Vector3 position, Vector3 orientation, bool firing) {
+	PlayerData p;
+	p.init(id, position, orientation, firing);
+	m_players.push_back(p);
 	m_pCount++;
 }
 
 char * ServerUpdatePacket::pack() {
-	unsigned int player_size =
-		sizeof(Vector3) * 2 +
-		sizeof(bool);
-	m_size = sizeof(unsigned int) * 2
-		+ m_pCount * player_size;
+	m_size = sizeof(unsigned int) * 2 // packet type, number of players
+		+ m_pCount * m_playerSize;
 	char * data = new char[m_size];
 	char * loc = data;
 
-	// add the packet type
-	unsigned int type = 2;
+	// Add the packet type
+	unsigned int type = 3;
 	memcpy(loc, &type, sizeof(unsigned int));
 	loc += sizeof(unsigned int);
 
-	// add the number of inputs
+	// Add the number of players
 	unsigned int count = m_pCount;
 	memcpy(loc, &count, sizeof(unsigned int));
 	loc += sizeof(unsigned int);
 
-	// copy all of our strings into the array
-	const char * temp;
+	// Copy all of our players into the array
 	for (int i = 0; i < m_pCount; i++) {
-		temp = m_input[i].c_str();
-		memcpy(loc, temp, MAX_INPUT_SIZE);
-		loc += MAX_INPUT_SIZE;
+		memcpy(loc, &m_players[i], m_playerSize);
+		loc += m_playerSize;
 	}
 
 	return data;
@@ -68,7 +69,7 @@ int ServerUpdatePacket::size() {
 }
 
 void ServerUpdatePacket::printAll() {
-	for (int i = 0; i < m_inputCount; i++) {
-		std::cout << m_input[i] << "\n";
+	for (int i = 0; i < m_pCount; i++) {
+		std::cout << "ID: " << m_players[i].id << "\n";
 	}
 }

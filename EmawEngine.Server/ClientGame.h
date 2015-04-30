@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include "ClientNetwork.h"
 #include "ClientPacket.h"
+#include "ServerUpdatePacket.h"
 #include "NetworkData.h"
 #include <iostream>
 
