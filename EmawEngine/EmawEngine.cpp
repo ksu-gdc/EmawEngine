@@ -101,7 +101,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	bool do_cube = false;
 	bool do_pill = false;
-	bool do_cat = true;
+	bool do_cat = false;
+	bool do_ship = true;
 	if (do_cube) {
 		Model* cube = new Model();
 		cube->load("models/obj-models/cube-tex.obj");
@@ -132,7 +133,16 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 		root->addChild(catNode);
 	}
+	if (do_ship) {
+		Model* ship = new Model();
+		ship->load("models/obj-models/SpaceShip_FULL.obj");
+		ship->LoadTexture(gdi.m_Device, "textures\\cat-flipped.png");
 
+		ModelNode* shipNode = new ModelNode(ship);
+		shipNode->setGraphicsDeviceInterface(&gdi);
+
+		root->addChild(shipNode);
+	}
 	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
 	Player* player = new Player();
 
