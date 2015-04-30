@@ -61,8 +61,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)/libraries/FBX SDK/2015.1/lib/vs2013/x86/debug-noignore;$(SolutionDir)/EmawEngine/fmod</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;libfbxsdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/EmawEngine/fmod</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y /d "$(SolutionDir)libraries\FBX SDK\2015.1\lib\vs2013\x86\debug-noignore\libfbxsdk.dll" $(OutDir)</Command>
@@ -96,7 +96,9 @@
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CollisionObject.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="MathCore.h" />
     <ClInclude Include="ModelNode.h" />
     <ClInclude Include="GameNode.h" />
     <ClInclude Include="Player.h" />
@@ -121,6 +123,10 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ShaderAsset.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="Vector2.h" />
+    <ClInclude Include="Vector3.h" />
+    <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="VoxelChunkNode.h" />
     <ClInclude Include="WindowSize.h" />
@@ -144,6 +150,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CollisionObject.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="MathCore.cpp" />
     <ClCompile Include="ModelNode.cpp" />
     <ClCompile Include="EmawEngine.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -159,6 +166,9 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ShaderAsset.cpp" />
     <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="Vector3.cpp" />
+    <ClCompile Include="Vertex.cpp" />
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="SoundSource.cpp" />
     <ClCompile Include="VoxelChunkNode.cpp" />
@@ -186,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="C:\Users\Chris\Desktop\consolas.fnt" />
+    <None Include="ClassDiagram.cd" />
     <None Include="texture.col" />
     <None Include="VoxShader.geo" />
     <None Include="Shaders.col" />

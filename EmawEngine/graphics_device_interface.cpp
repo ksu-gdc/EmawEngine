@@ -189,7 +189,8 @@ void GraphicsDeviceInterface::InitPipeline()
 {
 	//load shaders
 	shdrs = new ShaderAsset(this);
-	ShaderStruct *blah = (ShaderStruct*)shdrs->load("VoxShader.geo");
+	//ShaderStruct *blah = (ShaderStruct*)shdrs->load("VoxShader.geo");
+	ShaderStruct *blah = (ShaderStruct*)shdrs->load("Shaders.col");
 
 	m_Context->VSSetShader(blah->VertShader, 0, 0);
 	m_Context->PSSetShader(blah->PixShader, 0, 0);
@@ -319,7 +320,7 @@ bool GraphicsDeviceInterface::RenderModel(ID3D11Buffer* vertexBuffer){
 	m_Context->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 
 	// select which primtive type we are using
-	m_Context->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	m_Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	return true;
 
@@ -343,7 +344,7 @@ bool GraphicsDeviceInterface::Update(ID3D11Buffer* vertexBuffer, std::vector<VER
 
 	D3D11_MAPPED_SUBRESOURCE ms;
 	m_Context->Map(vertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);   // map the buffer
-	memcpy(ms.pData, vertices->data(), vertices->size() * sizeof(VERTEX));                // copy the data
+	memcpy(ms.pData, vertices->data(), vertices->size() * sizeof(VERTEX));    // copy the data
 	m_Context->Unmap(vertexBuffer, NULL);
 
 	// Render the triangle.
@@ -376,12 +377,13 @@ void GraphicsDeviceInterface::RenderShader(){
 	return;
 }
 
-void GraphicsDeviceInterface::VertexPipeline(ID3D11Buffer* vertexBuffer, std::vector<VERTEX>* vertices, D3DXMATRIX* transform){
+void GraphicsDeviceInterface::VertexPipeline(ID3D11Buffer* vertexBuffer, std::vector<VERTEX>* vertices, D3DXMATRIX* transform, ID3D11ShaderResourceView* texture){
 	
 	//I want to rename these so they make a little more sense.
 	RenderModel(vertexBuffer);
 	m_VertexShader->initializeShader(m_Device);
 	m_VertexShader->setParameters(m_Context, *transform, m_Camera->GetViewMatrix(), m_projMatrix);
+	m_Context->PSSetShaderResources(0, 1, &texture);
 	Update(vertexBuffer, vertices);
 	//RenderShader();
 }

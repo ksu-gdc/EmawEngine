@@ -30,6 +30,7 @@ struct VERTEX
 {
 	FLOAT X, Y, Z, W;
 	DirectX::XMFLOAT4 Color;
+	FLOAT U, V;
 };
 
 enum SHADERTYPE
