@@ -1,6 +1,8 @@
 // James Tyson
 #include "ClientUpdatePacket.h"
 
+using namespace EmawEngineServer;
+
 // Default constructor
 ClientUpdatePacket::ClientUpdatePacket()
 {

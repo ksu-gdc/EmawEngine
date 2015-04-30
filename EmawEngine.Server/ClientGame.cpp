@@ -1,6 +1,8 @@
 // James Tyson
 #include "ClientGame.h" 
 
+using namespace EmawEngineServer;
+
 ClientGame::ClientGame(void)
 {
 	// TODO: add time outs and reconnects

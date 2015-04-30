@@ -1,29 +1,29 @@
 ========================================================================
-    DYNAMIC LINK LIBRARY : Network Project Overview
+    DYNAMIC LINK LIBRARY : EmawEngine.Network Project Overview
 ========================================================================
 
-AppWizard has created this Network DLL for you.  
+AppWizard has created this EmawEngine.Network DLL for you.  
 
 This file contains a summary of what you will find in each of the files that
-make up your Network application.
+make up your EmawEngine.Network application.
 
-Network.vcxproj
+EmawEngine.Network.vcxproj
     This is the main project file for VC++ projects generated using an Application Wizard. 
     It contains information about the version of Visual C++ that generated the file, and 
     information about the platforms, configurations, and project features selected with the
     Application Wizard.
 
-Network.vcxproj.filters
+EmawEngine.Network.vcxproj.filters
     This is the filters file for VC++ projects generated using an Application Wizard. 
     It contains information about the association between the files in your project 
     and the filters. This association is used in the IDE to show grouping of files with
     similar extensions under a specific node (for e.g. ".cpp" files are associated with the
     "Source Files" filter).
 
-Network.cpp
+EmawEngine.Network.cpp
     This is the main DLL source file.
 
-Network.h
+EmawEngine.Network.h
     This file contains a class declaration.
 
 AssemblyInfo.cpp

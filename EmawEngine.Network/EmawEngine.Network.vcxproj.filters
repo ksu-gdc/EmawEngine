@@ -13,27 +13,51 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Packets">
+      <UniqueIdentifier>{defd6eda-c6e1-4214-8ac0-0b75618e5a4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Network.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\EmawEngine.Server\NetworkData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EmawEngine.Server\NetworkServices.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EmawEngine.Server\ClientUpdatePacket.h">
+      <Filter>Packets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EmawEngine.Server\ConnectionPacket.h">
+      <Filter>Packets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EmawEngine.Server\ServerUpdatePacket.h">
+      <Filter>Packets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Network.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AssemblyInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Stdafx.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EmawEngine.Server\NetworkServices.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EmawEngine.Server\ClientUpdatePacket.cpp">
+      <Filter>Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EmawEngine.Server\ConnectionPacket.cpp">
+      <Filter>Packets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EmawEngine.Server\ServerUpdatePacket.cpp">
+      <Filter>Packets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

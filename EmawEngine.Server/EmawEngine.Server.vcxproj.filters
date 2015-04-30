@@ -7,12 +7,6 @@
     <Filter Include="Server">
       <UniqueIdentifier>{14000680-6f5e-4d0b-9da6-c1382a5a687c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Network">
-      <UniqueIdentifier>{0b59d29a-042f-49f3-8d3b-1a44aaf13a26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Packets">
-      <UniqueIdentifier>{858b12ab-4719-4168-98e8-f2f7f161ddeb}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClientGame.h">
@@ -26,21 +20,6 @@
     </ClInclude>
     <ClInclude Include="ServerNetwork.h">
       <Filter>Server</Filter>
-    </ClInclude>
-    <ClInclude Include="NetworkServices.h">
-      <Filter>Network</Filter>
-    </ClInclude>
-    <ClInclude Include="NetworkData.h">
-      <Filter>Network</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerUpdatePacket.h">
-      <Filter>Packets</Filter>
-    </ClInclude>
-    <ClInclude Include="ConnectionPacket.h">
-      <Filter>Packets</Filter>
-    </ClInclude>
-    <ClInclude Include="ClientUpdatePacket.h">
-      <Filter>Packets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -56,18 +35,6 @@
     <ClCompile Include="ServerNetwork.cpp">
       <Filter>Server</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkServices.cpp">
-      <Filter>Network</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerUpdatePacket.cpp">
-      <Filter>Packets</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ConnectionPacket.cpp">
-      <Filter>Packets</Filter>
-    </ClCompile>
-    <ClCompile Include="ClientUpdatePacket.cpp">
-      <Filter>Packets</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

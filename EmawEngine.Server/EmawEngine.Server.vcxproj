@@ -67,24 +67,15 @@
   <ItemGroup>
     <ClInclude Include="ClientGame.h" />
     <ClInclude Include="ClientNetwork.h" />
-    <ClInclude Include="ClientUpdatePacket.h" />
-    <ClInclude Include="ConnectionPacket.h" />
-    <ClInclude Include="NetworkData.h" />
-    <ClInclude Include="NetworkServices.h" />
     <ClInclude Include="ServerGame.h" />
     <ClInclude Include="ServerNetwork.h" />
-    <ClInclude Include="ServerUpdatePacket.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClientGame.cpp" />
     <ClCompile Include="ClientNetwork.cpp" />
-    <ClCompile Include="ClientUpdatePacket.cpp" />
-    <ClCompile Include="ConnectionPacket.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="NetworkServices.cpp" />
     <ClCompile Include="ServerGame.cpp" />
     <ClCompile Include="ServerNetwork.cpp" />
-    <ClCompile Include="ServerUpdatePacket.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

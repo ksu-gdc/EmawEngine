@@ -1,5 +1,6 @@
 #include "ConnectionPacket.h"
 
+using namespace EmawEngineServer;
 
 ConnectionPacket::ConnectionPacket()
 {

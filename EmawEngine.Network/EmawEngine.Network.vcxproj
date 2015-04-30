@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{800843D1-85EF-4DFE-A5C2-73E62B340C50}</ProjectGuid>
+    <ProjectGuid>{4465806F-8A40-4EE0-9A62-D02142F4F0E6}</ProjectGuid>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
-    <RootNamespace>Network</RootNamespace>
+    <RootNamespace>EmawEngineNetwork</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -52,7 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -76,13 +76,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Network.h" />
+    <ClInclude Include="..\EmawEngine.Server\ClientUpdatePacket.h" />
+    <ClInclude Include="..\EmawEngine.Server\ConnectionPacket.h" />
+    <ClInclude Include="..\EmawEngine.Server\NetworkData.h" />
+    <ClInclude Include="..\EmawEngine.Server\NetworkServices.h" />
+    <ClInclude Include="..\EmawEngine.Server\ServerUpdatePacket.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\EmawEngine.Server\ClientUpdatePacket.cpp" />
+    <ClCompile Include="..\EmawEngine.Server\ConnectionPacket.cpp" />
+    <ClCompile Include="..\EmawEngine.Server\NetworkServices.cpp" />
+    <ClCompile Include="..\EmawEngine.Server\ServerUpdatePacket.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="Network.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
