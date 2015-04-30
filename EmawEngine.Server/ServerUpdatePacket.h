@@ -1,3 +1,4 @@
+// James Tyson
 #pragma once
 
 #include <vector>
@@ -6,6 +7,7 @@
 
 #include <iostream>
 
+// Represents the player data getting sent across the server.
 struct PlayerData {
 	unsigned int id;
 	Vector3 position;

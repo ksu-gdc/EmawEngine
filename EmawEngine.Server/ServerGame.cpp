@@ -1,3 +1,4 @@
+// James Tyson
 #include "ServerGame.h"
 
 unsigned int ServerGame::client_id;
@@ -24,7 +25,7 @@ void ServerGame::update()
 	receiveFromClients();
 }
 
-
+// Checks for messages from all clients.
 void ServerGame::receiveFromClients()
 {
 
@@ -50,14 +51,14 @@ void ServerGame::receiveFromClients()
 
 			case 0: // INIT CONNECTION
 				printf("server received init packet from client\n");
-				sendActionPackets();
+				sendUpdateToAll();
 				break;
 
 			case 2: // CLIENT UPDATE
 				printf("server received action event packet from client\n");
 				packet = ClientPacket(network_data);
 				packet.printAll();
-				sendActionPackets();
+				sendUpdateToAll();
 				break;
 
 			default:
@@ -67,7 +68,8 @@ void ServerGame::receiveFromClients()
 	}
 }
 
-void ServerGame::sendActionPackets()
+// Sends an updateServerPacket to all clients.
+void ServerGame::sendUpdateToAll()
 {
 	ServerUpdatePacket packet = ServerUpdatePacket();
 	Vector3 pos1; pos1.x = 1; pos1.y = 2; pos1.z = 3;

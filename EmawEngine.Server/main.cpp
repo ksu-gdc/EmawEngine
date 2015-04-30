@@ -1,3 +1,4 @@
+// James Tyson
 #include "ServerGame.h"
 #include "ClientGame.h"
 // used for multi-threading

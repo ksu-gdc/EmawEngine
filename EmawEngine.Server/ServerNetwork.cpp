@@ -1,3 +1,4 @@
+// James Tyson
 #include "ServerNetwork.h"
 
 ServerNetwork::ServerNetwork(void)

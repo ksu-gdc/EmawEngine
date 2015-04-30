@@ -1,3 +1,4 @@
+// James Tyson
 #include "ClientGame.h" 
 
 ClientGame::ClientGame(void)

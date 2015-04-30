@@ -1,3 +1,4 @@
+// James Tyson
 #pragma once
 
 #include "ServerNetwork.h"
@@ -10,13 +11,12 @@ class ServerGame
 {
 
 public:
-
 	ServerGame(void);
 	~ServerGame(void);
 
 	void update();
 	void receiveFromClients();
-	void sendActionPackets();
+	void sendUpdateToAll();
 
 private:
 

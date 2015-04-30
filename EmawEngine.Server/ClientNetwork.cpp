@@ -1,3 +1,4 @@
+// James Tyson
 #include "ClientNetwork.h"
 
 ClientNetwork::ClientNetwork(void) {
