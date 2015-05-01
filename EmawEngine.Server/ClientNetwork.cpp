@@ -1,6 +1,8 @@
 // James Tyson
 #include "ClientNetwork.h"
 
+using namespace EmawEngineServer;
+
 ClientNetwork::ClientNetwork(void) {
 
 	// create WSADATA object

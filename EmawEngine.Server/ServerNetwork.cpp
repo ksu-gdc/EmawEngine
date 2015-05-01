@@ -1,6 +1,8 @@
 // James Tyson
 #include "ServerNetwork.h"
 
+using namespace EmawEngineServer;
+
 ServerNetwork::ServerNetwork(void)
 {
 	// create WSADATA object

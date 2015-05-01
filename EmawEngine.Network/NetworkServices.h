@@ -4,6 +4,8 @@
 
 #include <WinSock2.h>
 #include <Windows.h>
+#include "NetworkData.h"
+#include "Packets.h"
 
 namespace EmawEngineServer {
 	class NetworkServices

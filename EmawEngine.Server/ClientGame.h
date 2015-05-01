@@ -2,11 +2,9 @@
 #include <winsock2.h>
 #include <Windows.h>
 #include "ClientNetwork.h"
-#include "ClientUpdatePacket.h"
-#include "ConnectionPacket.h"
-#include "ServerUpdatePacket.h"
-#include "NetworkData.h"
 #include <iostream>
+
+#include "NetworkServices.h"
 
 class ClientGame
 {
@@ -20,7 +18,7 @@ public:
 
 	void sendUpdatePacket();
 
-	char network_data[MAX_PACKET_SIZE];
+	char network_data[EmawEngineServer::MAX_PACKET_SIZE];
 
 	void update();
 	bool connect();

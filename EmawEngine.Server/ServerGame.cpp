@@ -1,6 +1,8 @@
 // James Tyson
 #include "ServerGame.h"
 
+using namespace EmawEngineServer;
+
 unsigned int ServerGame::client_id;
 
 ServerGame::ServerGame(void)

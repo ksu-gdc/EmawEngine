@@ -2,10 +2,7 @@
 #pragma once
 
 #include "ServerNetwork.h"
-#include "NetworkData.h"
-#include "ClientUpdatePacket.h"
-#include "ConnectionPacket.h"
-#include "ServerUpdatePacket.h"
+#include "NetworkServices.h"
 #include <iostream>
 
 class ServerGame
@@ -28,7 +25,7 @@ private:
 	ServerNetwork* network;
 
 	// data buffer
-	char network_data[MAX_PACKET_SIZE];
+	char network_data[EmawEngineServer::MAX_PACKET_SIZE];
 
 	void handleConnectionPacket(char * data);
 	void handleClientUpdatePacket(char * data);

@@ -76,24 +76,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\EmawEngine.Server\ClientUpdatePacket.h" />
-    <ClInclude Include="..\EmawEngine.Server\ConnectionPacket.h" />
-    <ClInclude Include="..\EmawEngine.Server\NetworkData.h" />
-    <ClInclude Include="..\EmawEngine.Server\NetworkServices.h" />
-    <ClInclude Include="..\EmawEngine.Server\ServerUpdatePacket.h" />
+    <ClInclude Include="ClientUpdatePacket.h" />
+    <ClInclude Include="ConnectionPacket.h" />
+    <ClInclude Include="NetworkData.h" />
+    <ClInclude Include="NetworkServices.h" />
+    <ClInclude Include="Packets.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ServerUpdatePacket.h" />
     <ClInclude Include="Stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\EmawEngine.Server\ClientUpdatePacket.cpp" />
-    <ClCompile Include="..\EmawEngine.Server\ConnectionPacket.cpp" />
-    <ClCompile Include="..\EmawEngine.Server\NetworkServices.cpp" />
-    <ClCompile Include="..\EmawEngine.Server\ServerUpdatePacket.cpp" />
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="Stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="ClientUpdatePacket.cpp" />
+    <ClCompile Include="ConnectionPacket.cpp" />
+    <ClCompile Include="NetworkServices.cpp" />
+    <ClCompile Include="ServerUpdatePacket.cpp" />
+    <ClCompile Include="Stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
