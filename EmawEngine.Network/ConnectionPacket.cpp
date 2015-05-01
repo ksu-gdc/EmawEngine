@@ -1,6 +1,5 @@
 #include "ConnectionPacket.h"
-
-using namespace EmawEngineServer;
+#include "stdafx.h"
 
 ConnectionPacket::ConnectionPacket()
 {

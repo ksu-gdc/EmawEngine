@@ -1,12 +1,12 @@
 // James Tyson
 #include "ServerUpdatePacket.h"
-
-using namespace EmawEngineServer;
+#include "stdafx.h"
 
 // Default constructor
 ServerUpdatePacket::ServerUpdatePacket()
 {
 	m_size = -1;
+	m_pCount = 0;
 	m_playerSize = sizeof(PlayerData);
 }
 

@@ -25,7 +25,7 @@ private:
 	ServerNetwork* network;
 
 	// data buffer
-	char network_data[EmawEngineServer::MAX_PACKET_SIZE];
+	char network_data[MAX_PACKET_SIZE];
 
 	void handleConnectionPacket(char * data);
 	void handleClientUpdatePacket(char * data);

@@ -1,4 +1,10 @@
 // James Tyson
+#ifdef EMAWENGINENETWORK_EXPORTS
+#define EMAWENGINENETWORK_API __declspec(dllexport)
+#else
+#define EMAWENGINENETWORK_API __declspec(dllimport)
+#endif
+
 #pragma once
 
 #include <vector>
@@ -8,8 +14,7 @@
 #include <iostream>
 
 // Represents the player data getting sent across the server.
-namespace EmawEngineServer {
-	struct PlayerData {
+struct EMAWENGINENETWORK_API PlayerData {
 		unsigned int id;
 		Vector3 position;
 		Vector3 orientation;
@@ -23,22 +28,21 @@ namespace EmawEngineServer {
 		}
 	};
 
-	class ServerUpdatePacket
-	{
-	public:
-		ServerUpdatePacket();
-		ServerUpdatePacket(char * data);
-		~ServerUpdatePacket();
+class EMAWENGINENETWORK_API ServerUpdatePacket
+{
+public:
+	ServerUpdatePacket();
+	ServerUpdatePacket(char * data);
+	~ServerUpdatePacket();
 
-		void addPlayer(unsigned int id, Vector3 position, Vector3 orientation, bool firing);
-		char * pack();
-		int size();
-		void printAll();
+	void addPlayer(unsigned int id, Vector3 position, Vector3 orientation, bool firing);
+	char * pack();
+	int size();
+	void printAll();
 
-	private:
-		std::vector<PlayerData> m_players;
-		unsigned int m_playerSize;
-		unsigned int m_pCount;
-		int m_size;
-	};
-}
+private:
+	std::vector<PlayerData> m_players;
+	unsigned int m_playerSize;
+	unsigned int m_pCount;
+	int m_size;
+};

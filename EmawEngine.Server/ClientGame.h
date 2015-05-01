@@ -18,7 +18,7 @@ public:
 
 	void sendUpdatePacket();
 
-	char network_data[EmawEngineServer::MAX_PACKET_SIZE];
+	char network_data[MAX_PACKET_SIZE];
 
 	void update();
 	bool connect();

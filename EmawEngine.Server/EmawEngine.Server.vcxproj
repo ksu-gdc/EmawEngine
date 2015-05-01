@@ -45,7 +45,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\linkm_000\Desktop\emawengine\Debug;C:\Users\linkm_000\Desktop\emawengine\EmawEngine.Network;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Debug;$(SolutionDir)EmawEngine.Network;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -80,7 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EmawEngine.Network\EmawEngine.Network.vcxproj">
-      <Project>{4465806f-8a40-4ee0-9a62-d02142f4f0e6}</Project>
+      <Project>{b8553bd9-01a1-42bb-a7db-be4dbd4fa83f}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
