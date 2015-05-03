@@ -5,6 +5,7 @@
 // Default constructor
 ClientUpdatePacket::ClientUpdatePacket()
 {
+	m_inputCount = 0;
 }
 
 // Constructor that depacks packet data.
