@@ -66,14 +66,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ClientGame.h" />
-    <ClInclude Include="ClientNetwork.h" />
     <ClInclude Include="ServerGame.h" />
     <ClInclude Include="ServerNetwork.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ClientGame.cpp" />
-    <ClCompile Include="ClientNetwork.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ServerGame.cpp" />
     <ClCompile Include="ServerNetwork.cpp" />

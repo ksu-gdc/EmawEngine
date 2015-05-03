@@ -9,13 +9,14 @@
 
 #include <vector>
 #include <string>
-//#include "NetworkData.h"
+#include "NetworkData.h"
 #include "stdafx.h"
 
 #include <iostream>
 
 #define MAX_INPUT_SIZE 10
 
+// CLient to server update message
 class EMAWENGINENETWORK_API ClientUpdatePacket
 {
 public:

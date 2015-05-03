@@ -57,6 +57,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Debug;$(SolutionDir)EmawEngine.Network;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -95,12 +96,15 @@
     <ClInclude Include="AudioEasyAccess.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ClientGame.h" />
+    <ClInclude Include="ClientNetwork.h" />
     <ClInclude Include="CollisionObject.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="MathCore.h" />
     <ClInclude Include="ModelNode.h" />
     <ClInclude Include="GameNode.h" />
+    <ClInclude Include="NetworkManager.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="SceneGraphNode.h" />
@@ -148,6 +152,8 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="AudioRenderer.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ClientGame.cpp" />
+    <ClCompile Include="ClientNetwork.cpp" />
     <ClCompile Include="CollisionObject.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="MathCore.cpp" />
@@ -163,6 +169,7 @@
     <ClCompile Include="KeyState.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MouseState.cpp" />
+    <ClCompile Include="NetworkManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ShaderAsset.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -200,6 +207,11 @@
     <None Include="texture.col" />
     <None Include="VoxShader.geo" />
     <None Include="Shaders.col" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EmawEngine.Network\EmawEngine.Network.vcxproj">
+      <Project>{b8553bd9-01a1-42bb-a7db-be4dbd4fa83f}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,20 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Client">
-      <UniqueIdentifier>{f308259d-4596-456e-ac7d-d2d844afe70d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Server">
       <UniqueIdentifier>{14000680-6f5e-4d0b-9da6-c1382a5a687c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ClientGame.h">
-      <Filter>Client</Filter>
-    </ClInclude>
-    <ClInclude Include="ClientNetwork.h">
-      <Filter>Client</Filter>
-    </ClInclude>
     <ClInclude Include="ServerGame.h">
       <Filter>Server</Filter>
     </ClInclude>
@@ -23,12 +14,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ClientGame.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
-    <ClCompile Include="ClientNetwork.cpp">
-      <Filter>Client</Filter>
-    </ClCompile>
     <ClCompile Include="ServerGame.cpp">
       <Filter>Server</Filter>
     </ClCompile>

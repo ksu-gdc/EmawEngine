@@ -135,8 +135,13 @@ void ServerNetwork::sendToAll(char * packets, int totalSize)
 
 		if (iSendResult == SOCKET_ERROR)
 		{
-			printf("send failed with error: %d\n", WSAGetLastError());
-			closesocket(currentSocket);
+			int errorCode = WSAGetLastError();
+			// 10035 is nonfatal, means its still trying to connect
+			if (errorCode != 10035) {
+				printf("send failed with error: %d\n", errorCode);
+				Sleep(1000);
+				closesocket(currentSocket);
+			}
 		}
 	}
 }

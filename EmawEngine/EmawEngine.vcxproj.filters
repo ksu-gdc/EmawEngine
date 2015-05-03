@@ -115,6 +115,15 @@
     <ClCompile Include="Vertex.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="ClientGame.cpp">
+      <Filter>Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientNetwork.cpp">
+      <Filter>Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkManager.cpp">
+      <Filter>Networking</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -254,6 +263,15 @@
     <ClInclude Include="Vertex.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="ClientGame.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientNetwork.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkManager.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
@@ -304,6 +322,9 @@
     </Filter>
     <Filter Include="Math">
       <UniqueIdentifier>{ef1a8c80-177d-4c68-be4f-4b9c53da56da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Networking">
+      <UniqueIdentifier>{023680e9-605c-413d-a65d-ce959ee56436}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

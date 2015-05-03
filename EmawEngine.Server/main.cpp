@@ -1,14 +1,14 @@
 // James Tyson
 #include "ServerGame.h"
-#include "ClientGame.h"
+//#include "ClientGame.h"
 // used for multi-threading
 #include <process.h>
 
 void serverLoop(void *);
-void clientLoop(void);
+//void clientLoop(void);
 
 ServerGame * server;
-ClientGame * client;
+//ClientGame * client;
 
 int main()
 {
@@ -17,12 +17,13 @@ int main()
 	server = new ServerGame();
 
 	// create thread with arbitrary argument for the run function
-	_beginthread(serverLoop, 0, (void*)12);
+	//_beginthread(serverLoop, 0, (void*)12);
+	serverLoop((void*)12);
 
 	// initialize the client 
-	client = new ClientGame();
+	//client = new ClientGame();
 
-	clientLoop();
+	//clientLoop();
 }
 
 void serverLoop(void * arg)
@@ -33,12 +34,12 @@ void serverLoop(void * arg)
 	}
 }
 
-void clientLoop()
+/*void clientLoop()
 {
 	while (true)
 	{
 		//do game stuff
 		client->update();
 	}
-}
+}*/
 

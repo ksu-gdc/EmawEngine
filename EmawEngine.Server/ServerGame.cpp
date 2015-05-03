@@ -53,7 +53,7 @@ void ServerGame::receiveFromClients()
 				break;
 
 			default:
-				printf("error in packet types\n");
+				printf("error in packet type, packet type received: %i\n", *type);
 				break;
 		}
 	}
@@ -67,8 +67,11 @@ void ServerGame::sendUpdateToAll()
 	ServerUpdatePacket packet = ServerUpdatePacket();
 	Vector3 pos1; pos1.x = 1; pos1.y = 2; pos1.z = 3;
 	Vector3 pos2; pos2.x = -1; pos2.y = -2; pos2.z = -3;
-	packet.addPlayer(0, pos1, pos2, true);
-	packet.addPlayer(1, pos2, pos1, false);
+	ClientStateMin c, d;
+	c.init(0, pos1, pos2, 0);
+	d.init(1, pos2, pos1, 0);
+	packet.addPlayer(c);
+	packet.addPlayer(d);
 
 	char * packet_data = packet.pack();
 	int packet_size = packet.size();

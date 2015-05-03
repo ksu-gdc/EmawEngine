@@ -7,6 +7,7 @@
 #include "FrameCounter.h"
 #include "Test.h"
 #include "AssetManager.h"
+#include "NetworkManager.h"
 #include "GameNode.h"
 #include "ModelNode.h"
 #include "InputManager.h"
@@ -71,6 +72,10 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	AudioManager* am = AudioManager::getInstance();
 	(AudioRenderer::Instance())->setSoundSystem(am);
 	//AudioEasyAccess::getInstance()->playMusic("background", "music/Tictac_-_Estrade.mp3");
+
+	// Network Initialization
+	NetworkManager* networkManager = NetworkManager::getInstance();
+	networkManager->connect();
 
 	// make mouse invisible
 	ShowCursor(false);
@@ -220,6 +225,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 				
 				//base2->rotateX(0.0005);
 				//base->rotateY(0.0005);
+				networkManager->update(10);
 			}
 
 
