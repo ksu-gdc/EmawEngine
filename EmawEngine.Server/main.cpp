@@ -5,7 +5,6 @@ ServerInstance * server;
 
 int main()
 {
-
 	// initialize the server
 	server = new ServerInstance();
 

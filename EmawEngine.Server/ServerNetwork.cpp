@@ -97,6 +97,7 @@ bool ServerNetwork::acceptNewClient(unsigned int & id)
 
 		// insert new client into session id table
 		sessions.insert(std::pair<unsigned int, SOCKET>(id, ClientSocket));
+		
 
 		return true;
 	}

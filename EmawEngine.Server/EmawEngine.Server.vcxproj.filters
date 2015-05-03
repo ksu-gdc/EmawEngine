@@ -15,9 +15,6 @@
     <ClInclude Include="ServerNetwork.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="LobbyManager.h">
-      <Filter>Lobby</Filter>
-    </ClInclude>
     <ClInclude Include="Lobby.h">
       <Filter>Lobby</Filter>
     </ClInclude>
@@ -26,6 +23,9 @@
     </ClInclude>
     <ClInclude Include="ServerGame.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyManager.h">
+      <Filter>Lobby</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
