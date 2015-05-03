@@ -6,14 +6,23 @@ cbuffer MatrixBuffer
 	matrix projectionMatrix;
 }
 
+Texture2D ModelTexture : register(t0);
+SamplerState MeshTextureSampler
+{
+    Filter = MIN_MAG_LINEAR;
+    AddressU = Wrap;
+    AddressV = Wrap;
+};
+
 //structs
 struct VOut
 {
     float4 position : SV_POSITION;
     float4 color : COLOR;
+	float2 TextureCoordinate : TEXCOORD;
 };
 
-VOut VShader(float4 position : POSITION, float4 color : COLOR)
+VOut VShader(float4 position : POSITION, float4 color : COLOR, float2 TextureCoordinate : TEXCOORD)
 {
     VOut output;
 
@@ -22,11 +31,52 @@ VOut VShader(float4 position : POSITION, float4 color : COLOR)
 	output.position = mul(projectionMatrix, output.position);
     output.color = color;
 
+	output.TextureCoordinate = TextureCoordinate;
+	
     return output;
 }
 
 
-float4 PShader(float4 position : SV_POSITION, float4 color : COLOR) : SV_TARGET
+float4 PShader(float4 position : SV_POSITION, float4 color : COLOR, float2 TextureCoordinate : TEXCOORD) : SV_TARGET
 {
-    return color;
+    return ModelTexture.Sample(MeshTextureSampler, TextureCoordinate);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

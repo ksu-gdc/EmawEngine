@@ -8,7 +8,7 @@ GameObject::GameObject()
 	_velocity = new Vector();
 	_orientation = new Vector();
 	_hasCollision = false;
-	_isFalling = true;
+	_isFalling = false;
 	_isAlive = true;
 
 	GRAVITY = (-9.81 / 100000.0);

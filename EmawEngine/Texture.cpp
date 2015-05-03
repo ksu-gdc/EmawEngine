@@ -57,9 +57,10 @@ void* Texture::load(std::string str)
 	//Load texture
 	result = D3DX11CreateShaderResourceViewFromFile(m_device, filename, NULL, NULL, &m_texture, NULL);
 	// Removed to return void
-	//if (FAILED(result))
-	//	return false;
-	//return true;
+	if (FAILED(result)) {
+		OutputDebugString(L"texture loading failed\n");
+	}
+	
 	return NULL;
 }
 

@@ -15,9 +15,6 @@
 #include <DirectXMath.h>
 #define MAX_LOADSTRING 100
 
-void LoadTieFighter(GameNode* root);
-void LoadShip(GameNode* root);
-
 // Global Variables:
 HINSTANCE hInst;								// current instance
 HWND hWnd;										// window handle
@@ -73,7 +70,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	//Perform sound initialization
 	AudioManager* am = AudioManager::getInstance();
 	(AudioRenderer::Instance())->setSoundSystem(am);
-	AudioEasyAccess::getInstance()->playMusic("background", "music/Tictac_-_Estrade.mp3");
+	//AudioEasyAccess::getInstance()->playMusic("background", "music/Tictac_-_Estrade.mp3");
 
 	// make mouse invisible
 	ShowCursor(false);
@@ -87,40 +84,70 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
-	VoxelChunkNode* world[5][5];
-	for (int i = 0; i < 5; i++)
-	{
-		for (int j = 0; j < 5; j++)
+	bool renderVoxels = false;
+	if (renderVoxels) {
+		VoxelChunkNode* world[5][5];
+		for (int i = 0; i < 5; i++)
 		{
-			world[i][j] = new VoxelChunkNode(i, j);
-			world[i][j]->setGraphicsDeviceInterface(&gdi);
-			world[i][j]->loadChunkBuffer(worldGenerator);
-			root->addChild(world[i][j]);
+			for (int j = 0; j < 5; j++)
+			{
+				world[i][j] = new VoxelChunkNode(i, j);
+				world[i][j]->setGraphicsDeviceInterface(&gdi);
+				world[i][j]->loadChunkBuffer(worldGenerator);
+				root->addChild(world[i][j]);
+			}
 		}
 	}
-	
 
-/*	Entity* e = new Entity();
-	ModelNode* base = new ModelNode(e->getModel());
-	base->setGraphicsDeviceInterface(&gdi);
+	bool do_cube = false;
+	bool do_pill = false;
+	bool do_cat = false;
+	bool do_ship = true;
+	if (do_cube) {
+		Model* cube = new Model();
+		cube->load("models/obj-models/cube-tex.obj");
+		cube->LoadTexture(gdi.m_Device, "textures\\x.png");
 
-	ModelNode* base2 = new ModelNode(e->getModel());
-	base2->setGraphicsDeviceInterface(&gdi);
+		ModelNode* cubeNode = new ModelNode(cube);
+		cubeNode->setGraphicsDeviceInterface(&gdi);
 
-	LoadTieFighter(root);
+		root->addChild(cubeNode);
+	}
+	if (do_pill) {
+		Model* cap = new Model();
+		cap->load("models/obj-models/capsule.obj");
+		cap->LoadTexture(gdi.m_Device, "textures\\capsule0.jpg");
 
+		ModelNode* capNode = new ModelNode(cap);
+		capNode->setGraphicsDeviceInterface(&gdi);
 
-	base2->setPosition(3, 0, 0);*/
+		root->addChild(capNode);
+	}
+	if (do_cat) {
+		Model* cat = new Model();
+		cat->load("models/obj-models/cat.obj");
+		cat->LoadTexture(gdi.m_Device, "textures\\cat-flipped.png");
 
-//	root->addChild(base);
-//	base->addChild(base2);
+		ModelNode* catNode = new ModelNode(cat);
+		catNode->setGraphicsDeviceInterface(&gdi);
+
+		root->addChild(catNode);
+	}
+	if (do_ship) {
+		Model* ship = new Model();
+		ship->load("models/obj-models/SpaceShip_FULL.obj");
+		ship->LoadTexture(gdi.m_Device, "textures\\cat-flipped.png");
+
+		ModelNode* shipNode = new ModelNode(ship);
+		shipNode->setGraphicsDeviceInterface(&gdi);
+
+		root->addChild(shipNode);
+	}
 	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
 	Player* player = new Player();
 
 	gdi.SetSceneGraphRoot(root);
 	gdi.SetCamera(player->getCamera());
-//	camera->setPosition(0.0f, 0.0f, -10.0f);
-
 
 	Transform* identity = new Transform();
 
@@ -260,12 +287,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    // using windows size object to create correctly sized window
    // removed thick frame so window is not resizable
    RECT wr = { 0, 0, wind.getWidth(), wind.getHeight() };
-   AdjustWindowRect(&wr, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX, FALSE);
+   AdjustWindowRect(&wr, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, FALSE);
 
    hWnd = CreateWindow(
 	   szWindowClass,
 	   szTitle,
-	   WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,
+	   WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
 	   CW_USEDEFAULT,
 	   0,
 	   wr.right - wr.left,
@@ -304,45 +331,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	switch (message)
 	{
-	// Handles keydown messages - currently used for testing resolution changes
-#pragma region KEYDOWN message
-	case WM_KEYDOWN:
-		switch (wParam)
-		{
-		case 96: // Num-0
-			OutputDebugString(CString("0\n"));
-			OutputDebugString(CString((to_string(wind.getWidth()) + " " + to_string(wind.getHeight()) + "\n").c_str()));
-			break;
-		case 49: // Num-1
-			wind.setSize(hWnd, &gdi, LOW_4_3);
-			OutputDebugString(CString((to_string(wind.getWidth()) + " " + to_string(wind.getHeight()) + "\n").c_str()));
-			break;
-		case 50: // Num-2
-			wind.setSize(hWnd, &gdi, HIGH_4_3);
-			OutputDebugString(CString((to_string(wind.getWidth()) + " " + to_string(wind.getHeight()) + "\n").c_str()));
-			break;
-		case 51: // Num-3
-			wind.setSize(hWnd, &gdi, LOW_16_9);
-			OutputDebugString(CString((to_string(wind.getWidth()) + " " + to_string(wind.getHeight()) + "\n").c_str()));
-			break;
-		case 52: // Num-4
-			wind.setSize(hWnd, &gdi, HIGH_16_9);
-			OutputDebugString(CString((to_string(wind.getWidth()) + " " + to_string(wind.getHeight()) + "\n").c_str()));
-			break;
-		case 70: // 'f' keypress
-			wind.setWindowed(hWnd, &gdi, FALSE);
-			OutputDebugString(CString("fullscreen mode\n"));
-			break;
-		case 90: // 'z' keypress
-			wind.setWindowed(hWnd, &gdi, TRUE);
-			OutputDebugString(CString("windowed mode\n"));
-			break;
-		default:
-			OutputDebugString(CString((to_string(wParam) + "\n").c_str()));
-			break;
-		}
-		break;
-#pragma endregion
 	case WM_COMMAND:
 		wmId    = LOWORD(wParam);
 		wmEvent = HIWORD(wParam);
@@ -369,85 +357,3 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	return 0;
 }
-
-/*
-void LoadTieFighter(GameNode* root){
-
-	Model* tieModel1 = new Model();
-	tieModel1->load("models/tie1.fbx");
-
-	ModelNode* floorNode1 = new ModelNode(tieModel1);
-	floorNode1->setGraphicsDeviceInterface(&gdi);
-
-	root->addChild(floorNode1);
-
-	Model* tieModel2 = new Model();
-	tieModel2->load("models/tie2.fbx");
-
-	ModelNode* tieNode2 = new ModelNode(tieModel2);
-	tieNode2->setGraphicsDeviceInterface(&gdi);
-
-	root->addChild(tieNode2);
-
-	Model* tieModel3 = new Model();
-	tieModel3->load("models/tie3.fbx");
-
-	ModelNode* tieNode3 = new ModelNode(tieModel3);
-	tieNode3->setGraphicsDeviceInterface(&gdi);
-
-	root->addChild(tieNode3);
-
-	Model* tieModel4 = new Model();
-	tieModel4->load("models/tie4.fbx");
-
-	ModelNode* tieNode4 = new ModelNode(tieModel4);
-	tieNode4->setGraphicsDeviceInterface(&gdi);
-
-	root->addChild(tieNode4);
-
-	Model* tieModel5 = new Model();
-	tieModel5->load("models/tie5.fbx");
-
-	ModelNode* tieNode5 = new ModelNode(tieModel5);
-	tieNode5->setGraphicsDeviceInterface(&gdi);
-
-	root->addChild(tieNode5);
-
-	Model* tieModel6 = new Model();
-	tieModel6->load("models/tie6.fbx");
-
-	ModelNode* tieNode6 = new ModelNode(tieModel6);
-	tieNode6->setGraphicsDeviceInterface(&gdi);
-
-	root->addChild(tieNode6);
-
-	Model* tieModel7 = new Model();
-	tieModel7->load("models/tie7.fbx");
-
-	ModelNode* tieNode7 = new ModelNode(tieModel7);
-	tieNode7->setGraphicsDeviceInterface(&gdi);
-
-	root->addChild(tieNode7);
-
-}
-
-void LoadShip(GameNode* root){
-
-	Model* shipExteriorModel = new Model();
-	shipExteriorModel->load("models/Ship-Exterior.fbx");
-
-	ModelNode* shipExteriorNode = new ModelNode(shipExteriorModel);
-	shipExteriorNode->setGraphicsDeviceInterface(&gdi);
-
-	root->addChild(shipExteriorNode);
-
-	Model* shipInteriorModel = new Model();
-	shipInteriorModel->load("models/Ship-Interior.fbx");
-
-	ModelNode* shipInteriorNode = new ModelNode(shipInteriorModel);
-	shipInteriorNode->setGraphicsDeviceInterface(&gdi);
-
-	root->addChild(shipInteriorNode);
-
-}
-*/

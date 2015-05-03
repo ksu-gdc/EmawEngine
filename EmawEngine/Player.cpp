@@ -5,12 +5,12 @@
 Player::Player()
 {
 	input = InputManager::getInstance();
-	speed = 1;
-	fakeRadius = 100;
+	speed = 0.008;
+	fakeRadius = 600;
 
 	_position->x = 0;
 	_position->y = 0;
-	_position->z = -10;
+	_position->z = 3;
 	_orientation->x = M_PI;
 	_orientation->y = 0;
 	_orientation->z = 0;
