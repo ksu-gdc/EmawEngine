@@ -12,6 +12,7 @@ ServerInstance::ServerInstance(void)
 	network = new ServerNetwork();
 
 	lobbyManager = new LobbyManager();
+	lobbyManager->registerNetwork(network);
 }
 
 void ServerInstance::listen()
@@ -24,4 +25,5 @@ void ServerInstance::listen()
 
 		client_id++;
 	}
+	lobbyManager->update();
 }

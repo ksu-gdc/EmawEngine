@@ -40,4 +40,5 @@ public:
 
 	// send data to all clients
 	void sendToAll(char * packets, int totalSize);
+	void sendToId(uint id, char * data, int size);
 };

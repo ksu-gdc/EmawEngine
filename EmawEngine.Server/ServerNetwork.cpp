@@ -97,7 +97,6 @@ bool ServerNetwork::acceptNewClient(unsigned int & id)
 
 		// insert new client into session id table
 		sessions.insert(std::pair<unsigned int, SOCKET>(id, ClientSocket));
-		
 
 		return true;
 	}
@@ -147,4 +146,22 @@ void ServerNetwork::sendToAll(char * packets, int totalSize)
 	}
 }
 
+void ServerNetwork::sendToId(uint client_id, char * packet, int size)
+{
+	if (sessions.find(client_id) != sessions.end())
+	{
+		SOCKET currentSocket = sessions[client_id];
+		int iSendResult = NetworkServices::sendMessage(currentSocket, packet, size);
 
+		if (iSendResult == SOCKET_ERROR)
+		{
+			int errorCode = WSAGetLastError();
+			// 10035 is nonfatal, means its still trying to connect
+			if (errorCode != 10035) {
+				printf("send failed with error: %d\n", errorCode);
+				Sleep(1000);
+				closesocket(currentSocket);
+			}
+		}
+	}
+}

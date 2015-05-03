@@ -19,7 +19,7 @@ public:
 	void registerNetwork(ServerNetwork* network);
 
 private:
-	std::map<uint, Lobby> m_lobbies; // lobby id, lobby
+	std::map<uint, Lobby*> m_lobbies; // lobby id, lobby
 	std::map<uint, uint> m_players; // player id, lobby id
 	uint getNewLobbyId();
 	uint m_lobbyId;

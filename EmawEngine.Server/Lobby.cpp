@@ -25,11 +25,20 @@ u8 Lobby::getPlayerCount() {
 
 uint Lobby::addClient(uint clientId) {
 	m_playerIds.push_back(clientId);
+	m_playerCount++;
+	if (m_playerCount == 1)
+		startGame();
 	return m_id;
 }
 
-void Lobby::update() {
+void Lobby::startGame() {
+	std::cout << "game has started\n";
+}
 
+void Lobby::update() {
+	receiveFromClients();
+	
+	sendUpdateToAll();
 }
 
 // Checks for messages from all clients.
@@ -37,17 +46,18 @@ void Lobby::receiveFromClients()
 {
 	// go through all clients
 	std::vector<uint>::iterator iter;
-
+	//printf("size: %i\n", m_playerIds.size());
 	for (iter = m_playerIds.begin(); iter != m_playerIds.end(); iter++)
 	{
 		int data_length = m_network->receiveData(*iter, network_data);
-
+		
 		if (data_length <= 0)
 		{
 			//no data recieved
+			printf("no message\n");
 			continue;
 		}
-
+		printf("message\n");
 		unsigned int * type = (unsigned int *)network_data;
 		switch (*type) {
 
@@ -64,8 +74,6 @@ void Lobby::receiveFromClients()
 			break;
 		}
 	}
-
-	sendUpdateToAll();
 }
 
 // Handles a connection packet
@@ -76,7 +84,7 @@ void Lobby::handleConnectionPacket(char * data) {
 
 // Handles a client update packet
 void Lobby::handleClientUpdatePacket(char * data) {
-	printf("server received action event packet from client\n");
+	printf("server received client update packet from client\n");
 	ClientUpdatePacket packet = ClientUpdatePacket(data);
 	packet.printAll();
 }
@@ -95,5 +103,10 @@ void Lobby::sendUpdateToAll()
 
 	char * packet_data = packet.pack();
 	int packet_size = packet.size();
-	m_network->sendToAll(packet_data, packet_size);
+
+	std::vector<uint>::iterator iter;
+	for (iter = m_playerIds.begin(); iter != m_playerIds.end(); iter++)
+	{
+		m_network->sendToId(*iter, packet_data, packet_size);
+	}
 }
