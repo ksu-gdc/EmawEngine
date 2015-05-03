@@ -66,12 +66,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Lobby.h" />
+    <ClInclude Include="LobbyManager.h" />
     <ClInclude Include="ServerGame.h" />
+    <ClInclude Include="ServerInstance.h" />
     <ClInclude Include="ServerNetwork.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Lobby.cpp" />
+    <ClCompile Include="LobbyManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ServerGame.cpp" />
+    <ClCompile Include="ServerInstance.cpp" />
     <ClCompile Include="ServerNetwork.cpp" />
   </ItemGroup>
   <ItemGroup>

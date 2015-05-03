@@ -1,45 +1,17 @@
 // James Tyson
-#include "ServerGame.h"
-//#include "ClientGame.h"
-// used for multi-threading
-#include <process.h>
+#include "ServerInstance.h"
 
-void serverLoop(void *);
-//void clientLoop(void);
-
-ServerGame * server;
-//ClientGame * client;
+ServerInstance * server;
 
 int main()
 {
 
 	// initialize the server
-	server = new ServerGame();
+	server = new ServerInstance();
 
-	// create thread with arbitrary argument for the run function
-	//_beginthread(serverLoop, 0, (void*)12);
-	serverLoop((void*)12);
-
-	// initialize the client 
-	//client = new ClientGame();
-
-	//clientLoop();
-}
-
-void serverLoop(void * arg)
-{
 	while (true)
 	{
-		server->update();
+		server->listen();
 	}
 }
-
-/*void clientLoop()
-{
-	while (true)
-	{
-		//do game stuff
-		client->update();
-	}
-}*/
 

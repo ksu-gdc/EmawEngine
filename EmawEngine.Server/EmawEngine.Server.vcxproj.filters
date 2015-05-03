@@ -4,22 +4,46 @@
     <Filter Include="Server">
       <UniqueIdentifier>{14000680-6f5e-4d0b-9da6-c1382a5a687c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lobby">
+      <UniqueIdentifier>{674964d0-8c09-45e7-a9e7-bb4ab52ab68f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{ac18ec98-daa0-49ee-a0a0-1efc2aaaf17c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ServerGame.h">
-      <Filter>Server</Filter>
-    </ClInclude>
     <ClInclude Include="ServerNetwork.h">
       <Filter>Server</Filter>
     </ClInclude>
+    <ClInclude Include="LobbyManager.h">
+      <Filter>Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="Lobby.h">
+      <Filter>Lobby</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerInstance.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerGame.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ServerGame.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="ServerNetwork.cpp">
       <Filter>Server</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="LobbyManager.cpp">
+      <Filter>Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="Lobby.cpp">
+      <Filter>Lobby</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerInstance.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerGame.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
