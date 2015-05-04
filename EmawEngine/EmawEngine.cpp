@@ -223,9 +223,12 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 				player->updatePlayer(hWnd);
 				root->update(identity->getTransformMatrix());
 				
+				//TEST CODE FOR NETWORK
+				if (inputManager->keyPressed(W))
+					networkManager->addInput("wPressed");
+				networkManager->update();
 				//base2->rotateX(0.0005);
 				//base->rotateY(0.0005);
-				networkManager->update(10);
 			}
 
 

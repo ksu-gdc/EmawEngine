@@ -1,7 +1,7 @@
 #pragma once
 
 #include "NetworkServices.h"
-#include "ClientGame.h"
+#include "ClientNetwork.h"
 
 class NetworkManager
 {
@@ -12,8 +12,21 @@ private:
 	static bool instanceFlag;
 	static NetworkManager *instance;
 
+	char network_data[MAX_PACKET_SIZE];
 	int m_clientId;
-	ClientGame * m_game;
+	bool m_hasServerUpdate;
+	bool m_stateChanged;
+
+	ClientState* m_serverClientState;
+	ClientState* m_currentClientState;
+	ClientNetwork* m_network;
+	ClientUpdatePacket* m_updatePacket;
+
+	void sendUpdatePacket();
+	void pingServer();
+	
+	void handleConnetionPacket(char * data);
+	void handleServerUpdatePacket(char * data);
 
 public:
 	static NetworkManager* getInstance();
@@ -22,7 +35,7 @@ public:
 	bool hasServerUpdate();
 	void sendClientState(ClientState newState);
 	ClientState* getServerClientState();
-	void update(float elapsedTime);
-
+	void update();
+	void addInput(std::string input);
 };
 

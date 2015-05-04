@@ -54,10 +54,8 @@ void Lobby::receiveFromClients()
 		if (data_length <= 0)
 		{
 			//no data recieved
-			printf("no message\n");
 			continue;
 		}
-		printf("message\n");
 		unsigned int * type = (unsigned int *)network_data;
 		switch (*type) {
 
@@ -84,7 +82,6 @@ void Lobby::handleConnectionPacket(char * data) {
 
 // Handles a client update packet
 void Lobby::handleClientUpdatePacket(char * data) {
-	printf("server received client update packet from client\n");
 	ClientUpdatePacket packet = ClientUpdatePacket(data);
 	packet.printAll();
 }

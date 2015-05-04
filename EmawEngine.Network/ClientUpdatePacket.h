@@ -28,6 +28,7 @@ public:
 	char * pack();
 	int size();
 	void printAll();
+	void clear();
 
 private:
 	std::vector<std::string> m_input;

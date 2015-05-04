@@ -96,7 +96,6 @@
     <ClInclude Include="AudioEasyAccess.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="ClientGame.h" />
     <ClInclude Include="ClientNetwork.h" />
     <ClInclude Include="CollisionObject.h" />
     <ClInclude Include="Color.h" />
@@ -152,7 +151,6 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="AudioRenderer.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="ClientGame.cpp" />
     <ClCompile Include="ClientNetwork.cpp" />
     <ClCompile Include="CollisionObject.cpp" />
     <ClCompile Include="GameObject.cpp" />

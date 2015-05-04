@@ -74,3 +74,10 @@ void ClientUpdatePacket::printAll() {
 		std::cout << m_input[i] << "\n";
 	}
 }
+
+// Resets packet to defaults
+void ClientUpdatePacket::clear() {
+	m_input.clear();
+	m_inputCount = 0;
+	m_size = 1;
+}

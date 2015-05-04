@@ -115,9 +115,6 @@
     <ClCompile Include="Vertex.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="ClientGame.cpp">
-      <Filter>Networking</Filter>
-    </ClCompile>
     <ClCompile Include="ClientNetwork.cpp">
       <Filter>Networking</Filter>
     </ClCompile>
@@ -262,9 +259,6 @@
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="ClientGame.h">
-      <Filter>Networking</Filter>
     </ClInclude>
     <ClInclude Include="ClientNetwork.h">
       <Filter>Networking</Filter>
