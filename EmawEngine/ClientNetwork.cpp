@@ -20,7 +20,7 @@ ClientNetwork::ClientNetwork(void) {
 
 	if (iResult != 0) {
 		printf("WSAStartup failed with error: %d\n", iResult);
-		exit(1);
+		// fatal error
 	}
 
 
@@ -38,7 +38,7 @@ ClientNetwork::ClientNetwork(void) {
 	{
 		printf("getaddrinfo failed with error: %d\n", iResult);
 		WSACleanup();
-		exit(1);
+		// fatal error
 	}
 
 	// Attempt to connect to an address until one succeeds
@@ -51,7 +51,7 @@ ClientNetwork::ClientNetwork(void) {
 		if (ConnectSocket == INVALID_SOCKET) {
 			printf("socket failed with error: %ld\n", WSAGetLastError());
 			WSACleanup();
-			exit(1);
+			//fatal error
 		}
 
 		// Connect to server.
@@ -75,7 +75,7 @@ ClientNetwork::ClientNetwork(void) {
 	{
 		printf("Unable to connect to server!\n");
 		WSACleanup();
-		exit(1);
+		// fatal error
 	}
 
 	// Set the mode of the socket to be nonblocking
@@ -87,7 +87,7 @@ ClientNetwork::ClientNetwork(void) {
 		printf("ioctlsocket failed with error: %d\n", WSAGetLastError());
 		closesocket(ConnectSocket);
 		WSACleanup();
-		exit(1);
+		//fatal error
 	}
 
 	//disable nagle - optional
@@ -105,7 +105,7 @@ int ClientNetwork::receivePackets(char * recvbuf)
 		printf("Connection closed\n");
 		closesocket(ConnectSocket);
 		WSACleanup();
-		exit(1);
+		//fatal error
 	}
 
 	return iResult;
