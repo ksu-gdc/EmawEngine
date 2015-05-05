@@ -70,10 +70,10 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	InputManager* inputManager = InputManager::getInstance();
 	inputManager->registerWindow(hWnd);
 
-	//Perform sound initialization
+	/*Perform sound initialization
 	AudioManager* am = AudioManager::getInstance();
 	(AudioRenderer::Instance())->setSoundSystem(am);
-	AudioEasyAccess::getInstance()->playMusic("background", "music/Tictac_-_Estrade.mp3");
+	AudioEasyAccess::getInstance()->playMusic("background", "music/Tictac_-_Estrade.mp3");*/
 
 	// make mouse invisible
 	ShowCursor(false);
@@ -82,15 +82,15 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// TEST CODE!!!
 	// =========================================================================
-	VoxelMap* worldGenerator = new VoxelMap("testmap","blarghle", 5, 5);
+	VoxelMap* worldGenerator = new VoxelMap("testmap","khlgiugoee", 16, 16);
 	
 
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
-	VoxelChunkNode* world[5][5];
-	for (int i = 0; i < 5; i++)
+	VoxelChunkNode* world[16][16];
+	for (int i = 0; i < 16; i++)
 	{
-		for (int j = 0; j < 5; j++)
+		for (int j = 0; j < 16; j++)
 		{
 			world[i][j] = new VoxelChunkNode(i, j);
 			world[i][j]->setGraphicsDeviceInterface(&gdi);
