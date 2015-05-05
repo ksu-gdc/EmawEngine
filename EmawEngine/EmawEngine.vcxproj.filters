@@ -106,10 +106,10 @@
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
-    <ClCompile Include="2DWall.cpp">
+    <ClCompile Include="MovingCollidable.cpp">
       <Filter>Collision\Collidables</Filter>
     </ClCompile>
-    <ClCompile Include="MovingCollidable.cpp">
+    <ClCompile Include="Wall2D.cpp">
       <Filter>Collision\Collidables</Filter>
     </ClCompile>
   </ItemGroup>
@@ -241,10 +241,10 @@
     <ClInclude Include="Collidable.h">
       <Filter>Collision\Collidables</Filter>
     </ClInclude>
-    <ClInclude Include="2DWall.h">
+    <ClInclude Include="MovingCollidable.h">
       <Filter>Collision\Collidables</Filter>
     </ClInclude>
-    <ClInclude Include="MovingCollidable.h">
+    <ClInclude Include="Wall2D.h">
       <Filter>Collision\Collidables</Filter>
     </ClInclude>
   </ItemGroup>

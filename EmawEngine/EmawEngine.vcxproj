@@ -92,7 +92,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="2DWall.h" />
+    <ClInclude Include="Wall2D.h" />
     <ClInclude Include="AudioEasyAccess.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
@@ -140,7 +140,7 @@
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="2DWall.cpp" />
+    <ClCompile Include="Wall2D.cpp" />
     <ClCompile Include="Asset.cpp" />
     <ClCompile Include="AssetManager.cpp" />
     <ClCompile Include="AudioEasyAccess.cpp" />

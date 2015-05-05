@@ -1,8 +1,9 @@
 #pragma once
 
 #include "stdafx.h"
+#include "MovingCollidable.h"
 
-class Camera {
+class Camera : public MovingCollidable{
 
 public:
 	Camera(Vector*, Vector*);
