@@ -1,13 +1,14 @@
 #pragma once
 #include "GameObject.h"
 #include "InputManager.h"
+
 class Player :
 	public GameObject
 {
 public:
 	Player();
 	~Player();
-	void updatePlayer(HWND hWnd);
+	void updatePlayer(HWND hWnd, bool collision);
 	void passToCamera();
 	Camera* getCamera();
 

@@ -28,7 +28,7 @@ Player::~Player()
 {
 }
 
-void Player::updatePlayer(HWND hWnd)
+void Player::updatePlayer(HWND hWnd, bool collision)
 {
 	float zvel = 0;
 	float xvel = 0;
@@ -53,7 +53,7 @@ void Player::updatePlayer(HWND hWnd)
 	{
 		yvel += speed;
 	}
-	if (input->keyDown(Key::Ctrl))
+	if (input->keyDown(Key::Ctrl) && collision)
 	{
 		yvel -= speed;
 	}

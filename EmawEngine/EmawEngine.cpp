@@ -13,6 +13,7 @@
 #include "VoxelMap.h"
 #include "AudioEasyAccess.h"
 #include <DirectXMath.h>
+#include "VoxelCollision.h" //TEMP
 #define MAX_LOADSTRING 100
 
 // Global Variables:
@@ -80,7 +81,6 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// TEST CODE!!!
 	// =========================================================================
 	VoxelMap* worldGenerator = new VoxelMap("testmap","blarghle", 5, 5);
-	
 
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
@@ -139,6 +139,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
 	Player* player = new Player();
 
+	VoxelCollision* voxelCollider = &VoxelCollision(player, &worldGenerator->map);//TEMP
+
 	gdi.SetSceneGraphRoot(root);
 	gdi.SetCamera(player->getCamera());
 
@@ -146,6 +148,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// =========================================================================
 	// TEST CODE!!!
+
+
 
 	//Main game loop:
 	while(true)
@@ -208,7 +212,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 				
 			} else {
 				//base->resetTransformMatrix();
-				player->updatePlayer(hWnd);
+				bool temp = voxelCollider->hasCollision();
+				player->updatePlayer(hWnd, temp);
 				root->update(identity->getTransformMatrix());
 
 				//base2->rotateX(0.0005);
