@@ -1,6 +1,5 @@
 #pragma once
 #include "Asset.h"
-#include <fbxsdk.h>
 #include "Entity.h"
 #include "texture.h"
 
@@ -17,17 +16,10 @@ public:
 	std::vector<VERTEX> getVertexBuffer();
 	void LoadTexture(ID3D11Device*, string);
 	ID3D11ShaderResourceView* GetTexture();
-
-	Vector* m_InitPos;
-	Vector* m_InitScale;
-	Vector* m_InitRot;
 	
 
 private:
 	std::vector<VERTEX> vertexBuffer;
-
-	void setInitialTransforms(FbxMesh*);
-	void applyInitialTransformations();
 
 	Texture* m_Texture;
 

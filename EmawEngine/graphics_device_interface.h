@@ -28,10 +28,12 @@ public:
 	void InitGraphics();
 	bool Update(ID3D11Buffer*, VERTEX*, int);
 	bool Update(ID3D11Buffer*, std::vector<VERTEX>*);
-	void VoxelPipeline(ID3D11Buffer*, VERTEX*, int, D3DXMATRIX*);
-	void VertexPipeline(ID3D11Buffer*, std::vector<VERTEX>*, D3DXMATRIX*);
+	void VoxelPipeline(ID3D11Buffer*, VERTEX*, int, D3DXMATRIX*, ID3D11ShaderResourceView*);
+	void VertexPipeline(ID3D11Buffer*, std::vector<VERTEX>*, D3DXMATRIX*, ID3D11ShaderResourceView*);
 	ID3D11Buffer* CreateVertexBuffer(int numOfVerticies);
 	BOOL IsWindowed();
+
+	ID3D11Device *m_Device;
 
 private:
 	bool Render();
@@ -43,7 +45,6 @@ private:
 	DXGI_SWAP_CHAIN_DESC	scd;
 	ShaderAsset				*shdrs;
 	IDXGISwapChain			*m_Swapchain;
-	ID3D11Device			*m_Device;
 	ID3D11DeviceContext		*m_Context;
 	ID3D11RenderTargetView  *m_BackBuffer;
 	ID3D11Buffer			*m_VertBuffer;

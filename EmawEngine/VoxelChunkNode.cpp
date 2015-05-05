@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "VoxelChunkNode.h"
 
+Texture* VoxelChunkNode::grass;
 
 VoxelChunkNode::VoxelChunkNode(int inx, int iny)
 {
@@ -40,7 +41,7 @@ void VoxelChunkNode::setGraphicsDeviceInterface(GraphicsDeviceInterface* graphic
 
 void VoxelChunkNode::render(){
 
-	gdi->VoxelPipeline(vertBuffer, ChunkBuffer, length, transform->getTransformMatrix());
+	gdi->VoxelPipeline(vertBuffer, ChunkBuffer, length, transform->getTransformMatrix(), grass->getTexture());
 
 	//Render children.
 	for (int i = 0; i < children.size(); i++){
@@ -48,14 +49,19 @@ void VoxelChunkNode::render(){
 	}
 }
 
+void VoxelChunkNode::loadTextures()
+{
+	grass = new Texture(gdi->m_Device);
+	grass->load("models\\not_minecraft\\textures\\grass.png");
+}
 
 void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 {
 	Chunk* hold = mapGenerator->GetChunk(gridx, gridy);
 	Chunk* other;
-	for (int i = 0; i < CHUNK_SIZE; i++)
+	for (int i = 0; i < 16; i++)
 	{
-		for (int j = 0; j < CHUNK_SIZE; j++)
+		for (int j = 0; j < 16; j++)
 		{
 			int center = hold->height_map[i][j] - 1;
 			int lowest = center;
@@ -63,10 +69,10 @@ void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 			else if (i == 0 && gridx > 0)
 			{
 				other = mapGenerator->GetChunk(gridx - 1, gridy);
-				if (other->height_map[CHUNK_SIZE - 1][j] - 1 < lowest) lowest = other->height_map[CHUNK_SIZE - 1][j] - 1;
+				if (other->height_map[16][j] - 1 < lowest) lowest = other->height_map[16][j] - 1;
 			}
-			if (i < CHUNK_SIZE - 1 && hold->height_map[i + 1][j] - 1 < lowest) lowest = hold->height_map[i + 1][j] - 1;
-			else if (i == CHUNK_SIZE - 1 && gridx < 4)
+			if (i < 16 && hold->height_map[i + 1][j] - 1 < lowest) lowest = hold->height_map[i + 1][j] - 1;
+			else if (i == 16 && gridx < 4)
 			{
 				other = mapGenerator->GetChunk(gridx + 1, gridy);
 				if (other->height_map[0][j] - 1 < lowest) lowest = other->height_map[0][j] - 1;
@@ -75,10 +81,10 @@ void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 			else if (j == 0 && gridy > 0)
 			{
 				other = mapGenerator->GetChunk(gridx, gridy - 1);
-				if (other->height_map[i][CHUNK_SIZE - 1] - 1 < lowest) lowest = other->height_map[i][CHUNK_SIZE - 1] - 1;
+				if (other->height_map[i][16] - 1 < lowest) lowest = other->height_map[i][16] - 1;
 			}
-			if (j < CHUNK_SIZE - 1 && hold->height_map[i][j + 1] - 1 < lowest) lowest = hold->height_map[i][j + 1] - 1;
-			else if (j == CHUNK_SIZE - 1 && gridy < 4)
+			if (j < 16 && hold->height_map[i][j + 1] - 1 < lowest) lowest = hold->height_map[i][j + 1] - 1;
+			else if (j == 16 && gridy < 4)
 			{
 				other = mapGenerator->GetChunk(gridx, gridy + 1);
 				if (other->height_map[i][0] - 1 < lowest) lowest = other->height_map[i][0] - 1;
@@ -89,12 +95,9 @@ void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 				ChunkBuffer[length].Y = (float)k;
 				ChunkBuffer[length].Z = (float)j;
 				ChunkBuffer[length].W = voxSize;
-				/*float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+				float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 				float g = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-				float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);*/
-				float r = 0;// static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-				float g = static_cast <float> (50 +  4 * k) / static_cast <float> (255);
-				float b = 0;// static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+				float b = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 				ChunkBuffer[length].Color = { r, g, b, 1.0f };
 				length++;
 			}
