@@ -13,6 +13,7 @@
 #include "VoxelMap.h"
 #include "AudioEasyAccess.h"
 #include <DirectXMath.h>
+#include "CollisionManager.h"
 #define MAX_LOADSTRING 100
 
 void LoadTieFighter(GameNode* root);
@@ -116,6 +117,10 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 //	base->addChild(base2);
 	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
 	Player* player = new Player();
+
+	CollisionManager::getInstance()->addMovingCollidable(player->getCamera());
+	CollisionManager::getInstance()->loadLevel(1);
+
 
 	gdi.SetSceneGraphRoot(root);
 	gdi.SetCamera(player->getCamera());

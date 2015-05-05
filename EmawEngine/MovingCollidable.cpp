@@ -2,6 +2,10 @@
 #include "MovingCollidable.h"
 #include <cmath>
 
+MovingCollidable::MovingCollidable(){
+
+}
+
 bool MovingCollidable::collide(MovingCollidable * mc){
 	float x1 = getX();
 	float y1 = getY();
@@ -14,8 +18,8 @@ bool MovingCollidable::collide(MovingCollidable * mc){
 	float dist = getRadius() + mc->getRadius();
 
 	if ((z1 > z2 && (z1 - getHeight()) < z2) || (z2 > z1 && (z2 - mc->getHeight()) < z1)){
-		int x = x2 - x1;
-		int y = y2 - y1;
+		float x = x2 - x1;
+		float y = y2 - y1;
 		float dist2 = sqrt(x*x+y*y);
 		if (dist2 < dist){
 			pushBack();

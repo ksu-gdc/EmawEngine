@@ -22,8 +22,19 @@ public:
 
 	void Render();
 
+	float getX();
+	float getY();
+	float getZ();
+	float getLastX();
+	float getLastY();
+	float getLastZ();
+	void pushBack();
+	float getRadius();
+	float getHeight();
+
 private:
 	Vector* m_position;
+	Vector* m_lastPosition;
 	Vector* m_rotation;
 	
 	D3DXVECTOR3 m_LookAt;

@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "CollisionManager.h"
+#include <iostream>
+#include <fstream>
+#include <string>
 
 using namespace std;
 
@@ -93,5 +96,27 @@ bool CollisionManager::checkMovingCollisionsInner(){
 }
 
 void CollisionManager::loadLevel(int id){
+	float a, b, c, d;
 
+	fstream xyfile("collision/" + to_string(id) + "-xy.txt", ios_base::in);
+	if (xyfile.is_open()){
+		xyfile >> xyCounter;
+		xyWalls = new Wall2D*[xyCounter];
+		for (int i = 0; i < xyCounter; i++){
+			xyfile >> a >> b >> c >> d;
+			xyWalls[0] = new Wall2D(a, b, c, d);
+		}
+		xyfile.close();
+	}
+
+	fstream yzfile("collision/" + to_string(id) + "-yz.txt", ios_base::in);
+	if (yzfile.is_open()){
+		yzfile >> yzCounter;
+		yzWalls = new Wall2D*[yzCounter];
+		for (int i = 0; i < yzCounter; i++){
+			yzfile >> a >> b >> c >> d;
+			yzWalls[0] = new Wall2D(a, b, c, d);
+		}
+		yzfile.close();
+	}
 }
