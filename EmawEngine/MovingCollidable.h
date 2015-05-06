@@ -19,9 +19,11 @@ public:
 	virtual float getLastZ() = 0;
 
 	virtual void pushBack() = 0;
+	virtual void pushBack(float x, float y, float z) = 0;
 
 	bool collide(MovingCollidable * mc);
 
 	virtual float getRadius() = 0;
 	virtual float getHeight() = 0;
+
 };

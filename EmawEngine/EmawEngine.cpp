@@ -14,6 +14,7 @@
 #include "AudioEasyAccess.h"
 #include <DirectXMath.h>
 #include "CollisionManager.h"
+#include <string>
 #define MAX_LOADSTRING 100
 
 void LoadTieFighter(GameNode* root);
@@ -118,7 +119,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
 	Player* player = new Player();
 
-	CollisionManager::getInstance()->addMovingCollidable(player->getCamera());
+	CollisionManager::getInstance()->addMovingCollidable(player);
 	CollisionManager::getInstance()->loadLevel(1);
 
 
@@ -195,7 +196,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 				//base->resetTransformMatrix();
 				player->updatePlayer(hWnd);
 				root->update(identity->getTransformMatrix());
-
+				CollisionManager::getInstance()->checkCollisions();
 				//base2->rotateX(0.0005);
 				//base->rotateY(0.0005);
 			}
@@ -206,8 +207,12 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 			// Update frame counter
 			fc.Update();
+			Vector * v = player->getPosition();
+			Vector * v2 = player->getLastPosition();
+			string tes = std::to_string(v->x) + " " + std::to_string(v->y) + " " + std::to_string(v->z) + " " + std::to_string(v2->x) + " " + std::to_string(v2->y) + " " + std::to_string(v2->z);
+			wstring te = std::wstring(tes.begin(), tes.end());
 			wstring test = fc.GetFps();
-			SetWindowText(hWnd, (LPCWSTR)&test[0]);
+			SetWindowText(hWnd, (LPCWSTR)&te[0]);
 
 			// Update the input
 			inputManager->update();

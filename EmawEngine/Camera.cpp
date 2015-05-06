@@ -11,9 +11,6 @@ Camera::~Camera(){}
 
 void Camera::setPosition(float x, float y, float z)
 {
-	m_lastPosition->x = m_position->x;
-	m_lastPosition->y = m_position->y;
-	m_lastPosition->z = m_position->z;
 	m_position->x = x;
 	m_position->y = y;
 	m_position->z = z;
@@ -37,9 +34,6 @@ void Camera::AddYaw(float x){
 }
 
 void Camera::setPositionPointers(float* x, float* y, float* z){
-	m_lastPosition->x = m_position->x;
-	m_lastPosition->y = m_position->y;
-	m_lastPosition->z = m_position->z;
 	m_position->x = *x;
 	m_position->y = *y;
 	m_position->z = *z;
@@ -103,42 +97,4 @@ void Camera::Render(){
 
 	return;
 
-}
-
-float Camera::getX(){
-	return m_position->x;
-}
-
-float Camera::getY(){
-	return m_position->y;
-}
-
-float Camera::getZ(){
-	return m_position->z;
-}
-
-float Camera::getLastX(){
-	return m_lastPosition->x;
-}
-
-float Camera::getLastY(){
-	return m_lastPosition->y;
-}
-
-float Camera::getLastZ(){
-	return m_lastPosition->z;
-}
-
-void Camera::pushBack(){
-	m_position->x = m_lastPosition->x;
-	m_position->y = m_lastPosition->y;
-	m_position->z = m_lastPosition->z;
-}
-
-float Camera::getRadius(){
-	return 1.0f;
-}
-
-float Camera::getHeight(){
-	return 1.0f;
 }

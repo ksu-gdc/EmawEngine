@@ -1,6 +1,6 @@
 #pragma once
 #include "Entity.h"
-class GameObject
+class GameObject : public MovingCollidable
 {
 public:
 	GameObject();
@@ -11,6 +11,7 @@ public:
 	
 	// Getters
 	Vector* getPosition();
+	Vector* getLastPosition();
 	Vector* getVelocity();
 	bool getAlive();
 
@@ -20,8 +21,22 @@ public:
 	void setAlive(bool alive);
 	void setCollision(bool collision);
 
+	float getX();
+	float getY();
+	float getZ();
+
+	float getLastX();
+	float getLastY();
+	float getLastZ();
+
+	float getRadius();
+	float getHeight();
+	void pushBack();
+	void pushBack(float x, float y, float z);
+
 protected:
 	Vector* _position;
+	Vector* _lastPosition;
 	Vector* _velocity;
 	Vector* _orientation;
 	bool _hasCollision;

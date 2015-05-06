@@ -12,5 +12,5 @@ private:
 	float xa, ya, xb, yb;
 public:
 	Wall2D(float xa, float ya, float xb, float yb);
-	bool collide(MovingCollidable * mc, bool xy);
+	bool collide(MovingCollidable * mc);
 };

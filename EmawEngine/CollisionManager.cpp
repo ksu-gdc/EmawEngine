@@ -10,23 +10,19 @@ bool CollisionManager::instanceFlag = false;
 CollisionManager* CollisionManager::instance = NULL;
 
 CollisionManager::CollisionManager(){
-	xyCounter = 0;
-	yzCounter = 0;
-	xyWalls = NULL;
-	yzWalls = NULL;
+	xzCounter = 0;
+	xzWalls = NULL;
+	level = -1;
+	floor = 1;
+	ceiling = -1;
 }
 
 
 CollisionManager::~CollisionManager(){
-	for (int i = 0; i < xyCounter; i++){
-		delete xyWalls[i];
+	for (int i = 0; i < xzCounter; i++){
+		delete xzWalls[i];
 	}
-	delete[] xyWalls;
-
-	for (int i = 0; i < yzCounter; i++){
-		delete yzWalls[i];
-	}
-	delete[] yzWalls;
+	delete[] xzWalls;
 
 	list<MovingCollidable*>::iterator i;
 	for (i = movingCollidables.begin(); i != movingCollidables.end(); ++i){
@@ -53,26 +49,51 @@ void CollisionManager::removeMovingCollidable(MovingCollidable* mc){
 }
 
 bool CollisionManager::checkCollisions(){
-	return checkXYCollisions() || checkYZCollisions() || checkMovingCollisions();
+	return checkXZCollisions() || checkYCollisions();
 }
 
-bool CollisionManager::checkXYCollisions(){
+bool CollisionManager::checkCollisions(MovingCollidable* mc){
+	return checkXZCollisions(mc) || checkYCollisions(mc);
+}
+
+bool CollisionManager::checkXZCollisions(MovingCollidable* mc){
+	for (int j = 0; j < xzCounter; j++){
+		if (xzWalls[j]->collide(mc)){
+			return true;
+		}
+	}
+	return false;
+}
+
+bool CollisionManager::checkXZCollisions(){
 	bool res = false;
 	list<MovingCollidable*>::iterator i;
 	for (i = movingCollidables.begin(); i != movingCollidables.end(); ++i){
-		for (int j = 0; j < xyCounter; j++){
-			res = res || xyWalls[j]->collide(*i, true);
+		if (checkXZCollisions(*i)){
+			res = true;
 		}
 	}
 	return res;
 }
 
-bool CollisionManager::checkYZCollisions(){
+bool CollisionManager::checkYCollisions(MovingCollidable* mc){
+	if (mc->getY() >= ceiling){
+		mc->pushBack(mc->getX(), mc->getLastY()-0.0001f, mc->getZ());
+		return true;
+	}
+	if ((mc->getY() - mc->getHeight()) <= floor){
+		mc->pushBack(mc->getX(), mc->getLastY() + 0.0001f, mc->getZ());
+		return true;
+	}
+	return false;
+}
+
+bool CollisionManager::checkYCollisions(){
 	bool res = false;
 	list<MovingCollidable*>::iterator i;
 	for (i = movingCollidables.begin(); i != movingCollidables.end(); ++i){
-		for (int j = 0; j < yzCounter; j++){
-			res = res || yzWalls[j]->collide(*i, true);
+		if (checkYCollisions(*i)){
+			res = true;
 		}
 	}
 	return res;
@@ -98,25 +119,21 @@ bool CollisionManager::checkMovingCollisionsInner(){
 void CollisionManager::loadLevel(int id){
 	float a, b, c, d;
 
-	fstream xyfile("collision/" + to_string(id) + "-xy.txt", ios_base::in);
-	if (xyfile.is_open()){
-		xyfile >> xyCounter;
-		xyWalls = new Wall2D*[xyCounter];
-		for (int i = 0; i < xyCounter; i++){
-			xyfile >> a >> b >> c >> d;
-			xyWalls[0] = new Wall2D(a, b, c, d);
-		}
-		xyfile.close();
-	}
+	level = id;
 
-	fstream yzfile("collision/" + to_string(id) + "-yz.txt", ios_base::in);
-	if (yzfile.is_open()){
-		yzfile >> yzCounter;
-		yzWalls = new Wall2D*[yzCounter];
-		for (int i = 0; i < yzCounter; i++){
-			yzfile >> a >> b >> c >> d;
-			yzWalls[0] = new Wall2D(a, b, c, d);
+	fstream xzfile("collision/level" + to_string(id) + ".txt", ios_base::in);
+	if (xzfile.is_open()){
+		xzfile >> ceiling;
+		xzfile >> floor;
+		xzfile >> xzCounter;
+		xzWalls = new Wall2D*[xzCounter];
+		for (int i = 0; i < xzCounter; i++){
+			xzfile >> a;
+			xzfile >> b;
+			xzfile >> c;
+			xzfile >> d;
+			xzWalls[i] = new Wall2D(a, b, c, d);
 		}
-		yzfile.close();
+		xzfile.close();
 	}
 }

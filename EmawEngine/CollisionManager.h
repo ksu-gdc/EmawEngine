@@ -16,11 +16,12 @@ private:
 	static bool instanceFlag;
 	static CollisionManager *instance;
 
-	Wall2D ** xyWalls;
-	int xyCounter;
+	Wall2D ** xzWalls;
+	int xzCounter;
 
-	Wall2D ** yzWalls;
-	int yzCounter;
+	int level;
+	float floor;
+	float ceiling;
 
 	list<MovingCollidable*> movingCollidables;
 
@@ -38,9 +39,15 @@ public:
 
 	bool checkCollisions();
 
-	bool checkXYCollisions();
+	bool checkXZCollisions();
 
-	bool checkYZCollisions();
+	bool checkYCollisions();
+
+	bool checkCollisions(MovingCollidable* mc);
+
+	bool checkXZCollisions(MovingCollidable* mc);
+
+	bool checkYCollisions(MovingCollidable* mc);
 
 	bool checkMovingCollisions();
 

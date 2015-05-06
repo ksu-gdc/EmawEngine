@@ -11,30 +11,23 @@ Wall2D::Wall2D(float x1, float y1, float x2, float y2){
 
 // Using Cramer's rule for equation solving
 // http://en.wikipedia.org/wiki/Cramer%27s_rule
-bool Wall2D::collide(MovingCollidable * mc, bool xy){
-	int x1, y1, x2, y2;
-	if (xy){
-		x1 = mc->getX();
-		y1 = mc->getY();
-		x2 = mc->getLastX();
-		y2 = mc->getLastY();
-	}
-	else {
-		x1 = mc->getY();
-		y1 = mc->getZ();
-		x2 = mc->getLastY();
-		y2 = mc->getLastZ();
-	}
+bool Wall2D::collide(MovingCollidable * mc){
+	float x1, y1, x2, y2;
+
+	x1 = mc->getX();
+	y1 = mc->getZ();
+	x2 = mc->getLastX();
+	y2 = mc->getLastZ();
 
 	float a1 = xb - xa;
 	float b1 = yb - ya;
 	if (b1 < 0){
-		int temp = a1;
+		float temp = a1;
 		a1 = -b1;
 		b1 = temp;
 	}
 	else {
-		int temp = a1;
+		float temp = a1;
 		a1 = b1;
 		b1 = -temp;
 	}
@@ -42,12 +35,12 @@ bool Wall2D::collide(MovingCollidable * mc, bool xy){
 	float a2 = x2 - x1;
 	float b2 = y2 - y1;
 	if (b2 < 0){
-		int temp = a2;
+		float temp = a2;
 		a2 = -b2;
 		b2 = temp;
 	}
 	else {
-		int temp = a2;
+		float temp = a2;
 		a2 = b2;
 		b2 = -temp;
 	}
@@ -61,11 +54,20 @@ bool Wall2D::collide(MovingCollidable * mc, bool xy){
 		float y = (a1*c2 - c1*a2) / det;
 
 		float radius = mc->getRadius();
-		float tempX = x2 - x;
-		float tempY = y2 - y;
+		float tempX = x1 - x;
+		float tempY = y1 - y;
 		float dist = sqrt(tempX*tempX + tempY*tempY);
 		if (dist < radius || (x1<x && x<x2) || (x1>x && x>x2)){
-			mc->pushBack();
+			float newX;
+			if (x > x2){
+				newX = x2 - 0.0001f;
+			}
+			else {
+				newX = x2 + 0.0001f;
+			}
+			float newZ = (c2-a2*newX) / b2;
+			
+			mc->pushBack(newX, mc->getLastY(), newZ);
 			return true;
 		}
 	}

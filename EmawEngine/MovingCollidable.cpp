@@ -17,10 +17,10 @@ bool MovingCollidable::collide(MovingCollidable * mc){
 
 	float dist = getRadius() + mc->getRadius();
 
-	if ((z1 > z2 && (z1 - getHeight()) < z2) || (z2 > z1 && (z2 - mc->getHeight()) < z1)){
+	if ((y1 > y2 && (y1 - getHeight()) < y2) || (y2 > y1 && (y2 - mc->getHeight()) < y1)){
 		float x = x2 - x1;
-		float y = y2 - y1;
-		float dist2 = sqrt(x*x+y*y);
+		float z = z2 - z1;
+		float dist2 = sqrt(x*x+z*z);
 		if (dist2 < dist){
 			pushBack();
 			mc->pushBack();
