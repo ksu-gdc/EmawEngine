@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "InputManager.h"
+#include "VoxelCollision.h"
 
-Player::Player()
+Player::Player(VoxelMap* worldGenerator)
 {
 	input = InputManager::getInstance();
 
@@ -16,6 +17,7 @@ Player::Player()
 	_orientation->y = 0;
 	_orientation->z = 0;
 	fpsCamera = new Camera(_position, _orientation);
+	VoxelCollision* voxelCollider = &VoxelCollision(this, worldGenerator);//TEMP
 
 	// these must match the values in MouseState.cpp
 	// todo: make both of these reference the same constant
@@ -28,7 +30,7 @@ Player::~Player()
 {
 }
 
-void Player::updatePlayer(HWND hWnd, bool collision)
+void Player::updatePlayer(HWND hWnd)
 {
 	float zvel = 0;
 	float xvel = 0;
@@ -53,7 +55,7 @@ void Player::updatePlayer(HWND hWnd, bool collision)
 	{
 		yvel += speed;
 	}
-	if (input->keyDown(Key::Ctrl) && collision)
+	if (input->keyDown(Key::Ctrl))
 	{
 		yvel -= speed;
 	}
