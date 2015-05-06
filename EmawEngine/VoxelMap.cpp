@@ -226,6 +226,7 @@ Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, int freq, int floor)
 {
 	if ((freq > 0 && freq < 51) && floor < 101)
 	{
+		pair<int, int> coords = MapToVirtualCoord(coord_x, coord_y);
 		short height[CHUNK_SIZE][CHUNK_SIZE];
 		Chunk ch = {
 			coord_x,
@@ -240,7 +241,7 @@ Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, int freq, int floor)
 		{
 			for (int y = 0; y < CHUNK_SIZE; y++)
 			{
-				height[x][y] = floor + (Turbulence((coord_x * CHUNK_SIZE) + x, (coord_y * CHUNK_SIZE) + y, 64) / freq);
+				height[x][y] = floor + (Turbulence((INT_MAX / 2) + (coords.first * CHUNK_SIZE) + x, (INT_MAX / 2) + (coords.second * CHUNK_SIZE) + y, 64) / freq);
 			}
 		}
 
