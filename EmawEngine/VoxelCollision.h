@@ -16,13 +16,12 @@ class VoxelCollision
 public:
 	//Global objects
 	Player* player;
-	Vector* position;
 	CollisionObject collisionObject;
-	Grid* map;
+	VoxelMap* map;
 	Chunk* chunk;
 
 	//Class Functions, and Constructor/Destructor.
-	VoxelCollision(Player*, Grid*);
+	VoxelCollision(Player*, VoxelMap*);
 	bool hasCollision();
 	void Update();
 	~VoxelCollision();

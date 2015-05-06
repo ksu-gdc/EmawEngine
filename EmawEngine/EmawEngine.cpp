@@ -137,9 +137,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
-	Player* player = new Player();
-
-	VoxelCollision* voxelCollider = &VoxelCollision(player, &worldGenerator->map);//TEMP
+	Player* player = new Player(worldGenerator);
 
 	gdi.SetSceneGraphRoot(root);
 	gdi.SetCamera(player->getCamera());
@@ -212,8 +210,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 				
 			} else {
 				//base->resetTransformMatrix();
-				bool temp = voxelCollider->hasCollision();
-				player->updatePlayer(hWnd, temp);
+				player->updatePlayer(hWnd);
 				root->update(identity->getTransformMatrix());
 
 				//base2->rotateX(0.0005);

@@ -8,11 +8,11 @@
 *  Paramaters: 
 */
 
-VoxelCollision::VoxelCollision(Player* Player, Grid* world) 
+VoxelCollision::VoxelCollision(Player* Player, VoxelMap* world) 
 {
 	player = Player;
 	D3DXVECTOR3 temp = player->getCamera()->GetPosition();
-	//Vector* position = new Vector;
+	Vector* position = new Vector;
 	position->x = temp.x;
 	position->y = temp.y;
 	position->z = temp.z;
@@ -20,29 +20,18 @@ VoxelCollision::VoxelCollision(Player* Player, Grid* world)
 	map = world;
 }
 
-void VoxelCollision::Update()
-{
-	D3DXVECTOR3 temp = player->getCamera()->GetPosition();
-	position->x = temp.x;
-	position->y = temp.y;
-	position->z = temp.z;
-	//TODO: change chunks depending on where you are in the map
-}
-
 bool VoxelCollision::hasCollision()
 {
 	bool collision = false;
-	for each (vector<Chunk> row in map->grid)
-	{
-		for each (Chunk chunk in row)
-		{
-			//TODO: figure out how to check with voxels
-			for each (short top in chunk.height_map) {
-				if (position->y < top) return true;
-			}
-		}
-	}
-
+	D3DXVECTOR3 pos = player->getCamera()->GetPosition();
+	Chunk* chunk = map->GetChunk(pos.x/CHUNK_SIZE, pos.z/CHUNK_SIZE);
+	//if (chunk->chunk[pos.x%CHUNK_SIZE][pos.y%CHUNK_HEIGHT][pos.z%CHUNK_SIZE] != 0)
+	Vector* point = new Vector;
+	//point->x = pos.x;
+	//point->y = pos.y;
+	//point->z = pos.z;
+	CollisionObject voxel = CollisionObject(point, 1, 1, 1);
+	if (collisionObject.hasCollision(voxel, 0)) collision = true;
 	return collision;
 }
 

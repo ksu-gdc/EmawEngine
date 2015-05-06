@@ -1,14 +1,15 @@
 #pragma once
 #include "GameObject.h"
 #include "InputManager.h"
+#include "VoxelMap.h"
 
 class Player :
 	public GameObject
 {
 public:
-	Player();
+	Player(VoxelMap* worldGenerator);
 	~Player();
-	void updatePlayer(HWND hWnd, bool collision);
+	void updatePlayer(HWND hWnd);
 	void passToCamera();
 	Camera* getCamera();
 
