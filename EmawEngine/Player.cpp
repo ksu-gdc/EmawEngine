@@ -41,7 +41,11 @@ bool Player::hasCollision()
 			point->x = i + pos.x;
 			point->y = chunk->height_map[i][j];
 			point->z = j + pos.z;
-			if (collisionObject.hasCollision(CollisionObject(point, 1, 1, 1), 0)) return true;
+			if ((pos.x - point->x) < 1 && (pos.x - point->x) > -1) {
+				if ((pos.y - point->y) < 1 && (pos.y - point->y) > -1) {
+					if ((pos.z - point->z) < 1 && (pos.z - point->z) > -1) return true;
+				}
+			}
 		}
 	}
 	return false;
@@ -52,29 +56,32 @@ void Player::updatePlayer(HWND hWnd)
 	float zvel = 0;
 	float xvel = 0;
 	float yvel = 0;
-	if (input->keyDown(Key::W))
+	bool test = hasCollision();
+	if (input->keyDown(Key::W) && !test)
 	{
 		zvel += speed;
 	}
-	if (input->keyDown(Key::S))
+	if (input->keyDown(Key::S) && !test)
 	{
 		zvel -= speed;
 	}
-	if (input->keyDown(Key::A))
+	if (input->keyDown(Key::A) && !test)
 	{
 		xvel -= speed;
 	}
-	if (input->keyDown(Key::D))
+	if (input->keyDown(Key::D) && !test)
 	{
 		xvel += speed;
 	}
-	if (input->keyDown(Key::Space))
+	if (input->keyDown(Key::Space) && !test)
 	{
 		yvel += speed;
 	}
-	if (input->keyDown(Key::Ctrl) && !hasCollision())
+	if (input->keyDown(Key::Ctrl) && !test)
 	{
-		yvel -= speed;
+		if (true) {
+			yvel -= speed;
+		}
 	}
 
 	//get change in mouse position from last update.

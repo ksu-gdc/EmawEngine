@@ -115,9 +115,6 @@
     <ClCompile Include="Vertex.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="VoxelCollision.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -256,9 +253,6 @@
     </ClInclude>
     <ClInclude Include="Vertex.h">
       <Filter>Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="VoxelCollision.h">
-      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
