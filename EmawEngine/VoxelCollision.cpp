@@ -22,17 +22,19 @@ VoxelCollision::VoxelCollision(Player* Player, VoxelMap* world)
 
 bool VoxelCollision::hasCollision()
 {
-	bool collision = false;
 	D3DXVECTOR3 pos = player->getCamera()->GetPosition();
 	Chunk* chunk = map->GetChunk(pos.x/CHUNK_SIZE, pos.z/CHUNK_SIZE);
 	//if (chunk->chunk[pos.x%CHUNK_SIZE][pos.y%CHUNK_HEIGHT][pos.z%CHUNK_SIZE] != 0)
 	Vector* point = new Vector;
-	//point->x = pos.x;
-	//point->y = pos.y;
-	//point->z = pos.z;
-	CollisionObject voxel = CollisionObject(point, 1, 1, 1);
-	if (collisionObject.hasCollision(voxel, 0)) collision = true;
-	return collision;
+	for (int i = 0; i < CHUNK_SIZE; i++) {
+		for (int j = 0; j < CHUNK_SIZE; j++) {
+			point->x = i + pos.x;
+			point->y = chunk->height_map[i][j];
+			point->z = j + pos.z;
+			if (collisionObject.hasCollision(CollisionObject(point, 1, 1, 1), 0)) return true;
+		}
+	}
+	return false;
 }
 
 /* ~VoxelCollision();

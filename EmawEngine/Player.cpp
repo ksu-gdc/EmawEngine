@@ -17,7 +17,7 @@ Player::Player(VoxelMap* worldGenerator)
 	_orientation->y = 0;
 	_orientation->z = 0;
 	fpsCamera = new Camera(_position, _orientation);
-	VoxelCollision* voxelCollider = &VoxelCollision(this, worldGenerator);//TEMP
+	map = worldGenerator;//TEMP
 
 	// these must match the values in MouseState.cpp
 	// todo: make both of these reference the same constant
@@ -28,6 +28,23 @@ Player::Player(VoxelMap* worldGenerator)
 
 Player::~Player()
 {
+}
+
+bool Player::hasCollision()
+{
+	D3DXVECTOR3 pos = getCamera()->GetPosition();
+	Chunk* chunk = map->GetChunk(pos.x / CHUNK_SIZE, pos.z / CHUNK_SIZE);
+	//if (chunk->chunk[pos.x%CHUNK_SIZE][pos.y%CHUNK_HEIGHT][pos.z%CHUNK_SIZE] != 0)
+	Vector* point = new Vector;
+	for (int i = 0; i < CHUNK_SIZE; i++) {
+		for (int j = 0; j < CHUNK_SIZE; j++) {
+			point->x = i + pos.x;
+			point->y = chunk->height_map[i][j];
+			point->z = j + pos.z;
+			if (collisionObject.hasCollision(CollisionObject(point, 1, 1, 1), 0)) return true;
+		}
+	}
+	return false;
 }
 
 void Player::updatePlayer(HWND hWnd)
@@ -55,7 +72,7 @@ void Player::updatePlayer(HWND hWnd)
 	{
 		yvel += speed;
 	}
-	if (input->keyDown(Key::Ctrl))
+	if (input->keyDown(Key::Ctrl) && !hasCollision())
 	{
 		yvel -= speed;
 	}
