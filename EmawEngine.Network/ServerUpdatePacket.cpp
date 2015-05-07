@@ -7,11 +7,13 @@ ServerUpdatePacket::ServerUpdatePacket()
 {
 	m_size = -1;
 	m_pCount = 0;
+	m_mainPlayer = new ClientState();
 }
 
 // Constructor that depacks packet data.
 ServerUpdatePacket::ServerUpdatePacket(char * data) {
 	m_size = -1;
+	m_mainPlayer = new ClientState();
 
 	char * loc = data;
 	//ignore first unsigned int, it is packet type
