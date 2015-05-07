@@ -1,7 +1,8 @@
 // James Tyson
 #include "ServerNetwork.h"
 
-ServerNetwork::ServerNetwork(void)
+// Default Constructor
+ServerNetwork::ServerNetwork()
 {
 	// create WSADATA object
 	WSADATA wsaData;
@@ -83,7 +84,7 @@ ServerNetwork::ServerNetwork(void)
 	}
 }
 
-// accept new connections
+// Accept a new connection.
 bool ServerNetwork::acceptNewClient(unsigned int & id)
 {
 	// if client waiting, accept the connection and save the socket
@@ -104,7 +105,7 @@ bool ServerNetwork::acceptNewClient(unsigned int & id)
 	return false;
 }
 
-// receive incoming data
+// Receive incoming data from a specific client.
 int ServerNetwork::receiveData(unsigned int client_id, char * recvbuf)
 {
 	if (sessions.find(client_id) != sessions.end())
@@ -121,7 +122,7 @@ int ServerNetwork::receiveData(unsigned int client_id, char * recvbuf)
 	return 0;
 }
 
-// send data to all clients
+// Send packet to all clients.
 void ServerNetwork::sendToAll(char * packets, int totalSize)
 {
 	SOCKET currentSocket;
@@ -146,6 +147,7 @@ void ServerNetwork::sendToAll(char * packets, int totalSize)
 	}
 }
 
+// Sends a packet to a specific client.
 void ServerNetwork::sendToId(uint client_id, char * packet, int size)
 {
 	if (sessions.find(client_id) != sessions.end())

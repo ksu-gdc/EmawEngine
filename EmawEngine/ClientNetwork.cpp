@@ -2,7 +2,8 @@
 #include "stdafx.h"
 #include "ClientNetwork.h"
 
-ClientNetwork::ClientNetwork(void) {
+// Default Constructor
+ClientNetwork::ClientNetwork() {
 
 	// create WSADATA object
 	WSADATA wsaData;
@@ -96,11 +97,18 @@ ClientNetwork::ClientNetwork(void) {
 
 }
 
-ClientNetwork::~ClientNetwork() {
+// Closes the connection to the server.
+void ClientNetwork::close() {
 	closesocket(ConnectSocket);
 	WSACleanup();
 }
 
+// Default destructor.
+ClientNetwork::~ClientNetwork() {
+	close();
+}
+
+// Receive packets from the server.
 int ClientNetwork::receivePackets(char * recvbuf)
 {
 	iResult = NetworkServices::receiveMessage(ConnectSocket, recvbuf, MAX_PACKET_SIZE);

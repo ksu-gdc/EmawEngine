@@ -33,11 +33,12 @@ ServerUpdatePacket::ServerUpdatePacket(char * data) {
 	}
 }
 
-// Default destructor
+// Default destructor.
 ServerUpdatePacket::~ServerUpdatePacket()
 {
 }
 
+// Adds the main player to the packet.
 void ServerUpdatePacket::addMainPlayer(ClientState c) {
 	m_mainPlayer = c;
 }
@@ -92,10 +93,12 @@ void ServerUpdatePacket::printAll() {
 	}
 }
 
+// Gets the main player state.
 ClientState* ServerUpdatePacket::getPlayer() {
 	return &m_mainPlayer;
 }
 
+// GEts the other player states.
 std::vector<ClientStateMin> ServerUpdatePacket::getOtherPlayers() {
 	return m_players;
 }

@@ -24,7 +24,7 @@ ClientUpdatePacket::ClientUpdatePacket(char * data) {
 	}
 }
 
-// Default destructor
+// Default destructor.
 ClientUpdatePacket::~ClientUpdatePacket()
 {
 }

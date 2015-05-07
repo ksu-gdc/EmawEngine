@@ -5,6 +5,9 @@ public:
 	ServerGame();
 	~ServerGame();
 
-	void update(float elapsedTime);
+	void load();
+	void update();
+	void addPlayer();
+	void removePlayer();
 };
 

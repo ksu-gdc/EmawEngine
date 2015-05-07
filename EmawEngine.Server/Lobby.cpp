@@ -1,28 +1,33 @@
 #include "Lobby.h"
 
+// Default Constructor
 Lobby::Lobby()
 {
 }
 
+// Constructor that assigns the id and has a reference to the network. This constructor is preferred.
 Lobby::Lobby(uint id, ServerNetwork* network)
 {
 	m_id = id;
 	m_network = network;
 }
 
-
+// Default destructor.
 Lobby::~Lobby()
 {
 }
 
+// Gets the Lobby's ID.
 uint Lobby::getId() {
 	return m_id;
 }
 
+// Gets the number of players in the lobby.
 u8 Lobby::getPlayerCount() {
 	return m_playerCount;
 }
 
+// Add's a client to the lobby and stores the client's ID in the list.
 uint Lobby::addClient(uint clientId) {
 	m_playerIds.push_back(clientId);
 	m_playerCount++;
@@ -31,13 +36,15 @@ uint Lobby::addClient(uint clientId) {
 	return m_id;
 }
 
+// Start's the game attached to this lobby.
 void Lobby::startGame() {
 	std::cout << "game has started\n";
 }
 
+// Checks all client's for messages, updates the game state, and then broadcasts it back to all clients.
 void Lobby::update() {
 	receiveFromClients();
-	
+	m_game->update();
 	sendUpdateToAll();
 }
 

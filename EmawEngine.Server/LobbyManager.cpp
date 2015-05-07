@@ -1,15 +1,16 @@
 #include "LobbyManager.h"
 
-
+// Default Constructor.
 LobbyManager::LobbyManager()
 {
 }
 
-
+// Default Destructor
 LobbyManager::~LobbyManager()
 {
 }
 
+// Stores a reference to the server network.
 void LobbyManager::registerNetwork(ServerNetwork* network) {
 	m_network = network;
 }

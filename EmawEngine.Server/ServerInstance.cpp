@@ -3,7 +3,8 @@
 
 unsigned int ServerInstance::client_id;
 
-ServerInstance::ServerInstance(void)
+// Default Constructor.
+ServerInstance::ServerInstance()
 {
 	// id's to assign clients for our table
 	client_id = 0;
@@ -15,6 +16,7 @@ ServerInstance::ServerInstance(void)
 	lobbyManager->registerNetwork(network);
 }
 
+// Listens for new clients.
 void ServerInstance::listen()
 {
 	// get new clients
