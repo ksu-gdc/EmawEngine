@@ -1,11 +1,6 @@
 #include "stdafx.h"
 #include "Model.h"
 
-// Sometimes models will read in extremely small values.
-// We might as well set these values to 0. So this const
-// is just used as a minimum value.
-const float MINIMUM_TRANSFORMATION_VALUE = 0.00005;
-
 Model::Model()
 {
 	m_Texture = NULL;
@@ -57,6 +52,10 @@ void* Model::load(std::string str) {
 			vertices[num_vertices].Z = stof(strtok(0, " "));
 			vertices[num_vertices].W = 1.0f;
 
+			if (strtok(0, " ")) {
+				OutputDebugString(L"too many vertices in face; we need exactly three\n");
+			}
+
 			// generate random color
 			float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 			float g = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
@@ -72,6 +71,11 @@ void* Model::load(std::string str) {
 		else if (prefix.compare("vt") == 0) {
 			us[num_uv] = stof(strtok(0, " "));
 			vs[num_uv] = stof(strtok(0, " "));
+
+			if (strtok(0, " ")) {
+				OutputDebugString(L"too many coordinates in texture vector. I don't know what to make of this, but it's bad.\n");
+			}
+
 			num_uv++;
 			if (num_uv >= MAX_UV) {
 				OutputDebugString(L"too many uv coordinates in model\n");
