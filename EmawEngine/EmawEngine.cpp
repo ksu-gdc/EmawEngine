@@ -79,14 +79,14 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// TEST CODE!!!
 	// =========================================================================
-	VoxelMap* worldGenerator = new VoxelMap("testmap","blarghle", 16);
+	VoxelMap* worldGenerator = new VoxelMap("testmap","blarghle", 7);
 	
 
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
 	bool renderVoxels = true;
 	if (renderVoxels) {
-		VoxelChunkNode* world[16][16];
+		VoxelChunkNode* world[7][7];
 		for (int i = 0; i < worldGenerator->map.size; i++)
 		{
 			for (int j = 0; j < worldGenerator->map.size; j++)
