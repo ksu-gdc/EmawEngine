@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "InputManager.h"
 
-Player::Player()
+Player::Player(GraphicsDeviceInterface* gdi)
 {
 	input = InputManager::getInstance();
 	speed = 0.008;
@@ -15,6 +15,15 @@ Player::Player()
 	_orientation->y = 0;
 	_orientation->z = 0;
 	fpsCamera = new Camera(_position, _orientation);
+
+	model = new Model();
+	model->load("models/obj-models/cube-inside-out.obj");
+	model->LoadTexture(gdi->m_Device, "textures/x.png");
+
+	node = new ModelNode(model);
+	node->setGraphicsDeviceInterface(gdi);
+	node->setPosition(_position->x, _position->y, _position->z);
+	node->setRotation(_orientation->x, _orientation->y, _orientation->z);
 
 	// these must match the values in MouseState.cpp
 	// todo: make both of these reference the same constant
@@ -105,6 +114,10 @@ void Player::updatePlayer(HWND hWnd)
 	_velocity->y = DirectX::XMVectorGetByIndex(velocity, 1) +yvel;
 	_velocity->z = DirectX::XMVectorGetByIndex(velocity, 2);
 	
+	// update scene graph node
+	node->setPosition(_position->x, _position->y, _position->z);
+	node->setRotation(_orientation->y, _orientation->x, _orientation->z);
+	printf("%f %f %f\n", _orientation->y, _orientation->x, _orientation->z);
 
 	update(0);
 	passToCamera();

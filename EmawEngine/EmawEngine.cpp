@@ -106,7 +106,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	if (do_cube) {
 		Model* cube = new Model();
 		cube->load("models/obj-models/cube-tex.obj");
-		cube->LoadTexture(gdi.m_Device, "textures\\x.png");
+		cube->LoadTexture(gdi.m_Device, "textures/x.png");
 
 		ModelNode* cubeNode = new ModelNode(cube);
 		cubeNode->setGraphicsDeviceInterface(&gdi);
@@ -116,7 +116,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	if (do_pill) {
 		Model* cap = new Model();
 		cap->load("models/obj-models/capsule.obj");
-		cap->LoadTexture(gdi.m_Device, "textures\\capsule0.jpg");
+		cap->LoadTexture(gdi.m_Device, "textures/capsule0.jpg");
 
 		ModelNode* capNode = new ModelNode(cap);
 		capNode->setGraphicsDeviceInterface(&gdi);
@@ -126,7 +126,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	if (do_cat) {
 		Model* cat = new Model();
 		cat->load("models/obj-models/cat.obj");
-		cat->LoadTexture(gdi.m_Device, "textures\\cat-flipped.png");
+		cat->LoadTexture(gdi.m_Device, "textures/cat-flipped.png");
 
 		ModelNode* catNode = new ModelNode(cat);
 		catNode->setGraphicsDeviceInterface(&gdi);
@@ -136,7 +136,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	if (do_ship) {
 		Model* ship = new Model();
 		ship->load("models/obj-models/SpaceShip_FULL.obj");
-		ship->LoadTexture(gdi.m_Device, "textures\\cat-flipped.png");
+		ship->LoadTexture(gdi.m_Device, "textures/cat-flipped.png");
 
 		ModelNode* shipNode = new ModelNode(ship);
 		shipNode->setGraphicsDeviceInterface(&gdi);
@@ -144,7 +144,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		root->addChild(shipNode);
 	}
 	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
-	Player* player = new Player();
+	Player* player = new Player(&gdi);
+	
+	root->addChild(player->node);
 
 	gdi.SetSceneGraphRoot(root);
 	gdi.SetCamera(player->getCamera());
