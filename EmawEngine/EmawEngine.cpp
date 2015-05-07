@@ -79,7 +79,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// TEST CODE!!!
 	// =========================================================================
-	VoxelMap* worldGenerator = new VoxelMap("testmap","blarghle", 7);
+	VoxelMap* worldGenerator = new VoxelMap("testmap","blarghggfkjnle", 7);
 	
 
 	GameNode* root = new GameNode();
