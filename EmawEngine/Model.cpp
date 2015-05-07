@@ -8,11 +8,12 @@ const float MINIMUM_TRANSFORMATION_VALUE = 0.00005;
 
 Model::Model()
 {
-	m_Texture = 0;
+	m_Texture = NULL;
 }
 
 Model::Model(std::vector<VERTEX> vBuffer){
 	this->vertexBuffer = vBuffer;
+	m_Texture = NULL;
 }
 
 Model::~Model()
@@ -112,6 +113,7 @@ void* Model::getData() {
 
 bool Model::unload() {
 	vertexBuffer.clear();
+	m_Texture = NULL;
 	return true;
 }
 
