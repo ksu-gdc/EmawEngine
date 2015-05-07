@@ -7,7 +7,7 @@ Player::Player(VoxelMap* worldGenerator)
 {
 	input = InputManager::getInstance();
 
-	speed = 0.5;
+	speed = 0.005;
 	fakeRadius = 100;
 
 	_position->x = 0;
@@ -42,7 +42,7 @@ bool Player::hasCollision()
 			point->y = chunk->height_map[i][j];
 			point->z = j + pos.z;
 			if ((pos.x - point->x) < 1 && (pos.x - point->x) > -1) {
-				if ((pos.y - point->y) < 1 && (pos.y - point->y) > -1) {
+				if ((pos.y - point->y) < 2 && (pos.y - point->y) > -1) {
 					if ((pos.z - point->z) < 1 && (pos.z - point->z) > -1) return true;
 				}
 			}
@@ -57,31 +57,33 @@ void Player::updatePlayer(HWND hWnd)
 	float xvel = 0;
 	float yvel = 0;
 	bool test = hasCollision();
-	if (input->keyDown(Key::W) && !test)
+	if (input->keyDown(Key::W))
 	{
 		zvel += speed;
 	}
-	if (input->keyDown(Key::S) && !test)
+	if (input->keyDown(Key::S))
 	{
 		zvel -= speed;
 	}
-	if (input->keyDown(Key::A) && !test)
+	if (input->keyDown(Key::A))
 	{
 		xvel -= speed;
 	}
-	if (input->keyDown(Key::D) && !test)
+	if (input->keyDown(Key::D))
 	{
 		xvel += speed;
 	}
-	if (input->keyDown(Key::Space) && !test)
+	if (input->keyDown(Key::Space))
 	{
-		yvel += speed;
+		yvel += 2*speed;
 	}
 	if (input->keyDown(Key::Ctrl) && !test)
 	{
-		if (true) {
-			yvel -= speed;
-		}
+		yvel -= speed;
+	}
+	if (!test)
+	{
+		yvel -= speed;
 	}
 
 	//get change in mouse position from last update.
