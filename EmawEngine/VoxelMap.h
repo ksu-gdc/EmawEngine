@@ -20,8 +20,8 @@ struct Chunk {
 
 struct Grid {
 	string directory;
-	int seed, width, height;
-	int offset_X, offset_Y;
+	int seed, size;
+	int offset;
 	int center_X, center_Y;
 	vector< vector<Chunk> > grid;
 };
@@ -42,7 +42,7 @@ public:
 
 	//Class Functions, and Constructor/Destructor.
 	VoxelMap(string);
-	VoxelMap(string, string, int, int);
+	VoxelMap(string, string, int);
 	bool SaveMap();
 	void PopulateMap();
 	bool LoadChunk(int, int);
