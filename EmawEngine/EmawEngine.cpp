@@ -99,10 +99,10 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		}
 	}
 
-	bool do_cube = false;
+	bool do_cube = true;
 	bool do_pill = false;
 	bool do_cat = false;
-	bool do_ship = true;
+	bool do_ship = false;
 	if (do_cube) {
 		Model* cube = new Model();
 		cube->load("models/obj-models/cube-tex.obj");

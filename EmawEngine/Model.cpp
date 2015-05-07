@@ -25,7 +25,7 @@ void* Model::load(std::string str) {
 	}
 
 	// create buffer to hold all vertices
-	const int MAX_VERTICES = 10000;
+	const int MAX_VERTICES = 15000;
 	VERTEX vertices[MAX_VERTICES];
 	int num_vertices = 0;
 
