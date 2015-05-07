@@ -21,13 +21,13 @@ ServerUpdatePacket::ServerUpdatePacket(char * data) {
 	loc += sizeof(unsigned int);
 
 	// Copy the main player
-	memcpy(&m_mainPlayer, loc, sizeof(ClientState));
+	memcpy(m_mainPlayer, loc, sizeof(ClientState));
 	loc += sizeof(ClientState);
 
 	// Copy players into temp, and then push them into the list
-	ClientStateMin temp;
 	for (int i = 0; i < m_pCount; i++) {
-		memcpy(&temp, loc, sizeof(ClientStateMin));
+		ClientStateMin* temp = new ClientStateMin();
+		memcpy(temp, loc, sizeof(ClientStateMin));
 		m_players.push_back(temp);
 		loc += sizeof(ClientStateMin);
 	}
@@ -39,12 +39,12 @@ ServerUpdatePacket::~ServerUpdatePacket()
 }
 
 // Adds the main player to the packet.
-void ServerUpdatePacket::addMainPlayer(ClientState c) {
+void ServerUpdatePacket::setMainPlayer(ClientState* c) {
 	m_mainPlayer = c;
 }
 
 // Adds a player to the packet.
-void ServerUpdatePacket::addPlayer(ClientStateMin c) {
+void ServerUpdatePacket::addPlayer(ClientStateMin* c) {
 	m_players.push_back(c);
 	m_pCount++;
 }
@@ -68,13 +68,13 @@ char * ServerUpdatePacket::pack() {
 	loc += sizeof(unsigned int);
 
 	// Copy the main player
-	ClientState client = m_mainPlayer;
-	memcpy(loc, &client, sizeof(ClientState));
+	ClientState* client = m_mainPlayer;
+	memcpy(loc, client, sizeof(ClientState));
 	loc += sizeof(ClientState);
 
 	// Copy all of our players into the array
 	for (int i = 0; i < m_pCount; i++) {
-		memcpy(loc, &m_players[i], sizeof(ClientStateMin));
+		memcpy(loc, m_players[i], sizeof(ClientStateMin));
 		loc += sizeof(ClientStateMin);
 	}
 
@@ -89,16 +89,16 @@ int ServerUpdatePacket::size() {
 // Prints out the id for debug purposes.
 void ServerUpdatePacket::printAll() {
 	for (int i = 0; i < m_pCount; i++) {
-		std::cout << "ID: " << m_players[i].id << "\n";
+		std::cout << "ID: " << m_players[i]->id << "\n";
 	}
 }
 
 // Gets the main player state.
 ClientState* ServerUpdatePacket::getPlayer() {
-	return &m_mainPlayer;
+	return m_mainPlayer;
 }
 
 // GEts the other player states.
-std::vector<ClientStateMin> ServerUpdatePacket::getOtherPlayers() {
+std::vector<ClientStateMin*> ServerUpdatePacket::getOtherPlayers() {
 	return m_players;
 }

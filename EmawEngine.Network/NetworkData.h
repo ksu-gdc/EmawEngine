@@ -29,12 +29,14 @@ struct EMAWENGINENETWORK_API Vector3 {
 };
 
 struct EMAWENGINENETWORK_API ClientState {
+	uint id;
 	Vector3 position;
 	Vector3 orientation;
 	uint health;
 	uint ammo;
 
-	void init(Vector3 new_position, Vector3 new_orientation, uint new_health, uint new_ammo) {
+	void init(uint new_id, Vector3 new_position, Vector3 new_orientation, uint new_health, uint new_ammo) {
+		id = new_id;
 		position = new_position;
 		orientation = new_orientation;
 		health = new_health;

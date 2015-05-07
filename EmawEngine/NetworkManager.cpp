@@ -77,7 +77,7 @@ ClientState* NetworkManager::getClientState() {
 }
 
 // Gets the client state of all of the other players
-std::vector<ClientStateMin> NetworkManager::getOtherClientStates() {
+std::vector<ClientStateMin*> NetworkManager::getOtherClientStates() {
 	return m_serverPacket->getOtherPlayers();
 }
 

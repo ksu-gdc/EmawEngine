@@ -21,18 +21,18 @@ public:
 	ServerUpdatePacket(char * data);
 	~ServerUpdatePacket();
 
-	void addMainPlayer(ClientState client);
-	void addPlayer(ClientStateMin client);
+	void setMainPlayer(ClientState* client);
+	void addPlayer(ClientStateMin* client);
 	char * pack();
 	int size();
 	void printAll();
 
 	ClientState* getPlayer();
-	std::vector<ClientStateMin> getOtherPlayers();
+	std::vector<ClientStateMin*> getOtherPlayers();
 
 private:
-	ClientState m_mainPlayer;
-	std::vector<ClientStateMin> m_players;
+	ClientState* m_mainPlayer;
+	std::vector<ClientStateMin*> m_players;
 	uint m_pCount;
 	int m_size;
 };

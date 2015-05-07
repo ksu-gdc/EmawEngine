@@ -37,7 +37,7 @@ public:
 	bool connect();
 	bool hasServerUpdate();
 	ClientState* getClientState();
-	std::vector<ClientStateMin> getOtherClientStates();
+	std::vector<ClientStateMin*> getOtherClientStates();
 	void update(float elapsedTime);
 	void addInput(std::string input);
 };

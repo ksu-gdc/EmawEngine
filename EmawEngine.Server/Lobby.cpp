@@ -10,6 +10,10 @@ Lobby::Lobby(uint id, ServerNetwork* network)
 {
 	m_id = id;
 	m_network = network;
+	m_updatePacket = new ServerUpdatePacket();
+	m_game = new ServerGame();
+
+	m_game->load();
 }
 
 // Default destructor.
@@ -27,12 +31,14 @@ u8 Lobby::getPlayerCount() {
 	return m_playerCount;
 }
 
-// Add's a client to the lobby and stores the client's ID in the list.
+// Add's a client to the game and stores the client's ID in the list.
 uint Lobby::addClient(uint clientId) {
 	m_playerIds.push_back(clientId);
 	m_playerCount++;
-	if (m_playerCount == 1)
-		startGame();
+	
+	m_game->addPlayer(clientId);
+	m_updatePacket->addPlayer(m_game->getClientStateMin(clientId));
+
 	return m_id;
 }
 
@@ -90,7 +96,7 @@ void Lobby::handleConnectionPacket(char * data) {
 		printf("ping received");
 }
 
-// Handles a client update packet
+// Handles a client update packet.
 void Lobby::handleClientUpdatePacket(char * data) {
 	ClientUpdatePacket packet = ClientUpdatePacket(data);
 	packet.printAll();
@@ -99,21 +105,17 @@ void Lobby::handleClientUpdatePacket(char * data) {
 // Sends an updateServerPacket to all clients.
 void Lobby::sendUpdateToAll()
 {
-	ServerUpdatePacket packet = ServerUpdatePacket();
-	Vector3 pos1; pos1.x = 1; pos1.y = 2; pos1.z = 3;
-	Vector3 pos2; pos2.x = -1; pos2.y = -2; pos2.z = -3;
-	ClientStateMin c, d;
-	c.init(0, pos1, pos2, 0);
-	d.init(1, pos2, pos1, 0);
-	packet.addPlayer(c);
-	packet.addPlayer(d);
-
-	char * packet_data = packet.pack();
-	int packet_size = packet.size();
+	char* packet_data;
+	int packet_size;
 
 	std::vector<uint>::iterator iter;
 	for (iter = m_playerIds.begin(); iter != m_playerIds.end(); iter++)
 	{
+		m_updatePacket->setMainPlayer(m_game->getClientState(*iter));
+
+		packet_data = m_updatePacket->pack();
+		packet_size = m_updatePacket->size();
+
 		m_network->sendToId(*iter, packet_data, packet_size);
 	}
 }

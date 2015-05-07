@@ -25,6 +25,7 @@ private:
 	uint m_id;
 	ServerNetwork* m_network;
 	ServerGame* m_game;
+	ServerUpdatePacket* m_updatePacket;
 
 	// list to keep track of each players id
 	std::vector<uint> m_playerIds;
