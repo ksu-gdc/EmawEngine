@@ -27,6 +27,9 @@ public:
 	int size();
 	void printAll();
 
+	ClientState* getPlayer();
+	std::vector<ClientStateMin> getOtherPlayers();
+
 private:
 	ClientState m_mainPlayer;
 	std::vector<ClientStateMin> m_players;

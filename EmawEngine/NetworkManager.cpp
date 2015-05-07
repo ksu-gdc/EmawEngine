@@ -10,6 +10,11 @@ NetworkManager::NetworkManager()
 	m_currentClientState = new ClientState();
 	m_serverClientState = new ClientState();
 	m_updatePacket = new ClientUpdatePacket();
+	m_serverPacket = new ServerUpdatePacket();
+	m_timeSinceLastMessage = 0;
+
+	m_pingPacket = new ConnectionPacket();
+	m_pingPacket->setType(PING_CONNECTION);
 }
 
 
@@ -17,7 +22,7 @@ NetworkManager::~NetworkManager()
 {
 }
 
-// Returns the instance of our AssetManager
+// Returns the instance of our NetworkManager
 NetworkManager* NetworkManager::getInstance() {
 	if (!instanceFlag)
 	{
@@ -43,16 +48,17 @@ bool NetworkManager::connect() {
 	return false;
 }
 
-void pingServer() {
-	char network_data[MAX_PACKET_SIZE];
+void NetworkManager::pingServer() {
+	// Send ping packet
+	char * packet_data = m_pingPacket->pack();
+	int packet_size = m_pingPacket->size();
+
+	if (NetworkServices::sendMessage(m_network->ConnectSocket, packet_data, packet_size))
+		m_timeSinceLastMessage = 0;
 }
 
 bool NetworkManager::hasServerUpdate() {
 	return m_hasServerUpdate;
-}
-
-void NetworkManager::sendClientState(ClientState newState) {
-
 }
 
 void NetworkManager::addInput(std::string input) {
@@ -61,12 +67,18 @@ void NetworkManager::addInput(std::string input) {
 }
 
 // Accessor for the server client state
-ClientState* NetworkManager::getServerClientState() {
-	return m_serverClientState;
+ClientState* NetworkManager::getClientState() {
+	return m_serverPacket->getPlayer();
 }
 
-void NetworkManager::update()
+std::vector<ClientStateMin> NetworkManager::getOtherClientStates() {
+	return m_serverPacket->getOtherPlayers();
+}
+
+void NetworkManager::update(float elapsedTime)
 {
+	m_timeSinceLastMessage += elapsedTime;
+
 	int data_length = m_network->receivePackets(network_data);
 	if (data_length <= 0)
 	{
@@ -100,18 +112,20 @@ void NetworkManager::update()
 // Handles a connection packet
 void NetworkManager::handleConnetionPacket(char * data) {
 	printf("Client received init packet from server\n");
-	ConnectionPacket packet = ConnectionPacket(network_data);
+	ConnectionPacket packet = ConnectionPacket(data);
 }
 
 // Handles a server update packet
 void NetworkManager::handleServerUpdatePacket(char * data) {
 	printf("Client received server update packet from server\n");
-	ServerUpdatePacket packet = ServerUpdatePacket(network_data);
-	packet.printAll();
+	m_serverPacket = new ServerUpdatePacket(data);
+	m_serverPacket->printAll();
 }
 
 void NetworkManager::sendUpdatePacket()
 {
+	if (m_timeSinceLastMessage >= 1000)
+		pingServer();
 	if (!m_stateChanged) {
 		// no update to send
 		return;
@@ -124,5 +138,6 @@ void NetworkManager::sendUpdatePacket()
 	if (sent) {
 		m_updatePacket->clear();
 		m_stateChanged = false;
+		m_timeSinceLastMessage = 0;
 	}
 }

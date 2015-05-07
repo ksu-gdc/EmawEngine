@@ -4,15 +4,14 @@
 ConnectionPacket::ConnectionPacket()
 {
 	m_type = PING_CONNECTION;
-	m_size = sizeof(ConnectionMessage) + sizeof(unsigned int);
+	m_size = sizeof(unsigned int) + sizeof(unsigned int);
 }
 
 ConnectionPacket::ConnectionPacket(char * data) {
-	m_type = PING_CONNECTION;
-	m_size = sizeof(ConnectionMessage) + sizeof(unsigned int);
+	m_size = sizeof(unsigned int) + sizeof(unsigned int);
 
 	char * loc = data;
-	//ignore first unsigned int, it is type
+	//ignore first unsigned int, it is packet type
 	loc += sizeof(unsigned int);
 	memcpy(&m_type, loc, sizeof(unsigned int));
 	loc += sizeof(unsigned int);
@@ -23,7 +22,7 @@ ConnectionPacket::~ConnectionPacket()
 }
 
 char * ConnectionPacket::pack() {
-	char data[sizeof(ConnectionMessage) + sizeof(unsigned int)];
+	char * data = new char[sizeof(unsigned int) + sizeof(unsigned int)];
 	char * loc = data;
 
 	// Add the packet type
@@ -40,6 +39,10 @@ char * ConnectionPacket::pack() {
 
 void ConnectionPacket::setType(ConnectionMessage type) {
 	m_type = type;
+}
+
+ConnectionMessage ConnectionPacket::getType() {
+	return m_type;
 }
 
 int ConnectionPacket::size() {

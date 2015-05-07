@@ -25,6 +25,8 @@ public:
 
 	char * pack();
 	void setType(ConnectionMessage type);
+	ConnectionMessage getType();
+
 	int size();
 
 private:

@@ -91,3 +91,11 @@ void ServerUpdatePacket::printAll() {
 		std::cout << "ID: " << m_players[i].id << "\n";
 	}
 }
+
+ClientState* ServerUpdatePacket::getPlayer() {
+	return &m_mainPlayer;
+}
+
+std::vector<ClientStateMin> ServerUpdatePacket::getOtherPlayers() {
+	return m_players;
+}

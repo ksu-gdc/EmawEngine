@@ -16,11 +16,14 @@ private:
 	int m_clientId;
 	bool m_hasServerUpdate;
 	bool m_stateChanged;
+	float m_timeSinceLastMessage;
 
 	ClientState* m_serverClientState;
 	ClientState* m_currentClientState;
 	ClientNetwork* m_network;
+	ConnectionPacket* m_pingPacket;
 	ClientUpdatePacket* m_updatePacket;
+	ServerUpdatePacket* m_serverPacket;
 
 	void sendUpdatePacket();
 	void pingServer();
@@ -33,9 +36,9 @@ public:
 
 	bool connect();
 	bool hasServerUpdate();
-	void sendClientState(ClientState newState);
-	ClientState* getServerClientState();
-	void update();
+	ClientState* getClientState();
+	std::vector<ClientStateMin> getOtherClientStates();
+	void update(float elapsedTime);
 	void addInput(std::string input);
 };
 

@@ -76,8 +76,11 @@ void Lobby::receiveFromClients()
 
 // Handles a connection packet
 void Lobby::handleConnectionPacket(char * data) {
-	printf("server received init packet from client\n");
 	ConnectionPacket packet = ConnectionPacket(data);
+	if (packet.getType() == INIT_CONNECTION)
+		printf("init packet received");
+	else if (packet.getType() == PING_CONNECTION)
+		printf("ping received");
 }
 
 // Handles a client update packet

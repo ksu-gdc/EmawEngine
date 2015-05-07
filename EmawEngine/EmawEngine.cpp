@@ -226,7 +226,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 				//TEST CODE FOR NETWORK
 				if (inputManager->keyPressed(W))
 					networkManager->addInput("wPressed");
-				networkManager->update();
+				networkManager->update(10);
 				//base2->rotateX(0.0005);
 				//base->rotateY(0.0005);
 			}
