@@ -102,9 +102,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	bool do_cube = false;
 	bool do_pill = false;
-	bool do_monkey = false;
-	bool do_head = false;
 	bool do_cat = false;
+	bool do_ship = false;
 	if (do_cube) {
 		Model* cube = new Model();
 		cube->load("models/obj-models/cube-tex.obj");
@@ -135,7 +134,16 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 		root->addChild(catNode);
 	}
+	if (do_ship) {
+		Model* ship = new Model();
+		ship->load("models/obj-models/SpaceShip_FULL.obj");
+		ship->LoadTexture(gdi.m_Device, "textures\\cat-flipped.png");
 
+		ModelNode* shipNode = new ModelNode(ship);
+		shipNode->setGraphicsDeviceInterface(&gdi);
+
+		root->addChild(shipNode);
+	}
 	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
 	Player* player = new Player();
 
@@ -280,12 +288,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    // using windows size object to create correctly sized window
    // removed thick frame so window is not resizable
    RECT wr = { 0, 0, wind.getWidth(), wind.getHeight() };
-   AdjustWindowRect(&wr, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX, FALSE);
+   AdjustWindowRect(&wr, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, FALSE);
 
    hWnd = CreateWindow(
 	   szWindowClass,
 	   szTitle,
-	   WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,
+	   WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
 	   CW_USEDEFAULT,
 	   0,
 	   wr.right - wr.left,
@@ -324,45 +332,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	switch (message)
 	{
-	// Handles keydown messages - currently used for testing resolution changes
-#pragma region KEYDOWN message
-	case WM_KEYDOWN:
-		switch (wParam)
-		{
-		case 96: // Num-0
-			OutputDebugString(CString("0\n"));
-			OutputDebugString(CString((to_string(wind.getWidth()) + " " + to_string(wind.getHeight()) + "\n").c_str()));
-			break;
-		case 49: // Num-1
-			wind.setSize(hWnd, &gdi, LOW_4_3);
-			OutputDebugString(CString((to_string(wind.getWidth()) + " " + to_string(wind.getHeight()) + "\n").c_str()));
-			break;
-		case 50: // Num-2
-			wind.setSize(hWnd, &gdi, HIGH_4_3);
-			OutputDebugString(CString((to_string(wind.getWidth()) + " " + to_string(wind.getHeight()) + "\n").c_str()));
-			break;
-		case 51: // Num-3
-			wind.setSize(hWnd, &gdi, LOW_16_9);
-			OutputDebugString(CString((to_string(wind.getWidth()) + " " + to_string(wind.getHeight()) + "\n").c_str()));
-			break;
-		case 52: // Num-4
-			wind.setSize(hWnd, &gdi, HIGH_16_9);
-			OutputDebugString(CString((to_string(wind.getWidth()) + " " + to_string(wind.getHeight()) + "\n").c_str()));
-			break;
-		case 70: // 'f' keypress
-			wind.setWindowed(hWnd, &gdi, FALSE);
-			OutputDebugString(CString("fullscreen mode\n"));
-			break;
-		case 90: // 'z' keypress
-			wind.setWindowed(hWnd, &gdi, TRUE);
-			OutputDebugString(CString("windowed mode\n"));
-			break;
-		default:
-			OutputDebugString(CString((to_string(wParam) + "\n").c_str()));
-			break;
-		}
-		break;
-#pragma endregion
 	case WM_COMMAND:
 		wmId    = LOWORD(wParam);
 		wmEvent = HIWORD(wParam);
