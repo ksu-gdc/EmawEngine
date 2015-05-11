@@ -120,7 +120,7 @@ void VoxelMap::PopulateMap()
 	{
 		for (int b = 0; b < map.size; b++)
 		{
-			map.grid[a][b] = CreateChunk(a, b, 10, 5);
+			map.grid[a][b] = CreateChunk(a, b, 2, 5);
 		}
 	}
 }
@@ -221,6 +221,7 @@ Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, int freq, int floor)
 	{
 		pair<int, int> coords = MapToVirtualCoord(coord_x, coord_y);
 		short height[CHUNK_SIZE][CHUNK_SIZE];
+		int offset = INT_MAX / 2;
 		Chunk ch = {
 			coord_x,
 			coord_y
@@ -234,7 +235,7 @@ Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, int freq, int floor)
 		{
 			for (int y = 0; y < CHUNK_SIZE; y++)
 			{
-				height[x][y] = floor + (Turbulence((INT_MAX / 2) + (coords.first * CHUNK_SIZE) + x, (INT_MAX / 2) + (coords.second * CHUNK_SIZE) + y, 64) / freq);
+				height[x][y] = floor + (Turbulence(offset + (coords.first * CHUNK_SIZE) + x, offset + (coords.second * CHUNK_SIZE) + y, 64) / freq);
 			}
 		}
 
