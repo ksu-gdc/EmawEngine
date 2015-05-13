@@ -7,7 +7,7 @@ Player::Player(VoxelMap* worldGenerator)
 {
 	input = InputManager::getInstance();
 
-	speed = 0.05;
+	speed = 0.01;
 	fakeRadius = 100;
 
 	_position->x = 0;
@@ -38,9 +38,9 @@ bool Player::hasCollision()
 	Vector* point = new Vector;
 	for (int i = 0; i < CHUNK_SIZE; i++) {
 		for (int j = 0; j < CHUNK_SIZE; j++) {
-			point->x = i + pos.x;
+			point->x = i + float((int(pos.x)/CHUNK_SIZE))*CHUNK_SIZE;
 			point->y = chunk->height_map[i][j];
-			point->z = j + pos.z;
+			point->z = j + float((int(pos.z)/CHUNK_SIZE))*CHUNK_SIZE;
 			if ((pos.x - point->x) < 1 && (pos.x - point->x) > -1) {
 				if ((pos.y - point->y) < 2 && (pos.y - point->y) > -1) {
 					if ((pos.z - point->z) < 1 && (pos.z - point->z) > -1) return true;
@@ -84,6 +84,10 @@ void Player::updatePlayer(HWND hWnd)
 	if (!test)
 	{
 		yvel -= speed;
+	}
+	else
+	{
+		yvel += speed;
 	}
 
 	//get change in mouse position from last update.
@@ -131,9 +135,8 @@ void Player::updatePlayer(HWND hWnd)
 
 	_velocity->x = DirectX::XMVectorGetByIndex(velocity, 0);
 	// yvel is added here because jumping should move you straight up no matter what.
-	_velocity->y = DirectX::XMVectorGetByIndex(velocity, 1) +yvel;
+	_velocity->y = yvel;
 	_velocity->z = DirectX::XMVectorGetByIndex(velocity, 2);
-	
 
 	update(0);
 	passToCamera();
