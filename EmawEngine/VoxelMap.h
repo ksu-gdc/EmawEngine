@@ -45,21 +45,18 @@ public:
 	VoxelMap(string, string, int);
 	bool SaveMap();
 	void PopulateMap();
-	bool LoadChunk(int, int);
-	void SaveChunk(Chunk);
-	Chunk CreateChunk(int, int, int, int);
+	void SetMapCenter(int, int);
+	Chunk LoadChunk(int, int);
+	bool SaveChunk(Chunk);
+	Chunk CreateChunk(int, int, float, int);
 	void CreateChunk(Chunk);
 	Chunk* GetChunk(int, int);
-	short GetChunkValue(int, int, int, int, int);
 	~VoxelMap();
 
 private:
 	vector<string> Parse(string, char);
 	void MakeDirectory(string);
 	bool FileExists(string);
-	fstream GetFileHandle(string, ios::openmode);
-	pair<int, int> MapToRealCoord(int, int);
-	pair<int, int> MapToVirtualCoord(int, int);
 	void GenerateNoise();
 	double SmoothNoise(double, double);
 	double Turbulence(double, double, double);

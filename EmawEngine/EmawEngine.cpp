@@ -80,13 +80,14 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	// TEST CODE!!!
 	// =========================================================================
 	VoxelMap* worldGenerator = new VoxelMap("testmap","blarghle", 16);
-	
 
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
 	bool renderVoxels = true;
-	if (renderVoxels) {
+	if (renderVoxels) 
+	{
 		VoxelChunkNode* world[16][16];
+
 		for (int i = 0; i < worldGenerator->map.size; i++)
 		{
 			for (int j = 0; j < worldGenerator->map.size; j++)
@@ -214,7 +215,6 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 				//base2->rotateX(0.0005);
 				//base->rotateY(0.0005);
 			}
-
 
 			// TODO: Update
 			gdi.NextFrame();
