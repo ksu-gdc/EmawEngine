@@ -12,7 +12,7 @@
 VoxelMap::VoxelMap(string dir)
 {
 	Chunk blank;
-	fstream file(map.directory + "map.dat", ios::in);
+	fstream file(map.directory + "/map.dat", ios::in);
 
 	memset(blank.chunk, 0, sizeof(blank.chunk));
 
@@ -28,13 +28,9 @@ VoxelMap::VoxelMap(string dir)
 			{
 				map.seed = stoi(tokens[1]);
 			}
-			else if (tokens[0] == "Width")
+			else if (tokens[0] == "Size")
 			{
-				map.width = abs(atoi(tokens[1].c_str()));
-			}
-			else if (tokens[0] == "Height")
-			{
-				map.height = abs(atoi(tokens[1].c_str()));
+				map.size = abs(atoi(tokens[1].c_str()));
 			}
 			else if (tokens[0] == "Center_X")
 			{
@@ -48,15 +44,14 @@ VoxelMap::VoxelMap(string dir)
 
 		file.close();
 
-		map.offset_X = floor(map.width / 2);
-		map.offset_Y = floor(map.height / 2);
-		map.grid = vector<vector<Chunk>>(map.width, vector<Chunk>(map.height, blank));
+		map.offset = floor(map.size / 2);
+		map.grid = vector<vector<Chunk>>(map.size, vector<Chunk>(map.size, blank));
 
 		PopulateMap();
 	}
 	else
 	{
-		VoxelMap(dir, dir, 5, 5);
+		VoxelMap(dir, dir, 16);
 	}
 }
 
@@ -67,7 +62,7 @@ VoxelMap::VoxelMap(string dir)
 *                x : The width of the map.
 *                y : The height of the map.
 */
-VoxelMap::VoxelMap(string dir, string seed, int x, int y)
+VoxelMap::VoxelMap(string dir, string seed, int size)
 {
 	Chunk blank;
 	hash<string> hash;
@@ -77,15 +72,14 @@ VoxelMap::VoxelMap(string dir, string seed, int x, int y)
 	map = {
 		dir,
 		hash(seed),
-		x,
-		y,
-		floor(x / 2),
-		floor(y / 2),
+		size,
+		floor(size / 2),
 		0,
 		0,
-		vector<vector<Chunk>>(x, vector<Chunk>(y, blank))
+		vector<vector<Chunk>>(size, vector<Chunk>(size, blank))
 	};
 
+	MakeDirectory(dir + "/");
 	SaveMap();
 	PopulateMap();
 }
@@ -98,14 +92,13 @@ VoxelMap::VoxelMap(string dir, string seed, int x, int y)
 */
 bool VoxelMap::SaveMap()
 {
-	fstream file(map.directory + "map.dat", ios::out | ios::trunc);
+	fstream file(map.directory + "/map.dat", ios::out | ios::trunc);
 
 	if (file.good())
 	{
 		file << "Seed=" << map.seed << endl;
 		file << "Directory=" << map.directory << endl;
-		file << "Width=" << map.width << endl;
-		file << "Height=" << map.height << endl;
+		file << "Size=" << map.size << endl;
 		file << "Center_X=" << map.center_X << endl;
 		file << "Center_Y=" << map.center_Y << endl;
 
@@ -123,11 +116,11 @@ bool VoxelMap::SaveMap()
 */
 void VoxelMap::PopulateMap()
 {
-	for (int a = 0; a < map.width; a++)
+	for (int a = 0; a < map.size; a++)
 	{
-		for (int b = 0; b < map.height; b++)
+		for (int b = 0; b < map.size; b++)
 		{
-			map.grid[a][b] = CreateChunk(a, b, 10, 5);
+			map.grid[a][b] = CreateChunk(a, b, 2, 5);
 		}
 	}
 }
@@ -142,7 +135,7 @@ bool VoxelMap::LoadChunk(int coord_x, int coord_y)
 {
 	pair<int, int> coords = MapToVirtualCoord(coord_x, coord_y);
 
-	if (coord_x < map.width && coord_y < map.height)
+	if (coord_x < map.size && coord_y < map.size)
 	{
 		Chunk vr = map.grid[coord_x][coord_y];
 		string line, name = "r." + to_string(coords.first) + "." + to_string(coords.second) + ".hmap";
@@ -228,6 +221,7 @@ Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, int freq, int floor)
 	{
 		pair<int, int> coords = MapToVirtualCoord(coord_x, coord_y);
 		short height[CHUNK_SIZE][CHUNK_SIZE];
+		int offset = INT_MAX / 2;
 		Chunk ch = {
 			coord_x,
 			coord_y
@@ -241,7 +235,7 @@ Chunk VoxelMap::CreateChunk(int coord_x, int coord_y, int freq, int floor)
 		{
 			for (int y = 0; y < CHUNK_SIZE; y++)
 			{
-				height[x][y] = floor + (Turbulence((INT_MAX / 2) + (coords.first * CHUNK_SIZE) + x, (INT_MAX / 2) + (coords.second * CHUNK_SIZE) + y, 64) / freq);
+				height[x][y] = floor + (Turbulence(offset + (coords.first * CHUNK_SIZE) + x, offset + (coords.second * CHUNK_SIZE) + y, 64) / freq);
 			}
 		}
 
@@ -291,7 +285,7 @@ void VoxelMap::CreateChunk(Chunk ch)
 */
 Chunk* VoxelMap::GetChunk(int grid_x, int grid_y)
 {
-	if ((grid_x > -1 && grid_x < map.width) && (grid_y > -1 && grid_y < map.height))
+	if ((grid_x > -1 && grid_x < map.size) && (grid_y > -1 && grid_y < map.size))
 	{
 		return &map.grid[grid_x][grid_y];
 	}
@@ -308,7 +302,7 @@ Chunk* VoxelMap::GetChunk(int grid_x, int grid_y)
 */
 short VoxelMap::GetChunkValue(int grid_x, int grid_y, int chunk_x, int chunk_y, int chunk_z)
 {
-	if ((grid_x > -1 && grid_x < map.width) && (grid_y > -1 && grid_y < map.height))
+	if ((grid_x > -1 && grid_x < map.size) && (grid_y > -1 && grid_y < map.size))
 	{
 		Chunk ch = map.grid[grid_x][grid_y];
 
@@ -427,7 +421,7 @@ fstream VoxelMap::GetFileHandle(string dir, ios::openmode modes)
 */
 pair<int, int> VoxelMap::MapToRealCoord(int coord_x, int coord_y)
 {
-	pair<int, int> coords(coord_x + map.offset_X, coord_y + map.offset_Y);
+	pair<int, int> coords(coord_x + map.offset, coord_y + map.offset);
 	return coords;
 }
 
@@ -440,7 +434,7 @@ pair<int, int> VoxelMap::MapToRealCoord(int coord_x, int coord_y)
 */
 pair<int, int> VoxelMap::MapToVirtualCoord(int coord_x, int coord_y)
 {
-	pair<int, int> coords(coord_x - map.offset_X, coord_y - map.offset_Y);
+	pair<int, int> coords(coord_x - map.offset, coord_y - map.offset);
 	return coords;
 }
 

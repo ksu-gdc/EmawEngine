@@ -7,7 +7,7 @@ Player::Player(VoxelMap* worldGenerator)
 {
 	input = InputManager::getInstance();
 
-	speed = 0.01;
+	speed = 0.05;
 	fakeRadius = 100;
 
 	_position->x = 0;

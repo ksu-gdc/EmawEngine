@@ -12,7 +12,6 @@ public:
 	void* load(std::string);
 	void* getData();
 	bool unload();
-	void* createMode(std::vector<VERTEX>);
 	std::vector<VERTEX> getVertexBuffer();
 	void LoadTexture(ID3D11Device*, string);
 	ID3D11ShaderResourceView* GetTexture();
