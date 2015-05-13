@@ -10,8 +10,8 @@ VoxelChunkNode::VoxelChunkNode(int inx, int iny)
 	voxSize = 0.5f;
 	memset(ChunkBuffer, 0, sizeof(VERTEX) * 65025);
 	transform = new Transform();
-	float x = gridx * (2 * voxSize) * CHUNK_SIZE-1;
-	float z = gridy * (2 * voxSize) * CHUNK_SIZE-1;
+	float x = gridx * (2 * voxSize) * CHUNK_SIZE;
+	float z = gridy * (2 * voxSize) * CHUNK_SIZE;
 	float y = 0;
 	transform->translate(x, y, z);
 	length = 0;

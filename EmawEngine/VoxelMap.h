@@ -15,7 +15,7 @@ using namespace std;
 struct Chunk {
 	int coord_X, coord_Y;
 	short height_map[CHUNK_SIZE][CHUNK_SIZE];
-	short chunk[CHUNK_SIZE][CHUNK_SIZE][CHUNK_HEIGHT];
+	short chunk[CHUNK_SIZE][CHUNK_HEIGHT][CHUNK_SIZE];
 };
 
 struct Grid {

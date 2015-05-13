@@ -61,8 +61,8 @@ bool CollisionObject::hasCollision(CollisionObject b, float gameTime){
 
 bool CollisionObject::hasCollisionX(CollisionObject b, float gameTime){
 
-	float newCenterA = _position->x + m_GameObject->getVelocity()->x * gameTime;
-	float newCenterB = b._position->x + b.m_GameObject->getVelocity()->x * gameTime;
+	float newCenterA = _position->x;
+	float newCenterB = b._position->x;
 
 	float xminA = newCenterA - (lengthX / 2);
 	float xmaxA = newCenterA + (lengthX / 2);
@@ -76,8 +76,8 @@ bool CollisionObject::hasCollisionX(CollisionObject b, float gameTime){
 
 bool CollisionObject::hasCollisionY(CollisionObject b, float gameTime){
 
-	float newCenterA = _position->y + m_GameObject->getVelocity()->y * gameTime;
-	float newCenterB = b._position->y + b.m_GameObject->getVelocity()->y * gameTime;
+	float newCenterA = _position->y;
+	float newCenterB = b._position->y;
 
 	float yminA = newCenterA - (lengthY / 2);
 	float ymaxA = newCenterA + (lengthY / 2);
@@ -91,8 +91,8 @@ bool CollisionObject::hasCollisionY(CollisionObject b, float gameTime){
 
 bool CollisionObject::hasCollisionZ(CollisionObject b, float gameTime){
 
-	float newCenterA = _position->z + m_GameObject->getVelocity()->z * gameTime;
-	float newCenterB = b._position->z + b.m_GameObject->getVelocity()->z * gameTime;
+	float newCenterA = _position->z;
+	float newCenterB = b._position->z;
 
 	float zminA = newCenterA - (lengthZ / 2);
 	float zmaxA = newCenterA + (lengthZ / 2);
