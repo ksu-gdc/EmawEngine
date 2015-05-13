@@ -95,12 +95,15 @@
     <ClInclude Include="AudioEasyAccess.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collidable.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="CollisionObject.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="MathCore.h" />
     <ClInclude Include="ModelNode.h" />
     <ClInclude Include="GameNode.h" />
+    <ClInclude Include="MovingCollidable.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="SceneGraphNode.h" />
@@ -129,6 +132,7 @@
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexShader.h" />
     <ClInclude Include="VoxelChunkNode.h" />
+    <ClInclude Include="Wall2D.h" />
     <ClInclude Include="WindowSize.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureShader.h" />
@@ -148,6 +152,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="AudioRenderer.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="CollisionObject.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="MathCore.cpp" />
@@ -163,6 +168,7 @@
     <ClCompile Include="KeyState.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="MouseState.cpp" />
+    <ClCompile Include="MovingCollidable.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ShaderAsset.cpp" />
     <ClCompile Include="Transform.cpp" />
@@ -172,6 +178,7 @@
     <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="SoundSource.cpp" />
     <ClCompile Include="VoxelChunkNode.cpp" />
+    <ClCompile Include="Wall2D.cpp" />
     <ClCompile Include="WindowSize.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Position.cpp" />

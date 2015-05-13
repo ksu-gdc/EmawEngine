@@ -115,6 +115,15 @@
     <ClCompile Include="Vertex.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="MovingCollidable.cpp">
+      <Filter>Collision\Collidables</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall2D.cpp">
+      <Filter>Collision\Collidables</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -254,6 +263,18 @@
     <ClInclude Include="Vertex.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Collidable.h">
+      <Filter>Collision\Collidables</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingCollidable.h">
+      <Filter>Collision\Collidables</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall2D.h">
+      <Filter>Collision\Collidables</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
@@ -304,6 +325,12 @@
     </Filter>
     <Filter Include="Math">
       <UniqueIdentifier>{ef1a8c80-177d-4c68-be4f-4b9c53da56da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{5251ba5a-3d0f-4f4a-8a0b-5768e2a29b6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision\Collidables">
+      <UniqueIdentifier>{105a608d-4dbf-48c4-ab4f-cd2e8aa4516d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

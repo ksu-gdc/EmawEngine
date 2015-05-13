@@ -8,9 +8,14 @@ Player::Player()
 	speed = 0.008;
 	fakeRadius = 600;
 
-	_position->x = 0;
-	_position->y = 0;
-	_position->z = 3;
+	//_position->x = 0;
+	//_position->y = 0;
+	//_position->z = 3;
+
+	_position->x = -2.5f;
+	_position->y = -0.8f;
+	_position->z = 8;
+	std::memcpy(_lastPosition, _position, sizeof(Vector));
 	_orientation->x = M_PI;
 	_orientation->y = 0;
 	_orientation->z = 0;
