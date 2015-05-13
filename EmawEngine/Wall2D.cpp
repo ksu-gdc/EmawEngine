@@ -9,6 +9,7 @@ Wall2D::Wall2D(float x1, float y1, float x2, float y2){
 	yb = y2;
 }
 
+// Computing collision with MovingCollidable
 // Using Cramer's rule for equation solving
 // http://en.wikipedia.org/wiki/Cramer%27s_rule
 bool Wall2D::collide(MovingCollidable * mc){

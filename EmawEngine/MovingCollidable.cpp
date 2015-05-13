@@ -6,6 +6,8 @@ MovingCollidable::MovingCollidable(){
 
 }
 
+// Computing collision with another moving collidable
+// Not tested since we have just one moving collidable
 bool MovingCollidable::collide(MovingCollidable * mc){
 	float x1 = getX();
 	float y1 = getY();

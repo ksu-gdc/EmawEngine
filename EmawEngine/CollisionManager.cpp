@@ -40,22 +40,29 @@ CollisionManager* CollisionManager::getInstance() {
 	return instance;
 }
 
+// Adding moving collidable
 void CollisionManager::addMovingCollidable(MovingCollidable* mc){
 	movingCollidables.push_back(mc);
 }
 
+// Removing moving collidable
 void CollisionManager::removeMovingCollidable(MovingCollidable* mc){
 	movingCollidables.remove(mc);
 }
 
+// Checking of collisions for single moving collidable
+// Collisions between moving collidables are skipped
 bool CollisionManager::checkCollisions(){
 	return checkXZCollisions() || checkYCollisions();
 }
 
+// Checking of collisions for all moving collidables
+// Collisions between moving collidables are skipped
 bool CollisionManager::checkCollisions(MovingCollidable* mc){
 	return checkXZCollisions(mc) || checkYCollisions(mc);
 }
 
+// Checking of wall collisions for single moving collidable
 bool CollisionManager::checkXZCollisions(MovingCollidable* mc){
 	for (int j = 0; j < xzCounter; j++){
 		if (xzWalls[j]->collide(mc)){
@@ -65,6 +72,7 @@ bool CollisionManager::checkXZCollisions(MovingCollidable* mc){
 	return false;
 }
 
+// Checking of wall collisions for all moving collidables
 bool CollisionManager::checkXZCollisions(){
 	bool res = false;
 	list<MovingCollidable*>::iterator i;
@@ -76,6 +84,7 @@ bool CollisionManager::checkXZCollisions(){
 	return res;
 }
 
+// Checking of floor/ceiling collisions for single moving collidable
 bool CollisionManager::checkYCollisions(MovingCollidable* mc){
 	if (mc->getY() >= ceiling){
 		mc->pushBack(mc->getX(), mc->getLastY()-0.0001f, mc->getZ());
@@ -88,6 +97,7 @@ bool CollisionManager::checkYCollisions(MovingCollidable* mc){
 	return false;
 }
 
+// Checking of floor/ceiling collisions for all moving collidables
 bool CollisionManager::checkYCollisions(){
 	bool res = false;
 	list<MovingCollidable*>::iterator i;
@@ -99,11 +109,13 @@ bool CollisionManager::checkYCollisions(){
 	return res;
 }
 
+// Checking of collisions between moving collidables
 bool CollisionManager::checkMovingCollisions(){
 	while (checkMovingCollisionsInner());
 	return false;
 }
 
+// Checking collisions between moving collidables, supporting inner function
 bool CollisionManager::checkMovingCollisionsInner(){
 	bool res = false;
 	list<MovingCollidable*>::iterator i;
@@ -116,6 +128,7 @@ bool CollisionManager::checkMovingCollisionsInner(){
 	return res;
 }
 
+// Loading of static collision setting for level
 void CollisionManager::loadLevel(int id){
 	float a, b, c, d;
 
@@ -123,9 +136,15 @@ void CollisionManager::loadLevel(int id){
 
 	fstream xzfile("collision/level" + to_string(id) + ".txt", ios_base::in);
 	if (xzfile.is_open()){
+		for (int i = 0; i < xzCounter; i++){
+			delete xzWalls[i];
+		}
+		delete[] xzWalls;
+		
 		xzfile >> ceiling;
 		xzfile >> floor;
 		xzfile >> xzCounter;
+
 		xzWalls = new Wall2D*[xzCounter];
 		for (int i = 0; i < xzCounter; i++){
 			xzfile >> a;
