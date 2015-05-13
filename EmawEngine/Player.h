@@ -1,15 +1,18 @@
 #pragma once
 #include "GameObject.h"
 #include "InputManager.h"
+#include "ModelNode.h"
 class Player :
 	public GameObject
 {
 public:
-	Player();
+	Player(GraphicsDeviceInterface* gdi);
 	~Player();
 	void updatePlayer(HWND hWnd);
 	void passToCamera();
 	Camera* getCamera();
+	Model* model;
+	ModelNode* node;
 
 private:
 	Camera* fpsCamera;

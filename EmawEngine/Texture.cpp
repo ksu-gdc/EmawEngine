@@ -44,14 +44,12 @@ Texture::~Texture()
 * You can create a new texture of any size and format and then cut and 
 * paste your image or other format texture onto it and save it as a .dds file. 
 *
-* @param device		The Direct3D device
 * @param filename	The name of the file we are loading (and location if its not in the same folder as the exe)
 *
-* @return true if the file loaded, false otherwise
 */
 void* Texture::load(std::string str)
 {
-	HRESULT result; 
+	HRESULT result;
 	std::wstring stemp = std::wstring(str.begin(), str.end());
 	LPCWSTR filename = (LPCWSTR)&stemp[0];
 	//Load texture
