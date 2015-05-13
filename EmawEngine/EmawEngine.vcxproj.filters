@@ -121,6 +121,15 @@
     <ClCompile Include="NetworkManager.cpp">
       <Filter>Networking</Filter>
     </ClCompile>
+    <ClCompile Include="MovingCollidable.cpp">
+      <Filter>Collision\Collidables</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall2D.cpp">
+      <Filter>Collision\Collidables</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -266,6 +275,18 @@
     <ClInclude Include="NetworkManager.h">
       <Filter>Networking</Filter>
     </ClInclude>
+    <ClInclude Include="Collidable.h">
+      <Filter>Collision\Collidables</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingCollidable.h">
+      <Filter>Collision\Collidables</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall2D.h">
+      <Filter>Collision\Collidables</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
@@ -319,6 +340,12 @@
     </Filter>
     <Filter Include="Networking">
       <UniqueIdentifier>{023680e9-605c-413d-a65d-ce959ee56436}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{5251ba5a-3d0f-4f4a-8a0b-5768e2a29b6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision\Collidables">
+      <UniqueIdentifier>{105a608d-4dbf-48c4-ab4f-cd2e8aa4516d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

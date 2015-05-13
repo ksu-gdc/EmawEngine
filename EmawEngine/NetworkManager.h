@@ -26,6 +26,7 @@ private:
 	ServerUpdatePacket* m_serverPacket;
 
 	void sendUpdatePacket();
+
 	void pingServer();
 	
 	void handleConnetionPacket(char * data);
