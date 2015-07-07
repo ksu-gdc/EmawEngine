@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "VoxelMap.h"
 #include "CollisionObject.h"
+#include "ModelNode.h"
 
 class Player :
 	public GameObject
@@ -11,12 +12,14 @@ public:
 	//VoxelCollision* voxelCollider;
 	VoxelMap* map;
 	CollisionObject collisionObject;
-	Player(VoxelMap* worldGenerator);
+	Player(GraphicsDeviceInterface*, VoxelMap*);
 	~Player();
 	bool hasCollision();
-	void updatePlayer(HWND hWnd);
+	void updatePlayer(HWND);
 	void passToCamera();
 	Camera* getCamera();
+	Model* model;
+	ModelNode* node;
 
 private:
 	Camera* fpsCamera;

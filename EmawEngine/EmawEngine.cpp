@@ -7,6 +7,7 @@
 #include "FrameCounter.h"
 #include "Test.h"
 #include "AssetManager.h"
+#include "NetworkManager.h"
 #include "GameNode.h"
 #include "ModelNode.h"
 #include "InputManager.h"
@@ -14,6 +15,8 @@
 #include "AudioEasyAccess.h"
 #include <DirectXMath.h>
 #include "VoxelCollision.h" //TEMP
+#include "CollisionManager.h"
+#include <string>
 #define MAX_LOADSTRING 100
 
 // Global Variables:
@@ -73,6 +76,10 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	(AudioRenderer::Instance())->setSoundSystem(am);
 	//AudioEasyAccess::getInstance()->playMusic("background", "music/Tictac_-_Estrade.mp3");
 
+	// Network Initialization
+	NetworkManager* networkManager = NetworkManager::getInstance();
+	networkManager->connect();
+
 	// make mouse invisible
 	ShowCursor(false);
 
@@ -107,7 +114,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	if (do_cube) {
 		Model* cube = new Model();
 		cube->load("models/obj-models/cube-tex.obj");
-		cube->LoadTexture(gdi.m_Device, "textures\\x.png");
+		cube->LoadTexture(gdi.m_Device, "textures/x.png");
 
 		ModelNode* cubeNode = new ModelNode(cube);
 		cubeNode->setGraphicsDeviceInterface(&gdi);
@@ -117,7 +124,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	if (do_pill) {
 		Model* cap = new Model();
 		cap->load("models/obj-models/capsule.obj");
-		cap->LoadTexture(gdi.m_Device, "textures\\capsule0.jpg");
+		cap->LoadTexture(gdi.m_Device, "textures/capsule0.jpg");
 
 		ModelNode* capNode = new ModelNode(cap);
 		capNode->setGraphicsDeviceInterface(&gdi);
@@ -127,7 +134,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	if (do_cat) {
 		Model* cat = new Model();
 		cat->load("models/obj-models/cat.obj");
-		cat->LoadTexture(gdi.m_Device, "textures\\cat-flipped.png");
+		cat->LoadTexture(gdi.m_Device, "textures/cat-flipped.png");
 
 		ModelNode* catNode = new ModelNode(cat);
 		catNode->setGraphicsDeviceInterface(&gdi);
@@ -137,7 +144,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	if (do_ship) {
 		Model* ship = new Model();
 		ship->load("models/obj-models/SpaceShip_FULL.obj");
-		ship->LoadTexture(gdi.m_Device, "textures\\cat-flipped.png");
+		ship->LoadTexture(gdi.m_Device, "textures/cat-flipped.png");
 
 		ModelNode* shipNode = new ModelNode(ship);
 		shipNode->setGraphicsDeviceInterface(&gdi);
@@ -145,7 +152,17 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		root->addChild(shipNode);
 	}
 	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
-	Player* player = new Player(worldGenerator);
+	Player* player = new Player(&gdi, worldGenerator);
+
+	//for rendering catgun and loading the collision map for the spaceship.
+	/*
+	Player* player = new Player(&gdi);
+	
+	root->addChild(player->node);
+
+	CollisionManager::getInstance()->addMovingCollidable(player);
+	CollisionManager::getInstance()->loadLevel(1);
+	*/
 
 	gdi.SetSceneGraphRoot(root);
 	gdi.SetCamera(player->getCamera());
@@ -220,7 +237,13 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 				//base->resetTransformMatrix();
 				player->updatePlayer(hWnd);
 				root->update(identity->getTransformMatrix());
+				
+				//TEST CODE FOR NETWORK
+				if (inputManager->keyPressed(W))
+					networkManager->addInput("wPressed");
+				networkManager->update(10);
 
+				CollisionManager::getInstance()->checkCollisions();
 				//base2->rotateX(0.0005);
 				//base->rotateY(0.0005);
 			}
@@ -231,8 +254,12 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 			// Update frame counter
 			fc.Update();
+			Vector * v = player->getPosition();
+			Vector * v2 = player->getLastPosition();
+			string tes = std::to_string(v->x) + " " + std::to_string(v->y) + " " + std::to_string(v->z) + " " + std::to_string(v2->x) + " " + std::to_string(v2->y) + " " + std::to_string(v2->z);
+			wstring te = std::wstring(tes.begin(), tes.end());
 			wstring test = fc.GetFps();
-			SetWindowText(hWnd, (LPCWSTR)&test[0]);
+			SetWindowText(hWnd, (LPCWSTR)&te[0]);
 
 			// Update the input
 			inputManager->update();

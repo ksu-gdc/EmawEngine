@@ -3,21 +3,30 @@
 #include "InputManager.h"
 #include "VoxelCollision.h"
 
-Player::Player(VoxelMap* worldGenerator)
+Player::Player(GraphicsDeviceInterface* gdi, VoxelMap* worldGenerator)
 {
 	input = InputManager::getInstance();
 
 	speed = 0.01;
 	fakeRadius = 100;
 
-	_position->x = 0;
-	_position->y = 80;
-	_position->z = 3;
+	_position->x = 20;
+	_position->y = 39;
+	_position->z = 8;
+	std::memcpy(_lastPosition, _position, sizeof(Vector));
+
 	_orientation->x = M_PI;
 	_orientation->y = 0;
 	_orientation->z = 0;
 	fpsCamera = new Camera(_position, _orientation);
 	map = worldGenerator;//TEMP
+
+	model = new Model();
+	model->load("models/obj-models/cat.obj");
+	model->LoadTexture(gdi->m_Device, "textures/cat-flipped.png");
+
+	node = new ModelNode(model);
+	node->setGraphicsDeviceInterface(gdi);
 
 	// these must match the values in MouseState.cpp
 	// todo: make both of these reference the same constant
@@ -137,6 +146,12 @@ void Player::updatePlayer(HWND hWnd)
 	// yvel is added here because jumping should move you straight up no matter what.
 	_velocity->y = yvel;
 	_velocity->z = DirectX::XMVectorGetByIndex(velocity, 2);
+
+	// update scene graph node
+	float side_gun_offset = 0.5;
+	printf("%f\n", _orientation->x);
+	node->setPosition(_position->x + side_gun_offset*cos(_orientation->x), _position->y - 0.9, _position->z - side_gun_offset*sin(_orientation->x));
+	node->setRotation(_orientation->y, _orientation->x, _orientation->z);
 
 	update(0);
 	passToCamera();
