@@ -15,7 +15,7 @@ public:
 	Player(GraphicsDeviceInterface*, VoxelMap*);
 	~Player();
 	bool hasCollision();
-	void updatePlayer(HWND);
+	void updatePlayer(HWND, DWORD);
 	void passToCamera();
 	Camera* getCamera();
 	Model* model;

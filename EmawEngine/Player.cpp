@@ -7,7 +7,7 @@ Player::Player(GraphicsDeviceInterface* gdi, VoxelMap* worldGenerator)
 {
 	input = InputManager::getInstance();
 
-	speed = 0.01;
+	speed = 10;
 	fakeRadius = 100;
 
 	_position->x = 20;
@@ -60,44 +60,45 @@ bool Player::hasCollision()
 	return false;
 }
 
-void Player::updatePlayer(HWND hWnd)
+void Player::updatePlayer(HWND hWnd, DWORD elapsedTime)
 {
+	float eTinSeconds = elapsedTime / (float)1000;
 	float zvel = 0;
 	float xvel = 0;
 	float yvel = 0;
 	bool test = hasCollision();
 	if (input->keyDown(Key::W))
 	{
-		zvel += speed;
+		zvel += speed * eTinSeconds;
 	}
 	if (input->keyDown(Key::S))
 	{
-		zvel -= speed;
+		zvel -= speed * eTinSeconds;
 	}
 	if (input->keyDown(Key::A))
 	{
-		xvel -= speed;
+		xvel -= speed * eTinSeconds;
 	}
 	if (input->keyDown(Key::D))
 	{
-		xvel += speed;
+		xvel += speed * eTinSeconds;
 	}
 	if (input->keyDown(Key::Space))
 	{
-		yvel += 2*speed;
+		yvel += 2 * speed * eTinSeconds;
 	}
 	if (input->keyDown(Key::Ctrl) && !test)
 	{
-		yvel -= speed;
+		yvel -= speed * eTinSeconds;
 	}
-	if (!test)
-	{
-		yvel -= speed;
-	}
-	else
-	{
-		yvel += speed;
-	}
+//	if (!test)
+//	{
+//		yvel -= speed * elapsedTime;
+//	}
+//	else
+//	{
+//		yvel += speed * elapsedTime;
+//	}
 
 	//get change in mouse position from last update.
 	curPos = input->getMousePos();

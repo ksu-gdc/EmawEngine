@@ -154,11 +154,12 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
 	Player* player = new Player(&gdi, worldGenerator);
 
+	root->addChild(player->node);
 	//for rendering catgun and loading the collision map for the spaceship.
 	/*
 	Player* player = new Player(&gdi);
 	
-	root->addChild(player->node);
+	
 
 	CollisionManager::getInstance()->addMovingCollidable(player);
 	CollisionManager::getInstance()->loadLevel(1);
@@ -235,7 +236,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 				
 			} else {
 				//base->resetTransformMatrix();
-				player->updatePlayer(hWnd);
+				player->updatePlayer(hWnd, fc.GetElapsedFrameTime());
 				root->update(identity->getTransformMatrix());
 				
 				//TEST CODE FOR NETWORK
@@ -259,7 +260,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 			string tes = std::to_string(v->x) + " " + std::to_string(v->y) + " " + std::to_string(v->z) + " " + std::to_string(v2->x) + " " + std::to_string(v2->y) + " " + std::to_string(v2->z);
 			wstring te = std::wstring(tes.begin(), tes.end());
 			wstring test = fc.GetFps();
-			SetWindowText(hWnd, (LPCWSTR)&te[0]);
+			SetWindowText(hWnd, (LPCWSTR)&test[0]);
 
 			// Update the input
 			inputManager->update();
