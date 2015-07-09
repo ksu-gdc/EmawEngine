@@ -26,6 +26,8 @@ public:
 	void NextFrame();
 	void InitPipeline();
 	void InitGraphics();
+	ShaderStruct* loadShaders(std::string str);
+	void setShaders(ShaderStruct*);
 	bool Update(ID3D11Buffer*, VERTEX*, int);
 	bool Update(ID3D11Buffer*, std::vector<VERTEX>*);
 	void VoxelPipeline(ID3D11Buffer*, VERTEX*, int, D3DXMATRIX*, ID3D11ShaderResourceView*);

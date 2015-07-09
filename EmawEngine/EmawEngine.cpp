@@ -10,6 +10,7 @@
 #include "NetworkManager.h"
 #include "GameNode.h"
 #include "ModelNode.h"
+#include "gdiPrimerNode.h"
 #include "InputManager.h"
 #include "VoxelMap.h"
 #include "AudioEasyAccess.h"
@@ -91,6 +92,14 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	GameNode* root = new GameNode();
 	root->setGraphicsDeviceInterface(&gdi);
+	gdiPrimerNode* voxelPrimer = new gdiPrimerNode();
+	voxelPrimer->setGraphicsDeviceInterface(&gdi);
+	voxelPrimer->loadShader("VoxShader.geo");
+	root->addChild(voxelPrimer);
+//	gdiPrimerNode* modelPrimer = new gdiPrimerNode();
+//	modelPrimer->setGraphicsDeviceInterface(&gdi);
+//	modelPrimer->loadShader("Shaders.col");
+//	root->addChild(modelPrimer);
 	bool renderVoxels = true;
 	if (renderVoxels) {
 		VoxelChunkNode* world[7][7];
@@ -102,7 +111,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 				world[i][j]->setGraphicsDeviceInterface(&gdi);
 				world[i][j]->loadTextures();
 				world[i][j]->loadChunkBuffer(worldGenerator);
-				root->addChild(world[i][j]);
+				voxelPrimer->addChild(world[i][j]);
 			}
 		}
 	}
@@ -119,7 +128,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		ModelNode* cubeNode = new ModelNode(cube);
 		cubeNode->setGraphicsDeviceInterface(&gdi);
 
-		root->addChild(cubeNode);
+//		modelPrimer->addChild(cubeNode);
 	}
 	if (do_pill) {
 		Model* cap = new Model();
@@ -129,7 +138,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		ModelNode* capNode = new ModelNode(cap);
 		capNode->setGraphicsDeviceInterface(&gdi);
 
-		root->addChild(capNode);
+//		modelPrimer->addChild(capNode);
 	}
 	if (do_cat) {
 		Model* cat = new Model();
@@ -139,7 +148,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		ModelNode* catNode = new ModelNode(cat);
 		catNode->setGraphicsDeviceInterface(&gdi);
 
-		root->addChild(catNode);
+//		modelPrimer->addChild(catNode);
 	}
 	if (do_ship) {
 		Model* ship = new Model();
@@ -149,12 +158,12 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		ModelNode* shipNode = new ModelNode(ship);
 		shipNode->setGraphicsDeviceInterface(&gdi);
 
-		root->addChild(shipNode);
+//		modelPrimer->addChild(shipNode);
 	}
 	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
 	Player* player = new Player(&gdi, worldGenerator);
 
-	root->addChild(player->node);
+//	modelPrimer->addChild(player->node);
 	//for rendering catgun and loading the collision map for the spaceship.
 	/*
 	Player* player = new Player(&gdi);

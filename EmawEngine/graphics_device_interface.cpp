@@ -189,17 +189,24 @@ void GraphicsDeviceInterface::InitPipeline()
 {
 	//load shaders
 	shdrs = new ShaderAsset(this);
-	ShaderStruct *blah = (ShaderStruct*)shdrs->load("VoxShader.geo");
-	//ShaderStruct *blah = (ShaderStruct*)shdrs->load("Shaders.col");
-
-	m_Context->VSSetShader(blah->VertShader, 0, 0);
-	m_Context->PSSetShader(blah->PixShader, 0, 0);
-	m_Context->GSSetShader(blah->GeoShader, 0, 0);
-
-	m_Context->IASetInputLayout(blah->InputLayout);
 
 	m_VertexShader = new VertexShader();
 	m_VertexShader->initializeShader(m_Device);
+}
+
+ShaderStruct* GraphicsDeviceInterface::loadShaders(std::string str)
+{
+	ShaderStruct *blah = (ShaderStruct*)shdrs->load(str);
+	return blah;
+}
+
+void GraphicsDeviceInterface::setShaders(ShaderStruct* shader)
+{
+	m_Context->VSSetShader(shader->VertShader, 0, 0);
+	m_Context->PSSetShader(shader->PixShader, 0, 0);
+	m_Context->GSSetShader(shader->GeoShader, 0, 0);
+
+	m_Context->IASetInputLayout(shader->InputLayout);
 }
 
 //Placeholder used for testing, manually creates a triangle and sends the vertices for the Graphics Device for rendering.
@@ -383,7 +390,7 @@ void GraphicsDeviceInterface::VertexPipeline(ID3D11Buffer* vertexBuffer, std::ve
 	RenderModel(vertexBuffer);
 //	m_VertexShader->initializeShader(m_Device);
 	m_VertexShader->setParameters(m_Context, *transform, m_Camera->GetViewMatrix(), m_projMatrix);
-	m_Context->PSSetShaderResources(0, 1, &texture);
+	m_Context->PSSetShaderResources(1, 1, &texture);
 	Update(vertexBuffer, vertices);
 	//RenderShader();
 }

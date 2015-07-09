@@ -102,6 +102,7 @@
     <ClInclude Include="CollisionObject.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="gdiPrimerNode.h" />
     <ClInclude Include="MathCore.h" />
     <ClInclude Include="ModelNode.h" />
     <ClInclude Include="GameNode.h" />
@@ -159,6 +160,7 @@
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="CollisionObject.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="gdiPrimerNode.cpp" />
     <ClCompile Include="MathCore.cpp" />
     <ClCompile Include="ModelNode.cpp" />
     <ClCompile Include="EmawEngine.cpp" />

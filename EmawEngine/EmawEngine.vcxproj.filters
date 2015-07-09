@@ -101,7 +101,6 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="VoxelChunkNode.cpp" />
     <ClCompile Include="CollisionObject.cpp" />
     <ClCompile Include="Vector2.cpp">
       <Filter>Math</Filter>
@@ -130,6 +129,10 @@
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
+    <ClCompile Include="VoxelChunkNode.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="gdiPrimerNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -251,7 +254,6 @@
     </ClInclude>
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="VoxelChunkNode.h" />
     <ClInclude Include="CollisionObject.h" />
     <ClInclude Include="Color.h">
       <Filter>Math</Filter>
@@ -287,6 +289,10 @@
     <ClInclude Include="CollisionManager.h">
       <Filter>Collision</Filter>
     </ClInclude>
+    <ClInclude Include="VoxelChunkNode.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiPrimerNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />

@@ -6,7 +6,7 @@ cbuffer MatrixBuffer
 	matrix projectionMatrix;
 }
 
-Texture2D ModelTexture : register(t0);
+Texture2D ModelTexture : register(t1);
 SamplerState MeshTextureSampler
 {
     Filter = MIN_MAG_LINEAR;

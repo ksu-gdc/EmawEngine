@@ -46,7 +46,15 @@ void* ShaderAsset::load(std::string str)
 		OutputDebugString(L"pixel shader failed to compile.\n");
 		return NULL;
 	}
-	if (type == GEO) D3DCompileFromFile(wcstring, 0, 0, "GShader", "gs_4_0", D3DCOMPILE_DEBUG, 0, &GS, &err);
+	if (type == GEO)
+	{
+		otherErr = D3DCompileFromFile(wcstring, 0, 0, "GShader", "gs_4_0", D3DCOMPILE_DEBUG, 0, &GS, &err);
+		if (otherErr != S_OK)
+		{
+			OutputDebugString(L"geometry shader failed to compile.\n");
+			return NULL;
+		}
+	}
 
 	GraphicsDeviceInterface* Interface = (GraphicsDeviceInterface*)gInterface;
 	Interface->m_Device->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &Shaders.VertShader);
