@@ -11,9 +11,9 @@ public:
 	void render();
 	void addChild(SceneGraphNode*);
 	void setGraphicsDeviceInterface(GraphicsDeviceInterface*);
-	void loadShader(std::string);
+	void setShader(ShaderAsset*);
 
 private:
-	ShaderStruct *shader;
+	ShaderAsset* shader;
 };
 

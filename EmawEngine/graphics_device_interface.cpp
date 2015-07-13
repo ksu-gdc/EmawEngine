@@ -196,7 +196,7 @@ void GraphicsDeviceInterface::InitPipeline()
 
 ShaderStruct* GraphicsDeviceInterface::loadShaders(std::string str)
 {
-	ShaderStruct *blah = (ShaderStruct*)shdrs->load(str);
+	ShaderStruct* blah = (ShaderStruct*)shdrs->load(str);
 	return blah;
 }
 

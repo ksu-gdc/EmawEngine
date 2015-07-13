@@ -28,7 +28,7 @@ void gdiPrimerNode::update(D3DXMATRIX* otherTransform){
 void gdiPrimerNode::render(){
 
 	//Render children.
-	gdi->setShaders(shader);
+	gdi->setShaders((ShaderStruct *)shader->getData());
 	for (int i = 0; i < children.size(); i++){
 		children.at(i)->render();
 	}
@@ -47,7 +47,7 @@ void gdiPrimerNode::setGraphicsDeviceInterface(GraphicsDeviceInterface* graphics
 }
 
 
-void gdiPrimerNode::loadShader(std::string filename)
+void gdiPrimerNode::setShader(ShaderAsset* shdr)
 {
-	shader = gdi->loadShaders(filename);
+	shader = shdr;
 }

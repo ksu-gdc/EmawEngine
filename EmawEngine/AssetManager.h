@@ -13,8 +13,6 @@ private:
 	static AssetManager *instance;
 	static GraphicsDeviceInterface *graphicsDevice;
 
-	void setGraphicsDevice(GraphicsDeviceInterface* device);
-
 	// Storage
 	std::map <std::string, Asset*> assets;
 	std::string rootAssetFolder;
@@ -41,6 +39,7 @@ private:
 	void unloadBSPMap(std::string);
 
 public:
+	void setGraphicsDevice(GraphicsDeviceInterface* device);
 	static AssetManager* getInstance();
 	void setRootFolder(std::string path);
 	Asset* load(std::string name);

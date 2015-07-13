@@ -67,6 +67,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// Perform AssetManager initialization
 	AssetManager* assetManager = AssetManager::getInstance();
+	assetManager->setGraphicsDevice(&gdi);
 
 	// Perform InputManager initialization
 	InputManager* inputManager = InputManager::getInstance();
@@ -94,12 +95,12 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	root->setGraphicsDeviceInterface(&gdi);
 	gdiPrimerNode* voxelPrimer = new gdiPrimerNode();
 	voxelPrimer->setGraphicsDeviceInterface(&gdi);
-	voxelPrimer->loadShader("VoxShader.geo");
+	voxelPrimer->setShader((ShaderAsset *)assetManager->load("VoxShader.geo"));
 	root->addChild(voxelPrimer);
-//	gdiPrimerNode* modelPrimer = new gdiPrimerNode();
-//	modelPrimer->setGraphicsDeviceInterface(&gdi);
-//	modelPrimer->loadShader("Shaders.col");
-//	root->addChild(modelPrimer);
+	gdiPrimerNode* modelPrimer = new gdiPrimerNode();
+	modelPrimer->setGraphicsDeviceInterface(&gdi);
+	modelPrimer->setShader((ShaderAsset *)assetManager->load("Shaders.col"));
+	root->addChild(modelPrimer);
 	bool renderVoxels = true;
 	if (renderVoxels) {
 		VoxelChunkNode* world[7][7];
@@ -119,7 +120,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	bool do_cube = false;
 	bool do_pill = false;
 	bool do_cat = false;
-	bool do_ship = false;
+	bool do_ship = true;
 	if (do_cube) {
 		Model* cube = new Model();
 		cube->load("models/obj-models/cube-tex.obj");
@@ -158,7 +159,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		ModelNode* shipNode = new ModelNode(ship);
 		shipNode->setGraphicsDeviceInterface(&gdi);
 
-//		modelPrimer->addChild(shipNode);
+		modelPrimer->addChild(shipNode);
 	}
 	//Controls the camera, WASD to move along the xz plane, Space and Ctrl to move up and down.
 	Player* player = new Player(&gdi, worldGenerator);

@@ -9,7 +9,7 @@ GraphicsDeviceInterface* AssetManager::graphicsDevice = NULL;
 
 AssetManager::AssetManager()
 {
-	rootAssetFolder = "C:\\Users";
+	rootAssetFolder = "";
 }
 
 
@@ -46,6 +46,7 @@ Asset* AssetManager::load(std::string name) {
 	else {
 		Asset *asset = NULL;
 		assets[name] = loadFromFile(name);
+		asset = assets[name];
 		return asset;
 	}
 }
@@ -53,16 +54,18 @@ Asset* AssetManager::load(std::string name) {
 // Checks for and then loads a file
 Asset* AssetManager::loadFromFile(std::string name) {
 	Asset* asset = NULL;
-	name = rootAssetFolder + "\\" + name;
+	name =  name;
 	// Check if the file exists
 	if (std::ifstream(name).good()) {
 		// Get the extension and call the appropraite method
 		std::string ext = name.substr(name.size() - 3);
 
 		if (ext == "png" || ext == "jpeg")
-			loadTexture(name);
+			asset = loadTexture(name);
 		else if (ext == "wav" || ext == "mp3")
-			loadMusic(name);
+			asset = loadMusic(name);
+		else if (ext == "geo" || ext == "col" || ext == "tex")
+			asset = loadShader(name);
 		else
 			
 			(L"File type not supported.");
@@ -101,9 +104,9 @@ void AssetManager::unloadModel(std::string name) {
 // Shaders ====================================
 Asset* AssetManager::loadShader(std::string name) {
 	// Shaders require a reference to the graphics device
-	ShaderAsset shader(graphicsDevice);
-	shader.load(name);
-	return &shader;
+	ShaderAsset* shader = new ShaderAsset(graphicsDevice);
+	shader->load(name);
+	return shader;
 }
 void AssetManager::unloadShader(std::string name) {
 	char *cstr = &name[0u];
