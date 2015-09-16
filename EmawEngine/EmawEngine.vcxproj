@@ -95,6 +95,7 @@
   <ItemGroup>
     <ClInclude Include="AudioEasyAccess.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="BoxCollidable.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ClientNetwork.h" />
     <ClInclude Include="Collidable.h" />
@@ -155,6 +156,7 @@
     <ClCompile Include="AudioEasyAccess.cpp" />
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="AudioRenderer.cpp" />
+    <ClCompile Include="BoxCollidable.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ClientNetwork.cpp" />
     <ClCompile Include="CollisionManager.cpp" />

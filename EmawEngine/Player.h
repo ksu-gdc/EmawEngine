@@ -4,6 +4,7 @@
 #include "VoxelMap.h"
 #include "CollisionObject.h"
 #include "ModelNode.h"
+#include "BoxCollidable.h"
 
 class Player :
 	public GameObject
@@ -11,7 +12,7 @@ class Player :
 public:
 	//VoxelCollision* voxelCollider;
 	VoxelMap* map;
-	CollisionObject collisionObject;
+	BoxCollidable box;
 	Player(GraphicsDeviceInterface*, VoxelMap*);
 	~Player();
 	bool hasCollision();

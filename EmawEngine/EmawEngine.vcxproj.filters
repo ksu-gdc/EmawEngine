@@ -133,6 +133,9 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="gdiPrimerNode.cpp" />
+    <ClCompile Include="BoxCollidable.cpp">
+      <Filter>Collision\Collidables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -293,6 +296,9 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="gdiPrimerNode.h" />
+    <ClInclude Include="BoxCollidable.h">
+      <Filter>Collision\Collidables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />

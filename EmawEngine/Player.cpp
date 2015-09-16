@@ -15,6 +15,10 @@ Player::Player(GraphicsDeviceInterface* gdi, VoxelMap* worldGenerator)
 	_position->z = 8;
 	std::memcpy(_lastPosition, _position, sizeof(Vector));
 
+	box.SetDimensions(1, 2, 1);
+	box.SetCurPos(_position);
+	box.SetLastPos(_lastPosition);
+
 	_orientation->x = M_PI;
 	_orientation->y = 0;
 	_orientation->z = 0;
