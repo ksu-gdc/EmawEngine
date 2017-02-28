@@ -128,6 +128,35 @@ bool CollisionManager::checkMovingCollisionsInner(){
 	return res;
 }
 
+bool CollisionManager::checkVMapCollision(BoxCollidable* obj, VoxelMap* map)
+{
+	Vector curPos;
+	curPos.x = obj->getX();
+	curPos.y = obj->getY();
+	curPos.z = obj->getZ();
+	Vector lastPos;
+	lastPos.x = obj->getLastX();
+	lastPos.y = obj->getLastY();
+	lastPos.z = obj->getLastZ();
+
+	Chunk* chunk = map->GetChunk(curPos.x / CHUNK_SIZE, curPos.z / CHUNK_SIZE);
+
+	for (int i = curPos.x - 1; i < curPos.x + 2; i++)
+	{
+		for (int j = curPos.y - 2; j < curPos.y + 2; j++)
+		{
+			for (int k = curPos.z - 1; k < curPos.z + 2; k++)
+			{
+				if (chunk->chunk[i][j][k] == 1)
+				{
+
+				}
+			}
+		}
+	}
+	return false;
+}
+
 // Loading of static collision setting for level
 void CollisionManager::loadLevel(int id){
 	float a, b, c, d;

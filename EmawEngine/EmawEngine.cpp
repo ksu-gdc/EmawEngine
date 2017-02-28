@@ -165,15 +165,10 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	Player* player = new Player(&gdi, worldGenerator);
 
 //	modelPrimer->addChild(player->node);
-	//for rendering catgun and loading the collision map for the spaceship.
-	/*
-	Player* player = new Player(&gdi);
-	
-	
 
+	
 	CollisionManager::getInstance()->addMovingCollidable(player);
 	CollisionManager::getInstance()->loadLevel(1);
-	*/
 
 	gdi.SetSceneGraphRoot(root);
 	gdi.SetCamera(player->getCamera());

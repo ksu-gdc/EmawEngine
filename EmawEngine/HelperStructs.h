@@ -12,6 +12,15 @@ struct Vector {
 	float z;
 };
 
+struct BoxBounds {
+	float top;
+	float bot;
+	float left;
+	float right;
+	float away;
+	float towards;
+};
+
 struct ShaderStruct{
 	ID3D11VertexShader *VertShader;
 	ID3D11PixelShader *PixShader;

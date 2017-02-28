@@ -70,6 +70,9 @@ public:
 	// Checking of collisions between moving collidables
 	bool checkMovingCollisions();
 
+	// Checks an object for collision with the Voxel Map world
+	bool checkVMapCollision(BoxCollidable*, VoxelMap*);
+
 	// Loading of static collision setting for level
 	void loadLevel(int id);
 };
