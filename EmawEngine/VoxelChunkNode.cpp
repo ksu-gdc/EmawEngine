@@ -49,12 +49,12 @@ void VoxelChunkNode::render(){
 	}
 }
 
-
 void VoxelChunkNode::loadTextures()
 {
 	grass = new Texture(gdi->m_Device);
 	grass->load("models\\not_minecraft\\textures\\grass.png");
 }
+
 
 void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 {
@@ -136,6 +136,5 @@ void VoxelChunkNode::loadChunkBuffer(VoxelMap* mapGenerator)
 		}
 	}
 	vertBuffer = gdi->CreateVertexBuffer(length);
-<<<<<<< HEAD
 }
 */
