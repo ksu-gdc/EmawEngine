@@ -6,6 +6,14 @@ cbuffer MatrixBuffer
 	matrix projectionMatrix;
 }
 
+Texture2D ModelTexture : register(t0);
+SamplerState MeshTextureSampler
+{
+    Filter = MIN_MAG_LINEAR;
+    AddressU = Wrap;
+    AddressV = Wrap;
+};
+
 //structs
 struct VOut
 {
@@ -75,59 +83,93 @@ void GShader( point VOut voxel[1], inout TriangleStream<VOut> triStream)
 	//actually put vertices in the triStream (hopefully in the right order)(I need to change this to use an index buffer)
 	
 	v.position = pt4;//1 vertice number
+	v.color.r = 1.0f;
+	v.color.g = 1.0f;
 	triStream.Append(v);
 
 	v.position = pt1;//2
+	v.color.r = 0.0f;
+	v.color.g = 1.0f;
 	triStream.Append(v);
 
 	v.position = pt3;//3
+	v.color.r = 1.0f;
+	v.color.g = 0.0f;
 	triStream.Append(v);
 
 	v.position = pt2;//4
+	v.color.r = 0.0f;
+	v.color.g = 0.0f;
 	triStream.Append(v);
 
 	v.position = pt6;//5
+	v.color.r = 1.0f;
+	v.color.g = 1.0f;
 	triStream.Append(v);
 
 	v.position = pt8;//6
+	v.color.r = 0.0f;
+	v.color.g = 1.0f;
 	triStream.Append(v);
 
 	v.position = pt5;//7
+	v.color.r = 1.0f;
+	v.color.g = 0.0f;
 	triStream.Append(v);
 
 	v.position = pt7;//8
+	v.color.r = 0.0f;
+	v.color.g = 0.0f;
 	triStream.Append(v);
 
 	//make a new triangle strip 'cause I couldn't figure out a way to do the whole cube in one go (there's definitely a way to do it though)
 	triStream.RestartStrip();
 
 	v.position = pt8;//9
+	v.color.r = 0.0f;
+	v.color.g = 0.0f;
 	triStream.Append(v);
 
 	v.position = pt2;//10
+	v.color.r = 1.0f;
+	v.color.g = 0.0f;
 	triStream.Append(v);
 
 	v.position = pt7;//11
+	v.color.r = 0.0f;
+	v.color.g = 1.0f;
 	triStream.Append(v);
 
 	v.position = pt1;//12
+	v.color.r = 1.0f;
+	v.color.g = 1.0f;
 	triStream.Append(v);
 
 	v.position = pt5;//13
+	v.color.r = 0.0f;
+	v.color.g = 0.0f;
 	triStream.Append(v);
 
 	v.position = pt4;//14
+	v.color.r = 1.0f;
+	v.color.g = 0.0f;
 	triStream.Append(v);
 
 	v.position = pt6;//15
+	v.color.r = 0.0f;
+	v.color.g = 1.0f;
 	triStream.Append(v);
 
 	v.position = pt3;//16
+	v.color.r = 1.0f;
+	v.color.g = 1.0f;
 	triStream.Append(v);
 }
 
 
 float4 PShader(float4 position : SV_POSITION, float4 color : COLOR) : SV_TARGET
 {
-    return color;
+	float2 pos;
+	pos = float2(color.r, color.g);
+    return ModelTexture.Sample(MeshTextureSampler, pos);
 }

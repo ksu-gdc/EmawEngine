@@ -101,8 +101,38 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="VoxelChunkNode.cpp" />
     <ClCompile Include="CollisionObject.cpp" />
+    <ClCompile Include="Vector2.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="MathCore.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientNetwork.cpp">
+      <Filter>Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkManager.cpp">
+      <Filter>Networking</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingCollidable.cpp">
+      <Filter>Collision\Collidables</Filter>
+    </ClCompile>
+    <ClCompile Include="Wall2D.cpp">
+      <Filter>Collision\Collidables</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="VoxelChunkNode.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="gdiPrimerNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Resource.h" />
@@ -224,8 +254,45 @@
     </ClInclude>
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="VoxelChunkNode.h" />
     <ClInclude Include="CollisionObject.h" />
+    <ClInclude Include="Color.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="Vector2.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="MathCore.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientNetwork.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkManager.h">
+      <Filter>Networking</Filter>
+    </ClInclude>
+    <ClInclude Include="Collidable.h">
+      <Filter>Collision\Collidables</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingCollidable.h">
+      <Filter>Collision\Collidables</Filter>
+    </ClInclude>
+    <ClInclude Include="Wall2D.h">
+      <Filter>Collision\Collidables</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="VoxelChunkNode.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="gdiPrimerNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EmawEngine.rc" />
@@ -271,6 +338,21 @@
     <Filter Include="AudioRenderer\SoundSource">
       <UniqueIdentifier>{a627f602-ccb9-4f09-a2c0-1bdc87b4ec97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{a2a800c7-2480-4b2f-b29d-2871bbad471b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{ef1a8c80-177d-4c68-be4f-4b9c53da56da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Networking">
+      <UniqueIdentifier>{023680e9-605c-413d-a65d-ce959ee56436}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{5251ba5a-3d0f-4f4a-8a0b-5768e2a29b6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision\Collidables">
+      <UniqueIdentifier>{105a608d-4dbf-48c4-ab4f-cd2e8aa4516d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="C:\Users\Chris\Desktop\consolas.fnt">
@@ -283,5 +365,6 @@
     <None Include="texture.col">
       <Filter>Resources</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

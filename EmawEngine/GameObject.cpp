@@ -1,17 +1,17 @@
 #include "stdafx.h"
 #include "GameObject.h"
+#include "CollisionManager.h"
 
 
 GameObject::GameObject()
 {
 	_position = new Vector();
+	_lastPosition = new Vector();
 	_velocity = new Vector();
 	_orientation = new Vector();
 	_hasCollision = false;
-	_isFalling = true;
+	_isFalling = false;
 	_isAlive = true;
-
-	GRAVITY = (-9.81 / 100000.0);
 }
 
 
@@ -29,8 +29,9 @@ void GameObject::update(float gameTime) {
 		_velocity->z = 0;
 	}
 
+	std::memcpy(_lastPosition, _position, sizeof(Vector));
 	_position->x += _velocity->x;
-	_position->y += (_velocity->y + GRAVITY * _isFalling);
+	_position->y += (_velocity->y);
 	_position->z += _velocity->z;
 }
 
@@ -42,6 +43,11 @@ void GameObject::destroy() {
 // Gets the objects position
 Vector* GameObject::getPosition() {
 	return _position;
+}
+
+// Gets the objects last position
+Vector* GameObject::getLastPosition() {
+	return _lastPosition;
 }
 
 // Gets the objects velocity
@@ -56,6 +62,7 @@ bool GameObject::getAlive() {
 
 // Sets the position of the object
 void GameObject::setPosition(Vector* v) {
+	std::memcpy(_lastPosition, _position, sizeof(Vector));
 	std::memcpy(_position, v, sizeof(Vector));
 }
 
@@ -71,4 +78,48 @@ void GameObject::setAlive(bool alive) {
 
 void GameObject::setCollision(bool collision){
 	_hasCollision = collision;
+}
+
+float GameObject::getX(){
+	return _position->x;
+}
+
+float GameObject::getY(){
+	return _position->y;
+}
+
+float GameObject::getZ(){
+	return _position->z;
+}
+
+float GameObject::getLastX(){
+	return _lastPosition->x;
+}
+
+float GameObject::getLastY(){
+	return _lastPosition->y;
+}
+
+float GameObject::getLastZ(){
+	return _lastPosition->z;
+}
+
+float GameObject::getRadius(){
+	return 0.5f;
+}
+
+float GameObject::getHeight(){
+	return 1.0f;
+}
+
+void GameObject::pushBack(){
+	_position->x = _lastPosition->x;
+	_position->y = _lastPosition->y;
+	_position->z = _lastPosition->z;
+}
+
+void GameObject::pushBack(float x, float y, float z){
+	_position->x = _lastPosition->x = x;
+	_position->y = _lastPosition->y = y;
+	_position->z = _lastPosition->z = z;
 }

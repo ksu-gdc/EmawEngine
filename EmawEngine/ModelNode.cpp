@@ -39,7 +39,7 @@ void ModelNode::update(D3DXMATRIX* otherTransform){
 
 void ModelNode::render(){
 
-	gdi->VertexPipeline(m_VertBuffer, &m_Model->getVertexBuffer(), m_Transform->getTransformMatrix());
+	gdi->VertexPipeline(m_VertBuffer, &m_Model->getVertexBuffer(), m_Transform->getTransformMatrix(), m_Model->GetTexture());
 
 	//Render children.
 	for (int i = 0; i < children.size(); i++){

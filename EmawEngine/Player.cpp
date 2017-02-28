@@ -1,20 +1,32 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "InputManager.h"
+#include "VoxelCollision.h"
 
-Player::Player()
+Player::Player(GraphicsDeviceInterface* gdi, VoxelMap* worldGenerator)
 {
 	input = InputManager::getInstance();
-	speed = 0.5;
+
+	speed = 10;
 	fakeRadius = 100;
 
-	_position->x = 0;
-	_position->y = 0;
-	_position->z = -10;
+	_position->x = 20;
+	_position->y = 39;
+	_position->z = 8;
+	std::memcpy(_lastPosition, _position, sizeof(Vector));
+
 	_orientation->x = M_PI;
 	_orientation->y = 0;
 	_orientation->z = 0;
 	fpsCamera = new Camera(_position, _orientation);
+	map = worldGenerator;//TEMP
+
+	model = new Model();
+	model->load("models/obj-models/cat.obj");
+	model->LoadTexture(gdi->m_Device, "textures/cat-flipped.png");
+
+	node = new ModelNode(model);
+	node->setGraphicsDeviceInterface(gdi);
 
 	// these must match the values in MouseState.cpp
 	// todo: make both of these reference the same constant
@@ -27,35 +39,66 @@ Player::~Player()
 {
 }
 
-void Player::updatePlayer(HWND hWnd)
+bool Player::hasCollision()
 {
+	D3DXVECTOR3 pos = getCamera()->GetPosition();
+	Chunk* chunk = map->GetChunk(pos.x / CHUNK_SIZE, pos.z / CHUNK_SIZE);
+	//if (chunk->chunk[pos.x%CHUNK_SIZE][pos.y%CHUNK_HEIGHT][pos.z%CHUNK_SIZE] != 0)
+	Vector* point = new Vector;
+	for (int i = 0; i < CHUNK_SIZE; i++) {
+		for (int j = 0; j < CHUNK_SIZE; j++) {
+			point->x = i + float((int(pos.x)/CHUNK_SIZE))*CHUNK_SIZE;
+			point->y = chunk->height_map[i][j];
+			point->z = j + float((int(pos.z)/CHUNK_SIZE))*CHUNK_SIZE;
+			if ((pos.x - point->x) < 1 && (pos.x - point->x) > -1) {
+				if ((pos.y - point->y) < 2 && (pos.y - point->y) > -1) {
+					if ((pos.z - point->z) < 1 && (pos.z - point->z) > -1) return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+
+void Player::updatePlayer(HWND hWnd, DWORD elapsedTime)
+{
+	float eTinSeconds = elapsedTime / (float)1000;
 	float zvel = 0;
 	float xvel = 0;
 	float yvel = 0;
+	bool test = hasCollision();
 	if (input->keyDown(Key::W))
 	{
-		zvel += speed;
+		zvel += speed * eTinSeconds;
 	}
 	if (input->keyDown(Key::S))
 	{
-		zvel -= speed;
+		zvel -= speed * eTinSeconds;
 	}
 	if (input->keyDown(Key::A))
 	{
-		xvel -= speed;
+		xvel -= speed * eTinSeconds;
 	}
 	if (input->keyDown(Key::D))
 	{
-		xvel += speed;
+		xvel += speed * eTinSeconds;
 	}
 	if (input->keyDown(Key::Space))
 	{
-		yvel += speed;
+		yvel += 2 * speed * eTinSeconds;
 	}
-	if (input->keyDown(Key::Ctrl))
+	if (input->keyDown(Key::Ctrl) && !test)
 	{
-		yvel -= speed;
+		yvel -= speed * eTinSeconds;
 	}
+//	if (!test)
+//	{
+//		yvel -= speed * elapsedTime;
+//	}
+//	else
+//	{
+//		yvel += speed * elapsedTime;
+//	}
 
 	//get change in mouse position from last update.
 	curPos = input->getMousePos();
@@ -102,9 +145,14 @@ void Player::updatePlayer(HWND hWnd)
 
 	_velocity->x = DirectX::XMVectorGetByIndex(velocity, 0);
 	// yvel is added here because jumping should move you straight up no matter what.
-	_velocity->y = DirectX::XMVectorGetByIndex(velocity, 1) +yvel;
+	_velocity->y = yvel;
 	_velocity->z = DirectX::XMVectorGetByIndex(velocity, 2);
-	
+
+	// update scene graph node
+	float side_gun_offset = 0.5;
+	printf("%f\n", _orientation->x);
+	node->setPosition(_position->x + side_gun_offset*cos(_orientation->x), _position->y - 0.9, _position->z - side_gun_offset*sin(_orientation->x));
+	node->setRotation(_orientation->y, _orientation->x, _orientation->z);
 
 	update(0);
 	passToCamera();
